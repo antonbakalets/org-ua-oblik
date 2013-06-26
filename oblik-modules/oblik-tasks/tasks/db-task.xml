@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir=".." default="db-populate-database" name="db-task">
+    
+    <property file="tasks/task.properties"/>
+    
+    <path id="jdbc.driver.classpath">
+        <fileset dir="${jdbc.driver.directory}" erroronmissingdir="true">
+            <include name="${jdbc.driver.file}"/>
+        </fileset>
+    </path>
+    
+    <property name="database.url.empty" value="jdbc:mysql://${jdbc.host}:${jdbc.port}/?${jdbc.connection.properties}"/>
+    <property name="database.url.login" value="jdbc:mysql://${jdbc.host}:${jdbc.port}/${jdbc.db.login.name}?${jdbc.connection.properties}"/>
+    <property name="database.url.test" value="jdbc:mysql://${jdbc.host}:${jdbc.port}/${jdbc.db.test.name}?${jdbc.connection.properties}"/>
+    <property name="database.url" value="jdbc:mysql://${jdbc.host}:${jdbc.port}/${jdbc.db.name}?${jdbc.connection.properties}"/>
+    
+    <!--
+    <target name="db-create" description="Create databases.">
+        <echo message="Creating database using driver: ${jdbc.driver.directory}\${jdbc.driver.file} ${jdbc.driverClassName}"/>
+        <sql driver="${jdbc.driverClassName}" url="${database.url.empty}"
+                 userid="${jdbc.root.username}" password="${jdbc.root.password}"
+                 print="true" classpathref="jdbc.driver.classpath" encoding="UTF-8">
+            <path>
+                <fileset dir="${basedir}\scripts">
+                    <include name="10-create-database.sql"/>
+                    <include name="20-create-users.sql"/>
+                </fileset>
+            </path>
+        </sql>
+    </target>
+    
+    <target name="database-login" description="Create shema for login info.">        
+        <echo message="Creating shema: ${database.url.login}"/>
+        <sql driver="${jdbc.driverClassName}" url="${database.url.login}"
+             userid="${jdbc.username}" password="${jdbc.password}"
+             print="true" classpathref="jdbc.driver.classpath" encoding="UTF-8">
+            <path>
+                <fileset dir="${basedir}\scripts">
+                    <include name="30-login-objects.sql"/>
+                    <include name="40-login-data.sql"/>
+                </fileset>
+            </path>
+        </sql>
+    </target>
+    
+    <target name="database-test" description="Create and populate shema with test data.">        
+        <echo message="Creating shema: ${database.url.test}"/>
+        <sql driver="${jdbc.driverClassName}" url="${database.url.test}"
+             userid="${jdbc.username}" password="${jdbc.password}"
+             print="true" classpathref="jdbc.driver.classpath" encoding="UTF-8">
+            <path>
+                <fileset dir="${basedir}\scripts">
+                    <include name="31-oblik-objects.sql"/>
+                    <include name="41-oblik-data.sql"/>
+                </fileset>
+            </path>
+        </sql>
+    </target> 
+    -->
+    
+    <!-- One datasource DB -->
+    
+    <target name="oblik-db-create" description="Create databases.">
+        <echo message="Creating database using driver: ${jdbc.driver.directory}\${jdbc.driver.file} ${jdbc.driverClassName}"/>
+        <sql driver="${jdbc.driverClassName}" url="${database.url.empty}"
+                 userid="${jdbc.root.username}" password="${jdbc.root.password}"
+                 print="true" classpathref="jdbc.driver.classpath" encoding="UTF-8">
+            <path>
+                <fileset dir="${basedir}\scripts">
+                    <include name="11-create-database.sql"/>
+                </fileset>
+            </path>
+        </sql>
+    </target>
+    
+    <target name="oblik-db-objects" description="Create and populate shema with test data.">        
+        <echo message="Creating shema: ${database.url}"/>
+        <sql driver="${jdbc.driverClassName}" url="${database.url}"
+             userid="${jdbc.username}" password="${jdbc.password}"
+             print="true" classpathref="jdbc.driver.classpath" encoding="UTF-8">
+            <path>
+                <fileset dir="${basedir}\scripts">
+                    <include name="31-oblik-objects.sql"/>
+                    <include name="41-oblik-data.sql"/>
+                </fileset>
+            </path>
+        </sql>
+    </target>
+    
+    <!--
+    <target name="db-populate" description="Recreate tables and populate with test data."
+            depends="database-login,database-test">        
+    </target>
+    -->
+</project>

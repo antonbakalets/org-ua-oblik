@@ -1,0 +1,32 @@
+package org.ua.oblik.domain.dao;
+
+import java.util.List;
+import org.ua.oblik.domain.beans.Identifiable;
+import org.ua.oblik.domain.beans.PaginationBean;
+
+/**
+ *
+ * @author Anton Bakalets
+ */
+public interface DaoFacade<I, T extends Identifiable<I>> {
+
+    long count();
+
+    void delete(T entity);
+
+    void insert(T entity);
+
+    void update(T entity);
+    
+    boolean exists(I id);
+    
+    T select(I id);
+
+    List<T> selectAll();
+
+    List<T> selectRange(int[] range);
+
+    List<T> selectRange(int skipResults, int maxResults);
+    
+    List<T> selectRange(PaginationBean paginationBean);
+}

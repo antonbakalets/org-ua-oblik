@@ -1,0 +1,51 @@
+package org.ua.oblik.service.test;
+
+import java.math.BigDecimal;
+import java.util.EnumMap;
+import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.ua.oblik.service.AccountService;
+import org.ua.oblik.service.beans.AccountVO;
+import org.ua.oblik.service.beans.CurrencyVO;
+
+/**
+ *
+ * @author Anton Bakalets
+ */
+public class AccountServiceTestHelper {
+
+    @Autowired
+    private AccountService accountService;
+    
+    @Autowired
+    private CurrencyServiceTestHelper currencyServiceTestHelper;
+    
+    private Map<DefinedAccount, AccountVO> accounts = new EnumMap<DefinedAccount, AccountVO>(DefinedAccount.class);
+    
+    public AccountVO getDefinedAccount(DefinedAccount da) {
+        return accounts.get(da);
+    }
+    
+    public void saveDefinedAccounts() {
+        for (DefinedAccount da : DefinedAccount.values()) {
+            accounts.put(da, createAndSaveAccount(da));
+        }
+    }
+    
+    private AccountVO createAndSaveAccount(DefinedAccount definedAccount) {
+        AccountVO account = createAccount(definedAccount);
+        accountService.save(account);
+        return account;
+    }
+
+    private AccountVO createAccount(DefinedAccount definedAccount) {
+        final CurrencyVO currencyVO = currencyServiceTestHelper.getDefinedCurrency(definedAccount.getCurrency());
+        final AccountVO result  = new AccountVO();
+        result.setAmmount(BigDecimal.ZERO);
+        result.setCurrencyId(currencyVO.getCurrencyId());
+        result.setCurrencySymbol(currencyVO.getSymbol());
+        result.setName(definedAccount.getAccountName());
+        result.setType(definedAccount.getAccountType());
+        return result;
+    }
+}

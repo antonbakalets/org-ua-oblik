@@ -1,0 +1,2 @@
+CREATE DATABASE IF NOT EXISTS oblik_login CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+CREATE DATABASE IF NOT EXISTS oblik_test CHARACTER SET = utf8 COLLATE = utf8_general_ci;

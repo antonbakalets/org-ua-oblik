@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" 
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.1.xsd
+        http://www.springframework.org/schema/mvc 
+        http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+        http://www.springframework.org/schema/security
+        http://www.springframework.org/schema/security/spring-security-3.1.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-3.1.xsd">
+
+    <!--  proxy-target-class="true" -->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+        
+    <security:global-method-security secured-annotations="enabled" proxy-target-class="true"/>
+    
+    <!-- support JSR303 annotation if JSR 303 validation present on classpath -->
+    <mvc:annotation-driven />
+    
+    <!-- enable browser caching of static content(images, css, js) -->
+    <mvc:resources mapping="/css/**" location="/css"/>
+    <mvc:resources mapping="/img/**" location="/img"/>
+    <mvc:resources mapping="/js/**" location="/js"/>
+    
+    <context:component-scan base-package="org.ua.oblik.controllers" />
+    
+    <!-- enabling annotation driven configuration / -->
+    <context:annotation-config />
+        
+    <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+        <property name="order" value="1" />
+        <property name="mediaTypes">
+            <map>
+                <entry key="html" value="text/html"/>
+                <entry key="json" value="application/json"/>
+            </map>
+        </property>
+        <property name="viewResolvers">
+            <list>
+                <ref bean="viewResolver"/>
+            </list>
+        </property>
+        <property name="defaultViews">
+            <list>
+                <bean id="jacksonView" class="org.springframework.web.servlet.view.json.MappingJacksonJsonView">
+                    <property name="encoding" ref="jsonEncoding" />
+                </bean>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="jsonEncoding" class="org.codehaus.jackson.JsonEncoding" factory-method="valueOf">
+        <constructor-arg>
+            <value>UTF8</value>
+        </constructor-arg>
+    </bean>
+    
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+                <value>messages</value>
+            </list>
+        </property>
+    </bean>
+</beans>
