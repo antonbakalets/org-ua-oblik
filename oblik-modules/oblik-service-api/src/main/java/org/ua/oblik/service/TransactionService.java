@@ -13,6 +13,8 @@ public interface TransactionService {
     //@Transactional
     void save(TransactionVO tvo);
     
+    void delete(Integer transactionId);
+    
     TransactionVO getTransaction(Integer transactionId);
     
     List<TransactionVO> getTransactions();

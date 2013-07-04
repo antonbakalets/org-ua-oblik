@@ -132,6 +132,39 @@ public class TransactionServiceImpl implements TransactionService {
         txaction.setComment(tvo.getNote());
         txactionDao.update(txaction);
     }
+    
+    
+    @Override
+    @Transactional
+	public void delete (Integer transactionId) {
+    	TransactionVO tvo = this.getTransaction(transactionId);
+        Txaction txaction = txactionDao.select(tvo.getTxId());
+        Account firstAccount = accountDao.select(tvo.getFirstAccount());
+        Account secondAccount = accountDao.select(tvo.getSecondAccount());
+        switch (tvo.getType()) {
+        	case INCOME:
+                firstAccount.setTotal(firstAccount.getTotal().subtract(tvo.getFirstAmmount()));
+                accountDao.update(firstAccount);
+                secondAccount.setTotal(secondAccount.getTotal().subtract(tvo.getFirstAmmount()));
+                accountDao.update(secondAccount);
+        		break;
+        	case EXPENSE:
+                firstAccount.setTotal(firstAccount.getTotal().subtract(tvo.getFirstAmmount()));
+                accountDao.update(firstAccount);
+                secondAccount.setTotal(secondAccount.getTotal().add(tvo.getFirstAmmount()));
+                accountDao.update(secondAccount);
+        		break;
+            case TRANSFER:
+                BigDecimal firstTotal = firstAccount.getTotal().add(tvo.getFirstAmmount());
+                firstAccount.setTotal(firstTotal);
+                BigDecimal secondTotal = secondAccount.getTotal().subtract(tvo.getSecondAmmount());
+                secondAccount.setTotal(secondTotal);
+                accountDao.update(firstAccount);
+                accountDao.update(secondAccount);
+                break;
+        }
+        txactionDao.delete(txaction);
+    }
 
     @Override
     public TransactionVO getTransaction(Integer transactionId) {

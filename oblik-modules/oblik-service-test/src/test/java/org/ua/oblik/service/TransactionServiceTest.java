@@ -275,7 +275,30 @@ public class TransactionServiceTest extends BaseServiceTest {
     @Test
     public void deleteIncome() {
         LOGGER.debug("[TEST] deleteIncome");
-        Assert.fail("Not yet implemented.");
+        
+        final BigDecimal defaultBefore = totalService.getDefaultCurrencyTotal();
+        final Integer incomeSalaryAccountId = accountIds.get(DefinedAccount.INCOME_SALARY);
+        final Integer incomeSalaryCurrencyId = accountHelper.getDefinedAccount(DefinedAccount.INCOME_SALARY).getCurrencyId();
+        final BigDecimal totalBefore = totalService.getCurrencyTotal(incomeSalaryCurrencyId);
+        Assert.assertNotNull(totalBefore);
+        
+        TransactionVO incomeTx = new TransactionVO();
+        incomeTx.setDate(new Date());
+        incomeTx.setFirstAccount(incomeSalaryAccountId);
+        final BigDecimal diff = BigDecimal.valueOf(100);
+        incomeTx.setFirstAmmount(diff);
+        incomeTx.setSecondAccount(accountIds.get(DefinedAccount.UGH_CASH));
+        incomeTx.setNote("Зарплата за січень.");
+        incomeTx.setType(TransactionType.INCOME);
+        transactionService.save(incomeTx);
+        
+        TransactionVO incomeDeleteTx = transactionService.getTransaction(incomeTx.getTxId());
+        
+        transactionService.delete(incomeDeleteTx.getTxId());
+        Assert.assertTrue(transactionService.getTransactions().contains(incomeTx));
+        
+        
+        
     }
     
     @Test
