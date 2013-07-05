@@ -92,8 +92,8 @@ public class TransactionServiceImpl implements TransactionService {
         tvo.setTxId(txaction.getId());
     }
 
-    //@Secured
-    private void update(TransactionVO tvo) {
+
+	private void update (TransactionVO tvo) {
         Txaction txaction = txactionDao.select(tvo.getTxId());
         Account firstAccount = accountDao.select(tvo.getFirstAccount());
         Account secondAccount = accountDao.select(tvo.getSecondAccount());
@@ -102,12 +102,12 @@ public class TransactionServiceImpl implements TransactionService {
                 BigDecimal incomeDiff = txaction.getDebetAmmount().subtract(tvo.getFirstAmmount());
                 txaction.setDebetAmmount(tvo.getFirstAmmount());
                 firstAccount.setTotal(firstAccount.getTotal().add(incomeDiff));
-                accountDao.update(firstAccount);
-                secondAccount.setTotal(secondAccount.getTotal().add(incomeDiff));
+                accountDao.update(firstAccount); 
+                secondAccount.setTotal(secondAccount.getTotal().subtract(incomeDiff));
                 accountDao.update(secondAccount);
                 break;
             case EXPENSE:
-                BigDecimal expenseDiff = txaction.getDebetAmmount().subtract(tvo.getFirstAmmount());
+                BigDecimal expenseDiff = txaction.getCreditAmmount().subtract(tvo.getFirstAmmount());
                 txaction.setCreditAmmount(tvo.getFirstAmmount());
                 firstAccount.setTotal(firstAccount.getTotal().add(expenseDiff));
                 accountDao.update(firstAccount);
@@ -134,8 +134,8 @@ public class TransactionServiceImpl implements TransactionService {
     }
     
     
-    @Override
     @Transactional
+    @Override
 	public void delete (Integer transactionId) {
     	TransactionVO tvo = this.getTransaction(transactionId);
         Txaction txaction = txactionDao.select(tvo.getTxId());

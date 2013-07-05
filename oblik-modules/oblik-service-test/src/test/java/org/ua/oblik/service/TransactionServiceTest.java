@@ -73,7 +73,7 @@ public class TransactionServiceTest extends BaseServiceTest {
         final BigDecimal defaultAfter = totalService.getDefaultCurrencyTotal();
         Assert.assertEquals("", defaultAfter, defaultBefore.add(diff));
     }
-
+ 
     @Test
     public void negativeIncome() {
         LOGGER.debug("[TEST] negativeIncome");
@@ -257,19 +257,73 @@ public class TransactionServiceTest extends BaseServiceTest {
     @Test
     public void editIncome() {
         LOGGER.debug("[TEST] editIncome");
-        Assert.fail("Not yet implemented.");
+
+        final Integer incomeSalaryAccountId = accountIds.get(DefinedAccount.INCOME_SALARY);
+        final Integer incomeSalaryCurrencyId = accountHelper.getDefinedAccount(DefinedAccount.INCOME_SALARY).getCurrencyId();
+         
+        TransactionVO incomeTx = new TransactionVO();
+        incomeTx.setDate(new Date());
+        incomeTx.setFirstAccount(incomeSalaryAccountId);
+        final BigDecimal firstDiff = BigDecimal.valueOf(30);
+        incomeTx.setFirstAmmount(firstDiff);
+        incomeTx.setSecondAccount(accountIds.get(DefinedAccount.UGH_CASH));
+        incomeTx.setNote("Зарплата за січень.");
+        incomeTx.setType(TransactionType.INCOME);
+        transactionService.save(incomeTx);
+        
+        final BigDecimal defaultBefore = totalService.getDefaultCurrencyTotal();
+        final BigDecimal totalBefore = totalService.getCurrencyTotal(incomeSalaryCurrencyId);
+        Assert.assertNotNull(totalBefore);
+        
+        final BigDecimal secDiff = BigDecimal.valueOf(100);
+        incomeTx.setFirstAmmount(secDiff);
+        transactionService.save(incomeTx); 
+        
+        final BigDecimal totalAfter = totalService.getCurrencyTotal(incomeSalaryCurrencyId);
+        Assert.assertEquals("", totalAfter, totalBefore.add(firstDiff.negate().add(secDiff)));
+
+        final BigDecimal defaultAfter = totalService.getDefaultCurrencyTotal();
+        Assert.assertEquals("", defaultAfter, defaultBefore.add(secDiff.add(firstDiff.negate())));
+        
+        
     }
     
     @Test
     public void editExpense() {
         LOGGER.debug("[TEST] editExpense");
-        Assert.fail("Not yet implemented.");
+        final Integer expenseMarketAccountId = accountIds.get(DefinedAccount.EXPENSE_MARKET);
+        final Integer expenseMarketCurrencyId = accountHelper.getDefinedAccount(DefinedAccount.EXPENSE_MARKET).getCurrencyId();
+        
+        TransactionVO expenseTx = new TransactionVO();
+        expenseTx.setDate(new Date());
+        expenseTx.setFirstAccount(expenseMarketAccountId);
+        final BigDecimal firstDiff = BigDecimal.valueOf(85);
+        expenseTx.setFirstAmmount(firstDiff);
+        expenseTx.setSecondAccount(accountIds.get(DefinedAccount.UGH_CASH));
+        expenseTx.setNote("Витрата на базарі.");
+        expenseTx.setType(TransactionType.EXPENSE);
+        transactionService.save(expenseTx);
+        
+        final BigDecimal defaultBefore = totalService.getDefaultCurrencyTotal();
+        final BigDecimal totalBefore = totalService.getCurrencyTotal(expenseMarketCurrencyId);
+        Assert.assertNotNull(totalBefore);
+        
+        final BigDecimal secDiff = BigDecimal.valueOf(100);  
+        expenseTx.setFirstAmmount(secDiff);
+        transactionService.save(expenseTx);
+        
+        final BigDecimal totalAfter = totalService.getCurrencyTotal(expenseMarketCurrencyId);
+        Assert.assertEquals("", totalAfter, totalBefore.subtract(firstDiff.negate().add(secDiff)));
+
+        final BigDecimal defaultAfter = totalService.getDefaultCurrencyTotal();
+        Assert.assertEquals("", defaultAfter, defaultBefore.subtract(firstDiff.negate().add(secDiff)));
+        
     }
     
     @Test
     public void editTransfer() {
         LOGGER.debug("[TEST] editTransfer");
-        Assert.fail("Not yet implemented.");
+        Assert.fail("unrelized");
     }
     
     @Test
@@ -291,25 +345,75 @@ public class TransactionServiceTest extends BaseServiceTest {
         incomeTx.setNote("Зарплата за січень.");
         incomeTx.setType(TransactionType.INCOME);
         transactionService.save(incomeTx);
+                
+        transactionService.delete(incomeTx.getTxId());
+        Assert.assertTrue(!transactionService.getTransactions().contains(incomeTx));
         
-        TransactionVO incomeDeleteTx = transactionService.getTransaction(incomeTx.getTxId());
-        
-        transactionService.delete(incomeDeleteTx.getTxId());
-        Assert.assertTrue(transactionService.getTransactions().contains(incomeTx));
-        
-        
-        
+        final BigDecimal totalAfter = totalService.getCurrencyTotal(incomeSalaryCurrencyId);
+        Assert.assertEquals("", totalAfter, totalBefore);
+
+        final BigDecimal defaultAfter = totalService.getDefaultCurrencyTotal();
+        Assert.assertEquals("", defaultAfter, defaultBefore);
     }
     
     @Test
     public void deleteExpense() {
         LOGGER.debug("[TEST] deleteExpense");
-        Assert.fail("Not yet implemented.");
+        final BigDecimal defaultBefore = totalService.getDefaultCurrencyTotal();
+
+        final Integer expenseMarketAccountId = accountIds.get(DefinedAccount.EXPENSE_MARKET);
+        final Integer expenseMarketCurrencyId = accountHelper.getDefinedAccount(DefinedAccount.EXPENSE_MARKET).getCurrencyId();
+        final BigDecimal totalBefore = totalService.getCurrencyTotal(expenseMarketCurrencyId);
+        Assert.assertNotNull(totalBefore);
+
+        TransactionVO expenseTx = new TransactionVO();
+        expenseTx.setDate(new Date());
+        expenseTx.setFirstAccount(expenseMarketAccountId);
+        final BigDecimal diff = BigDecimal.valueOf(85);
+        expenseTx.setFirstAmmount(diff);
+        expenseTx.setSecondAccount(accountIds.get(DefinedAccount.UGH_CASH));
+        expenseTx.setNote("Витрата на базарі.");
+        expenseTx.setType(TransactionType.EXPENSE);
+        transactionService.save(expenseTx);
+
+        transactionService.delete(expenseTx.getTxId());
+        Assert.assertTrue(!transactionService.getTransactions().contains(expenseTx));
+        
+        final BigDecimal totalAfter = totalService.getCurrencyTotal(expenseMarketCurrencyId);
+        Assert.assertEquals("", totalAfter, totalBefore);
+
+        final BigDecimal defaultAfter = totalService.getDefaultCurrencyTotal();
+        Assert.assertEquals("", defaultAfter, defaultBefore);
     }
     
     @Test
     public void deleteTransfer() {
         LOGGER.debug("[TEST] deleteTransfer");
-        Assert.fail("Not yet implemented.");
+        final BigDecimal defaultBefore = totalService.getDefaultCurrencyTotal();
+
+        final Integer firstAccountId = accountIds.get(DefinedAccount.UGH_CASH);
+        final Integer secondAccountId = accountIds.get(DefinedAccount.UGH_CARD);
+        final Integer currencyId = currencyHelper.getDefinedCurrency(DefinedCurrency.UGH).getCurrencyId();
+        final BigDecimal totalBefore = totalService.getCurrencyTotal(currencyId);
+        Assert.assertNotNull(totalBefore);
+
+        TransactionVO transferTx = new TransactionVO();
+        transferTx.setDate(new Date());
+        transferTx.setFirstAccount(firstAccountId);
+        final BigDecimal diff = BigDecimal.valueOf(100);
+        transferTx.setFirstAmmount(diff);
+        transferTx.setSecondAccount(secondAccountId);
+        transferTx.setNote("Переказ гривень з готівки на карточку.");
+        transferTx.setType(TransactionType.TRANSFER);
+        transactionService.save(transferTx);
+        
+        transactionService.delete(transferTx.getTxId());
+        Assert.assertTrue(!transactionService.getTransactions().contains(transferTx));
+
+        final BigDecimal totalAfter = totalService.getCurrencyTotal(currencyId);
+        Assert.assertEquals("", totalAfter, totalBefore);
+
+        final BigDecimal defaultAfter = totalService.getDefaultCurrencyTotal();
+        Assert.assertEquals("", defaultAfter, defaultBefore);
     }
 }
