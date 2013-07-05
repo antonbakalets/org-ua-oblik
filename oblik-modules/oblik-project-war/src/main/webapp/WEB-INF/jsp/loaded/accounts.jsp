@@ -2,18 +2,39 @@
 
 <%@ taglib prefix="display" uri="http://displaytag.sf.net" %>
 
-Accounts
+<h4>Assets Accounts</h4>
 <display:table id="assetsAccounts"
                name="assetsAccounts"
                requestURI="/accounts/list.html"
                >
-    <display:column property="id" title="accountId" 
+    <display:column property="accountId" title="accountId" 
                     class="ui-helper-hidden" headerClass="ui-helper-hidden"/>
     <display:column property="name" title="account name"/>
     <display:column property="currencySymbol" title="currency"/>
 
 </display:table>
+<h4>Income Accounts</h4>
+<display:table id="incomeAccounts"
+               name="incomeAccounts"
+               requestURI="/accounts/list.html"
+               >
+    <display:column property="accountId" title="accountId" 
+                    class="ui-helper-hidden" headerClass="ui-helper-hidden"/>
+    <display:column property="name" title="account name"/>
+    <display:column property="currencySymbol" title="currency"/>
 
+</display:table>
+<h4>Expence Accounts</h5>
+<display:table id="expenseAccounts"
+               name="expenseAccounts"
+               requestURI="/accounts/list.html"
+               >
+    <display:column property="accountId" title="accountId" 
+                    class="ui-helper-hidden" headerClass="ui-helper-hidden"/>
+    <display:column property="name" title="account name"/>
+    <display:column property="currencySymbol" title="currency"/>
+
+</display:table>
 <a href="#myModal" role="button" class="btn" data-toggle="modal">Додати рахунок</a>
  
 <!-- Modal -->
