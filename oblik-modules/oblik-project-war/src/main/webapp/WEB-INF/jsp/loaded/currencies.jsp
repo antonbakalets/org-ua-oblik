@@ -6,7 +6,7 @@
 <display:table id="currecy-table"
                name="currencyList"
                requestURI="/currency/list.html"
-               >
+               class="table table-striped table-hover table-condensed">
     <display:column property="currencyId" title="currencyId" 
                     class="ui-helper-hidden" headerClass="ui-helper-hidden"/>
     <display:column property="symbol" title="Symbol"/>

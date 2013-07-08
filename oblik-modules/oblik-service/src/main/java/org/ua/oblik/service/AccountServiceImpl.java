@@ -59,10 +59,10 @@ public class AccountServiceImpl implements AccountService {
         LOGGER.debug("Updating acoount, name: " + avo.getName());
         final Currency currency = currencyDao.select(avo.getCurrencyId());
         final Account account = accountDao.select(avo.getAccountId());
-        //account.setCurrency(currency);
-        //account.setKind(); // TODO
+        account.setCurrency(currency);
+        account.setKind(convertType(avo.getType())); // TODO
         account.setShortName(avo.getName());
-        //account.setTotal(BigDecimal.ZERO);
+        account.setTotal(avo.getAmmount());
         accountDao.update(account);
     }
 
