@@ -2,53 +2,57 @@
 <%@ taglib prefix="spring"  uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="display" uri="http://displaytag.sf.net" %>
 
-<h4>Assets Accounts</h4>
+<spring:message var="title_name" code="jsp.oblik.account.name"/>
+<spring:message var="title_currency" code="jsp.oblik.account.currency"/>
+<spring:message var="title_balance" code="jsp.oblik.account.balance"/> 
+
+<h4><spring:message code="jsp.oblic.account.assets"/></h4>
 <display:table id="assetsAccounts"
                name="assetsAccounts"
                requestURI="/accounts/list.html"
                class="table table-striped table-hover table-condensed">
     <display:column property="accountId" title="accountId" 
                     class="ui-helper-hidden" headerClass="ui-helper-hidden"/>
-    <display:column property="name" title="account name"/>
-    <display:column property="currencySymbol" title="currency"/>
-    <display:column property="ammount" title="ammount" value="ammount"/>
+    <display:column property="name" title="${title_name}"/>
+    <display:column property="currencySymbol" title="${title_currency }"/>
+    <display:column property="ammount" title="${title_balance }" value="ammount"/>
         <display:column>
     	<a id="account_${assetsAccounts.accountId}" data-toggle="modal" href="${pageContext.request.contextPath}/account/edit.html?accountId=${assetsAccounts.accountId}" data-target="#account-add-modal" class="btn">
-    		<spring:message code="jsp.oblik.account.button.edit"/>
+    		<i class="icon-edit"></i> 
 		</a>
 	</display:column> />
 
 </display:table>
-<h4>Income Accounts</h4>
+<h4><spring:message code="jsp.oblic.account.income"/></h4>
 <display:table id="incomeAccounts"
                name="incomeAccounts"
                requestURI="/accounts/list.html"
                class="table table-striped table-hover table-condensed">
     <display:column property="accountId" title="accountId" 
                     class="ui-helper-hidden" headerClass="ui-helper-hidden"/>
-    <display:column property="name" title="account name"/>
-    <display:column property="currencySymbol" title="currency"/>
-    <display:column property="ammount" title="ammount" value="ammount"/>
+    <display:column property="name" title="${title_name}"/>
+    <display:column property="currencySymbol" title="${title_currency }"/>
+    <display:column property="ammount" title="${title_balance }" value="ammount"/>
         <display:column>
     	<a id="account_${incomeAccounts.accountId}" data-toggle="modal" href="${pageContext.request.contextPath}/account/edit.html?accountId=${incomeAccounts.accountId}" data-target="#account-add-modal" class="btn">
-    		<spring:message code="jsp.oblik.account.button.edit"/>
+    		<i class="icon-edit"></i> 
 		</a>
 	</display:column> />
 
 </display:table>
-<h4>Expence Accounts</h5>
+<h4><spring:message code="jsp.oblic.account.expence"/></h5>
 <display:table id="expenseAccounts"
                name="expenseAccounts"
                requestURI="/accounts/list.html"
                class="table table-striped table-hover table-condensed">
     <display:column property="accountId" title="accountId" 
                     class="ui-helper-hidden" headerClass="ui-helper-hidden"/>
-    <display:column property="name" title="account name"/>
-    <display:column property="currencySymbol" title="currency" value="currencySymbol"/>
-    <display:column property="ammount" title="ammount" value="ammount"/>
+     <display:column property="name" title="${title_name}"/>
+    <display:column property="currencySymbol" title="${title_currency }"/>
+    <display:column property="ammount" title="${title_balance }" value="ammount"/>
     <display:column>
-    	<a id="account_${expenseAccounts.accountId}" data-toggle="modal" href="${pageContext.request.contextPath}/account/edit.html?accountId=${expenseAccounts.accountId}" data-target="#account-add-modal" class="btn">
-    		<spring:message code="jsp.oblik.account.button.edit"/>
+    	<a id="account_${expenseAccounts.accountId}" data-toggle="modal"  href="${pageContext.request.contextPath}/account/edit.html?accountId=${expenseAccounts.accountId}" data-target="#account-add-modal" class="btn">
+    		<i class="icon-edit"></i> 
 		</a>
 	</display:column> />
 </display:table>

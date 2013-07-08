@@ -4,6 +4,10 @@
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="c"       uri="http://java.sun.com/jsp/jstl/core" %>
 
+<spring:message var="tab_transactions_name" code="jsp.oblic.transactions"/>
+<spring:message var="tab_accounts_name" code="jsp.oblic.accounts"/>
+<spring:message var="tab_currencies_name" code="jsp.oblic.currencies"/>
+
 <div class="container">
     <div class="row">
         <div class="span12">
@@ -42,9 +46,9 @@
         <div class="span8">
             <div class="tabbable"> <!-- Only required for left/right tabs -->
                 <ul class="nav nav-tabs">
-                    <li class="active"><a href="#tab-transactions" data-toggle="tab">Transactions</a></li>
-                    <li><a href="#tab-accounts" data-toggle="tab">Accounts</a></li>
-                    <li><a href="#tab-currecies" data-toggle="tab">Currencies</a></li>
+                    <li class="active"><a href="#tab-transactions" data-toggle="tab"> ${tab_transactions_name}</a></li>
+                    <li><a href="#tab-accounts" data-toggle="tab">${tab_accounts_name}</a></li>
+                    <li><a href="#tab-currecies" data-toggle="tab">${tab_currencies_name}</a></li>
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane active" id="tab-transactions">
