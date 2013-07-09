@@ -1,7 +1,11 @@
 package org.ua.oblik.service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +17,7 @@ import org.ua.oblik.domain.model.Account;
 import org.ua.oblik.domain.model.Currency;
 import org.ua.oblik.service.beans.AccountVO;
 import org.ua.oblik.service.beans.AccountVOType;
+import org.ua.oblik.service.beans.CurrencyVO;
 
 /**
  *
@@ -27,6 +32,9 @@ public class AccountServiceImpl implements AccountService {
 
     @Autowired
     private CurrencyDao currencyDao;
+    
+    @Autowired
+    private CurrencyService currencyService;
 
     @Override
     public AccountVO getAccount(Integer accountId) {
@@ -42,7 +50,21 @@ public class AccountServiceImpl implements AccountService {
             update(avo);
         }
     }
-
+    
+    @Override
+    public BigDecimal totalAssets() {
+		BigDecimal result = new BigDecimal(0);
+    	List<AccountVO> list = getAssetsAccounts();
+    	for (AccountVO avo : list) {
+    		Integer currencyId = avo.getCurrencyId();
+			CurrencyVO cvo = currencyService.getCurrency(currencyId);
+			BigDecimal toAdd = avo.getAmmount().multiply(cvo.getRate());
+			result = result.add(toAdd);
+		}
+    	return result;
+    }
+    
+    
     private void insert(AccountVO avo) {
         LOGGER.debug("Saving new acoount, name: " + avo.getName());
         final Currency currency = currencyDao.select(avo.getCurrencyId());
@@ -79,6 +101,24 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public List<AccountVO> getAssetsAccounts() {
         return convert(accountDao.selectByKind(AccountKind.ASSETS));
+    }
+    
+    @Override
+    public Map<CurrencyVO, BigDecimal> totalAssetsByCurrency(){
+    	List<AccountVO> listAcc = getAssetsAccounts();
+    	List<CurrencyVO> listCur = currencyService.getCurrencies();
+    	HashMap<CurrencyVO, BigDecimal> result = new HashMap<CurrencyVO, BigDecimal>();
+    	
+    	for(CurrencyVO cvo:listCur){
+    		BigDecimal toRes = new BigDecimal(0);
+    		for(AccountVO avo : listAcc) {
+    			if (avo.getCurrencyId() == cvo.getCurrencyId()) {
+    				toRes = toRes.add(avo.getAmmount());
+    			}
+    		}
+    		result.put(cvo, toRes);
+    	}
+    	return result;
     }
 
     private static AccountVO convert(Account model) {

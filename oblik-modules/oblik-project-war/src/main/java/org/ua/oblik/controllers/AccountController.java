@@ -15,13 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.ua.oblik.controllers.beans.AccountBean;
-import org.ua.oblik.controllers.beans.CurrencyBean;
 import org.ua.oblik.controllers.utils.ValidationErrorLoger;
 import org.ua.oblik.service.AccountService;
 import org.ua.oblik.service.CurrencyService;
 import org.ua.oblik.service.beans.AccountVO;
 import org.ua.oblik.service.beans.AccountVOType;
-import org.ua.oblik.service.beans.CurrencyVO;
+
 
 /**
  *

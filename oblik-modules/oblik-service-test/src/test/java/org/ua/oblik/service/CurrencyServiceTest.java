@@ -77,4 +77,14 @@ public class CurrencyServiceTest extends BaseServiceTest {
             LOGGER.debug(currency.toString());
         }
     }
+    
+    @Test
+    public void getCurrency() {
+    	LOGGER.debug("Get currency:");
+        final CurrencyVO euro = currencyServiceTestHelper.createAndSaveCurrency(DefinedCurrency.EUR);
+        CurrencyVO newEuro = currencyService.getCurrency(euro.getCurrencyId());
+        Assert.assertEquals("",euro.getCurrencyId(),newEuro.getCurrencyId());
+        Assert.assertEquals("", euro.getSymbol(), newEuro.getSymbol());
+        Assert.assertEquals("", euro.getRate(), newEuro.getRate());
+    }
 }

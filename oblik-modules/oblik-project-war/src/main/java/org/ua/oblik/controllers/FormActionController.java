@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.ua.oblik.service.beans.TransactionVO;
 import org.ua.oblik.service.beans.TransactionFactory;
 import org.ua.oblik.service.beans.TransactionType;
-import static org.ua.oblik.service.beans.TransactionType.EXPENSE;
 import org.ua.oblik.controllers.utils.TransactionTypePropertyEditor;
 import org.ua.oblik.controllers.utils.ValidationErrorLoger;
 import org.ua.oblik.service.AccountService;

@@ -42,6 +42,9 @@
             <section id="total-by-account">
                 
             </section>
+            <section id="totalAmmount">
+                
+            </section>
         </div>
         <div class="span8">
             <div class="tabbable"> <!-- Only required for left/right tabs -->
@@ -82,6 +85,10 @@
 
         $("#total-by-currency").load('${pageContext.request.contextPath}/total/currecy.html', function() {
             $("#total-by-currency").css({height: 'auto'});
+        });
+        
+        $("#totalAmmount").load('${pageContext.request.contextPath}/total/ammount.html', function() {
+            $("#totalAmmount").css({height: 'auto'});
         });
         
         $("#total-by-account").load('${pageContext.request.contextPath}/total/account.html', function() {

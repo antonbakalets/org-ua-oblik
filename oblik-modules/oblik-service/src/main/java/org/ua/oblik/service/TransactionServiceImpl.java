@@ -13,7 +13,6 @@ import org.ua.oblik.domain.dao.AccountDao;
 import org.ua.oblik.domain.dao.TxactionDao;
 import org.ua.oblik.domain.model.Account;
 import org.ua.oblik.domain.model.Txaction;
-import org.ua.oblik.service.beans.AccountVO;
 import org.ua.oblik.service.beans.TransactionType;
 import org.ua.oblik.service.beans.TransactionVO;
 

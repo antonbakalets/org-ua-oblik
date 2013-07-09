@@ -4,8 +4,6 @@ import java.math.BigDecimal;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.ua.oblik.service.beans.AccountVOType;
