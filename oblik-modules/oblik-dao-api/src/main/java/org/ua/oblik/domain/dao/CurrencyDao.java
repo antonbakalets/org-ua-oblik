@@ -11,4 +11,6 @@ public interface CurrencyDao extends DaoFacade<Integer, Currency> {
 
     Currency selectDefault() throws NoResultException;
     
+    boolean isSymbolExists(String symbol);
+    
 }

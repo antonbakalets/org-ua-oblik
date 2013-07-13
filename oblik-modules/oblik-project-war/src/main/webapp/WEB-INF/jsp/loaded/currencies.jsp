@@ -17,7 +17,7 @@
 
 </display:table>
 
-<a id="file_attach" data-toggle="modal" href="${pageContext.request.contextPath}/currency/edit.html" data-target="#currency-add-modal" class="btn">
+<a id="add-currency-btn" data-toggle="modal" href="${pageContext.request.contextPath}/currency/edit.html" data-target="#currency-add-modal" class="btn">
     <spring:message code="jsp.oblik.button.add.currency"/>
 </a>
 
@@ -39,7 +39,7 @@
 <script>
     $(document).ready(function() {
 
-        $('a[data-toggle="modal"]').on('click', function() {
+        $('#add-currency-btn').on('click', function() {
             $('#currency-add-body').load(
                     $(this).attr('href'),
                     function(response, status, xhr) {
@@ -53,7 +53,7 @@
         });
 
 
-        $('#currency-add-save').click(function currencyFormSubmit() {
+        $('#currency-add-save').click(function() {
             $('#form-currency').ajaxSubmit({
                 success: function(responseText, statusText, xhr, $form) {
                     $('#currency-add-body').html('');

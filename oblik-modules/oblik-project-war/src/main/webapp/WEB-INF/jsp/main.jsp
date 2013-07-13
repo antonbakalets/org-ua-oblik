@@ -4,9 +4,9 @@
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="c"       uri="http://java.sun.com/jsp/jstl/core" %>
 
-<spring:message var="tab_transactions_name" code="jsp.oblic.transactions"/>
-<spring:message var="tab_accounts_name" code="jsp.oblic.accounts"/>
-<spring:message var="tab_currencies_name" code="jsp.oblic.currencies"/>
+<spring:message var="tab_transactions_name" code="jsp.oblik.transactions"/>
+<spring:message var="tab_accounts_name" code="jsp.oblik.accounts"/>
+<spring:message var="tab_currencies_name" code="jsp.oblik.currencies"/>
 
 <div class="container">
     <div class="row">

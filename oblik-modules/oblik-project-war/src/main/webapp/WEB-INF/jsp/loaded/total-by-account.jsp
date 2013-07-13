@@ -2,7 +2,7 @@
 <%@ taglib prefix="spring"  uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="display" uri="http://displaytag.sf.net" %>
 
-<spring:message var="title_total" code="jsp.oblic.totalByAccounts"/>
+<spring:message var="title_total" code="jsp.oblik.totalByAccounts"/>
 <spring:message var="title_name" code="jsp.oblik.account.name"/>
 <spring:message var="title_currency" code="jsp.oblik.account.currency"/>
 <spring:message var="title_balance" code="jsp.oblik.account.balance"/> 

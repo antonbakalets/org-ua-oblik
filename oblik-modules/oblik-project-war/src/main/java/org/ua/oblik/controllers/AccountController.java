@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.ua.oblik.controllers.beans.AccountBean;
 import org.ua.oblik.controllers.utils.ValidationErrorLoger;
+import org.ua.oblik.controllers.validators.AccountValidator;
 import org.ua.oblik.service.AccountService;
 import org.ua.oblik.service.CurrencyService;
 import org.ua.oblik.service.beans.AccountVO;
@@ -47,6 +48,9 @@ public class AccountController {
     @Autowired
     private CurrencyService currencyService;
     
+    @Autowired
+    private AccountValidator accountValidator;
+    
     @RequestMapping("/account/list")
     public String list(final Model model) {
         LOG.debug("account list");
@@ -76,14 +80,15 @@ public class AccountController {
     public String saveAccount(final Model model, final @ModelAttribute(ACCOUNT_BEAN) @Valid AccountBean accountBean,
             BindingResult bindingResult) {
         LOG.debug("Saving account, id: " + accountBean.getAccountId() + ".");
+        accountValidator.validate(accountBean, bindingResult);
         if (bindingResult.hasErrors()) {
             ValidationErrorLoger.debug(bindingResult);
         } else {
-            AccountVO avo = convert(accountBean);
-            if(avo.getType()==null) {
-            	avo.setType(AccountVOType.ASSETS);
-            }
-            accountService.save(avo);
+        	AccountVO avo = convert(accountBean);
+	        if(avo.getType()==null) {
+	            avo.setType(AccountVOType.ASSETS);
+	        }
+	        accountService.save(avo);
         }
         return "loaded/account";
     }

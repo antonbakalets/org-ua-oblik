@@ -6,7 +6,7 @@
 <spring:message var="title_currency" code="jsp.oblik.account.currency"/>
 <spring:message var="title_balance" code="jsp.oblik.account.balance"/> 
 
-<h4><spring:message code="jsp.oblic.account.assets"/></h4>
+<h4><spring:message code="jsp.oblik.account.assets"/></h4>
 <display:table id="assetsAccounts"
                name="assetsAccounts"
                requestURI="/accounts/list.html"
@@ -23,7 +23,7 @@
 	</display:column> />
 
 </display:table>
-<h4><spring:message code="jsp.oblic.account.income"/></h4>
+<h4><spring:message code="jsp.oblik.account.income"/></h4>
 <display:table id="incomeAccounts"
                name="incomeAccounts"
                requestURI="/accounts/list.html"
@@ -40,7 +40,7 @@
 	</display:column> />
 
 </display:table>
-<h4><spring:message code="jsp.oblic.account.expence"/></h5>
+<h4><spring:message code="jsp.oblik.account.expence"/></h5>
 <display:table id="expenseAccounts"
                name="expenseAccounts"
                requestURI="/accounts/list.html"
@@ -57,8 +57,8 @@
 	</display:column> />
 </display:table>
 
-<a id="file_attach" data-toggle="modal" href="${pageContext.request.contextPath}/account/edit.html" data-target="#account-add-modal" class="btn">
-    <spring:message code="jsp.oblik.button.add.account"/>
+<a id="add-account-btn" data-toggle="modal" href="${pageContext.request.contextPath}/account/edit.html" data-target="#account-add-modal" class="btn">
+   <spring:message code="jsp.oblik.button.add.account"/>
 </a>
 
 <!-- Modal -->
@@ -80,7 +80,7 @@
 <script>
     $(document).ready(function() {
 
-        $('a[data-toggle="modal"]').on('click', function() {
+        $('#add-account-btn').on('click', function() {
             $('#account-add-body').load(
                     $(this).attr('href'),
                     function(response, status, xhr) {
@@ -94,7 +94,7 @@
         });
 
 
-        $('#account-add-save').click(function currencyFormSubmit() {
+        $('#account-add-save').click(function() {
             $('#form-account').ajaxSubmit({
                 success: function(responseText, statusText, xhr, $form) {
                     $('#account-add-body').html('');

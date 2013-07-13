@@ -120,7 +120,14 @@ public class AccountServiceImpl implements AccountService {
     	}
     	return result;
     }
+    
+	@Override
+	public boolean isNameExists(String name) {
+		return accountDao.isNameExists(name);
+	}
 
+    
+    
     private static AccountVO convert(Account model) {
         AccountVO result = new AccountVO();
         result.setAccountId(model.getId());
@@ -163,4 +170,8 @@ public class AccountServiceImpl implements AccountService {
         }
         throw new IllegalArgumentException("Unnexisting account type.");
     }
+
+
+
+
 }

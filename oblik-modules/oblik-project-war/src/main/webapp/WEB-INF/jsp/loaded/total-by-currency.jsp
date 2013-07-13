@@ -3,7 +3,7 @@
 <%@ taglib prefix="display" uri="http://displaytag.sf.net" %>
 <%@ taglib prefix="c"       uri="http://java.sun.com/jsp/jstl/core" %>
 
-<spring:message var="title_total" code="jsp.oblic.totalByCurrency"/>
+<spring:message var="title_total" code="jsp.oblik.totalByCurrency"/>
 <spring:message var="title_rate" code="jsp.oblik.currency.rate"/>
 <spring:message var="title_currency" code="jsp.oblik.account.currency"/>
 <spring:message var="title_balance" code="jsp.oblik.account.balance"/> 

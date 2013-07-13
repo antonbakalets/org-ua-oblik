@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.ua.oblik.controllers.beans.CurrencyBean;
 import org.ua.oblik.controllers.utils.ValidationErrorLoger;
+import org.ua.oblik.controllers.validators.CurrencyValidator;
 import org.ua.oblik.service.CurrencyService;
 import org.ua.oblik.service.beans.CurrencyVO;
 
@@ -29,7 +30,10 @@ public class CurrencyController {
     private static final String CURRENCY_BEAN = "currencyBean";
 
     private static final String CURRENCY_LIST = "currencyList";
-
+    
+    @Autowired
+    private CurrencyValidator currencyValidator;
+    
     @Autowired
     private CurrencyService currencyService;
 
@@ -57,6 +61,7 @@ public class CurrencyController {
     public String saveCurrency(final Model model, final @ModelAttribute(CURRENCY_BEAN) @Valid CurrencyBean currencyBean,
             BindingResult bindingResult) {
         LOGGER.debug("Saving currency, id: " + currencyBean.getCurrencyId() + ".");
+        currencyValidator.validate(currencyBean, bindingResult);
         if (bindingResult.hasErrors()) {
             ValidationErrorLoger.debug(bindingResult);
         } else {

@@ -26,5 +26,7 @@ public interface AccountService {
     BigDecimal totalAssets();
 
 	Map<CurrencyVO, BigDecimal> totalAssetsByCurrency();
+	
+	boolean isNameExists (String name);
     
 }

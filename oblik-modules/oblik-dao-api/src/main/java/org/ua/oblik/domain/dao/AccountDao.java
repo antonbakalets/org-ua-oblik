@@ -15,5 +15,7 @@ public interface AccountDao extends DaoFacade<Integer, Account> {
     List<Account> selectByKind(AccountKind accountKind);
 
     BigDecimal calculateTotal(Currency currency);
+
+	boolean isNameExists(String name);
     
 }

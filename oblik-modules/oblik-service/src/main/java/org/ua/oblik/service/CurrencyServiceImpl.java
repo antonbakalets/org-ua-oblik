@@ -87,6 +87,12 @@ public class CurrencyServiceImpl implements CurrencyService {
         }
     }
     
+    @Override
+    public boolean isSymbolExists(String symbol) {
+    	return currencyDao.isSymbolExists(symbol);
+    }
+    
+    
     private static CurrencyVO convert(Currency model) {
         CurrencyVO result = new CurrencyVO();
         result.setCurrencyId(model.getId());

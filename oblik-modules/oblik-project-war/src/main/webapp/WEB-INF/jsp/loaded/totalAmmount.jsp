@@ -4,7 +4,7 @@
 <%@ taglib prefix="c"       uri="http://java.sun.com/jsp/jstl/core" %>
 
 
-<spring:message var="title_total" code="jsp.oblic.total"/>
+<spring:message var="title_total" code="jsp.oblik.total"/>
 <table class="table table-hover">
     <tbody>
     	<tr>

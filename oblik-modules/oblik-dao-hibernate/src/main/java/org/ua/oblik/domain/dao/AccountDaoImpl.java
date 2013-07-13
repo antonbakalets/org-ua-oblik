@@ -40,4 +40,14 @@ public class AccountDaoImpl extends AbstractDao<Integer, Account> implements Acc
                 cbuilder.equal(root.<AccountKind>get("kind"), AccountKind.ASSETS));
         return entityManager.createQuery(cquery).getSingleResult();
     }
+
+	@Override
+	public boolean isNameExists(String shortName) {
+		final CriteriaBuilder cbuilder = entityManager.getCriteriaBuilder();
+		final CriteriaQuery<Long> cquery = cbuilder.createQuery(Long.class);
+		final Root<Account> root = cquery.from(Account.class);
+		cquery.select(cbuilder.count(root)).where(
+				cbuilder.equal(root.<String>get("shortName"), shortName));
+		return entityManager.createQuery(cquery).getSingleResult() > 0;
+	}
 }

@@ -35,6 +35,10 @@
     
     <context:component-scan base-package="org.ua.oblik.controllers" />
     
+    <bean class="org.ua.oblik.controllers.validators.AccountValidator"/>
+    
+    <bean class="org.ua.oblik.controllers.validators.CurrencyValidator"/>
+    
     <!-- enabling annotation driven configuration / -->
     <context:annotation-config />
         

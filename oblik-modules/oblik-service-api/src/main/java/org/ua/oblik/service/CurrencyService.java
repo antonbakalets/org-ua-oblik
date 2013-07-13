@@ -18,4 +18,6 @@ public interface CurrencyService {
     CurrencyVO getCurrency(Integer currencyId);
     
     CurrencyVO getDefaultCurrency() throws EntityNotFoundException;
+    
+    boolean isSymbolExists (String symbol);
 }
