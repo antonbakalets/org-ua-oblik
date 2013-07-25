@@ -47,7 +47,7 @@ public class CurrencyServiceImpl implements CurrencyService {
         Currency currency = currencyDao.select(cvo.getCurrencyId());
         currency.setRate(cvo.getRate());
         currency.setSymbol(cvo.getSymbol());
-        currencyDao.insert(currency);
+        currencyDao.update(currency);
     }
 
     @Override

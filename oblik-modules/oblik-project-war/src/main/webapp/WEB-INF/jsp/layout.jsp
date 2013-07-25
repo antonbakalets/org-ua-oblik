@@ -20,6 +20,7 @@
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-ui-1.9.2.custom.js"></script>
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.form.js"></script>
+        <script type="text/javascript" src="${pageContext.request.contextPath}/js/main.js"></script>
 
         <link rel="shortcut icon" href="${pageContext.request.contextPath}/img/favicon.ico" />
 

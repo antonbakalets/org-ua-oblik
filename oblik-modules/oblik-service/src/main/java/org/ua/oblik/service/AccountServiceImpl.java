@@ -32,7 +32,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Autowired
     private CurrencyDao currencyDao;
-    
+
     @Autowired
     private CurrencyService currencyService;
 
@@ -50,21 +50,20 @@ public class AccountServiceImpl implements AccountService {
             update(avo);
         }
     }
-    
+
     @Override
     public BigDecimal totalAssets() {
-		BigDecimal result = new BigDecimal(0);
-    	List<AccountVO> list = getAssetsAccounts();
-    	for (AccountVO avo : list) {
-    		Integer currencyId = avo.getCurrencyId();
-			CurrencyVO cvo = currencyService.getCurrency(currencyId);
-			BigDecimal toAdd = avo.getAmmount().multiply(cvo.getRate());
-			result = result.add(toAdd);
-		}
-    	return result;
+        BigDecimal result = new BigDecimal(0);
+        List<AccountVO> list = getAssetsAccounts();
+        for (AccountVO avo : list) {
+            Integer currencyId = avo.getCurrencyId();
+            CurrencyVO cvo = currencyService.getCurrency(currencyId);
+            BigDecimal toAdd = avo.getAmmount().multiply(cvo.getRate());
+            result = result.add(toAdd);
+        }
+        return result;
     }
-    
-    
+
     private void insert(AccountVO avo) {
         LOGGER.debug("Saving new acoount, name: " + avo.getName());
         final Currency currency = currencyDao.select(avo.getCurrencyId());
@@ -72,7 +71,7 @@ public class AccountServiceImpl implements AccountService {
         account.setCurrency(currency);
         account.setKind(convertType(avo.getType())); // TODO
         account.setShortName(avo.getName());
-        account.setTotal(avo.getAmmount());
+        account.setTotal(BigDecimal.ZERO); // Account has zero on creation
         accountDao.insert(account);
         avo.setAccountId(account.getAccoId());
     }
@@ -102,32 +101,30 @@ public class AccountServiceImpl implements AccountService {
     public List<AccountVO> getAssetsAccounts() {
         return convert(accountDao.selectByKind(AccountKind.ASSETS));
     }
-    
-    @Override
-    public Map<CurrencyVO, BigDecimal> totalAssetsByCurrency(){
-    	List<AccountVO> listAcc = getAssetsAccounts();
-    	List<CurrencyVO> listCur = currencyService.getCurrencies();
-    	HashMap<CurrencyVO, BigDecimal> result = new HashMap<CurrencyVO, BigDecimal>();
-    	
-    	for(CurrencyVO cvo:listCur){
-    		BigDecimal toRes = new BigDecimal(0);
-    		for(AccountVO avo : listAcc) {
-    			if (avo.getCurrencyId() == cvo.getCurrencyId()) {
-    				toRes = toRes.add(avo.getAmmount());
-    			}
-    		}
-    		result.put(cvo, toRes);
-    	}
-    	return result;
-    }
-    
-	@Override
-	public boolean isNameExists(String name) {
-		return accountDao.isNameExists(name);
-	}
 
-    
-    
+    @Override
+    public Map<CurrencyVO, BigDecimal> totalAssetsByCurrency() {
+        List<AccountVO> listAcc = getAssetsAccounts();
+        List<CurrencyVO> listCur = currencyService.getCurrencies();
+        HashMap<CurrencyVO, BigDecimal> result = new HashMap<CurrencyVO, BigDecimal>();
+
+        for (CurrencyVO cvo : listCur) {
+            BigDecimal toRes = new BigDecimal(0);
+            for (AccountVO avo : listAcc) {
+                if (avo.getCurrencyId() == cvo.getCurrencyId()) {
+                    toRes = toRes.add(avo.getAmmount());
+                }
+            }
+            result.put(cvo, toRes);
+        }
+        return result;
+    }
+
+    @Override
+    public boolean isNameExists(String name) {
+        return accountDao.isNameExists(name);
+    }
+
     private static AccountVO convert(Account model) {
         AccountVO result = new AccountVO();
         result.setAccountId(model.getId());
@@ -170,8 +167,4 @@ public class AccountServiceImpl implements AccountService {
         }
         throw new IllegalArgumentException("Unnexisting account type.");
     }
-
-
-
-
 }

@@ -8,67 +8,62 @@ import javax.validation.constraints.NotNull;
 
 import org.ua.oblik.service.beans.AccountVOType;
 
-
-
 /**
-*
-* @author Ihor Senkiv
-*/
+ *
+ * @author Ihor Senkiv
+ */
 public class AccountBean {
-	
-	private Integer accountId;
-	
-	@NotNull
-	private String name;
-	
+
+    private Integer accountId;
+
+    @NotNull
+    private String name;
+
     @Enumerated(EnumType.STRING)
     private AccountVOType kind;
-    
-	@NotNull
+
+    @NotNull
     private Integer currencyId;
-	
-	private BigDecimal ammount;
-    
 
-	public Integer getAccountId() {
-		return accountId;
-	}
+    private BigDecimal ammount;
 
-	public void setAccountId(Integer accountId) {
-		this.accountId = accountId;
-	}
+    public Integer getAccountId() {
+        return accountId;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setAccountId(Integer accountId) {
+        this.accountId = accountId;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public AccountVOType getKind() {
-		return kind;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setKind(AccountVOType kind) {
-		this.kind = kind;
-	}
+    public AccountVOType getKind() {
+        return kind;
+    }
+
+    public void setKind(AccountVOType kind) {
+        this.kind = kind;
+    }
 
     public Integer getCurrencyId() {
-		return currencyId;
-	}
+        return currencyId;
+    }
 
-	public void setCurrencyId(Integer currencyId) {
-		this.currencyId = currencyId;
-	}
+    public void setCurrencyId(Integer currencyId) {
+        this.currencyId = currencyId;
+    }
 
-	public BigDecimal getAmmount() {
-		return ammount;
-	}
+    public BigDecimal getAmmount() {
+        return ammount;
+    }
 
-	public void setAmmount(BigDecimal ammount) {
-		this.ammount = ammount;
-	}
-
-
+    public void setAmmount(BigDecimal ammount) {
+        this.ammount = ammount;
+    }
 }

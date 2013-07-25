@@ -65,11 +65,13 @@ public class AccountController {
     
     @RequestMapping(value = "/account/edit", method = RequestMethod.GET)
     public String editAccount(final Model model,
-            final @RequestParam(value = "accountId", required = false) Integer accountId) {
-        LOG.debug("Editing account, id: " + accountId + ".");
+            final @RequestParam(value = "accountId", required = false) Integer accountId,
+            final @RequestParam(value = "type", required = false) AccountVOType type) {
+        LOG.debug("Editing account, id: " + accountId + ", type: " + type + ".");
         AccountVO account = accountId == null 
                 ? new AccountVO()
                 : accountService.getAccount(accountId);
+        account.setType(type == null ? AccountVOType.ASSETS : type);
         AccountBean accountBean = convert(account);
         model.addAttribute(CURRENCY_LIST, currencyService.getCurrencies());
         model.addAttribute(ACCOUNT_BEAN, accountBean);
@@ -92,7 +94,6 @@ public class AccountController {
         }
         return "loaded/account";
     }
-    
     
     private AccountVO convert(AccountBean accountBean) {
         AccountVO result = new AccountVO();

@@ -19,10 +19,6 @@
             </c:forEach>
         </form:select>
         <form:errors path="accountId" element="div" cssClass="alert alert-error"/>
-        
-        <label><spring:message code="jsp.oblik.account.balance"/></label>
-        <form:input path="ammount" value = "${accountBean.ammount}"/>
-        <form:errors path="ammount" element="div" cssClass="alert alert-error"/>
 
     </fieldset>
 </form:form>

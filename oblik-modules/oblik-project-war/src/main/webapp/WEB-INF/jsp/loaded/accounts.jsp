@@ -16,13 +16,20 @@
     <display:column property="name" title="${title_name}"/>
     <display:column property="currencySymbol" title="${title_currency }"/>
     <display:column property="ammount" title="${title_balance }" value="ammount"/>
-        <display:column>
-    	<a id="account_${assetsAccounts.accountId}" data-toggle="modal" href="${pageContext.request.contextPath}/account/edit.html?accountId=${assetsAccounts.accountId}" data-target="#account-add-modal" class="btn">
-    		<i class="icon-edit"></i> 
-		</a>
-	</display:column> />
-
+    <display:column>
+        <a id="account_${assetsAccounts.accountId}" class="btn"
+           href="${pageContext.request.contextPath}/account/edit.html?accountId=${assetsAccounts.accountId}"
+           data-target="#common-modal" data-toggle="modal">
+            <i class="icon-edit"></i> 
+        </a>
+    </display:column> />
 </display:table>
+
+<a id="add-assets" class="btn" data-toggle="modal" data-target="#common-modal"
+   href="${pageContext.request.contextPath}/account/edit.html?type=ASSETS">
+    <spring:message code="jsp.oblik.account.btn.assets"/>
+</a>
+
 <h4><spring:message code="jsp.oblik.account.income"/></h4>
 <display:table id="incomeAccounts"
                name="incomeAccounts"
@@ -33,80 +40,36 @@
     <display:column property="name" title="${title_name}"/>
     <display:column property="currencySymbol" title="${title_currency }"/>
     <display:column property="ammount" title="${title_balance }" value="ammount"/>
-        <display:column>
-    	<a id="account_${incomeAccounts.accountId}" data-toggle="modal" href="${pageContext.request.contextPath}/account/edit.html?accountId=${incomeAccounts.accountId}" data-target="#account-add-modal" class="btn">
-    		<i class="icon-edit"></i> 
-		</a>
-	</display:column> />
-
-</display:table>
-<h4><spring:message code="jsp.oblik.account.expence"/></h5>
-<display:table id="expenseAccounts"
-               name="expenseAccounts"
-               requestURI="/accounts/list.html"
-               class="table table-striped table-hover table-condensed">
-    <display:column property="accountId" title="accountId" 
-                    class="ui-helper-hidden" headerClass="ui-helper-hidden"/>
-     <display:column property="name" title="${title_name}"/>
-    <display:column property="currencySymbol" title="${title_currency }"/>
-    <display:column property="ammount" title="${title_balance }" value="ammount"/>
     <display:column>
-    	<a id="account_${expenseAccounts.accountId}" data-toggle="modal"  href="${pageContext.request.contextPath}/account/edit.html?accountId=${expenseAccounts.accountId}" data-target="#account-add-modal" class="btn">
-    		<i class="icon-edit"></i> 
-		</a>
-	</display:column> />
+        <a id="account_${incomeAccounts.accountId}" data-toggle="modal" href="${pageContext.request.contextPath}/account/edit.html?accountId=${incomeAccounts.accountId}" data-target="#account-add-modal" class="btn">
+            <i class="icon-edit"></i> 
+        </a>
+    </display:column> />
 </display:table>
 
-<a id="add-account-btn" data-toggle="modal" href="${pageContext.request.contextPath}/account/edit.html" data-target="#account-add-modal" class="btn">
-   <spring:message code="jsp.oblik.button.add.account"/>
+<a id="add-assets" class="btn" data-toggle="modal" data-target="#common-modal"
+   href="${pageContext.request.contextPath}/account/edit.html?type=INCOME">
+    <spring:message code="jsp.oblik.account.btn.income"/>
 </a>
+    
+<h4><spring:message code="jsp.oblik.account.expence"/></h5>
+    <display:table id="expenseAccounts"
+                   name="expenseAccounts"
+                   requestURI="/accounts/list.html"
+                   class="table table-striped table-hover table-condensed">
+        <display:column property="accountId" title="accountId" 
+                        class="ui-helper-hidden" headerClass="ui-helper-hidden"/>
+        <display:column property="name" title="${title_name}"/>
+        <display:column property="currencySymbol" title="${title_currency }"/>
+        <display:column property="ammount" title="${title_balance }" value="ammount"/>
+        <display:column>
+        <a id="account_${expenseAccounts.accountId}" data-toggle="modal"  href="${pageContext.request.contextPath}/account/edit.html?accountId=${expenseAccounts.accountId}" data-target="#account-add-modal" class="btn">
+            <i class="icon-edit"></i> 
+        </a>
+    </display:column> />
+</display:table>
 
-<!-- Modal -->
-<div id="account-add-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="account-add-label" aria-hidden="true">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h2 id="account-add-label"><spring:message code="jsp.oblik.currency.add.header"/></h2>
-    </div>
-    <div class="modal-body" id="account-add-body">
-        <p>One fine body…this is getting replaced with content that comes from passed-in href</p>
-    </div>
-    <div class="modal-footer">
-        <button class="btn" data-dismiss="modal"><spring:message code="jsp.oblik.button.cancel"/></button>
-        <button id="account-add-save" class="btn btn-primary"><spring:message code="jsp.oblik.button.save"/></button>
-    </div>
-</div>
-
-
-<script>
-    $(document).ready(function() {
-
-        $('#add-account-btn').on('click', function() {
-            $('#account-add-body').load(
-                    $(this).attr('href'),
-                    function(response, status, xhr) {
-                        if (status === 'error') {
-                            //console.log('got here');
-                            $('#account-add-body').html('<h2>Oh boy</h2><p>Sorry, but there was an error:' + xhr.status + ' ' + xhr.statusText + '</p>');
-                        }
-                        return this;
-                    }
-            );
-        });
-
-
-        $('#account-add-save').click(function() {
-            $('#form-account').ajaxSubmit({
-                success: function(responseText, statusText, xhr, $form) {
-                    $('#account-add-body').html('');
-                    $('#account-add-body').html(responseText);
-                    if ($("#account-add-body .alert").size() === 0) {
-                        $("#account-add-modal").modal('hide');
-                    }
-                }
-            });
-        });
-
-    });
-
-<!-- http://stackoverflow.com/questions/14045515/how-can-i-reuse-one-bootstrap-modal-div -->
-</script>
+<a id="add-assets" class="btn" data-toggle="modal" data-target="#common-modal"
+   href="${pageContext.request.contextPath}/account/edit.html?type=EXPENSE">
+    <spring:message code="jsp.oblik.account.btn.expense"/>
+</a>
