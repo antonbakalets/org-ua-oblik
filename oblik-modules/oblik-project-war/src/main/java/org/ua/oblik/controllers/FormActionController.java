@@ -20,6 +20,7 @@ import org.ua.oblik.service.beans.TransactionType;
 import org.ua.oblik.controllers.utils.TransactionTypePropertyEditor;
 import org.ua.oblik.controllers.utils.ValidationErrorLoger;
 import org.ua.oblik.service.AccountService;
+import org.ua.oblik.service.TransactionService;
 import org.ua.oblik.service.beans.AccountVO;
 
 /**
@@ -43,6 +44,9 @@ public class FormActionController {
 
     @Autowired
     private AccountService accountService;
+    
+    @Autowired
+    private TransactionService transactionService;
 
     @RequestMapping(value = "/formaction", method = RequestMethod.GET)
     public String formaction(final Model model, @RequestParam("type") String type) {
@@ -62,6 +66,7 @@ public class FormActionController {
         if (bindingResult.hasErrors()) {
             ValidationErrorLoger.debug(bindingResult);
         } else {
+            transactionService.save(bean);
         }
         return "loaded/formaction";
     }

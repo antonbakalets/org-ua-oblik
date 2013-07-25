@@ -38,7 +38,8 @@ public class AccountDaoImpl extends AbstractDao<Integer, Account> implements Acc
         cquery.select(cbuilder.sum(path)).where(
                 cbuilder.equal(root.<Currency>get("currency"), currency),
                 cbuilder.equal(root.<AccountKind>get("kind"), AccountKind.ASSETS));
-        return entityManager.createQuery(cquery).getSingleResult();
+        final BigDecimal sum = entityManager.createQuery(cquery).getSingleResult();
+        return sum == null ? BigDecimal.ZERO : sum;
     }
 
 	@Override

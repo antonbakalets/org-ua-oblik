@@ -21,18 +21,18 @@ import org.ua.oblik.service.beans.TransactionVO;
  * @author Anton Bakalets
  */
 public class TransactionServiceImpl implements TransactionService {
-    
+
     private static final Logger LOG = LoggerFactory.getLogger(TransactionServiceImpl.class);
-    
+
     @Autowired
     private AccountService accountService;
-    
+
     @Autowired
     private AccountDao accountDao;
-    
+
     @Autowired
     private TxactionDao txactionDao;
-    
+
     @Transactional
     @Override
     public void save(TransactionVO tvo) {
@@ -51,18 +51,18 @@ public class TransactionServiceImpl implements TransactionService {
         Account secondAccount = accountDao.select(tvo.getSecondAccount());
         switch (tvo.getType()) {
             case INCOME:
-                txaction.setDebet(firstAccount);
+                txaction.setCredit(firstAccount);
                 txaction.setDebetAmmount(tvo.getFirstAmmount());
-                txaction.setCredit(secondAccount);
+                txaction.setDebet(secondAccount);
                 firstAccount.setTotal(firstAccount.getTotal().add(tvo.getFirstAmmount()));
                 accountDao.update(firstAccount);
                 secondAccount.setTotal(secondAccount.getTotal().add(tvo.getFirstAmmount()));
                 accountDao.update(secondAccount);
                 break;
             case EXPENSE:
-                txaction.setCredit(firstAccount);
+                txaction.setDebet(firstAccount);
                 txaction.setCreditAmmount(tvo.getFirstAmmount());
-                txaction.setDebet(secondAccount);
+                txaction.setCredit(secondAccount);
                 firstAccount.setTotal(firstAccount.getTotal().add(tvo.getFirstAmmount()));
                 accountDao.update(firstAccount);
                 secondAccount.setTotal(secondAccount.getTotal().subtract(tvo.getFirstAmmount()));
@@ -91,8 +91,7 @@ public class TransactionServiceImpl implements TransactionService {
         tvo.setTxId(txaction.getId());
     }
 
-
-	private void update (TransactionVO tvo) {
+    private void update(TransactionVO tvo) {
         Txaction txaction = txactionDao.select(tvo.getTxId());
         Account firstAccount = accountDao.select(tvo.getFirstAccount());
         Account secondAccount = accountDao.select(tvo.getSecondAccount());
@@ -101,7 +100,7 @@ public class TransactionServiceImpl implements TransactionService {
                 BigDecimal incomeDiff = txaction.getDebetAmmount().subtract(tvo.getFirstAmmount());
                 txaction.setDebetAmmount(tvo.getFirstAmmount());
                 firstAccount.setTotal(firstAccount.getTotal().add(incomeDiff));
-                accountDao.update(firstAccount); 
+                accountDao.update(firstAccount);
                 secondAccount.setTotal(secondAccount.getTotal().subtract(incomeDiff));
                 accountDao.update(secondAccount);
                 break;
@@ -131,28 +130,27 @@ public class TransactionServiceImpl implements TransactionService {
         txaction.setComment(tvo.getNote());
         txactionDao.update(txaction);
     }
-    
-    
+
     @Transactional
     @Override
-	public void delete (Integer transactionId) {
-    	TransactionVO tvo = this.getTransaction(transactionId);
+    public void delete(Integer transactionId) {
+        TransactionVO tvo = this.getTransaction(transactionId);
         Txaction txaction = txactionDao.select(tvo.getTxId());
         Account firstAccount = accountDao.select(tvo.getFirstAccount());
         Account secondAccount = accountDao.select(tvo.getSecondAccount());
         switch (tvo.getType()) {
-        	case INCOME:
+            case INCOME:
                 firstAccount.setTotal(firstAccount.getTotal().subtract(tvo.getFirstAmmount()));
                 accountDao.update(firstAccount);
                 secondAccount.setTotal(secondAccount.getTotal().subtract(tvo.getFirstAmmount()));
                 accountDao.update(secondAccount);
-        		break;
-        	case EXPENSE:
+                break;
+            case EXPENSE:
                 firstAccount.setTotal(firstAccount.getTotal().subtract(tvo.getFirstAmmount()));
                 accountDao.update(firstAccount);
                 secondAccount.setTotal(secondAccount.getTotal().add(tvo.getFirstAmmount()));
                 accountDao.update(secondAccount);
-        		break;
+                break;
             case TRANSFER:
                 BigDecimal firstTotal = firstAccount.getTotal().add(tvo.getFirstAmmount());
                 firstAccount.setTotal(firstTotal);
@@ -179,7 +177,7 @@ public class TransactionServiceImpl implements TransactionService {
     public List<TransactionVO> getTransactions(Date date) {
         return convert(txactionDao.selectByMonth(date));
     }
-    
+
     private static TransactionVO convert(Txaction model) {
         TransactionVO result = new TransactionVO();
         result.setTxId(model.getId());
@@ -208,7 +206,7 @@ public class TransactionServiceImpl implements TransactionService {
         result.setNote(model.getComment());
         return result;
     }
-    
+
     private static List<TransactionVO> convert(List<Txaction> modelList) {
         List<TransactionVO> result = new ArrayList<>(modelList.size());
         for (Txaction model : modelList) {

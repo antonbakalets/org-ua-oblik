@@ -36,7 +36,7 @@ public class CurrencyController {
     
     @Autowired
     private CurrencyService currencyService;
-
+    
     @RequestMapping(value = "/currency/list", method = RequestMethod.GET)
     public String listCurrencies(final Model model) {
         LOGGER.debug("Showing currency list.");

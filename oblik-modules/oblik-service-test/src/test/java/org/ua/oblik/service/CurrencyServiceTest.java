@@ -13,16 +13,16 @@ import org.ua.oblik.service.test.DefinedCurrency;
 
 /**
  * http://www.planetgeek.ch/wp-content/uploads/2013/06/Clean-Code-V2.1.pdf
- * 
+ *
  * @author Anton Bakalets
  */
 public class CurrencyServiceTest extends BaseServiceTest {
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(CurrencyServiceTest.class);
-    
+
     @Autowired
     private CurrencyService currencyService;
-    
+
     @Autowired
     private CurrencyServiceTestHelper currencyServiceTestHelper;
 
@@ -31,17 +31,17 @@ public class CurrencyServiceTest extends BaseServiceTest {
         LOGGER.debug("Check that database is empty.");
         final List<CurrencyVO> empty = currencyService.getCurrencies();
         Assert.assertTrue("Test suppose to start from empty database", empty.isEmpty());
-        
+
         try {
             currencyService.getDefaultCurrency();
             Assert.fail("No default currency in empty.");
-        } catch(EntityNotFoundException enfe) {
+        } catch (EntityNotFoundException enfe) {
             LOGGER.debug(enfe.getMessage()); // OK
         }
-        
+
         LOGGER.debug("Saving default currency.");
         currencyServiceTestHelper.createAndSaveAsDefault(DefinedCurrency.UGH);
-        
+
         try {
             LOGGER.debug("Saving default currency once again.");
             currencyServiceTestHelper.createAndSaveAsDefault(DefinedCurrency.UGH);
@@ -49,25 +49,25 @@ public class CurrencyServiceTest extends BaseServiceTest {
         } catch (RuntimeException re) {
             LOGGER.debug(re.getMessage());
         }
-        
+
         LOGGER.debug("Retrieving default currency:");
         final CurrencyVO defaultCurrency = currencyService.getDefaultCurrency();
         Assert.assertNotNull(defaultCurrency);
         LOGGER.debug(defaultCurrency.toString());
         Assert.assertEquals("Rate of default currency is always equals 1.", defaultCurrency.getRate(), BigDecimal.ONE);
         Assert.assertEquals("Default currency symbol is грн.", defaultCurrency.getSymbol(), DefinedCurrency.UGH.getSymbol());
-        
+
         LOGGER.debug("Saving dollar.");
         final CurrencyVO dollar = currencyServiceTestHelper.createAndSaveCurrency(DefinedCurrency.USD);
         Assert.assertEquals("", dollar.getSymbol(), DefinedCurrency.USD.getSymbol());
         Assert.assertEquals("", dollar.getRate(), DefinedCurrency.USD.getRate());
-        
+
         LOGGER.debug("Saving euro.");
         final CurrencyVO euro = currencyServiceTestHelper.createAndSaveCurrency(DefinedCurrency.EUR);
         Assert.assertEquals("", euro.getSymbol(), euro.getSymbol());
         Assert.assertEquals("", euro.getRate(), euro.getRate());
     }
-    
+
     @Test
     public void listCurrencies() {
         LOGGER.debug("Listing all currencies:");
@@ -77,13 +77,13 @@ public class CurrencyServiceTest extends BaseServiceTest {
             LOGGER.debug(currency.toString());
         }
     }
-    
+
     @Test
     public void getCurrency() {
-    	LOGGER.debug("Get currency:");
+        LOGGER.debug("Get currency:");
         final CurrencyVO euro = currencyServiceTestHelper.createAndSaveCurrency(DefinedCurrency.EUR);
         CurrencyVO newEuro = currencyService.getCurrency(euro.getCurrencyId());
-        Assert.assertEquals("",euro.getCurrencyId(),newEuro.getCurrencyId());
+        Assert.assertEquals("", euro.getCurrencyId(), newEuro.getCurrencyId());
         Assert.assertEquals("", euro.getSymbol(), newEuro.getSymbol());
         Assert.assertEquals("", euro.getRate(), newEuro.getRate());
     }

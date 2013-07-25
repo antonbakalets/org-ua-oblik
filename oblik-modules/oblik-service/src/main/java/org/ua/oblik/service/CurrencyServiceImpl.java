@@ -17,9 +17,9 @@ import org.ua.oblik.service.beans.CurrencyVO;
  * @author Anton Bakalets
  */
 public class CurrencyServiceImpl implements CurrencyService {
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(CurrencyServiceImpl.class);
-    
+
     @Autowired
     private CurrencyDao currencyDao;
 
@@ -49,7 +49,7 @@ public class CurrencyServiceImpl implements CurrencyService {
         currency.setSymbol(cvo.getSymbol());
         currencyDao.insert(currency);
     }
-    
+
     @Override
     public List<CurrencyVO> getCurrencies() {
         return convert(currencyDao.selectAll());
@@ -59,7 +59,7 @@ public class CurrencyServiceImpl implements CurrencyService {
     public CurrencyVO getCurrency(Integer currencyId) {
         return convert(currencyDao.select(currencyId));
     }
-    
+
     @Override
     public CurrencyVO getDefaultCurrency() throws EntityNotFoundException {
         try {
@@ -86,13 +86,12 @@ public class CurrencyServiceImpl implements CurrencyService {
             cvo.setCurrencyId(currency.getId());
         }
     }
-    
+
     @Override
     public boolean isSymbolExists(String symbol) {
-    	return currencyDao.isSymbolExists(symbol);
+        return currencyDao.isSymbolExists(symbol);
     }
-    
-    
+
     private static CurrencyVO convert(Currency model) {
         CurrencyVO result = new CurrencyVO();
         result.setCurrencyId(model.getId());
@@ -100,10 +99,10 @@ public class CurrencyServiceImpl implements CurrencyService {
         result.setSymbol(model.getSymbol());
         return result;
     }
-    
+
     private static List<CurrencyVO> convert(List<Currency> modelList) {
         List<CurrencyVO> result = new ArrayList<>(modelList.size());
-        for(Currency model : modelList) {
+        for (Currency model : modelList) {
             result.add(convert(model));
         }
         return result;

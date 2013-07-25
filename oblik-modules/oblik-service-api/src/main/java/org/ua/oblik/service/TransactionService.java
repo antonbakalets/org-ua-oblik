@@ -10,7 +10,6 @@ import org.ua.oblik.service.beans.TransactionVO;
  */
 public interface TransactionService {
 
-    //@Transactional
     void save(TransactionVO tvo);
     
     void delete(Integer transactionId);

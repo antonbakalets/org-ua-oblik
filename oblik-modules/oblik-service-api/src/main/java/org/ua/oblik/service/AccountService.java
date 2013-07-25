@@ -22,11 +22,10 @@ public interface AccountService {
     List<AccountVO> getIncomeAccounts();
 
     List<AccountVO> getAssetsAccounts();
-    
+
     BigDecimal totalAssets();
 
-	Map<CurrencyVO, BigDecimal> totalAssetsByCurrency();
-	
-	boolean isNameExists (String name);
-    
+    Map<CurrencyVO, BigDecimal> totalAssetsByCurrency();
+
+    boolean isNameExists(String name);
 }
