@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-<h3 class="title-block">Transactions</h3>
-<table class="table table-hover">
+<h4 class="title-block">Transactions</h4>
+<table class="table table-striped table-hover table-condensed">
     <thead>
         <tr>
             <th>#</th>

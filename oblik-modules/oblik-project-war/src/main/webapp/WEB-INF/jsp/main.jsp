@@ -8,12 +8,12 @@
 <spring:message var="tab_accounts_name" code="jsp.oblik.accounts"/>
 <spring:message var="tab_currencies_name" code="jsp.oblik.currencies"/>
 
-<div class="container">
-    <div class="row">
+<div class="container m-bot-25">
+    <%--<div class="row">
         <div class="span12">
             <h1 class="page-title">Welcome, <security:authentication property="principal.username" /></h1>
         </div>
-    </div>
+    </div>--%>
     <div class="row">
         <div class="span4">
             <section id="form-actions">
@@ -46,6 +46,7 @@
 
             </section>
         </div>
+        
         <div class="span8">
             <div id="right-tabs" class="tabbable"> <!-- Only required for left/right tabs -->
                 <ul class="nav nav-tabs">
@@ -121,7 +122,7 @@
         $("#tab-currecies").load('${pageContext.request.contextPath}/currency/list.html', function() {
             $("#tab-currecies").css({height: 'auto'});
         });
-        
+
         attachModal();
     });
 </script>

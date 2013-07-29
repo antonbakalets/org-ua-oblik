@@ -10,10 +10,8 @@
         <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/magic-bootstrap.css" />
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/default.css" />
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/bootstrap.css" />
 
-        <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-1.9.1.js"></script>
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
 
         <link rel="shortcut icon" href="${pageContext.request.contextPath}/img/favicon.ico" />

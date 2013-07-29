@@ -67,6 +67,7 @@ public class FormActionController {
             ValidationErrorLoger.debug(bindingResult);
         } else {
             transactionService.save(bean);
+            return "redirect:/formaction";
         }
         return "loaded/formaction";
     }

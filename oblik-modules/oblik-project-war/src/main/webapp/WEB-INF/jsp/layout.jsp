@@ -10,11 +10,13 @@
     <head> 
         <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        
+        <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,400,600&subset=latin,cyrillic-ext,cyrillic'/>
 
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/default.css" />
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/jquery-ui-1.9.2.custom.css" />
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/bootstrap.css" />
-        <!--<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/default.css" />
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style.css" />-->
+        <!--<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style.css" />-->
 
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-1.9.1.js"></script>
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-ui-1.9.2.custom.js"></script>

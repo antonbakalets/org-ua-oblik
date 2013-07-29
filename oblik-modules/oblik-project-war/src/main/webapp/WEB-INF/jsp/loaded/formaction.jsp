@@ -57,7 +57,6 @@
             $('#form-${formActionBean.type}').ajaxSubmit({
                 success: function(data)
                 {
-                    alert(data); // show response from the php script.
                     $('#tab-${formActionBean.type}').html(data);
                     $("#tab-${formActionBean.type}").css({height: 'auto'});
                 }
