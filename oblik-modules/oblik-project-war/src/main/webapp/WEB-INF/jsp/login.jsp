@@ -77,7 +77,7 @@
                     <div class="control-group">
                         <div class="controls">
                             <input id="login-submit" type="submit" value="<spring:message code="login.button.login"/>" class="btn btn-success"/>
-                            <a href="#"><spring:message code="login.forgot.password"/></a>
+                            <%-- TODO <a href="#"><spring:message code="login.forgot.password"/></a>--%>
                         </div>
                     </div>
                 </fieldset>

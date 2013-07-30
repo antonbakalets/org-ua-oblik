@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="spring"  uri="http://www.springframework.org/tags" %>
+
 <%@ taglib prefix="display" uri="http://displaytag.sf.net" %>
+<%@ taglib prefix="spring"  uri="http://www.springframework.org/tags" %>
 
 <spring:message var="title_name" code="jsp.oblik.account.name"/>
 <spring:message var="title_currency" code="jsp.oblik.account.currency"/>
@@ -16,13 +17,13 @@
     <display:column property="name" title="${title_name}"/>
     <display:column property="currencySymbol" title="${title_currency }"/>
     <display:column property="ammount" title="${title_balance }" value="ammount"/>
-    <display:column>
-        <a id="account_${assetsAccounts.accountId}" class="btn"
+    <display:column class="align-right">
+        <a id="account_${assetsAccounts.accountId}" class="btn btn-mini"
            href="${pageContext.request.contextPath}/account/edit.html?accountId=${assetsAccounts.accountId}"
            data-target="#common-modal" data-toggle="modal">
             <i class="icon-edit"></i> 
         </a>
-    </display:column> />
+    </display:column>
 </display:table>
 
 <a id="add-assets" class="btn" data-toggle="modal" data-target="#common-modal"

@@ -6,7 +6,7 @@
 <spring:message var="title_symbol" code="jsp.oblik.currency.symbol"/>
 <spring:message var="title_rate" code="jsp.oblik.currency.rate"/> 
 
-<display:table id="currecy-table"
+<display:table id="currecyTable"
                name="currencyList"
                requestURI="/currency/list.html"
                class="table table-striped table-hover table-condensed">
@@ -14,7 +14,13 @@
                     class="ui-helper-hidden" headerClass="ui-helper-hidden"/>
     <display:column property="symbol" title="${title_symbol}"/>
     <display:column property="rate" title="${title_rate}"/>
-
+    <display:column class="align-right">
+        <a id="currency_${currecyTable.currencyId}" class="btn btn-mini"
+           href="${pageContext.request.contextPath}/currency/edit.html?currencyId=${currecyTable.currencyId}"
+           data-target="#common-modal" data-toggle="modal">
+            <i class="icon-edit"></i> 
+        </a>
+    </display:column>
 </display:table>
 
 <a id="add-currency-btn" class="btn" data-toggle="modal" data-target="#common-modal"

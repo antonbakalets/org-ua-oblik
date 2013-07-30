@@ -5,8 +5,8 @@
         <div class="container">
             <div class="row">
                 <div class="span3">
-                    <i class="icon-github-sign"></i>
                     <h3 class="caption"><span class="bold">Sourses</span> at github</h3>
+                    <i class="icon-circle-arrow-down"></i>
                     <a href="https://github.com/antonbakalets/org-ua-oblik">https://github.com/antonbakalets/org-ua-oblik</a>
                 </div>
                 <div class="span3">

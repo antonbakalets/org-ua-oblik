@@ -2002,18 +2002,18 @@ legend + .control-group {
 }
 .form-horizontal .control-label {
     float: left;
-    width: 160px;
+    width: 120px;
     padding-top: 5px;
     text-align: right;
 }
 .form-horizontal .controls {
     *display: inline-block;
     *padding-left: 20px;
-    margin-left: 180px;
+    margin-left: 140px;
     *margin-left: 0;
 }
 .form-horizontal .controls:first-child {
-    *padding-left: 180px;
+    *padding-left: 140px;
 }
 .form-horizontal .help-block {
     margin-bottom: 0;
@@ -4253,11 +4253,11 @@ a.thumbnail:focus {
 .alert-error {
     background-color: #ffe8e7;
     border-color: #ffd8dd;
-    color: #32a432;
+    color: #CC3300;
 }
 .alert-danger h4,
 .alert-error h4 {
-    color: #32a432;
+    color: #CC3300;
 }
 .alert-info {
     background-color: #e2f1ff;

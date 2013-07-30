@@ -41,6 +41,17 @@ footer .logo {
     margin-left: 3px;
     margin-right: 3px;
 }
+.m-top-18 {
+    margin-top: 18px !important;
+}
 .m-bot-25 {
     margin-bottom: 25px !important;
+}
+.table th.align-right,
+.table td.align-right {
+  text-align: right;
+}
+
+.text-expense {
+    color: #cc3300 !important;
 }
