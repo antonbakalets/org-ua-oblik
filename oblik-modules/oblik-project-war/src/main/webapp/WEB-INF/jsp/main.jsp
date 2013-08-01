@@ -1,19 +1,15 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="spring"  uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="c"       uri="http://java.sun.com/jsp/jstl/core" %>
 
 <spring:message var="tab_transactions_name" code="jsp.oblik.transactions"/>
 <spring:message var="tab_accounts_name" code="jsp.oblik.accounts"/>
 <spring:message var="tab_currencies_name" code="jsp.oblik.currencies"/>
 
+<span id="default-currency-exists" class="hidden">${defaultCurrencyExists}</span>
+
 <div class="container m-bot-25">
-    <%--<div class="row">
-        <div class="span12">
-            <h1 class="page-title">Welcome, <security:authentication property="principal.username" /></h1>
-        </div>
-    </div>--%>
     <div class="row">
         <div class="span4">
             <section id="form-actions">
@@ -46,7 +42,7 @@
 
             </section>
         </div>
-        
+
         <div class="span8">
             <div id="right-tabs" class="tabbable"> <!-- Only required for left/right tabs -->
                 <ul class="nav nav-tabs">
@@ -87,42 +83,51 @@
 
 <script>
     $(document).ready(function() {
+        modalSaveEvent();
+
+        dcne = <c:out value="${defaultCurrencyNotExists}"/>;
+        if (dcne) {
+            $('#common-modal-label').html("Основна валюта.");
+            $('#common-modal-body').load(
+                    '${pageContext.request.contextPath}/currency/edit.html?default=true',
+                    function(response, status, xhr) {
+                        if (status === 'error') {
+                            $('#common-modal-body').html('<h2>Oh boy</h2><p>Sorry, but there was an error:' + xhr.status + ' ' + xhr.statusText + '</p>');
+                        }
+                        $('#common-modal').modal();
+                        return this;
+                    }
+            );
+        }
+
         $("#tab-expense").load('${pageContext.request.contextPath}/formaction.html?type=expense', function() {
-            $("#tab-expense").css({height: 'auto'});
         });
 
         $("#tab-transfer").load('${pageContext.request.contextPath}/formaction.html?type=transfer', function() {
-            $("#tab-transfer").css({height: 'auto'});
         });
 
         $("#tab-income").load('${pageContext.request.contextPath}/formaction.html?type=income', function() {
-            $("#tab-income").css({height: 'auto'});
         });
 
         $("#total-by-currency").load('${pageContext.request.contextPath}/total/currecy.html', function() {
-            $("#total-by-currency").css({height: 'auto'});
         });
 
         $("#totalAmmount").load('${pageContext.request.contextPath}/total/ammount.html', function() {
-            $("#totalAmmount").css({height: 'auto'});
         });
 
         $("#total-by-account").load('${pageContext.request.contextPath}/total/account.html', function() {
-            $("#total-by-account").css({height: 'auto'});
         });
 
         $("#tab-transactions").load('${pageContext.request.contextPath}/transaction/list.html', function() {
-            $("#tab-transactions").css({height: 'auto'});
+            $("#tab-transactions").attachModal();
         });
 
         $("#tab-accounts").load('${pageContext.request.contextPath}/account/list.html', function() {
-            $("#tab-accounts").css({height: 'auto'});
+            $("#tab-accounts").attachModal();
         });
 
         $("#tab-currecies").load('${pageContext.request.contextPath}/currency/list.html', function() {
-            $("#tab-currecies").css({height: 'auto'});
+            $("#tab-currecies").attachModal();
         });
-
-        attachModal();
     });
 </script>

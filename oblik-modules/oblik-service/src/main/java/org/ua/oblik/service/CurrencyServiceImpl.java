@@ -97,6 +97,7 @@ public class CurrencyServiceImpl implements CurrencyService {
         result.setCurrencyId(model.getId());
         result.setRate(model.getRate());
         result.setSymbol(model.getSymbol());
+        result.setDefaultRate(model.getByDefault());
         return result;
     }
 

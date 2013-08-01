@@ -20,6 +20,8 @@ public class CurrencyBean {
     @NotNull
     @Size(min = 1, max = 10)
     private String symbol;
+    
+    private Boolean defaultRate;
 
     public Integer getCurrencyId() {
         return currencyId;
@@ -43,5 +45,13 @@ public class CurrencyBean {
 
     public void setSymbol(String symbol) {
         this.symbol = symbol;
+    }
+
+    public Boolean getDefaultRate() {
+        return defaultRate;
+    }
+
+    public void setDefaultRate(Boolean defaultRate) {
+        this.defaultRate = defaultRate;
     }
 }

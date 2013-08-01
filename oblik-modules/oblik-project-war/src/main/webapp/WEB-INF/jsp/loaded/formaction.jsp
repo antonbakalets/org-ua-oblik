@@ -37,7 +37,7 @@
         <label class="control-label" for="date"><spring:message code="jsp.oblik.date"/></label>
         <div class="controls">
             <div class="input-append">
-                <form:input id="date" path="date" cssClass="span2"/>
+                <form:input id="date" path="date" cssClass="span2 datepicker"/>
                 <span class="add-on"><i class="icon-calendar"></i></span>
             </div>
             <form:errors path="date" element="div" cssClass="alert alert-error"/>
@@ -85,6 +85,8 @@
 
 <script>
     $(document).ready(function() {
+
+        $(".datepicker").addDatepicker();
 
         $('#form-${formActionBean.type}-button').click(function() {
             $('#form-${formActionBean.type}').ajaxSubmit({

@@ -11,6 +11,7 @@ public class CurrencyVO {
     private Integer currencyId;
     private BigDecimal rate;
     private String symbol;
+    private Boolean defaultRate;
 
     public Integer getCurrencyId() {
         return currencyId;
@@ -34,6 +35,14 @@ public class CurrencyVO {
 
     public void setSymbol(String symbol) {
         this.symbol = symbol;
+    }
+
+    public Boolean getDefaultRate() {
+        return defaultRate;
+    }
+
+    public void setDefaultRate(Boolean defaultRate) {
+        this.defaultRate = defaultRate;
     }
 
     @Override

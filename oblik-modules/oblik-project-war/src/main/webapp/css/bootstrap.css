@@ -218,8 +218,9 @@ a {
 }
 a:hover,
 a:focus {
-    color: #005580;
-    text-decoration: underline;
+    color: #373737;
+    text-decoration: none;
+    transition: all 0.3s ease 0s;fl
 }
 .img-rounded {
     -webkit-border-radius: 6px;

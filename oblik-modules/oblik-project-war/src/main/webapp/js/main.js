@@ -1,6 +1,3 @@
-$(document).ready(function() {
-    $(".datepicker").addDatepicker();
-});
 
 $.fn.addDatepicker = function() {
     this.datepicker({
@@ -10,16 +7,6 @@ $.fn.addDatepicker = function() {
         buttonImage: "../img/ico_calendar.gif",
         buttonText: '',
         buttonImageOnly: true
-    });
-}
-
-function changeLinksInSelector(selector, functionName) {
-    $(selector).each(function() {
-        linkData = $(this).attr("href");
-        if (linkData) {
-            newLink = "JavaScript:" + functionName + "('" + linkData + "');"; // on pagination, sort change
-            $(this).attr("href", newLink);
-        }
     });
 }
 
@@ -36,20 +23,7 @@ function split(val) {
 function extractLast(term) {
     return split(term).pop();
 }
-function attachModal() {
-    $('a[data-toggle="modal"]').click(function() {
-        $('#common-modal-body').load(
-                $(this).attr('href'),
-                function(response, status, xhr) {
-                    if (status === 'error') {
-                        $('#common-modal-body').html('<h2>Oh boy</h2><p>Sorry, but there was an error:' + xhr.status + ' ' + xhr.statusText + '</p>');
-                    }
-                    return this;
-                }
-        );
-        $('#common-modal-label').html($(this).attr('title'));
-    });
-
+function modalSaveEvent() {
     $('#common-modal-save').click(function() {
         $('#common-modal form').ajaxSubmit({
             success: function(responseText, statusText, xhr, $form) {
@@ -61,6 +35,21 @@ function attachModal() {
                 // TODO $('#right-tabs li.active').load();
             }
         });
+    });
+}
+
+$.fn.attachModal = function () {
+    $(this).find('a[data-toggle="modal"]').click(function() {
+        $('#common-modal-body').load(
+                $(this).attr('href'),
+                function(response, status, xhr) {
+                    if (status === 'error') {
+                        $('#common-modal-body').html('<h2>Oh boy</h2><p>Sorry, but there was an error:' + xhr.status + ' ' + xhr.statusText + '</p>');
+                    }
+                    return this;
+                }
+        );
+        $('#common-modal-label').html($(this).attr('title'));
     });
 }
 

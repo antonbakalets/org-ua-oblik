@@ -8,6 +8,10 @@ header {
     height: 121px;
     margin-bottom: 22px;
 }
+.header-container {
+    margin: 14px 0 0;
+    font-size: 14px;
+}
 footer h3, footer h4 {
     font-weight: normal;
 }

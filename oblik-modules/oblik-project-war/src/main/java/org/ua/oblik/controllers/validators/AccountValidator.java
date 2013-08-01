@@ -8,19 +8,19 @@ import org.ua.oblik.service.AccountService;
 
 public class AccountValidator implements Validator {
 
-	@Autowired
-	private AccountService accountService;
-	
-	@Override
-	public boolean supports(Class<?> clazz) {
-		return AccountBean.class.isAssignableFrom(clazz);
-	}
+    @Autowired
+    private AccountService accountService;
 
-	@Override
-	public void validate(Object target, Errors errors) {
-		AccountBean bean = (AccountBean)target;
-		if (accountService.isNameExists(bean.getName())) {
-			errors.rejectValue("name", "error.account.name.exists");
-		}
-	}
+    @Override
+    public boolean supports(Class<?> clazz) {
+        return AccountBean.class.isAssignableFrom(clazz);
+    }
+
+    @Override
+    public void validate(Object target, Errors errors) {
+        AccountBean bean = (AccountBean) target;
+        if (accountService.isNameExists(bean.getName())) {
+            errors.rejectValue("name", "error.account.name.exists");
+        }
+    }
 }

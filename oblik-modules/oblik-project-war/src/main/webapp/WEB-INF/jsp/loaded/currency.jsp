@@ -7,13 +7,14 @@
            action="${pageContext.request.contextPath}/currency/edit.html">
     <fieldset>
         <form:hidden path="currencyId"/>
+        <form:hidden path="defaultRate"/>
 
         <label><spring:message code="jsp.oblik.currency.symbol"/></label>
-        <form:input path="symbol" value = "${currencyBean.symbol}"/>
+        <form:input path="symbol"/>
         <form:errors path="symbol" element="div" cssClass="alert alert-error"/>
 
         <label><spring:message code="jsp.oblik.currency.rate"/></label>
-        <form:input path="rate" value = "${currencyBean.rate}"/>
+        <form:input path="rate" disabled="${currencyBean.defaultRate}"/>
         <form:errors path="rate" element="div" cssClass="alert alert-error"/>
     </fieldset>
 </form:form>

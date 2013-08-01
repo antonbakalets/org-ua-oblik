@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.ua.oblik.service.beans.AccountVOType;
 
@@ -17,6 +18,7 @@ public class AccountBean {
     private Integer accountId;
 
     @NotNull
+    @Size(min = 1, max = 100)
     private String name;
 
     @Enumerated(EnumType.STRING)

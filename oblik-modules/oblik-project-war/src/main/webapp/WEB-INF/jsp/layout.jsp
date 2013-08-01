@@ -34,7 +34,7 @@
             This page uses JavaScript and requires a JavaScript enabled browser.
             Your browser is not JavaScript enabled.
         </noscript>
-
+        
         <%@include file="header.jsp" %>
         <%@include file="main.jsp" %>
         <%@include file="footer.jsp" %>

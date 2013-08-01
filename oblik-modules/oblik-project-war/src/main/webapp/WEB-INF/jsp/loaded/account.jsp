@@ -18,7 +18,7 @@
                 <form:option  value="${currency.currencyId}" label="${currency.symbol}"/>
             </c:forEach>
         </form:select>
-        <form:errors path="accountId" element="div" cssClass="alert alert-error"/>
+        <form:errors path="currencyId" element="div" cssClass="alert alert-error"/>
 
     </fieldset>
 </form:form>

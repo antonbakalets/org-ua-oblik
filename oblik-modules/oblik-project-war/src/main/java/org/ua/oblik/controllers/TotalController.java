@@ -41,7 +41,7 @@ public class TotalController {
     
     @RequestMapping("/total/currecy")
     public String totalCurrency(final Model model) {
-        LOG.debug("total by currency");
+        LOG.debug("Loading total by currency...");
         Map<CurrencyVO, BigDecimal> map = accountService.totalAssetsByCurrency();
         model.addAttribute(TOTAL_BY_CURRENCIES,map);
         return "loaded/total-by-currency";
@@ -49,7 +49,7 @@ public class TotalController {
     
     @RequestMapping("/total/account")
     public String totalAccount(final Model model) {
-        LOG.debug("total by account");	
+        LOG.debug("Loading total by account...");	
         List<AccountVO> list = accountService.getAssetsAccounts();
         model.addAttribute(ASSETS_ACCOUNTS, list);
         return "loaded/total-by-account";
@@ -57,11 +57,11 @@ public class TotalController {
     
     @RequestMapping("/total/ammount")
     public String totalAmmount(final Model model) {
-        LOG.debug("total by currency");
         BigDecimal total = accountService.totalAssets();
+        LOG.debug("Loading total ammount in default currency: " + total);
         CurrencyVO cvo = currencyService.getDefaultCurrency();
         model.addAttribute(DEFAULT_CURRENCY, cvo);
         model.addAttribute(TOTAL,total);
-		return "loaded/totalAmmount";
+        return "loaded/totalAmmount";
     }
 }
