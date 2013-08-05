@@ -9,15 +9,22 @@
 
 <h3 class="title-block">${title_total }</h3>
 <div class="content-container-white">
-    <display:table id="totalAccounts"
-                   name="assetsAccounts"
-                   requestURI="total/currency/list.html"
-                   class="table table-striped table-hover table-condensed">
-        <display:column property="currencyId" title="currencyId" 
-                        class="ui-helper-hidden" headerClass="ui-helper-hidden"/>
-        <display:column property="name" title="${title_name}"/>
-        <display:column property="currencySymbol" title="${title_currency }"/>
-        <display:column property="ammount" title="${title_balance }" value="ammount"/>
-    </display:table>
+    <div class="m-all-5">
+        <display:table id="totalAccounts"
+                       name="assetsAccounts"
+                       requestURI="total/currency/list.html"
+                       class="table table-striped table-hover table-condensed">
+            <display:column property="currencyId" title="currencyId" 
+                            class="ui-helper-hidden" headerClass="ui-helper-hidden"/>
+            <display:column property="name" title="${title_name}"/>
+            <display:column property="currencySymbol" title="${title_currency }"/>
+            <display:column property="ammount" title="${title_balance }" value="ammount"/>
+        </display:table>
+
+        <a id="add-assets" class="btn transfer" data-toggle="modal" data-target="#common-modal"
+           href="${pageContext.request.contextPath}/account/edit.html?type=ASSETS">
+            <spring:message code="jsp.oblik.account.btn.assets"/>
+        </a>
+    </div>
 </div>
 <div class="content-under-container-white"></div>

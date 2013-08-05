@@ -2,6 +2,7 @@ package org.ua.oblik.controllers;
 
 import java.math.BigDecimal;
 import java.util.List;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +33,8 @@ public class CurrencyController {
 
     private static final String CURRENCY_LIST = "currencyList";
 
+    private static final String SAVING_DEFAULT_CURRENCY = "savingDefaultCurrency";
+
     @Autowired
     private CurrencyValidator currencyValidator;
 
@@ -47,21 +50,24 @@ public class CurrencyController {
     }
 
     @RequestMapping(value = "/currency/edit", method = RequestMethod.GET)
-    public String editCurrency(final Model model,
-            final @RequestParam(value = "currencyId", required = false) Integer currencyId,
-            final @RequestParam(value = "default", required = false) Boolean isDefault) {
+    public String editCurrency(final HttpSession session, final Model model,
+            final @RequestParam(value = "currencyId", required = false) Integer currencyId) {
         LOGGER.debug("Editing currency, id: " + currencyId + ".");
-        CurrencyVO currency = createCurrencyBean(currencyId, isDefault);
-        CurrencyBean currencyBean = convert(currency);
+        CurrencyBean currencyBean = createCurrencyBean(currencyId);
+        session.setAttribute(SAVING_DEFAULT_CURRENCY, Boolean.valueOf(currencyBean.getDefaultRate())); // TODO convert to annotations?
         model.addAttribute(CURRENCY_BEAN, currencyBean);
         return "loaded/currency";
     }
 
     @RequestMapping(value = "/currency/edit", method = RequestMethod.POST)
-    public String saveCurrency(final Model model,
+    public String saveCurrency(final HttpSession session, final Model model,
             final @ModelAttribute(CURRENCY_BEAN) @Valid CurrencyBean currencyBean,
             BindingResult bindingResult) {
         LOGGER.debug("Saving currency, id: " + currencyBean.getCurrencyId() + ".");
+        if ((Boolean) session.getAttribute(SAVING_DEFAULT_CURRENCY)) {
+            currencyBean.setDefaultRate(Boolean.TRUE);
+            currencyBean.setRate(BigDecimal.ONE);
+        }
         currencyValidator.validate(currencyBean, bindingResult);
         if (bindingResult.hasErrors()) {
             ValidationErrorLoger.debug(bindingResult);
@@ -90,18 +96,13 @@ public class CurrencyController {
         return result;
     }
 
-    // TODO move to service layer, use Factory pattern
-    private CurrencyVO createCurrencyBean(final Integer currencyId, Boolean isDefault) {
-        if (isDefault != null && isDefault) {
-            final CurrencyVO def = new CurrencyVO();
-            def.setDefaultRate(Boolean.TRUE);
-            def.setRate(BigDecimal.ONE);
-            return def;
-        }
+    private CurrencyBean createCurrencyBean(final Integer currencyId) {
+        CurrencyVO result = null;
         if (currencyId == null) {
-            return new CurrencyVO();
+            result = currencyService.createCurrency();
         } else {
-            return currencyService.getCurrency(currencyId);
+            result = currencyService.getCurrency(currencyId);
         }
+        return convert(result);
     }
 }

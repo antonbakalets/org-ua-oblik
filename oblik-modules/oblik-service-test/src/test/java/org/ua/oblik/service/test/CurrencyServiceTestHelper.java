@@ -20,7 +20,7 @@ public class CurrencyServiceTestHelper {
     
     public CurrencyVO createAndSaveAsDefault(DefinedCurrency definedCurrency) {
         final CurrencyVO defaultCurrency = createCurrency(definedCurrency);
-        currencyService.saveAsDefault(defaultCurrency); 
+        currencyService.save(defaultCurrency); 
         return defaultCurrency;
     }
     

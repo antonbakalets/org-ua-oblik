@@ -25,14 +25,24 @@ public class CurrencyDaoImpl extends AbstractDao<Integer, Currency> implements C
         cquery.select(root).where(cbuilder.equal(root.<Boolean>get("byDefault"), Boolean.TRUE));
         return entityManager.createQuery(cquery).getSingleResult();
     }
-    
-	@Override
-	public boolean isSymbolExists(String symbol) {
-		final CriteriaBuilder cbuilder = entityManager.getCriteriaBuilder();
-		final CriteriaQuery<Long> cquery = cbuilder.createQuery(Long.class);
-		final Root<Currency> root = cquery.from(Currency.class);
-		cquery.select(cbuilder.count(root)).where(
-				cbuilder.equal(root.<String>get("symbol"), symbol));
-		return entityManager.createQuery(cquery).getSingleResult() > 0;
-	}
+
+    @Override
+    public boolean isSymbolExists(String symbol) {
+        final CriteriaBuilder cbuilder = entityManager.getCriteriaBuilder();
+        final CriteriaQuery<Long> cquery = cbuilder.createQuery(Long.class);
+        final Root<Currency> root = cquery.from(Currency.class);
+        cquery.select(cbuilder.count(root)).where(
+                cbuilder.equal(root.<String>get("symbol"), symbol));
+        return entityManager.createQuery(cquery).getSingleResult() > 0;
+    }
+
+    @Override
+    public boolean isDefaultExists() {
+        final CriteriaBuilder cbuilder = entityManager.getCriteriaBuilder();
+        final CriteriaQuery<Long> cquery = cbuilder.createQuery(Long.class);
+        final Root<Currency> root = cquery.from(Currency.class);
+        cquery.select(cbuilder.count(root)).where(
+                cbuilder.equal(root.<Boolean>get("byDefault"), Boolean.TRUE));
+        return entityManager.createQuery(cquery).getSingleResult() > 0;
+    }
 }

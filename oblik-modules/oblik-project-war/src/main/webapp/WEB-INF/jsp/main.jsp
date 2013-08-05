@@ -7,8 +7,6 @@
 <spring:message var="tab_accounts_name" code="jsp.oblik.accounts"/>
 <spring:message var="tab_currencies_name" code="jsp.oblik.currencies"/>
 
-<span id="default-currency-exists" class="hidden">${defaultCurrencyExists}</span>
-
 <div class="container m-bot-25">
     <div class="row">
         <div class="span4">
@@ -36,9 +34,6 @@
 
             </section>
             <section id="total-by-account">
-
-            </section>
-            <section id="totalAmmount">
 
             </section>
         </div>
@@ -85,21 +80,6 @@
     $(document).ready(function() {
         modalSaveEvent();
 
-        dcne = <c:out value="${defaultCurrencyNotExists}"/>;
-        if (dcne) {
-            $('#common-modal-label').html("Основна валюта.");
-            $('#common-modal-body').load(
-                    '${pageContext.request.contextPath}/currency/edit.html?default=true',
-                    function(response, status, xhr) {
-                        if (status === 'error') {
-                            $('#common-modal-body').html('<h2>Oh boy</h2><p>Sorry, but there was an error:' + xhr.status + ' ' + xhr.statusText + '</p>');
-                        }
-                        $('#common-modal').modal();
-                        return this;
-                    }
-            );
-        }
-
         $("#tab-expense").load('${pageContext.request.contextPath}/formaction.html?type=expense', function() {
         });
 
@@ -110,9 +90,6 @@
         });
 
         $("#total-by-currency").load('${pageContext.request.contextPath}/total/currecy.html', function() {
-        });
-
-        $("#totalAmmount").load('${pageContext.request.contextPath}/total/ammount.html', function() {
         });
 
         $("#total-by-account").load('${pageContext.request.contextPath}/total/account.html', function() {

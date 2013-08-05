@@ -34,16 +34,23 @@ public class CurrencyServiceImpl implements CurrencyService {
     }
 
     private void insert(CurrencyVO cvo) {
-        LOGGER.debug("Saving new currency, symbol: " + cvo.getSymbol());
         Currency currency = new Currency();
-        currency.setByDefault(false);
-        currency.setRate(cvo.getRate());
         currency.setSymbol(cvo.getSymbol());
+        if (isDefaultExists()) {
+            LOGGER.debug("Saving new currency, symbol: " + cvo.getSymbol());
+            currency.setByDefault(false);
+            currency.setRate(cvo.getRate());
+        } else {
+            LOGGER.debug("Saving default currency, symbol: " + cvo.getSymbol());
+            currency.setByDefault(true);
+            currency.setRate(BigDecimal.ONE);
+        }
         currencyDao.insert(currency);
         cvo.setCurrencyId(currency.getId());
     }
 
     private void update(CurrencyVO cvo) {
+        LOGGER.debug("Updating currency, symbol: " + cvo.getSymbol());
         Currency currency = currencyDao.select(cvo.getCurrencyId());
         currency.setRate(cvo.getRate());
         currency.setSymbol(cvo.getSymbol());
@@ -70,26 +77,25 @@ public class CurrencyServiceImpl implements CurrencyService {
     }
 
     @Override
-    @Transactional
-    public void saveAsDefault(CurrencyVO cvo) throws RuntimeException {
-        try {
-            getDefaultCurrency();
-            throw new RuntimeException("Default currency already defined");
-        } catch (EntityNotFoundException enfe) {
-            // OK - default currency not found
-            LOGGER.debug("Saving default currency, symbol: " + cvo.getSymbol());
-            Currency currency = new Currency();
-            currency.setByDefault(true);
-            currency.setRate(BigDecimal.ONE);
-            currency.setSymbol(cvo.getSymbol());
-            currencyDao.insert(currency);
-            cvo.setCurrencyId(currency.getId());
-        }
-    }
-
-    @Override
     public boolean isSymbolExists(String symbol) {
         return currencyDao.isSymbolExists(symbol);
+    }
+    
+    @Override
+    public CurrencyVO createCurrency() {
+        CurrencyVO result = new CurrencyVO();
+        if (!isDefaultExists()) {
+            result.setDefaultRate(Boolean.TRUE);
+            result.setRate(BigDecimal.ONE);
+        } else {
+            result.setDefaultRate(Boolean.FALSE);
+        }
+        return result;
+    }
+    
+    @Override
+    public boolean isDefaultExists() {
+        return currencyDao.isDefaultExists();
     }
 
     private static CurrencyVO convert(Currency model) {

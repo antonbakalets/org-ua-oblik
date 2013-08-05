@@ -5,7 +5,7 @@
         <div class="container">
             <div class="row">
                 <div class="span3">
-                    <h3 class="caption"><span class="bold">Sourses</span> at github</h3>
+                    <h3 class="caption"><span class="strong">Sourses</span> at github</h3>
                     <a href="https://github.com/antonbakalets/org-ua-oblik">
                         <i class="icon-circle-arrow-down"></i> https://github.com/antonbakalets/org-ua-oblik
                     </a>

@@ -3,6 +3,7 @@
 <%@ taglib prefix="form"    uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring"  uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c"       uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn"      uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <form:form id="form-${formActionBean.type}" cssClass="form-horizontal m-top-18"
            modelAttribute="formActionBean" method="POST" 
@@ -77,7 +78,8 @@
     <div class="control-group">
         <label class="control-label" for="form-${formActionBean.type}-button"></label>
         <div class="controls">
-            <button id="form-${formActionBean.type}-button" type="button" class="btn">Submit</button>
+            <button id="form-${formActionBean.type}-button" type="button" 
+                    class="btn ${fn:toLowerCase(formActionBean.type)}">Submit</button>
         </div>
     </div>
 
@@ -86,7 +88,7 @@
 <script>
     $(document).ready(function() {
 
-        $(".datepicker").addDatepicker();
+        //$(".datepicker").addDatepicker();
 
         $('#form-${formActionBean.type}-button').click(function() {
             $('#form-${formActionBean.type}').ajaxSubmit({

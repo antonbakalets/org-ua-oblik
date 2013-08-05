@@ -9,15 +9,17 @@ import org.ua.oblik.service.beans.CurrencyVO;
  */
 public interface CurrencyService {
 
-    void save(CurrencyVO cvo);
+    CurrencyVO createCurrency();
     
-    void saveAsDefault(CurrencyVO cvo);
-    
-    List<CurrencyVO> getCurrencies();
-
     CurrencyVO getCurrency(Integer currencyId);
     
     CurrencyVO getDefaultCurrency() throws EntityNotFoundException;
     
-    boolean isSymbolExists (String symbol);
+    void save(CurrencyVO cvo);
+    
+    List<CurrencyVO> getCurrencies();
+    
+    boolean isDefaultExists();
+    
+    boolean isSymbolExists(String symbol);
 }

@@ -26,7 +26,7 @@
     </display:column>
 </display:table>
 
-<a id="add-assets" class="btn" data-toggle="modal" data-target="#common-modal"
+<a id="add-assets" class="btn transfer" data-toggle="modal" data-target="#common-modal"
    href="${pageContext.request.contextPath}/account/edit.html?type=ASSETS">
     <spring:message code="jsp.oblik.account.btn.assets"/>
 </a>
@@ -48,7 +48,7 @@
     </display:column> />
 </display:table>
 
-<a id="add-assets" class="btn" data-toggle="modal" data-target="#common-modal"
+<a id="add-income" class="btn income" data-toggle="modal" data-target="#common-modal"
    href="${pageContext.request.contextPath}/account/edit.html?type=INCOME">
     <spring:message code="jsp.oblik.account.btn.income"/>
 </a>
@@ -64,13 +64,14 @@
         <display:column property="currencySymbol" title="${title_currency }"/>
         <display:column property="ammount" title="${title_balance }" value="ammount"/>
         <display:column>
-        <a id="account_${expenseAccounts.accountId}" data-toggle="modal"  href="${pageContext.request.contextPath}/account/edit.html?accountId=${expenseAccounts.accountId}" data-target="#account-add-modal" class="btn">
+        <a id="account_${expenseAccounts.accountId}" data-toggle="modal"
+           href="${pageContext.request.contextPath}/account/edit.html?accountId=${expenseAccounts.accountId}" data-target="#account-add-modal" class="btn">
             <i class="icon-edit"></i> 
         </a>
     </display:column> />
 </display:table>
 
-<a id="add-assets" class="btn" data-toggle="modal" data-target="#common-modal"
+<a id="add-expense" class="btn expense" data-toggle="modal" data-target="#common-modal"
    href="${pageContext.request.contextPath}/account/edit.html?type=EXPENSE">
     <spring:message code="jsp.oblik.account.btn.expense"/>
 </a>
