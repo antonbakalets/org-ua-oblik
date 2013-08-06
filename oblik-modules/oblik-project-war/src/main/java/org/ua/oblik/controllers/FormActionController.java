@@ -46,20 +46,37 @@ public class FormActionController {
 
     @Autowired
     private AccountService accountService;
-    
+
     @Autowired
     private TransactionService transactionService;
-    
+
     @Autowired
     private FormActionValidator actionValidator;
 
+    @ModelAttribute
+    public void populateModel(final Model model,
+            final @RequestParam(value = "type", required = true) TransactionType type) {
+        switch (type) {
+            case EXPENSE:
+                model.addAttribute(ACCOUNT_FROM_ITEMS, accountService.getAssetsAccounts());
+                model.addAttribute(ACCOUNT_TO_ITEMS, accountService.getExpenseAccounts());
+                break;
+            case INCOME:
+                model.addAttribute(ACCOUNT_FROM_ITEMS, accountService.getIncomeAccounts());
+                model.addAttribute(ACCOUNT_TO_ITEMS, accountService.getAssetsAccounts());
+                break;
+            case TRANSFER:
+                model.addAttribute(ACCOUNT_FROM_ITEMS, accountService.getAssetsAccounts());
+                model.addAttribute(ACCOUNT_TO_ITEMS, accountService.getAssetsAccounts());
+                break;
+        }
+    }
+
     @RequestMapping(value = "/formaction", method = RequestMethod.GET)
-    public String formaction(final Model model, @RequestParam("type") String type) {
-        LOGGER.debug("formaction");
+    public String formaction(final Model model,
+            final @RequestParam(value = "type", required = true) TransactionType type) {
         final FormActionBean transaction = convert(transactionFactory.create(type));
         model.addAttribute("formActionBean", transaction);
-        model.addAttribute(ACCOUNT_FROM_ITEMS, getAccountFromItems(transaction.getType()));
-        model.addAttribute(ACCOUNT_TO_ITEMS, accountService.getAssetsAccounts());
         return "loaded/formaction";
     }
 
@@ -67,7 +84,7 @@ public class FormActionController {
     public String submitExpense(final Model model,
             final @ModelAttribute("formActionBean") @Valid FormActionBean bean,
             final BindingResult bindingResult) {
-        LOGGER.debug("submiting action: " + bean.getType());
+        LOGGER.debug("Saving action: " + bean.getType());
         actionValidator.validate(bean, bindingResult);
         if (bindingResult.hasErrors()) {
             ValidationErrorLoger.debug(bindingResult);
@@ -78,19 +95,6 @@ public class FormActionController {
         return "loaded/formaction";
     }
 
-    private List<AccountVO> getAccountFromItems(TransactionType type) {
-        switch (type) {
-            case EXPENSE:
-                return accountService.getExpenseAccounts();
-            case INCOME:
-                return accountService.getIncomeAccounts();
-            case TRANSFER:
-                return accountService.getAssetsAccounts();
-            default:
-                return null;
-        }
-    }
-    
     private TransactionVO convert(FormActionBean bean) {
         TransactionVO result = new TransactionVO();
         result.setDate(bean.getDate());
@@ -103,7 +107,7 @@ public class FormActionController {
         result.setType(bean.getType());
         return result;
     }
-    
+
     private FormActionBean convert(TransactionVO tvo) {
         FormActionBean result = new FormActionBean();
         result.setType(tvo.getType());

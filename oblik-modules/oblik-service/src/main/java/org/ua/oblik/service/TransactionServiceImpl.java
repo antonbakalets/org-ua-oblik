@@ -181,12 +181,12 @@ public class TransactionServiceImpl implements TransactionService {
     private static TransactionVO convert(Txaction model) {
         TransactionVO result = new TransactionVO();
         result.setTxId(model.getId());
-        if (model.getDebet().getKind() == AccountKind.INCOME) {
+        if (model.getCredit().getKind() == AccountKind.INCOME) {
             result.setType(TransactionType.INCOME);
             result.setFirstAccount(model.getDebet().getId());
             result.setFirstAmmount(model.getDebetAmmount());
             result.setSecondAccount(model.getCredit().getId());
-        } else if (model.getCredit().getKind() == AccountKind.EXPENSE) {
+        } else if (model.getDebet().getKind() == AccountKind.EXPENSE) {
             result.setType(TransactionType.EXPENSE);
             result.setFirstAccount(model.getCredit().getId());
             result.setFirstAmmount(model.getCreditAmmount());

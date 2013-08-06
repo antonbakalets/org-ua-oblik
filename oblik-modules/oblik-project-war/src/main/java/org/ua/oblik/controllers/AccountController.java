@@ -32,6 +32,8 @@ public class AccountController {
     
     private static final Logger LOG = LoggerFactory.getLogger(AccountController.class);
     
+    private static final String ASSETS = "ASSETS";
+    
     private static final String ASSETS_ACCOUNTS   = "assetsAccounts";
     
     private static final String INCOME_ACCOUNTS = "incomeAccounts";
@@ -51,6 +53,11 @@ public class AccountController {
     @Autowired
     private AccountValidator accountValidator;
     
+    @ModelAttribute
+    public void populateModel(final Model model) {
+        model.addAttribute(CURRENCY_LIST, currencyService.getCurrencies());
+    }
+    
     @RequestMapping("/account/list")
     public String list(final Model model) {
         LOG.debug("account list");
@@ -66,27 +73,21 @@ public class AccountController {
     @RequestMapping(value = "/account/edit", method = RequestMethod.GET)
     public String editAccount(final Model model,
             final @RequestParam(value = "accountId", required = false) Integer accountId,
-            final @RequestParam(value = "type", required = false) AccountVOType type) {
+            final @RequestParam(value = "type", required = false, defaultValue = ASSETS) AccountVOType type) {
         LOG.debug("Editing account, id: " + accountId + ", type: " + type + ".");
-        AccountVO account = accountId == null 
-                ? new AccountVO()
-                : accountService.getAccount(accountId);
-        account.setType(type == null ? AccountVOType.ASSETS : type);
-        AccountBean accountBean = convert(account);
-        accountBean.setOldName(accountBean.getName());
-        model.addAttribute(CURRENCY_LIST, currencyService.getCurrencies());
+        AccountBean accountBean = createAccount(accountId);
         model.addAttribute(ACCOUNT_BEAN, accountBean);
         return "loaded/account";
     }
 
     @RequestMapping(value = "/account/edit", method = RequestMethod.POST)
-    public String saveAccount(final Model model, final @ModelAttribute(ACCOUNT_BEAN) @Valid AccountBean accountBean,
+    public String saveAccount(final Model model, 
+            final @ModelAttribute(ACCOUNT_BEAN) @Valid AccountBean accountBean,
             BindingResult bindingResult) {
         LOG.debug("Saving account, id: " + accountBean.getAccountId() + ".");
         accountValidator.validate(accountBean, bindingResult);
         if (bindingResult.hasErrors()) {
             ValidationErrorLoger.debug(bindingResult);
-            model.addAttribute(CURRENCY_LIST, currencyService.getCurrencies());
         } else {
         	AccountVO avo = convert(accountBean);
 	        if(avo.getType()==null) {
@@ -116,5 +117,11 @@ public class AccountController {
         result.setKind(avo.getType());
         result.setAmmount(avo.getAmmount());
         return result;
+    }
+
+    private AccountBean createAccount(final Integer accountId) {
+        AccountBean accountBean = convert(accountId == null ? new AccountVO() : accountService.getAccount(accountId));
+        accountBean.setOldName(accountBean.getName());
+        return accountBean;
     }
 }

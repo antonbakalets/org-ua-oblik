@@ -101,13 +101,14 @@
                 });
             });
             
-            $('#account-from, #account-to').change(function() {
-                if ($('#account-from').attr('currency') === $('#account-to').attr('currency')) {
+            /* TODO
+            * $('#account-from, #account-to').change(function() {
+                if ($('#account-from').filter(':selected').attr('currency') === $('#account-to option:selected').attr('currency')) {
                     $('#second-ammount-div').hide('slow');
                 } else {
                     $('#second-ammount-div').show('slow');
                 }
-            });
+            });*/
         });
 
         $("#tab-income").load('${pageContext.request.contextPath}/formaction.html?type=income', function() {
