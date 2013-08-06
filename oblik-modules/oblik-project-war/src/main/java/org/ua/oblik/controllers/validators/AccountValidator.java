@@ -23,14 +23,16 @@ public class AccountValidator implements Validator {
 
         if (accountId != null) {
             if (!bean.getName().equals(bean.getOldName())) {
-                if (accountService.isNameExists(bean.getName())) {
-                	errors.rejectValue("name", "error.account.name.exists");
-                }
+                validateName(bean.getName(), errors);
             }
         } else {
-            if (accountService.isNameExists(bean.getName())) {
-            	errors.rejectValue("name", "error.account.name.exists");
-            }
+            validateName(bean.getName(), errors);
+        }
+    }
+
+    private void validateName(String name, Errors errors) {
+        if (accountService.isNameExists(name)) {
+            errors.rejectValue("name", "error.account.name.exists");
         }
     }
 }

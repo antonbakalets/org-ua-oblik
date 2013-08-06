@@ -39,6 +39,8 @@
     
     <bean class="org.ua.oblik.controllers.validators.CurrencyValidator"/>
     
+    <bean class="org.ua.oblik.controllers.validators.FormActionValidator"/>
+    
     <!-- enabling annotation driven configuration / -->
     <context:annotation-config />
         

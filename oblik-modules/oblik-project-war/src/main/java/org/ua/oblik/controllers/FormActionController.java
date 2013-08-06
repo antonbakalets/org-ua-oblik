@@ -14,11 +14,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.ua.oblik.controllers.beans.FormActionBean;
 import org.ua.oblik.service.beans.TransactionVO;
 import org.ua.oblik.service.beans.TransactionFactory;
 import org.ua.oblik.service.beans.TransactionType;
 import org.ua.oblik.controllers.utils.TransactionTypePropertyEditor;
 import org.ua.oblik.controllers.utils.ValidationErrorLoger;
+import org.ua.oblik.controllers.validators.FormActionValidator;
 import org.ua.oblik.service.AccountService;
 import org.ua.oblik.service.TransactionService;
 import org.ua.oblik.service.beans.AccountVO;
@@ -30,7 +32,7 @@ import org.ua.oblik.service.beans.AccountVO;
 @Controller
 public class FormActionController {
 
-    private static final Logger LOG = LoggerFactory.getLogger(FormActionController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FormActionController.class);
 
     private static final String ACCOUNT_FROM_ITEMS = "accountFromItems";
 
@@ -47,11 +49,14 @@ public class FormActionController {
     
     @Autowired
     private TransactionService transactionService;
+    
+    @Autowired
+    private FormActionValidator actionValidator;
 
     @RequestMapping(value = "/formaction", method = RequestMethod.GET)
     public String formaction(final Model model, @RequestParam("type") String type) {
-        LOG.debug("formaction");
-        final TransactionVO transaction = transactionFactory.create(type);
+        LOGGER.debug("formaction");
+        final FormActionBean transaction = convert(transactionFactory.create(type));
         model.addAttribute("formActionBean", transaction);
         model.addAttribute(ACCOUNT_FROM_ITEMS, getAccountFromItems(transaction.getType()));
         model.addAttribute(ACCOUNT_TO_ITEMS, accountService.getAssetsAccounts());
@@ -60,13 +65,14 @@ public class FormActionController {
 
     @RequestMapping(value = "/formaction", method = RequestMethod.POST)
     public String submitExpense(final Model model,
-            final @ModelAttribute("formActionBean") @Valid TransactionVO bean,
+            final @ModelAttribute("formActionBean") @Valid FormActionBean bean,
             final BindingResult bindingResult) {
-        LOG.debug("submiting action: " + bean.getType());
+        LOGGER.debug("submiting action: " + bean.getType());
+        actionValidator.validate(bean, bindingResult);
         if (bindingResult.hasErrors()) {
             ValidationErrorLoger.debug(bindingResult);
         } else {
-            transactionService.save(bean);
+            transactionService.save(convert(bean));
             return "redirect:/formaction";
         }
         return "loaded/formaction";
@@ -83,6 +89,25 @@ public class FormActionController {
             default:
                 return null;
         }
+    }
+    
+    private TransactionVO convert(FormActionBean bean) {
+        TransactionVO result = new TransactionVO();
+        result.setDate(bean.getDate());
+        result.setFirstAccount(bean.getFirstAccount());
+        result.setFirstAmmount(bean.getFirstAmmount());
+        result.setTxId(bean.getTxId());
+        result.setNote(bean.getNote());
+        result.setSecondAccount(bean.getSecondAccount());
+        result.setSecondAmmount(bean.getSecondAmmount());
+        result.setType(bean.getType());
+        return result;
+    }
+    
+    private FormActionBean convert(TransactionVO tvo) {
+        FormActionBean result = new FormActionBean();
+        result.setType(tvo.getType());
+        return result;
     }
 
     @InitBinder

@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.ua.oblik.controllers.beans.TransactionBean;
+import org.ua.oblik.controllers.beans.FormActionBean;
 import org.ua.oblik.service.AccountService;
 import org.ua.oblik.service.TransactionService;
 import org.ua.oblik.service.beans.TransactionVO;
@@ -35,26 +35,26 @@ public class TransactionController {
     public String transactions(final Model model) {
         LOG.debug("transactions");
         List<TransactionVO> tempList = trannsationService.getTransactions();
-        List<TransactionBean> list = convertList(tempList);
+        List<FormActionBean> list = convertList(tempList);
         model.addAttribute(TRANSACTIONS, list);
         return "loaded/transactions";
     }
     
-    private TransactionBean convert(TransactionVO tvo) {
-        TransactionBean result = new TransactionBean();
+    private FormActionBean convert(TransactionVO tvo) {
+        FormActionBean result = new FormActionBean();
         result.setDate(tvo.getDate());
-        result.setFirstAccount(accountService.getAccount(tvo.getFirstAccount()));
+        result.setFirstAccount(tvo.getFirstAccount());
         result.setFirstAmmount(tvo.getFirstAmmount());
-        result.setId(tvo.getTxId());
+        result.setTxId(tvo.getTxId());
         result.setNote(tvo.getNote());
-        result.setSecondAccount(accountService.getAccount(tvo.getSecondAccount()));
+        result.setSecondAccount(tvo.getSecondAccount());
         result.setSecondAmmount(tvo.getSecondAmmount());
         result.setType(tvo.getType());
         return result;
     }
     
-    private List<TransactionBean> convertList (List<TransactionVO> list) {
-    	List<TransactionBean> result = new ArrayList<TransactionBean>();
+    private List<FormActionBean> convertList (List<TransactionVO> list) {
+    	List<FormActionBean> result = new ArrayList<FormActionBean>();
     	for(TransactionVO temp :list) {
     		result.add(convert(temp));
     	}

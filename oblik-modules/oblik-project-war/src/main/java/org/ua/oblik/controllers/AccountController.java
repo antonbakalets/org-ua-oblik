@@ -86,6 +86,7 @@ public class AccountController {
         accountValidator.validate(accountBean, bindingResult);
         if (bindingResult.hasErrors()) {
             ValidationErrorLoger.debug(bindingResult);
+            model.addAttribute(CURRENCY_LIST, currencyService.getCurrencies());
         } else {
         	AccountVO avo = convert(accountBean);
 	        if(avo.getType()==null) {

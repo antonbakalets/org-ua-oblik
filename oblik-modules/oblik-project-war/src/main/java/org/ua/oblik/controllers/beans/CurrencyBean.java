@@ -21,7 +21,6 @@ public class CurrencyBean {
     @Size(min = 1, max = 10)
     private String symbol;
     
-    @Size(min = 1, max = 10)
     private String oldSymbol;
     
     private Boolean defaultRate;

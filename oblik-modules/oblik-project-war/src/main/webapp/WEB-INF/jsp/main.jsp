@@ -81,12 +81,44 @@
         modalSaveEvent();
 
         $("#tab-expense").load('${pageContext.request.contextPath}/formaction.html?type=expense', function() {
+            $('#form-EXPENSE-button').click(function() {
+                $('#form-EXPENSE').ajaxSubmit({
+                    success: function(data)
+                    {
+                        $('#tab-expense').html(data);
+                    }
+                });
+            });
         });
 
         $("#tab-transfer").load('${pageContext.request.contextPath}/formaction.html?type=transfer', function() {
+            $('#form-TRANSFER-button').click(function() {
+                $('#form-TRANSFER').ajaxSubmit({
+                    success: function(data)
+                    {
+                        $('#tab-transfer').html(data);
+                    }
+                });
+            });
+            
+            $('#account-from, #account-to').change(function() {
+                if ($('#account-from').attr('currency') === $('#account-to').attr('currency')) {
+                    $('#second-ammount-div').hide('slow');
+                } else {
+                    $('#second-ammount-div').show('slow');
+                }
+            });
         });
 
         $("#tab-income").load('${pageContext.request.contextPath}/formaction.html?type=income', function() {
+            $('#form-INCOME-button').click(function() {
+                $('#form-INCOME').ajaxSubmit({
+                    success: function(data)
+                    {
+                        $('#tab-income').html(data);
+                    }
+                });
+            });
         });
 
         $("#total-by-currency").load('${pageContext.request.contextPath}/total/currecy.html', function() {

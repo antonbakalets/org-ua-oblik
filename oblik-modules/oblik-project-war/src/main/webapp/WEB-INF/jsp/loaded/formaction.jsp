@@ -10,17 +10,18 @@
            action="${pageContext.request.contextPath}/formaction.html">
     <form:hidden path="txId"/>
     <form:hidden path="type"/>
-    
+
     <div class="control-group">
         <label class="control-label" for="account-from"><spring:message code="jsp.oblik.account"/></label>
         <div class="controls">
             <form:select id="account-from" path="firstAccount" cssClass="span2">
+                <form:option value="" label="---" currency=""/>
                 <c:forEach var="account" items="${accountFromItems}">
                     <form:option value="${account.accountId}" label="${account.name}" currency="${account.currencySymbol}"/>
                 </c:forEach>
             </form:select>
-            <form:errors path="firstAccount" element="div" cssClass="alert alert-error"/>
         </div>
+        <form:errors path="firstAccount" element="div" cssClass="alert alert-error"/>
     </div>
 
     <div class="control-group">
@@ -30,8 +31,8 @@
                 <form:input id="firstAmmount" path="firstAmmount" cssClass="span2"/>
                 <span class="add-on"><i class="icon-list-alt"></i></span>
             </div>
-            <form:errors path="firstAmmount" element="div" cssClass="alert alert-error"/>
         </div>
+        <form:errors path="firstAmmount" element="div" cssClass="alert alert-error"/>
     </div>
 
     <div class="control-group">
@@ -41,20 +42,21 @@
                 <form:input id="date" path="date" cssClass="span2 datepicker"/>
                 <span class="add-on"><i class="icon-calendar"></i></span>
             </div>
-            <form:errors path="date" element="div" cssClass="alert alert-error"/>
         </div>
+        <form:errors path="date" element="div" cssClass="alert alert-error"/>
     </div>
 
     <div class="control-group">
         <label class="control-label" for="account-to"><spring:message code="jsp.oblik.account"/></label>
         <div class="controls">
             <form:select id="account-to" path="secondAccount" cssClass="span2">
+                <form:option value="" label="---" currency=""/>
                 <c:forEach var="account" items="${accountToItems}">
                     <form:option value="${account.accountId}" label="${account.name}" currency="${account.currencySymbol}"/>
                 </c:forEach>
             </form:select>
-            <form:errors path="secondAccount" element="div" cssClass="alert alert-error"/>
         </div>
+        <form:errors path="secondAccount" element="div" cssClass="alert alert-error"/>
     </div>
 
     <c:if test="${formActionBean.type == 'TRANSFER'}">
@@ -62,8 +64,8 @@
             <label class="control-label" for="secondAmmount"><spring:message code="jsp.oblik.expense.ammount"/></label>
             <div class="controls">
                 <form:input id="secondAmmount" path="secondAmmount" cssClass="span2"/>
-                <form:errors path="secondAmmount" element="div" cssClass="alert alert-error"/>
             </div>
+            <form:errors path="secondAmmount" element="div" cssClass="alert alert-error"/>
         </div>
     </c:if>
 
@@ -71,12 +73,11 @@
         <label class="control-label" for="note"><spring:message code="jsp.oblik.note"/></label>
         <div class="controls">
             <form:textarea id="note" path="note" cssClass="span2"/>
-            <form:errors path="note" element="div" cssClass="alert alert-error"/>
         </div>
+        <form:errors path="note" element="div" cssClass="alert alert-error"/>
     </div>
 
     <div class="control-group">
-        <label class="control-label" for="form-${formActionBean.type}-button"></label>
         <div class="controls">
             <button id="form-${formActionBean.type}-button" type="button" 
                     class="btn ${fn:toLowerCase(formActionBean.type)}">Submit</button>
@@ -90,24 +91,6 @@
 
         //$(".datepicker").addDatepicker();
 
-        $('#form-${formActionBean.type}-button').click(function() {
-            $('#form-${formActionBean.type}').ajaxSubmit({
-                success: function(data)
-                {
-                    $('#tab-${formActionBean.type}').html(data);
-                    $("#tab-${formActionBean.type}").css({height: 'auto'});
-                }
-            });
-        });
-
-        $('#account-from, #account-to').change(function() {
-            if ($('#account-from').attr('currency') === $('#account-to').attr('currency')) {
-                $('#second-ammount-div').hide('slow', function() {
-                });
-            } else {
-                $('#second-ammount-div').show('slow', function() {
-                });
-            }
-        });
+        
     });
 </script>

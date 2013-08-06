@@ -23,14 +23,16 @@ public class CurrencyValidator implements Validator {
 
         if (currencyId != null) {
             if (!bean.getSymbol().equals(bean.getOldSymbol())) {
-                if (currencyService.isSymbolExists(bean.getSymbol())) {
-                    errors.rejectValue("symbol", "error.currency.symbol.exists");
-                }
+                validateSymbol(bean.getSymbol(), errors);
             }
         } else {
-            if (currencyService.isSymbolExists(bean.getSymbol())) {
-                errors.rejectValue("symbol", "error.currency.symbol.exists");
-            }
+            validateSymbol(bean.getSymbol(), errors);
+        }
+    }
+
+    private void validateSymbol(String symbol, Errors errors) {
+        if (currencyService.isSymbolExists(symbol)) {
+            errors.rejectValue("symbol", "error.currency.symbol.exists");
         }
     }
 }

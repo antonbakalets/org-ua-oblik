@@ -21,7 +21,6 @@ public class AccountBean {
     @Size(min = 1, max = 100)
     private String name;
     
-    @Size(min = 1, max = 100)
     private String oldName;
 
     @Enumerated(EnumType.STRING)
