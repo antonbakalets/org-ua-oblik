@@ -19,7 +19,7 @@
     <display:column property="ammount" title="${title_balance }" value="ammount"/>
     <display:column class="align-right">
         <a id="account_${assetsAccounts.accountId}" class="btn btn-mini"
-           href="${pageContext.request.contextPath}/account/edit.html?accountId=${assetsAccounts.accountId}"
+           href="${pageContext.request.contextPath}/account/edit.html?accountId=${assetsAccounts.accountId}&type=ASSETS"
            data-target="#common-modal" data-toggle="modal">
             <i class="icon-edit"></i> 
         </a>
@@ -42,7 +42,9 @@
     <display:column property="currencySymbol" title="${title_currency }"/>
     <display:column property="ammount" title="${title_balance }" value="ammount"/>
     <display:column>
-        <a id="account_${incomeAccounts.accountId}" data-toggle="modal" href="${pageContext.request.contextPath}/account/edit.html?accountId=${incomeAccounts.accountId}" data-target="#account-add-modal" class="btn">
+        <a id="account_${incomeAccounts.accountId}" class="btn btn-mini"
+           href="${pageContext.request.contextPath}/account/edit.html?accountId=${incomeAccounts.accountId}&type=INCOME"
+           data-target="#common-modal" data-toggle="modal">
             <i class="icon-edit"></i> 
         </a>
     </display:column> />
@@ -64,8 +66,9 @@
         <display:column property="currencySymbol" title="${title_currency }"/>
         <display:column property="ammount" title="${title_balance }" value="ammount"/>
         <display:column>
-        <a id="account_${expenseAccounts.accountId}" data-toggle="modal"
-           href="${pageContext.request.contextPath}/account/edit.html?accountId=${expenseAccounts.accountId}" data-target="#account-add-modal" class="btn">
+        <a id="account_${expenseAccounts.accountId}" class="btn btn-mini"
+           href="${pageContext.request.contextPath}/account/edit.html?accountId=${expenseAccounts.accountId}&type=EXPENSE"
+           data-target="#common-modal" data-toggle="modal">
             <i class="icon-edit"></i> 
         </a>
     </display:column> />

@@ -21,6 +21,9 @@ public class CurrencyBean {
     @Size(min = 1, max = 10)
     private String symbol;
     
+    @Size(min = 1, max = 10)
+    private String oldSymbol;
+    
     private Boolean defaultRate;
 
     public Integer getCurrencyId() {
@@ -54,4 +57,14 @@ public class CurrencyBean {
     public void setDefaultRate(Boolean defaultRate) {
         this.defaultRate = defaultRate;
     }
+
+	public String getOldSymbol() {
+		return oldSymbol;
+	}
+
+	public void setOldSymbol(String oldSymbol) {
+		this.oldSymbol = oldSymbol;
+	}
+    
+    
 }

@@ -8,6 +8,7 @@
     <fieldset>
         <form:hidden path="currencyId"/>
         <form:hidden path="defaultRate"/>
+        <form:hidden path="oldSymbol"/>
 
         <label><spring:message code="jsp.oblik.currency.symbol"/></label>
         <form:input path="symbol"/>

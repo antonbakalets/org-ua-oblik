@@ -54,6 +54,7 @@ public class CurrencyController {
             final @RequestParam(value = "currencyId", required = false) Integer currencyId) {
         LOGGER.debug("Editing currency, id: " + currencyId + ".");
         CurrencyBean currencyBean = createCurrencyBean(currencyId);
+        currencyBean.setOldSymbol(currencyBean.getSymbol());
         session.setAttribute(SAVING_DEFAULT_CURRENCY, Boolean.valueOf(currencyBean.getDefaultRate())); // TODO convert to annotations?
         model.addAttribute(CURRENCY_BEAN, currencyBean);
         return "loaded/currency";

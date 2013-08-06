@@ -73,6 +73,7 @@ public class AccountController {
                 : accountService.getAccount(accountId);
         account.setType(type == null ? AccountVOType.ASSETS : type);
         AccountBean accountBean = convert(account);
+        accountBean.setOldName(accountBean.getName());
         model.addAttribute(CURRENCY_LIST, currencyService.getCurrencies());
         model.addAttribute(ACCOUNT_BEAN, accountBean);
         return "loaded/account";

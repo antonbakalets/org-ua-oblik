@@ -19,8 +19,18 @@ public class AccountValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         AccountBean bean = (AccountBean) target;
-        if (accountService.isNameExists(bean.getName())) {
-            errors.rejectValue("name", "error.account.name.exists");
+        final Integer accountId = bean.getAccountId();
+
+        if (accountId != null) {
+            if (!bean.getName().equals(bean.getOldName())) {
+                if (accountService.isNameExists(bean.getName())) {
+                	errors.rejectValue("name", "error.account.name.exists");
+                }
+            }
+        } else {
+            if (accountService.isNameExists(bean.getName())) {
+            	errors.rejectValue("name", "error.account.name.exists");
+            }
         }
     }
 }

@@ -7,6 +7,9 @@
            action="${pageContext.request.contextPath}/account/edit.html">
     <fieldset>
        <form:hidden path="accountId"/>
+       <form:hidden path="ammount"/>
+       <form:hidden path="oldName"/>
+       <form:hidden path="kind"/>
 
         <label><spring:message code="jsp.oblik.account.name"/></label>
         <form:input path="name" value="${accountBean.name}"/>

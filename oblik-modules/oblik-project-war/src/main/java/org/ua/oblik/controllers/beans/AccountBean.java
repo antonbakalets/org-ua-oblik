@@ -20,6 +20,9 @@ public class AccountBean {
     @NotNull
     @Size(min = 1, max = 100)
     private String name;
+    
+    @Size(min = 1, max = 100)
+    private String oldName;
 
     @Enumerated(EnumType.STRING)
     private AccountVOType kind;
@@ -68,4 +71,14 @@ public class AccountBean {
     public void setAmmount(BigDecimal ammount) {
         this.ammount = ammount;
     }
+
+	public String getOldName() {
+		return oldName;
+	}
+
+	public void setOldName(String oldName) {
+		this.oldName = oldName;
+	}
+    
+    
 }
