@@ -19,4 +19,7 @@ public interface TransactionService {
     List<TransactionVO> getTransactions();
     
     List<TransactionVO> getTransactions(Date date);
+    
+    List<TransactionVO> sortTransactionsByDate(List<TransactionVO> transactions);
+
 }

@@ -2,6 +2,8 @@ package org.ua.oblik.service;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import org.slf4j.Logger;
@@ -162,8 +164,25 @@ public class TransactionServiceImpl implements TransactionService {
         }
         txactionDao.delete(txaction);
     }
+    
+    
 
     @Override
+	public List<TransactionVO> sortTransactionsByDate(
+			List<TransactionVO> transactions) {
+		
+    	if (transactions.size() > 0) {
+    		Collections.sort(transactions, new Comparator<TransactionVO>() {
+    			@Override
+    		    public int compare(final TransactionVO object1, final TransactionVO object2) {
+    				return object1.getDate().compareTo(object2.getDate());
+    			}
+    		} );
+    	}
+		return transactions;
+	}
+
+	@Override
     public TransactionVO getTransaction(Integer transactionId) {
         return convert(txactionDao.select(transactionId));
     }
