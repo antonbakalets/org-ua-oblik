@@ -1,5 +1,6 @@
 package org.ua.oblik.controllers;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +37,10 @@ public class TransactionController {
     private static final String TRANSACTIONS = "transaction_list";
     
     private static final String TRANSACTION_BEAN = "transaction";
+    
+    private static final String ACCOUNT_FROM_ITEMS = "accountFromItems";
+    
+    private static final String ACCOUNT_TO_ITEMS = "accountToItems";
 
     @Autowired
     private TransactionService transactionService;
@@ -51,6 +56,45 @@ public class TransactionController {
         List<TransactionBean> list = convertList(tempList);
         model.addAttribute(TRANSACTIONS, list);
         return "loaded/transactions";
+    }
+    
+    @RequestMapping(value = "/transaction/edit", method = RequestMethod.GET)
+    public String editTransaction(final Model model,
+            final @RequestParam(value = "transactionId", required = false) Integer transactionId) {
+        LOG.debug("Editing transaction, id: " + transactionId + ".");
+        List<AccountVO> accountFromItems = accountService.getAssetsAccounts();
+        TransactionVO tvo = transactionService.getTransaction(transactionId);
+        TransactionBean transactionBean = convert(tvo);
+        List<AccountVO> accountToItems = null;
+        switch (transactionBean.getType()) {
+        case INCOME:
+        	accountToItems = accountService.getIncomeAccounts();	
+            break;
+        case EXPENSE:
+        	accountToItems = accountService.getExpenseAccounts();
+            break;
+        case TRANSFER:
+        	accountToItems = accountService.getAssetsAccounts();
+            break;
+    }
+        model.addAttribute(TRANSACTION_BEAN, transactionBean);
+        model.addAttribute(ACCOUNT_FROM_ITEMS,accountFromItems);
+        model.addAttribute(ACCOUNT_TO_ITEMS,accountToItems);
+        return "loaded/editTransaction";
+    }
+
+    @RequestMapping(value = "/transaction/edit", method = RequestMethod.POST)
+    public String saveTransaction(final Model model, 
+            final @ModelAttribute(TRANSACTION_BEAN) @Valid TransactionBean transactionBean,
+            BindingResult bindingResult) {
+        LOG.debug("Saving transaction, id: " + transactionBean.getTransactionId() + ".");
+        if (bindingResult.hasErrors()) {
+            ValidationErrorLoger.debug(bindingResult);
+        } else {
+        	TransactionVO tvo = convert(transactionBean);
+        	transactionService.save(tvo);
+        }
+        return "loaded/editTransaction";
     }
     
     @RequestMapping(value = "/transaction/delete", method = RequestMethod.GET)
@@ -85,6 +129,19 @@ public class TransactionController {
         return result;
     }
 
+    private TransactionVO convert (TransactionBean tBean){
+    	TransactionVO result = new TransactionVO();
+    	result.setDate(tBean.getDate());
+    	result.setFirstAccount(tBean.getFirstAccount().getAccountId());
+    	result.setFirstAmmount(tBean.getFirstAmmount());
+    	result.setNote(tBean.getNote());
+    	result.setSecondAccount(tBean.getSecondAccount().getAccountId());
+    	result.setSecondAmmount(tBean.getSecondAmmount());
+    	result.setTxId(tBean.getTransactionId());
+    	result.setType(tBean.getType());
+    	
+    	return result;
+    }
     private List<TransactionBean> convertList(List<TransactionVO> list) {
         List<TransactionBean> result = new ArrayList<TransactionBean>();
         for (TransactionVO temp : list) {

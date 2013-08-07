@@ -36,9 +36,16 @@
 	            <td></td>
 	            <td>${transaction.note }</td>
 	            <td>
-	            	<a id="transaction_${transaction.transactionId}" class="btn btn-mini"
+	            	<a id="transaction_edit_${transaction.transactionId}" class="btn btn-mini"
+           				href="${pageContext.request.contextPath}/transaction/edit.html?transactionId=${transaction.transactionId}"
+           				data-target="#common-modal" data-toggle="modal">
+            			<i class="icon-edit"></i> 
+        			</a>
+	            </td>
+	            <td>
+	            	<a id="transaction_delete_${transaction.transactionId}" class="btn btn-mini"
 		            	href="${pageContext.request.contextPath}/transaction/delete.html?transactionId=${transaction.transactionId}"
-		           		data-target="#modal" data-toggle="modal">
+		           		data-target="#common-modal" data-toggle="modal">
 		            	<i class="icon-trash"></i> 
 		        	</a>
 	            </td>
@@ -48,11 +55,18 @@
 	    	<tr>
 	            <td>${transaction.date }</td>
 	            <td>+ ${transaction.firstAmmount }</td>
-	            <td>${transaction.secondAccount.name }</td>
 	            <td>${transaction.firstAccount.name }</td>
+	            <td>${transaction.secondAccount.name }</td>
 	            <td>${transaction.note }</td>
+	            <td>
+	            	<a id="transaction_edit_${transaction.transactionId}" class="btn btn-mini"
+           				href="${pageContext.request.contextPath}/transaction/edit.html?transactionId=${transaction.transactionId}"
+           				data-target="#common-modal" data-toggle="modal">
+            			<i class="icon-edit"></i> 
+        			</a>
+	            </td>
 	            <td>        
-	            	<a id="transaction_${transaction.transactionId}" class="btn btn-mini"
+	            	<a id="transaction_delete_${transaction.transactionId}" class="btn btn-mini"
 		            	href="${pageContext.request.contextPath}/transaction/delete.html?transactionId=${transaction.transactionId}"
 		           		data-target="#common-modal" data-toggle="modal">
 		            	<i class="icon-trash"></i> 
@@ -64,11 +78,18 @@
 	    	<tr>
 	            <td>${transaction.date }</td>
 	            <td>-${transaction.firstAmmount }</td>
-	            <td>${transaction.secondAccount.name }</td>
 	            <td>${transaction.firstAccount.name }</td>
+	            <td>${transaction.secondAccount.name }</td>
 	            <td>${transaction.note }</td>
 	            <td>
-	            	<a id="transaction_${transaction.transactionId}" class="btn btn-mini"
+	            	<a id="transaction_edit_${transaction.transactionId}" class="btn btn-mini"
+           				href="${pageContext.request.contextPath}/transaction/edit.html?transactionId=${transaction.transactionId}"
+           				data-target="#common-modal" data-toggle="modal">
+            			<i class="icon-edit"></i> 
+        			</a>
+	            </td>
+	            <td>
+	            	<a id="transaction_delete_${transaction.transactionId}" class="btn btn-mini"
 		            	href="${pageContext.request.contextPath}/transaction/delete.html?transactionId=${transaction.transactionId}"
 		           		data-target="#common-modal" data-toggle="modal">
 		            	<i class="icon-trash"></i> 
