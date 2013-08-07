@@ -7,7 +7,7 @@ import org.ua.oblik.service.beans.TransactionType;
 
 public class TransactionBean {
 
-    private Integer Id;
+    private Integer transactionId;
 
     private TransactionType type;
 
@@ -23,15 +23,17 @@ public class TransactionBean {
 
     private BigDecimal secondAmmount;
 
-    public Integer getId() {
-        return Id;
-    }
+    
 
-    public void setId(Integer id) {
-        Id = id;
-    }
+    public Integer getTransactionId() {
+		return transactionId;
+	}
 
-    public TransactionType getType() {
+	public void setTransactionId(Integer transactionId) {
+		this.transactionId = transactionId;
+	}
+
+	public TransactionType getType() {
         return type;
     }
 

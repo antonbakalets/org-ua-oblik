@@ -35,7 +35,13 @@
 	            <td>${transaction.firstAccount.name } -> ${transaction.secondAccount.name }</td>
 	            <td></td>
 	            <td>${transaction.note }</td>
-	            <td></td>
+	            <td>
+	            	<a id="transaction_${transaction.transactionId}" class="btn btn-mini"
+		            	href="${pageContext.request.contextPath}/transaction/delete.html?transactionId=${transaction.transactionId}"
+		           		data-target="#modal" data-toggle="modal">
+		            	<i class="icon-trash"></i> 
+		        	</a>
+	            </td>
 	        </tr>
 	    </c:if>
 	    <c:if test="${transaction.type == 'INCOME'}">
@@ -45,7 +51,13 @@
 	            <td>${transaction.secondAccount.name }</td>
 	            <td>${transaction.firstAccount.name }</td>
 	            <td>${transaction.note }</td>
-	            <td></td>
+	            <td>        
+	            	<a id="transaction_${transaction.transactionId}" class="btn btn-mini"
+		            	href="${pageContext.request.contextPath}/transaction/delete.html?transactionId=${transaction.transactionId}"
+		           		data-target="#common-modal" data-toggle="modal">
+		            	<i class="icon-trash"></i> 
+		        	</a>
+		        </td>
 	        </tr>
 	    </c:if>
 	   <c:if test="${transaction.type == 'EXPENSE'}">
@@ -55,7 +67,13 @@
 	            <td>${transaction.secondAccount.name }</td>
 	            <td>${transaction.firstAccount.name }</td>
 	            <td>${transaction.note }</td>
-	            <td></td>
+	            <td>
+	            	<a id="transaction_${transaction.transactionId}" class="btn btn-mini"
+		            	href="${pageContext.request.contextPath}/transaction/delete.html?transactionId=${transaction.transactionId}"
+		           		data-target="#common-modal" data-toggle="modal">
+		            	<i class="icon-trash"></i> 
+		        	</a>
+	            </td>
 	        </tr>
 	    </c:if>
     </c:forEach>
