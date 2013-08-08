@@ -1,7 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
-<%@ taglib prefix="display" uri="http://displaytag.sf.net" %>
 <%@ taglib prefix="spring"  uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="form"    uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c"       uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="display" uri="http://displaytag.sf.net" %>
+
 
 <spring:message var="title_name" code="jsp.oblik.account.name"/>
 <spring:message var="title_currency" code="jsp.oblik.account.currency"/>
@@ -24,6 +26,15 @@
             <i class="icon-edit"></i> 
         </a>
     </display:column>
+    <c:if test="${!accountBean.used}">
+    	<display:column>
+    		<a id="account_delete_${accountBean.accountId}" class="btn btn-mini"
+				href="${pageContext.request.contextPath}/account/delete.html?accountId=${assetsAccounts.accountId}"
+		        data-target="#common-modal" data-toggle="modal">
+		        <i class="icon-trash"></i> 
+		    </a>
+    	</display:column>
+    </c:if>
 </display:table>
 
 <a id="add-assets" class="btn transfer" data-toggle="modal" data-target="#common-modal"
@@ -48,6 +59,15 @@
             <i class="icon-edit"></i> 
         </a>
     </display:column> />
+    <c:if test="${accountBean.used}">
+    	<display:column>
+    		<a id="account_delete_${accountBean.accountId}" class="btn btn-mini"
+				href="${pageContext.request.contextPath}/account/delete.html?accountId=${incomeAccounts.accountId}"
+		        data-target="#common-modal" data-toggle="modal">
+		        <i class="icon-trash"></i> 
+		    </a>
+    	</display:column>
+    </c:if>
 </display:table>
 
 <a id="add-income" class="btn income" data-toggle="modal" data-target="#common-modal"
@@ -66,12 +86,21 @@
         <display:column property="currencySymbol" title="${title_currency }"/>
         <display:column property="ammount" title="${title_balance }" value="ammount"/>
         <display:column>
-        <a id="account_${expenseAccounts.accountId}" class="btn btn-mini"
-           href="${pageContext.request.contextPath}/account/edit.html?accountId=${expenseAccounts.accountId}&type=EXPENSE"
-           data-target="#common-modal" data-toggle="modal">
-            <i class="icon-edit"></i> 
-        </a>
-    </display:column> />
+	        <a id="account_${expenseAccounts.accountId}" class="btn btn-mini"
+	           href="${pageContext.request.contextPath}/account/edit.html?accountId=${expenseAccounts.accountId}&type=EXPENSE"
+	           data-target="#common-modal" data-toggle="modal">
+	            <i class="icon-edit"></i> 
+	        </a>
+    	</display:column> />
+    	<c:if test="${accountBean.used}">
+    	<display:column>
+    		<a id="account_delete_${accountBean.accountId}" class="btn btn-mini"
+				href="${pageContext.request.contextPath}/account/delete.html?accountId=${expenseAccounts.accountId}"
+		        data-target="#common-modal" data-toggle="modal">
+		        <i class="icon-trash"></i> 
+		    </a>
+    	</display:column>
+    	</c:if>
 </display:table>
 
 <a id="add-expense" class="btn expense" data-toggle="modal" data-target="#common-modal"
