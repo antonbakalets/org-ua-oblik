@@ -3,10 +3,6 @@
 <%@ taglib prefix="spring"  uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c"       uri="http://java.sun.com/jsp/jstl/core" %>
 
-<spring:message var="tab_transactions_name" code="jsp.oblik.transactions"/>
-<spring:message var="tab_accounts_name" code="jsp.oblik.accounts"/>
-<spring:message var="tab_currencies_name" code="jsp.oblik.currencies"/>
-
 <div class="container m-bot-25">
     <div class="row">
         <div class="span4">
@@ -41,18 +37,22 @@
         <div class="span8">
             <div id="right-tabs" class="tabbable"> <!-- Only required for left/right tabs -->
                 <ul class="nav nav-tabs">
-                    <li class="active"><a href="#tab-transactions" data-toggle="tab"> ${tab_transactions_name}</a></li>
-                    <li><a href="#tab-accounts" data-toggle="tab">${tab_accounts_name}</a></li>
-                    <li><a href="#tab-currecies" data-toggle="tab">${tab_currencies_name}</a></li>
+                    <li class="active">
+                        <a href="#tab-transactions" data-toggle="tab">
+                            <spring:message code="jsp.oblik.transactions"/>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#tab-accounts" data-toggle="tab">
+                            <spring:message code="jsp.oblik.accounts"/>
+                        </a>
+                    </li>
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane active" id="tab-transactions">
 
                     </div>
                     <div class="tab-pane" id="tab-accounts">
-
-                    </div>
-                    <div class="tab-pane" id="tab-currecies">
 
                     </div>
                 </div>
@@ -122,7 +122,8 @@
             });
         });
 
-        $("#total-by-currency").load('${pageContext.request.contextPath}/total/currecy.html', function() {
+        $("#total-by-currency").load('${pageContext.request.contextPath}/currency/list.html', function() {
+            $("#total-by-currency").attachModal();
         });
 
         $("#total-by-account").load('${pageContext.request.contextPath}/total/account.html', function() {
@@ -136,8 +137,5 @@
             $("#tab-accounts").attachModal();
         });
 
-        $("#tab-currecies").load('${pageContext.request.contextPath}/currency/list.html', function() {
-            $("#tab-currecies").attachModal();
-        });
     });
 </script>

@@ -4,6 +4,9 @@ import java.math.BigDecimal;
 import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Root;
 import org.ua.oblik.domain.beans.AccountKind;
@@ -43,23 +46,37 @@ public class AccountDaoImpl extends AbstractDao<Integer, Account> implements Acc
         return sum == null ? BigDecimal.ZERO : sum;
     }
 
-	@Override
-	public boolean isNameExists(String shortName) {
-		final CriteriaBuilder cbuilder = entityManager.getCriteriaBuilder();
-		final CriteriaQuery<Long> cquery = cbuilder.createQuery(Long.class);
-		final Root<Account> root = cquery.from(Account.class);
-		cquery.select(cbuilder.count(root)).where(
-				cbuilder.equal(root.<String>get("shortName"), shortName));
-		return entityManager.createQuery(cquery).getSingleResult() > 0;
-	}
+    @Override
+    public boolean isNameExists(String shortName) {
+        final CriteriaBuilder cbuilder = entityManager.getCriteriaBuilder();
+        final CriteriaQuery<Long> cquery = cbuilder.createQuery(Long.class);
+        final Root<Account> root = cquery.from(Account.class);
+        cquery.select(cbuilder.count(root)).where(
+                cbuilder.equal(root.<String>get("shortName"), shortName));
+        return entityManager.createQuery(cquery).getSingleResult() > 0;
+    }
 
-	@Override
-	public boolean isUsed(Account account) {
-		final CriteriaBuilder cbuilder = entityManager.getCriteriaBuilder();
-		final CriteriaQuery<Long> cquery = cbuilder.createQuery(Long.class);
-		final Root<Txaction> root = cquery.from(Txaction.class);
-		cquery.select(cbuilder.count(root)).where(
-				cbuilder.equal(root.<String>get("credit"), account));
-		return entityManager.createQuery(cquery).getSingleResult() > 0;
-	}
+    @Override
+    public boolean isUsed(Account account) {
+        final CriteriaBuilder cbuilder = entityManager.getCriteriaBuilder();
+        final CriteriaQuery<Long> cquery = cbuilder.createQuery(Long.class);
+        final Root<Txaction> root = cquery.from(Txaction.class);
+        cquery.select(cbuilder.count(root)).where(
+                cbuilder.equal(root.<String>get("credit"), account));
+        return entityManager.createQuery(cquery).getSingleResult() > 0;
+    }
+
+    @Override
+    public BigDecimal calculateDefaultTotal() {
+        final CriteriaBuilder cbuilder = entityManager.getCriteriaBuilder();
+        final CriteriaQuery<BigDecimal> cquery = cbuilder.createQuery(BigDecimal.class);
+        final Root<Account> root = cquery.from(Account.class);
+        final Join<Account, Currency> join = root.join("currency");
+        final Expression<BigDecimal> product = cbuilder.prod(
+                root.<BigDecimal>get("total"), join.<BigDecimal>get("rate"));
+        cquery.select(cbuilder.sum(product)).where(
+                cbuilder.equal(root.<AccountKind>get("kind"), AccountKind.ASSETS));
+        final BigDecimal sum = entityManager.createQuery(cquery).getSingleResult();
+        return sum == null ? BigDecimal.ZERO : sum;
+    }
 }

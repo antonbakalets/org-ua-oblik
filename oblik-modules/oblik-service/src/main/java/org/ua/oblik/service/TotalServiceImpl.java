@@ -19,38 +19,22 @@ public class TotalServiceImpl implements TotalService {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(TotalServiceImpl.class);
 
-    // TODO private Map<Integer, BigDecimal> currencyTotal = Collections.emptyMap();
-    
     @Autowired
     private AccountDao accountDao;
     
     @Autowired
     private CurrencyDao currencyDao;
-    
-    public void init() {
         
-    }
-    
     @Override
     public BigDecimal getDefaultCurrencyTotal() {
-        // TODO move to DAO level
-        BigDecimal result = BigDecimal.ZERO;
-        for (Map.Entry<Integer, BigDecimal> entry : getCurrenciesTotal().entrySet()) {
-            BigDecimal rate = currencyDao.select(entry.getKey()).getRate();
-            result = result.add(entry.getValue().multiply(rate));
-        }
-        LOGGER.debug("[TOTAL] " + result);
-        return result;
+        final BigDecimal defaultTotal = accountDao.calculateDefaultTotal();
+        LOGGER.debug("[TOTAL] Default currency total: " + defaultTotal);
+        return defaultTotal;
     }
 
     @Override
     public Map<Integer, BigDecimal> getCurrenciesTotal() {
-        final List<Currency> currencies = currencyDao.selectAll();
-        final Map<Integer, BigDecimal> currencyTotal = new HashMap<Integer, BigDecimal>(currencies.size());
-        for (Currency currency : currencies) {
-            currencyTotal.put(currency.getId(), accountDao.calculateTotal(currency));
-        }
-        return currencyTotal;
+        return currencyDao.assetsByCurrencyId();
     }
 
     @Override

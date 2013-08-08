@@ -7,13 +7,7 @@ import java.util.Map;
 import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.JoinType;
-import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import javax.persistence.criteria.Subquery;
-import org.ua.oblik.domain.beans.AccountKind;
-import org.ua.oblik.domain.model.Account;
 
 import org.ua.oblik.domain.model.Currency;
 

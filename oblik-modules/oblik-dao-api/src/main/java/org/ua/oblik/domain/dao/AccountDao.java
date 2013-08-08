@@ -16,8 +16,9 @@ public interface AccountDao extends DaoFacade<Integer, Account> {
 
     BigDecimal calculateTotal(Currency currency);
 
-	boolean isNameExists(String name);
-	
-	boolean isUsed(Account account);
+    BigDecimal calculateDefaultTotal();
     
+    boolean isNameExists(String name);
+
+    boolean isUsed(Account account);
 }

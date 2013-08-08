@@ -7,7 +7,7 @@ import java.util.Map;
  *
  * @author Anton Bakalets
  */
-interface TotalService {
+public interface TotalService {
 
     BigDecimal getDefaultCurrencyTotal();
 

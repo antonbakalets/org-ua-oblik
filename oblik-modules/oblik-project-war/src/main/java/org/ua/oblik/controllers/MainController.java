@@ -35,10 +35,13 @@ public class MainController {
     @RequestMapping("/main")
     public String welcome(final Model model) {
         LOG.debug("main");
+        final boolean defaultExists = currencyService.isDefaultExists();
+        model.addAttribute(DEFAULT_CURRENCY_EXISTS, defaultExists);
+        if (defaultExists) {
             final CurrencyVO defaultCurrency = currencyService.getDefaultCurrency();
-            model.addAttribute(DEFAULT_CURRENCY_EXISTS, currencyService.isDefaultExists());
             model.addAttribute(DEFAULT_CURRENCY_SYMBOL, defaultCurrency.getSymbol());
             model.addAttribute(DEFAULT_CURRENCY_TOTAL, accountService.totalAssets());
+        }
         return "layout";
     }
 }

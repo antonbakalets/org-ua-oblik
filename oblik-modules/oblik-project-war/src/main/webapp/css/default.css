@@ -68,6 +68,14 @@ footer .logo {
 .table td.align-right {
     text-align: right;
 }
+.table th.align-left,
+.table td.align-left {
+    text-align: left;
+}
+.table th.align-center,
+.table td.align-center {
+    text-align: center;
+}
 
 .text-assets {
     color: #4AC2F3 !important;

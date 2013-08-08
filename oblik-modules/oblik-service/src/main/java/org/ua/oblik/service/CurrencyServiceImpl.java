@@ -24,6 +24,9 @@ public class CurrencyServiceImpl implements CurrencyService {
     @Autowired
     private CurrencyDao currencyDao;
     
+    @Autowired
+    private TotalService totalService;
+    
     @Override
     @Transactional
     public void save(CurrencyVO cvo) {
@@ -61,7 +64,7 @@ public class CurrencyServiceImpl implements CurrencyService {
     @Override
     public List<CurrencyVO> getCurrencies() {
         final List<Currency> currencies = currencyDao.selectAll();
-        final Map<Integer, BigDecimal> assetsByCurrency = currencyDao.assetsByCurrencyId();
+        final Map<Integer, BigDecimal> assetsByCurrency = totalService.getCurrenciesTotal();
         List<CurrencyVO> result = new ArrayList<>(currencies.size());
         for (Currency model : currencies) {
             result.add(convert(model, assetsByCurrency.get(model.getCurrId())));
