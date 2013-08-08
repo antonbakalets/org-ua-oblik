@@ -28,10 +28,30 @@ public class AccountBean {
 
     @NotNull
     private Integer currencyId;
+    
+    private String currencySymbol;
 
     private BigDecimal ammount;
+    
+    private boolean used;
 
-    public Integer getAccountId() {
+	public boolean isUsed() {
+		return used;
+	}
+
+	public void setUsed(boolean used) {
+		this.used = used;
+	}
+
+	public String getCurrencySymbol() {
+		return currencySymbol;
+	}
+
+	public void setCurrencySymbol(String currencySymbol) {
+		this.currencySymbol = currencySymbol;
+	}
+
+	public Integer getAccountId() {
         return accountId;
     }
 

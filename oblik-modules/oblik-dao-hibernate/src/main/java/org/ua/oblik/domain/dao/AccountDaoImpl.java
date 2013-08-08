@@ -9,6 +9,7 @@ import javax.persistence.criteria.Root;
 import org.ua.oblik.domain.beans.AccountKind;
 import org.ua.oblik.domain.model.Account;
 import org.ua.oblik.domain.model.Currency;
+import org.ua.oblik.domain.model.Txaction;
 
 /**
  *
@@ -49,6 +50,16 @@ public class AccountDaoImpl extends AbstractDao<Integer, Account> implements Acc
 		final Root<Account> root = cquery.from(Account.class);
 		cquery.select(cbuilder.count(root)).where(
 				cbuilder.equal(root.<String>get("shortName"), shortName));
+		return entityManager.createQuery(cquery).getSingleResult() > 0;
+	}
+
+	@Override
+	public boolean isUsed(Account account) {
+		final CriteriaBuilder cbuilder = entityManager.getCriteriaBuilder();
+		final CriteriaQuery<Long> cquery = cbuilder.createQuery(Long.class);
+		final Root<Txaction> root = cquery.from(Txaction.class);
+		cquery.select(cbuilder.count(root)).where(
+				cbuilder.equal(root.<String>get("credit"), account));
 		return entityManager.createQuery(cquery).getSingleResult() > 0;
 	}
 }

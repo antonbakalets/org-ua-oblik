@@ -1,5 +1,6 @@
 package org.ua.oblik.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -61,11 +62,14 @@ public class AccountController {
     @RequestMapping("/account/list")
     public String list(final Model model) {
         LOG.debug("account list");
-        List<AccountVO> assetsAccountsList = accountService.getAssetsAccounts();
+        List<AccountVO> assetsAccountsListVO = accountService.getAssetsAccounts();
+        List<AccountBean> assetsAccountsList = convertList(assetsAccountsListVO);
         model.addAttribute(ASSETS_ACCOUNTS , assetsAccountsList);
-        List<AccountVO> incomeAccountsList = accountService.getIncomeAccounts();
+        List<AccountVO> incomeAccountsListVO = accountService.getIncomeAccounts();
+        List<AccountBean> incomeAccountsList = convertList(incomeAccountsListVO);
         model.addAttribute(INCOME_ACCOUNTS , incomeAccountsList);
-        List<AccountVO> expenseAccountsList = accountService.getExpenseAccounts();
+        List<AccountVO> expenseAccountsListVO = accountService.getExpenseAccounts();
+        List<AccountBean> expenseAccountsList = convertList(expenseAccountsListVO);
         model.addAttribute(EXPENSE_ACCOUNTS , expenseAccountsList);
         return "loaded/accounts";
     }
@@ -98,13 +102,32 @@ public class AccountController {
         return "loaded/account";
     }
     
+    @RequestMapping(value = "/account/delete", method = RequestMethod.GET)
+    public String deleteTransaction(final Model model,
+            final @RequestParam(value = "accountId", required = false) Integer accountId) {
+        LOG.debug("Delete account, id: " + accountId + ".");
+        AccountVO avo =  accountService.getAccount(accountId);
+        AccountBean accountBean = convert(avo);
+        model.addAttribute(ACCOUNT_BEAN, accountBean);
+        return "loaded/deleteAccount";
+    }
+    
+    @RequestMapping(value = "/account/delete", method = RequestMethod.POST)
+    public String deleteTransaction(final Model model, 
+            final @ModelAttribute(ACCOUNT_BEAN) @Valid AccountBean accountBean,
+            BindingResult bindingResult) {
+        LOG.debug("Removes account, id: " + accountBean.getAccountId() + ".");
+        accountService.delete(accountBean.getAccountId());
+        return "loaded/deleteAccount";
+    }
+    
     private AccountVO convert(AccountBean accountBean) {
         AccountVO result = new AccountVO();
         result.setAccountId(accountBean.getAccountId());
         result.setName(accountBean.getName());
         result.setType(accountBean.getKind());
         result.setCurrencyId(accountBean.getCurrencyId());
-        result.setCurrencySymbol(currencyService.getCurrency(accountBean.getCurrencyId()).getSymbol());
+        result.setCurrencySymbol(accountBean.getCurrencySymbol());
         result.setAmmount(accountBean.getAmmount());
         return result;
     }
@@ -116,6 +139,16 @@ public class AccountController {
         result.setCurrencyId(avo.getCurrencyId());
         result.setKind(avo.getType());
         result.setAmmount(avo.getAmmount());
+        result.setCurrencySymbol(avo.getCurrencySymbol());
+        result.setUsed(accountService.isUsed(avo.getAccountId()));
+        return result;
+    }
+    
+    private List<AccountBean> convertList(List<AccountVO> list) {
+        List<AccountBean> result = new ArrayList<AccountBean>();
+        for (AccountVO temp : list) {
+            result.add(convert(temp));
+        }
         return result;
     }
 

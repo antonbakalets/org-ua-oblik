@@ -119,11 +119,23 @@ public class AccountServiceImpl implements AccountService {
         }
         return result;
     }
+    
+	@Override
+	public void delete(Integer accountId) {
+		Account account = accountDao.select(accountId);
+		accountDao.delete(account);
+	}
 
     @Override
     public boolean isNameExists(String name) {
         return accountDao.isNameExists(name);
     }
+    
+	@Override
+	public boolean isUsed(Integer accountId) {
+		Account account = accountDao.select(accountId);
+		return accountDao.isUsed(account);
+	}
 
     private static AccountVO convert(Account model) {
         AccountVO result = new AccountVO();
@@ -167,4 +179,8 @@ public class AccountServiceImpl implements AccountService {
         }
         throw new IllegalArgumentException("Unnexisting account type.");
     }
+
+
+
+
 }
