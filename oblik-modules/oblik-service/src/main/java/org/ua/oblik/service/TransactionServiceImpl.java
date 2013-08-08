@@ -128,6 +128,8 @@ public class TransactionServiceImpl implements TransactionService {
                 accountDao.update(secondAccount);
                 break;
         }
+        txaction.setCredit(firstAccount);
+        txaction.setDebet(secondAccount);
         txaction.setTxDate(tvo.getDate());
         txaction.setComment(tvo.getNote());
         txactionDao.update(txaction);

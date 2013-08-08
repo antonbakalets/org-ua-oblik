@@ -58,14 +58,14 @@ public class TransactionBean {
     }
 
     public Date getDate() {
-        return date;
-    }
+		return date;
+	}
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
+	public void setDate(Date date) {
+		this.date = date;
+	}
 
-    public String getNote() {
+	public String getNote() {
         return note;
     }
 

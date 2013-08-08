@@ -8,11 +8,12 @@
     <fieldset>
        <form:hidden path="transactionId"/>
        <form:hidden path="type"/>
+       
 
       <div class="control-group">
         <label class="control-label" for="account-from"><spring:message code="jsp.oblik.account"/></label>
         <div class="controls">
-            <form:select id="account-from" path="firstAccount">
+            <form:select id="account-from" path="firstAccount.accountId">
                 <form:option value="" label=""/>
                 <c:forEach var="account" items="${accountFromItems}">
                     <form:option value="${account.accountId}" label="${account.name}" currency="${account.currencySymbol}"/>
@@ -38,7 +39,7 @@
         <label class="control-label" for="date"><spring:message code="jsp.oblik.date"/></label>
         <div class="controls">
             <div class="input-append">
-                <form:input id="date" path="date" cssClass="datepicker"/>
+                <form:input id="date" path="date" cssClass="datepicker" pattern="yyyy-MM-dd HH:mm:ss"/>
                 <span class="add-on"><i class="icon-calendar"></i></span>
             </div>
         </div>
@@ -48,17 +49,17 @@
     <div class="control-group">
         <label class="control-label" for="account-to"><spring:message code="jsp.oblik.account"/></label>
         <div class="controls">
-            <form:select id="account-to" path="secondAccount">
+            <form:select id="account-to" path="secondAccount.accountId">
                 <form:option value="" label=""/>
                 <c:forEach var="account" items="${accountToItems}">
-                    <form:option value="${account.accountId}" label="${account.name}" currency="${account.currencySymbol}"/>
+                    <form:option value="${account.accountId}" label="${account.name}" currency="${account.currencySymbol}" />
                 </c:forEach>
             </form:select>
         </div>
         <form:errors path="secondAccount" element="div" cssClass="alert iconed-box alert-error"/>
     </div>
     
-        <c:if test="${formActionBean.type == 'TRANSFER'}">
+        <c:if test="${transaction.type == 'TRANSFER'}">
         <div id="second-ammount-div" class="control-group">
             <label class="control-label" for="secondAmmount"><spring:message code="jsp.oblik.expense.ammount"/></label>
             <div class="controls">
