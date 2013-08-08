@@ -12,6 +12,7 @@ public class CurrencyVO {
     private BigDecimal rate;
     private String symbol;
     private Boolean defaultRate;
+    private BigDecimal total;
 
     public Integer getCurrencyId() {
         return currencyId;
@@ -43,6 +44,14 @@ public class CurrencyVO {
 
     public void setDefaultRate(Boolean defaultRate) {
         this.defaultRate = defaultRate;
+    }
+
+    public BigDecimal getTotal() {
+        return total;
+    }
+
+    public void setTotal(BigDecimal total) {
+        this.total = total;
     }
 
     @Override

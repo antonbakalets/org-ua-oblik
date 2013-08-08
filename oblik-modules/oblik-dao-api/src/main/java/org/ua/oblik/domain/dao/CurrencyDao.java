@@ -1,5 +1,7 @@
 package org.ua.oblik.domain.dao;
 
+import java.math.BigDecimal;
+import java.util.Map;
 import javax.persistence.NoResultException;
 import org.ua.oblik.domain.model.Currency;
 
@@ -14,5 +16,7 @@ public interface CurrencyDao extends DaoFacade<Integer, Currency> {
     boolean isSymbolExists(String symbol);
 
     boolean isDefaultExists();
+    
+    Map<Integer, BigDecimal> assetsByCurrencyId();
     
 }

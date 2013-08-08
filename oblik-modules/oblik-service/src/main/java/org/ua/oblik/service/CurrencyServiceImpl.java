@@ -3,6 +3,7 @@ package org.ua.oblik.service;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javax.persistence.NoResultException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +23,7 @@ public class CurrencyServiceImpl implements CurrencyService {
 
     @Autowired
     private CurrencyDao currencyDao;
-
+    
     @Override
     @Transactional
     public void save(CurrencyVO cvo) {
@@ -59,7 +60,13 @@ public class CurrencyServiceImpl implements CurrencyService {
 
     @Override
     public List<CurrencyVO> getCurrencies() {
-        return convert(currencyDao.selectAll());
+        final List<Currency> currencies = currencyDao.selectAll();
+        final Map<Integer, BigDecimal> assetsByCurrency = currencyDao.assetsByCurrencyId();
+        List<CurrencyVO> result = new ArrayList<>(currencies.size());
+        for (Currency model : currencies) {
+            result.add(convert(model, assetsByCurrency.get(model.getCurrId())));
+        }
+        return result;
     }
 
     @Override
@@ -104,6 +111,12 @@ public class CurrencyServiceImpl implements CurrencyService {
         result.setRate(model.getRate());
         result.setSymbol(model.getSymbol());
         result.setDefaultRate(model.getByDefault());
+        return result;
+    }
+    
+    private static CurrencyVO convert(Currency model, BigDecimal total) {
+        CurrencyVO result = convert(model);
+        result.setTotal(total);
         return result;
     }
 

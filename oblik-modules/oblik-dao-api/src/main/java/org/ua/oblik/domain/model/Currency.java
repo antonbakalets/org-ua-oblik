@@ -43,7 +43,7 @@ public class Currency implements Serializable, Identifiable<Integer> {
     private BigDecimal rate;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "currency", fetch = FetchType.LAZY)
-    private List<Account> accountList;
+    private List<Account> accounts;
 
     public Currency() {
     }
@@ -101,12 +101,12 @@ public class Currency implements Serializable, Identifiable<Integer> {
         this.rate = rate;
     }
 
-    public List<Account> getAccountList() {
-        return accountList;
+    public List<Account> getAccounts() {
+        return accounts;
     }
 
-    public void setAccountList(List<Account> accountList) {
-        this.accountList = accountList;
+    public void setAccounts(List<Account> accounts) {
+        this.accounts = accounts;
     }
 
     @Override
