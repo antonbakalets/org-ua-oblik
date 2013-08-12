@@ -27,9 +27,6 @@ public class TransactionServiceImpl implements TransactionService {
     private static final Logger LOG = LoggerFactory.getLogger(TransactionServiceImpl.class);
 
     @Autowired
-    private AccountService accountService;
-
-    @Autowired
     private AccountDao accountDao;
 
     @Autowired
@@ -49,44 +46,40 @@ public class TransactionServiceImpl implements TransactionService {
     //@Secured
     private void insert(TransactionVO tvo) {
         Txaction txaction = new Txaction();
-        Account firstAccount = accountDao.select(tvo.getFirstAccount());
-        Account secondAccount = accountDao.select(tvo.getSecondAccount());
+        Account credit = accountDao.select(tvo.getFirstAccount());
+        Account debet = accountDao.select(tvo.getSecondAccount());
         switch (tvo.getType()) {
-            case INCOME:
-                txaction.setCredit(firstAccount);
+            case INCOME:                
                 txaction.setDebetAmmount(tvo.getFirstAmmount());
-                txaction.setDebet(secondAccount);
-                firstAccount.setTotal(firstAccount.getTotal().add(tvo.getFirstAmmount()));
-                accountDao.update(firstAccount);
-                secondAccount.setTotal(secondAccount.getTotal().add(tvo.getFirstAmmount()));
-                accountDao.update(secondAccount);
+                //firstAccount.setTotal(firstAccount.getTotal().add(tvo.getFirstAmmount()));
+                //accountDao.update(firstAccount);
+                debet.setTotal(debet.getTotal().add(tvo.getFirstAmmount()));
+                accountDao.update(debet);
                 break;
             case EXPENSE:
-                txaction.setDebet(firstAccount);
                 txaction.setCreditAmmount(tvo.getFirstAmmount());
-                txaction.setCredit(secondAccount);
-                firstAccount.setTotal(firstAccount.getTotal().add(tvo.getFirstAmmount()));
-                accountDao.update(firstAccount);
-                secondAccount.setTotal(secondAccount.getTotal().subtract(tvo.getFirstAmmount()));
-                accountDao.update(secondAccount);
+                credit.setTotal(credit.getTotal().subtract(tvo.getFirstAmmount()));
+                accountDao.update(credit);
+                //secondAccount.setTotal(secondAccount.getTotal().add(tvo.getFirstAmmount()));
+                //accountDao.update(secondAccount);
                 break;
             case TRANSFER:
                 // TODO implement different currencies
-                if (firstAccount.getCurrency().equals(secondAccount.getCurrency())) { // same currency - one ammount
+                if (credit.getCurrency().equals(debet.getCurrency())) { // same currency - one ammount
                     tvo.setSecondAmmount(tvo.getFirstAmmount());
                 }
-                txaction.setCredit(firstAccount);
-                txaction.setCreditAmmount(tvo.getFirstAmmount());
-                txaction.setDebet(secondAccount);
                 txaction.setDebetAmmount(tvo.getSecondAmmount());
-                BigDecimal firstTotal = firstAccount.getTotal().subtract(tvo.getFirstAmmount());
-                firstAccount.setTotal(firstTotal);
-                BigDecimal secondTotal = secondAccount.getTotal().add(tvo.getSecondAmmount());
-                secondAccount.setTotal(secondTotal);
-                accountDao.update(firstAccount);
-                accountDao.update(secondAccount);
+                txaction.setCreditAmmount(tvo.getFirstAmmount());
+                BigDecimal firstTotal = credit.getTotal().subtract(tvo.getFirstAmmount());
+                credit.setTotal(firstTotal);
+                BigDecimal secondTotal = debet.getTotal().add(tvo.getSecondAmmount());
+                debet.setTotal(secondTotal);
+                accountDao.update(credit);
+                accountDao.update(debet);
                 break;
         }
+        txaction.setCredit(credit);
+        txaction.setDebet(debet);
         txaction.setTxDate(tvo.getDate());
         txaction.setComment(tvo.getNote());
         txactionDao.insert(txaction);
@@ -95,41 +88,41 @@ public class TransactionServiceImpl implements TransactionService {
 
     private void update(TransactionVO tvo) {
         Txaction txaction = txactionDao.select(tvo.getTxId());
-        Account firstAccount = accountDao.select(tvo.getFirstAccount());
-        Account secondAccount = accountDao.select(tvo.getSecondAccount());
+        Account credit = accountDao.select(tvo.getFirstAccount());
+        Account debet = accountDao.select(tvo.getSecondAccount());
         switch (tvo.getType()) {
             case INCOME:
                 BigDecimal incomeDiff = txaction.getDebetAmmount().subtract(tvo.getFirstAmmount());
                 txaction.setDebetAmmount(tvo.getFirstAmmount());
-                firstAccount.setTotal(firstAccount.getTotal().add(incomeDiff));
-                accountDao.update(firstAccount);
-                secondAccount.setTotal(secondAccount.getTotal().subtract(incomeDiff));
-                accountDao.update(secondAccount);
+                //firstAccount.setTotal(firstAccount.getTotal().add(incomeDiff));
+                //accountDao.update(firstAccount);
+                debet.setTotal(debet.getTotal().subtract(incomeDiff));
+                accountDao.update(debet);
                 break;
             case EXPENSE:
                 BigDecimal expenseDiff = txaction.getCreditAmmount().subtract(tvo.getFirstAmmount());
                 txaction.setCreditAmmount(tvo.getFirstAmmount());
-                firstAccount.setTotal(firstAccount.getTotal().add(expenseDiff));
-                accountDao.update(firstAccount);
-                secondAccount.setTotal(secondAccount.getTotal().add(expenseDiff));
-                accountDao.update(secondAccount);
+                credit.setTotal(credit.getTotal().add(expenseDiff));
+                accountDao.update(credit);
+                //secondAccount.setTotal(secondAccount.getTotal().add(expenseDiff));
+                //accountDao.update(secondAccount);
                 break;
             case TRANSFER:
-                if (firstAccount.getCurrency().equals(secondAccount.getCurrency())) { // same currency - one ammount
+                if (credit.getCurrency().equals(debet.getCurrency())) { // same currency - one ammount
                     tvo.setSecondAmmount(tvo.getFirstAmmount());
                 }
                 BigDecimal creditDiff = txaction.getCreditAmmount().subtract(tvo.getFirstAmmount());
-                BigDecimal debetDiff = txaction.getCreditAmmount().subtract(tvo.getSecondAmmount());
+                BigDecimal debetDiff = txaction.getDebetAmmount().subtract(tvo.getSecondAmmount());
                 txaction.setCreditAmmount(tvo.getFirstAmmount());
                 txaction.setDebetAmmount(tvo.getSecondAmmount());
-                firstAccount.setTotal(firstAccount.getTotal().add(creditDiff));
-                accountDao.update(firstAccount);
-                secondAccount.setTotal(secondAccount.getTotal().add(debetDiff));
-                accountDao.update(secondAccount);
+                credit.setTotal(credit.getTotal().add(creditDiff));
+                debet.setTotal(debet.getTotal().subtract(debetDiff));
+                accountDao.update(credit);
+                accountDao.update(debet);
                 break;
         }
-        txaction.setCredit(firstAccount);
-        txaction.setDebet(secondAccount);
+        txaction.setCredit(credit);
+        txaction.setDebet(debet);
         txaction.setTxDate(tvo.getDate());
         txaction.setComment(tvo.getNote());
         txactionDao.update(txaction);
@@ -138,31 +131,27 @@ public class TransactionServiceImpl implements TransactionService {
     @Transactional
     @Override
     public void delete(Integer transactionId) {
-        TransactionVO tvo = this.getTransaction(transactionId);
-        Txaction txaction = txactionDao.select(tvo.getTxId());
-        Account firstAccount = accountDao.select(tvo.getFirstAccount());
-        Account secondAccount = accountDao.select(tvo.getSecondAccount());
-        switch (tvo.getType()) {
-            case INCOME:
-                firstAccount.setTotal(firstAccount.getTotal().subtract(tvo.getFirstAmmount()));
-                accountDao.update(firstAccount);
-                secondAccount.setTotal(secondAccount.getTotal().subtract(tvo.getFirstAmmount()));
-                accountDao.update(secondAccount);
-                break;
-            case EXPENSE:
-                firstAccount.setTotal(firstAccount.getTotal().subtract(tvo.getFirstAmmount()));
-                accountDao.update(firstAccount);
-                secondAccount.setTotal(secondAccount.getTotal().add(tvo.getFirstAmmount()));
-                accountDao.update(secondAccount);
-                break;
-            case TRANSFER:
-                BigDecimal firstTotal = firstAccount.getTotal().add(tvo.getFirstAmmount());
-                firstAccount.setTotal(firstTotal);
-                BigDecimal secondTotal = secondAccount.getTotal().subtract(tvo.getSecondAmmount());
-                secondAccount.setTotal(secondTotal);
-                accountDao.update(firstAccount);
-                accountDao.update(secondAccount);
-                break;
+        Txaction txaction = txactionDao.select(transactionId);
+        final Account credit = txaction.getCredit();
+        final Account debet = txaction.getDebet();
+
+        if (debet.getKind() == AccountKind.ASSETS && credit.getKind() == AccountKind.INCOME) {
+            debet.setTotal(debet.getTotal().subtract(txaction.getDebetAmmount()));
+            accountDao.update(debet);
+        } else if (credit.getKind() == AccountKind.ASSETS && debet.getKind() == AccountKind.EXPENSE) {
+            credit.setTotal(credit.getTotal().add(txaction.getCreditAmmount()));
+            accountDao.update(credit);
+        } else if (debet.getKind() == AccountKind.ASSETS && credit.getKind() == AccountKind.ASSETS) {
+            final BigDecimal debetDiff = debet.getTotal().subtract(txaction.getCreditAmmount());
+            final BigDecimal creditDiff = credit.getTotal().add(txaction.getDebetAmmount());
+            debet.setTotal(debetDiff);
+            credit.setTotal(creditDiff);
+            accountDao.update(debet);
+            accountDao.update(credit);
+        } else {
+            RuntimeException re = new IllegalArgumentException("Cannot determine transaction type, id :" + transactionId);
+            LOG.error("Cannot determine transaction type.", re);
+            throw re;
         }
         txactionDao.delete(txaction);
     }
@@ -202,24 +191,26 @@ public class TransactionServiceImpl implements TransactionService {
     private static TransactionVO convert(Txaction model) {
         TransactionVO result = new TransactionVO();
         result.setTxId(model.getId());
-        if (model.getCredit().getKind() == AccountKind.INCOME) {
+        final Account credit = model.getCredit();
+        final Account debet = model.getDebet();
+        if (debet.getKind() == AccountKind.ASSETS && credit.getKind() == AccountKind.INCOME) {
             result.setType(TransactionType.INCOME);
-            result.setFirstAccount(model.getDebet().getId());
+            result.setFirstAccount(debet.getId());
             result.setFirstAmmount(model.getDebetAmmount());
-            result.setSecondAccount(model.getCredit().getId());
-        } else if (model.getDebet().getKind() == AccountKind.EXPENSE) {
+            result.setSecondAccount(credit.getId());
+        } else if (credit.getKind() == AccountKind.ASSETS && debet.getKind() == AccountKind.EXPENSE) {
             result.setType(TransactionType.EXPENSE);
-            result.setFirstAccount(model.getCredit().getId());
+            result.setFirstAccount(credit.getId());
             result.setFirstAmmount(model.getCreditAmmount());
-            result.setSecondAccount(model.getDebet().getId());
-        } else if (model.getCredit().getKind() == AccountKind.ASSETS && model.getDebet().getKind() == AccountKind.ASSETS) {
+            result.setSecondAccount(debet.getId());
+        } else if (debet.getKind() == AccountKind.ASSETS && credit.getKind() == AccountKind.ASSETS) {
             result.setType(TransactionType.TRANSFER);
-            result.setFirstAccount(model.getCredit().getId());
+            result.setFirstAccount(credit.getId());
             result.setFirstAmmount(model.getCreditAmmount());
-            result.setSecondAccount(model.getDebet().getId());
+            result.setSecondAccount(debet.getId());
             result.setSecondAmmount(model.getDebetAmmount());
         } else {
-            RuntimeException re = new IllegalArgumentException("Cannot determine transaction type.");
+            RuntimeException re = new IllegalArgumentException("Cannot determine transaction type, id :" + model.getId());
             LOG.error("Cannot determine transaction type.", re);
             throw re;
         }

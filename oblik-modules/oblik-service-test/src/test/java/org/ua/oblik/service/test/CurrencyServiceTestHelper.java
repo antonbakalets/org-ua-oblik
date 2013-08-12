@@ -17,13 +17,7 @@ public class CurrencyServiceTestHelper {
     
     @Autowired
     private CurrencyService currencyService;
-    
-    public CurrencyVO createAndSaveAsDefault(DefinedCurrency definedCurrency) {
-        final CurrencyVO defaultCurrency = createCurrency(definedCurrency);
-        currencyService.save(defaultCurrency); 
-        return defaultCurrency;
-    }
-    
+        
     private CurrencyVO createCurrency(DefinedCurrency definedCurrency) {
         CurrencyVO cvo = new CurrencyVO();
         cvo.setSymbol(definedCurrency.getSymbol());
@@ -38,13 +32,17 @@ public class CurrencyServiceTestHelper {
     }
 
     public void saveDefinedCurrencies() {
-        currencies.put(DefinedCurrency.UGH, createAndSaveAsDefault(DefinedCurrency.UGH));
+        currencies.put(DefinedCurrency.UGH, createAndSaveCurrency(DefinedCurrency.UGH));
         currencies.put(DefinedCurrency.USD, createAndSaveCurrency(DefinedCurrency.USD));
         currencies.put(DefinedCurrency.EUR, createAndSaveCurrency(DefinedCurrency.EUR));
     }
     
     public CurrencyVO getDefinedCurrency(DefinedCurrency definedCurrency) {
         return currencies.get(definedCurrency);
+    }
+    
+    public Integer currencyId(DefinedCurrency definedCurrency) {
+        return currencies.get(definedCurrency).getCurrencyId();
     }
     
     public BigDecimal getRate(Integer currencyId) {

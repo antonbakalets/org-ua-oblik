@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.ua.oblik.service.AccountService;
 import org.ua.oblik.service.beans.AccountVO;
+import org.ua.oblik.service.beans.AccountVOType;
 import org.ua.oblik.service.beans.CurrencyVO;
 
 /**
@@ -47,5 +48,25 @@ public class AccountServiceTestHelper {
         result.setName(definedAccount.getAccountName());
         result.setType(definedAccount.getAccountType());
         return result;
+    }
+    
+    public Integer accountId(DefinedAccount definedAccount) {
+        return accounts.get(definedAccount).getAccountId();
+    }
+    
+    public Integer currencyId(DefinedAccount definedAccount) {
+        return accounts.get(definedAccount).getCurrencyId();
+    }
+    
+    public BigDecimal rate(DefinedAccount definedAccount) {
+        return currencyServiceTestHelper.getRate(accounts.get(definedAccount).getCurrencyId());
+    }
+    
+    public AccountVOType type(DefinedAccount definedAccount) {
+        return accounts.get(definedAccount).getType();
+    }
+
+    public BigDecimal getAmmount(DefinedAccount definedAccount) {
+        return accountService.getAccount(accountId(definedAccount)).getAmmount();
     }
 }

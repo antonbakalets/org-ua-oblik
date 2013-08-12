@@ -16,5 +16,5 @@ public class ServiceTestConfig {
         
     public final static String TRANSACTION_MANAGER = "transactionManager";
     
-    public final static boolean DEFAULT_ROLLBACK = true;
+    public final static boolean DEFAULT_ROLLBACK = false;
 }
