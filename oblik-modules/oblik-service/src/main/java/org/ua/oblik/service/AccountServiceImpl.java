@@ -119,7 +119,7 @@ public class AccountServiceImpl implements AccountService {
         }
         return result;
     }
-    
+    @Transactional
 	@Override
 	public void delete(Integer accountId) {
 		Account account = accountDao.select(accountId);
