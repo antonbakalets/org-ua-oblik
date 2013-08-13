@@ -37,4 +37,13 @@ public class TxactionDaoImpl extends AbstractDao<Integer, Txaction> implements T
                 cbuilder.lessThanOrEqualTo(root.<Date>get("txDate"), end));
         return entityManager.createQuery(cquery).getResultList();
     }
+
+    @Override
+    public List<Txaction> selectAll() {
+        final CriteriaBuilder cbuilder = entityManager.getCriteriaBuilder();
+        final CriteriaQuery<Txaction> cquery = cbuilder.createQuery(Txaction.class);
+        final Root<Txaction> root = cquery.from(Txaction.class);
+        cquery.select(root).orderBy(cbuilder.desc(root.get("txDate")));
+        return getEntityManager().createQuery(cquery).getResultList();
+    }
 }

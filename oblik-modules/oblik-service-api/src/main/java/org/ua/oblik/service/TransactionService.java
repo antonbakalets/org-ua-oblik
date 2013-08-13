@@ -11,15 +11,12 @@ import org.ua.oblik.service.beans.TransactionVO;
 public interface TransactionService {
 
     void save(TransactionVO tvo);
-    
-    void delete(Integer transactionId);
-    
-    TransactionVO getTransaction(Integer transactionId);
-    
-    List<TransactionVO> getTransactions();
-    
-    List<TransactionVO> getTransactions(Date date);
-    
-    List<TransactionVO> sortTransactionsByDate(List<TransactionVO> transactions);
 
+    void delete(Integer transactionId);
+
+    TransactionVO getTransaction(Integer transactionId);
+
+    List<TransactionVO> getTransactions();
+
+    List<TransactionVO> getTransactions(Date date);
 }

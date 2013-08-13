@@ -6,9 +6,6 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -33,7 +30,7 @@ import org.ua.oblik.service.TransactionService;
  * @author Anton Bakalets
  */
 @Controller
-public class FormActionController {
+public class FormActionController extends BaseController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FormActionController.class);
 
@@ -43,18 +40,7 @@ public class FormActionController {
 
     @Autowired
     private TransactionFactory transactionFactory;
-
-    @Autowired
-    @Qualifier(value = "longDateEditor")
-    protected CustomDateEditor longDateEditor;
     
-    @Autowired
-    @Qualifier(value="bigDecimalEditor")
-    protected CustomNumberEditor bigDecimalEditor;
-    
-    @Autowired
-    private TransactionTypePropertyEditor transactionTypePropertyEditor;
-
     @Autowired
     private AccountService accountService;
 
@@ -63,6 +49,9 @@ public class FormActionController {
 
     @Autowired
     private FormActionValidator actionValidator;
+    
+    @Autowired
+    private TransactionTypePropertyEditor transactionTypePropertyEditor;
 
     @ModelAttribute
     public void populateModel(final Model model,

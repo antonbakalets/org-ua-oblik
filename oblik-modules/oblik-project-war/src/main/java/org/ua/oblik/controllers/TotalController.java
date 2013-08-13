@@ -2,7 +2,6 @@ package org.ua.oblik.controllers;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,10 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.ua.oblik.service.AccountService;
-import org.ua.oblik.service.CurrencyService;
 import org.ua.oblik.service.TotalService;
 import org.ua.oblik.service.beans.AccountVO;
-import org.ua.oblik.service.beans.CurrencyVO;
 
 /**
  *

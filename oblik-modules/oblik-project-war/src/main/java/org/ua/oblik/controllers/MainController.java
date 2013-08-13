@@ -8,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.ua.oblik.service.AccountService;
 import org.ua.oblik.service.CurrencyService;
-import org.ua.oblik.service.EntityNotFoundException;
 import org.ua.oblik.service.beans.CurrencyVO;
 
 /**

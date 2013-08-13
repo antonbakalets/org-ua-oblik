@@ -49,7 +49,7 @@ public class TransactionServiceImpl implements TransactionService {
         Account credit = accountDao.select(tvo.getFirstAccount());
         Account debet = accountDao.select(tvo.getSecondAccount());
         switch (tvo.getType()) {
-            case INCOME:                
+            case INCOME:
                 txaction.setDebetAmmount(tvo.getFirstAmmount());
                 //firstAccount.setTotal(firstAccount.getTotal().add(tvo.getFirstAmmount()));
                 //accountDao.update(firstAccount);
@@ -155,25 +155,8 @@ public class TransactionServiceImpl implements TransactionService {
         }
         txactionDao.delete(txaction);
     }
-    
-    
 
     @Override
-	public List<TransactionVO> sortTransactionsByDate(
-			List<TransactionVO> transactions) {
-		
-    	if (transactions.size() > 0) {
-    		Collections.sort(transactions, new Comparator<TransactionVO>() {
-    			@Override
-    		    public int compare(final TransactionVO object1, final TransactionVO object2) {
-    				return object1.getDate().compareTo(object2.getDate());
-    			}
-    		} );
-    	}
-		return transactions;
-	}
-
-	@Override
     public TransactionVO getTransaction(Integer transactionId) {
         return convert(txactionDao.select(transactionId));
     }

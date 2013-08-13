@@ -44,7 +44,6 @@ public class TransactionController {
     public String transactions(final Model model) {
         LOG.debug("transactions");
         List<TransactionVO> tempList = transactionService.getTransactions();
-        tempList = transactionService.sortTransactionsByDate(tempList);
         List<TransactionBean> list = convertList(tempList);
         model.addAttribute(TRANSACTIONS, list);
         return "loaded/transactions";
