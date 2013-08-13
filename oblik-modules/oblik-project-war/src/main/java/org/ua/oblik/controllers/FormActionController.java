@@ -2,6 +2,7 @@ package org.ua.oblik.controllers;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +25,7 @@ import org.ua.oblik.controllers.utils.ValidationErrorLoger;
 import org.ua.oblik.controllers.validators.FormActionValidator;
 import org.ua.oblik.service.AccountService;
 import org.ua.oblik.service.TransactionService;
+import org.ua.oblik.service.beans.AccountVO;
 
 /**
  *
@@ -56,18 +58,19 @@ public class FormActionController extends BaseController {
     @ModelAttribute
     public void populateModel(final Model model,
             final @RequestParam(value = "type", required = true) TransactionType type) {
+        final List<AccountVO> assetsAccounts = accountService.getAssetsAccounts();
         switch (type) {
             case EXPENSE:
-                model.addAttribute(ACCOUNT_FROM_ITEMS, accountService.getAssetsAccounts());
+                model.addAttribute(ACCOUNT_FROM_ITEMS, assetsAccounts);
                 model.addAttribute(ACCOUNT_TO_ITEMS, accountService.getExpenseAccounts());
                 break;
             case INCOME:
                 model.addAttribute(ACCOUNT_FROM_ITEMS, accountService.getIncomeAccounts());
-                model.addAttribute(ACCOUNT_TO_ITEMS, accountService.getAssetsAccounts());
+                model.addAttribute(ACCOUNT_TO_ITEMS, assetsAccounts);
                 break;
             case TRANSFER:
-                model.addAttribute(ACCOUNT_FROM_ITEMS, accountService.getAssetsAccounts());
-                model.addAttribute(ACCOUNT_TO_ITEMS, accountService.getAssetsAccounts());
+                model.addAttribute(ACCOUNT_FROM_ITEMS, assetsAccounts);
+                model.addAttribute(ACCOUNT_TO_ITEMS, assetsAccounts);
                 break;
         }
     }

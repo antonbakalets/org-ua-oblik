@@ -94,48 +94,15 @@
         modalSaveEvent();
 
         $("#tab-expense").load('${pageContext.request.contextPath}/formaction.html?type=expense', function() {
-            $(".datepicker").addDatepicker();
-            $('#form-EXPENSE-button').click(function() {
-                $('#form-EXPENSE').ajaxSubmit({
-                    success: function(data)
-                    {
-                        $('#tab-expense').html(data);
-                    }
-                });
-            });
+            initFormExspense();
         });
 
         $("#tab-transfer").load('${pageContext.request.contextPath}/formaction.html?type=transfer', function() {
-            $(".datepicker").addDatepicker();
-            $('#form-TRANSFER-button').click(function() {
-                $('#form-TRANSFER').ajaxSubmit({
-                    success: function(data)
-                    {
-                        $('#tab-transfer').html(data);
-                    }
-                });
-            });
-
-            /* TODO
-             * $('#account-from, #account-to').change(function() {
-             if ($('#account-from').filter(':selected').attr('currency') === $('#account-to option:selected').attr('currency')) {
-             $('#second-ammount-div').hide('slow');
-             } else {
-             $('#second-ammount-div').show('slow');
-             }
-             });*/
+            initFormTransfer();
         });
 
         $("#tab-income").load('${pageContext.request.contextPath}/formaction.html?type=income', function() {
-            $(".datepicker").addDatepicker();
-            $('#form-INCOME-button').click(function() {
-                $('#form-INCOME').ajaxSubmit({
-                    success: function(data)
-                    {
-                        $('#tab-income').html(data);
-                    }
-                });
-            });
+            initFormIncome();
         });
 
         $("#total-by-currency").load('${pageContext.request.contextPath}/currency/list.html', function() {
@@ -143,6 +110,7 @@
         });
 
         $("#total-by-account").load('${pageContext.request.contextPath}/total/account.html', function() {
+            $("#total-by-account").attachModal();
         });
 
         $("#tab-transactions").load('${pageContext.request.contextPath}/transaction/list.html', function() {
@@ -152,6 +120,5 @@
         $("#tab-accounts").load('${pageContext.request.contextPath}/account/list.html', function() {
             $("#tab-accounts").attachModal();
         });
-
     });
 </script>

@@ -1,5 +1,6 @@
 package org.ua.oblik.controllers;
 
+import java.util.Locale;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,7 @@ import org.ua.oblik.service.beans.CurrencyVO;
  * @author Anton Bakalets
  */
 @Controller
-public class MainController {
+public class MainController extends BaseController {
 
     private static final Logger LOG = LoggerFactory.getLogger(MainController.class);
 
@@ -32,14 +33,15 @@ public class MainController {
     private AccountService accountService;
 
     @RequestMapping("/main")
-    public String welcome(final Model model) {
+    public String welcome(final Locale locale, final Model model) {
         LOG.debug("main");
         final boolean defaultExists = currencyService.isDefaultExists();
         model.addAttribute(DEFAULT_CURRENCY_EXISTS, defaultExists);
         if (defaultExists) {
             final CurrencyVO defaultCurrency = currencyService.getDefaultCurrency();
             model.addAttribute(DEFAULT_CURRENCY_SYMBOL, defaultCurrency.getSymbol());
-            model.addAttribute(DEFAULT_CURRENCY_TOTAL, accountService.totalAssets());
+            model.addAttribute(DEFAULT_CURRENCY_TOTAL, 
+                    decimalFormatter.print(accountService.totalAssets(), locale));
         }
         return "layout";
     }

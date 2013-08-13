@@ -15,19 +15,19 @@
                requestURI="/accounts/list.html"
                class="table table-striped table-hover table-condensed">
     <display:column property="accountId" title="accountId" 
-                    class="ui-helper-hidden" headerClass="ui-helper-hidden"/>
-    <display:column property="name" title="${title_name}"/>
-    <display:column property="currencySymbol" title="${title_currency }"/>
-    <display:column property="ammount" title="${title_balance }" value="ammount"/>
-    <display:column class="align-right">
+                    headerClass="hide" class="hide"/>
+    <display:column property="name" title="${title_name}"
+                    headerClass="span3 align-center" class="span3"/>
+    <display:column property="currencySymbol" title="${title_currency }"
+                    headerClass="span2 align-center" class="span2"/>
+    <display:column property="ammount" title="${title_balance }" value="ammount"
+                    headerClass="span1 align-center" class="span1 align-right"/>
+    <display:column class="span2 align-right">
         <a id="account_${assetsAccounts.accountId}" class="btn btn-mini"
            href="${pageContext.request.contextPath}/account/edit.html?accountId=${assetsAccounts.accountId}&type=ASSETS"
            data-target="#common-modal" data-toggle="modal">
             <i class="icon-edit"></i> 
         </a>
-    </display:column>
-
-    <display:column class="align-right">
         <c:if test="${!assetsAccounts.used}">
             <a id="account_delete_${assetsAccounts.accountId}" class="btn btn-mini"
                href="${pageContext.request.contextPath}/account/delete.html?accountId=${assetsAccounts.accountId}"
@@ -54,18 +54,19 @@
                requestURI="/accounts/list.html"
                class="table table-striped table-hover table-condensed">
     <display:column property="accountId" title="accountId" 
-                    class="ui-helper-hidden" headerClass="ui-helper-hidden"/>
-    <display:column property="name" title="${title_name}"/>
-    <display:column property="currencySymbol" title="${title_currency }"/>
-    <display:column property="ammount" title="${title_balance }" value="ammount"/>
-    <display:column class="align-right">
+                    headerClass="hide" class="hide"/>
+    <display:column property="name" title="${title_name}"
+                    headerClass="span3 align-center" class="span3"/>
+    <display:column property="currencySymbol" title="${title_currency}"
+                    headerClass="span2 align-center" class="span2"/>
+    <display:column property="ammount" title="${title_balance}" value="ammount"
+                    headerClass="span1 align-center" class="span1 align-right"/>
+    <display:column class="span2 align-right">
         <a id="account_${incomeAccounts.accountId}" class="btn btn-mini"
            href="${pageContext.request.contextPath}/account/edit.html?accountId=${incomeAccounts.accountId}&type=INCOME"
            data-target="#common-modal" data-toggle="modal">
             <i class="icon-edit"></i> 
         </a>
-    </display:column> />
-    <display:column class="align-right">
         <c:if test="${!incomeAccounts.used}">
             <a id="account_delete_${incomeAccounts.accountId}" class="btn btn-mini"
                href="${pageContext.request.contextPath}/account/delete.html?accountId=${incomeAccounts.accountId}"
@@ -92,18 +93,19 @@
                requestURI="/accounts/list.html"
                class="table table-striped table-hover table-condensed">
     <display:column property="accountId" title="accountId" 
-                    class="ui-helper-hidden" headerClass="ui-helper-hidden"/>
-    <display:column property="name" title="${title_name}"/>
-    <display:column property="currencySymbol" title="${title_currency }"/>
-    <display:column property="ammount" title="${title_balance }" value="ammount"/>
-    <display:column class="align-right">
+                    headerClass="hide" class="hide"/>
+    <display:column property="name" title="${title_name}"
+                    headerClass="span3 align-center" class="span3"/>
+    <display:column property="currencySymbol" title="${title_currency }"
+                    headerClass="span2 align-center" class="span2"/>
+    <display:column property="ammount" title="${title_balance }" value="ammount"
+                    headerClass="span1 align-center" class="span1 align-right"/>
+    <display:column class="span2 align-right">
         <a id="account_${expenseAccounts.accountId}" class="btn btn-mini"
            href="${pageContext.request.contextPath}/account/edit.html?accountId=${expenseAccounts.accountId}&type=EXPENSE"
            data-target="#common-modal" data-toggle="modal">
             <i class="icon-edit"></i> 
         </a>
-    </display:column> />
-    <display:column class="align-right">
         <c:if test="${!expenseAccounts.used}">
             <a id="account_delete_${expenseAccounts.accountId}" class="btn btn-mini"
                href="${pageContext.request.contextPath}/account/delete.html?accountId=${expenseAccounts.accountId}"

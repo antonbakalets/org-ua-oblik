@@ -2,11 +2,18 @@
 
 <%@ taglib prefix="security"    uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="c"           uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring"      uri="http://www.springframework.org/tags" %>
 
 <c:set var="defaultCurrencyBlock">
     <c:if test="${defaultCurrencyExists}">
         <span>
-            Ваші кошти згідно з курсами обміну: <span class="text-assets strong"><strong>85 659,56</strong></span> грн.
+            <spring:message code="jsp.oblik.default.currency.total"/>:
+            <span class="text-assets strong">
+                <strong>
+                    <c:out value="${defaultCurrencyTotal}"/>
+                </strong>
+            </span> 
+            <c:out value="${defaultCurrencySymbol}"/>
         </span>
     </c:if>
 </c:set>
@@ -21,7 +28,8 @@
             <div class="header-top-container">
                 <div class="span12">
                     <div class="pull-right">
-                        Привіт, <a><security:authentication property="principal.username" /></a>!
+                        <spring:message code="jsp.oblik.hi"/>,
+                        <a><security:authentication property="principal.username" /></a>!
                     </div>
                 </div>
             </div>

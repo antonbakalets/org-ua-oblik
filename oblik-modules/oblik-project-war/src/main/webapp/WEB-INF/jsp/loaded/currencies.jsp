@@ -21,7 +21,7 @@
             <display:column property="currencyId" title="currencyId" 
                             class="hide" headerClass="hide"/>
             <display:column title="${title_symbol}" 
-                            class="span2" headerClass="span2 align-center">
+                            class="span1" headerClass="span1 align-center">
                 <a id="currency_${currecyTable.currencyId}" title="${headerEdit}"
                    data-target="#common-modal" data-toggle="modal"
                    href="${pageContext.request.contextPath}/currency/edit.html?currencyId=${currecyTable.currencyId}">
@@ -29,7 +29,7 @@
                 </a>
             </display:column>
             <display:column property="rate" title="${title_rate}"
-                            class="span2 align-right" headerClass="span2 align-center"/>
+                            class="span1 align-right" headerClass="span1 align-center"/>
             <display:column property="total" title="${title_total}"
                             class="span2 align-right" headerClass="span2 align-center"/>
             <display:setProperty name="basic.msg.empty_list">

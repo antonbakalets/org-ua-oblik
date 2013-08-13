@@ -7,10 +7,10 @@ $.fn.addDatepicker = function() {
         buttonImageOnly: true
     });
     /*var imgd = this.next();
-    imgd.hide();
-    imgd.next().click(function () {
-        imgd.click();
-    });*/
+     imgd.hide();
+     imgd.next().click(function () {
+     imgd.click();
+     });*/
 }
 
 $.fn.restrictToNumbers = function() {
@@ -56,3 +56,50 @@ $.fn.attachModal = function() {
     });
 }
 
+function initFormExspense() {
+    $(".datepicker").addDatepicker();
+    $('#form-expense-button').click(function() {
+        $('#form-expense').ajaxSubmit({
+            success: function(data)
+            {
+                $('#tab-expense').html(data);
+                initFormExspense();
+            }
+        });
+    });
+}
+
+function initFormTransfer() {
+    $(".datepicker").addDatepicker();
+    $('#form-transfer-button').click(function() {
+        $('#form-transfer').ajaxSubmit({
+            success: function(data)
+            {
+                $('#tab-transfer').html(data);
+                initFormTransfer();
+            }
+        });
+    });
+
+    /* TODO
+     * $('#account-from, #account-to').change(function() {
+     if ($('#account-from').filter(':selected').attr('currency') === $('#account-to option:selected').attr('currency')) {
+     $('#second-ammount-div').hide('slow');
+     } else {
+     $('#second-ammount-div').show('slow');
+     }
+     });*/
+}
+
+function initFormIncome() {
+    $(".datepicker").addDatepicker();
+    $('#form-income-button').click(function() {
+        $('#form-income').ajaxSubmit({
+            success: function(data)
+            {
+                $('#tab-income').html(data);
+                initFormIncome();
+            }
+        });
+    });
+}

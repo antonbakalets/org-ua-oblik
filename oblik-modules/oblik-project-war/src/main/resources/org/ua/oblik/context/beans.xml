@@ -36,7 +36,7 @@
     </bean>
     
     <bean id="numberFormatter" class="org.springframework.format.number.NumberFormatter">
-        <property name="pattern" value="#'#00.0#"/>
+        <property name="pattern" value="# #00.00"/>
     </bean>
     
     <bean id="bigDecimalEditor" class="org.springframework.beans.propertyeditors.CustomNumberEditor">
