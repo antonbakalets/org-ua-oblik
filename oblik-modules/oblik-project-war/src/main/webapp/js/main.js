@@ -3,7 +3,7 @@ $.fn.addDatepicker = function() {
     this.datepicker({
         altFormat: 'dd.mm.yy',
         dateFormat: 'dd.mm.yy',
-        showOn: "both",
+        showOn: "focus",
         buttonImageOnly: true
     });
     /*var imgd = this.next();

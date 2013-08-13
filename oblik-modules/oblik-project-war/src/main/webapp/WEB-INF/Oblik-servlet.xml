@@ -20,6 +20,8 @@
         http://www.springframework.org/schema/util
         http://www.springframework.org/schema/util/spring-util-3.1.xsd">
 
+    <import resource="classpath:/org/ua/oblik/context/beans.xml"/>
+    
     <!--  proxy-target-class="true" -->
     <tx:annotation-driven transaction-manager="transactionManager"/>
         
@@ -34,12 +36,6 @@
     <mvc:resources mapping="/js/**" location="/js"/>
     
     <context:component-scan base-package="org.ua.oblik.controllers" />
-    
-    <bean class="org.ua.oblik.controllers.validators.AccountValidator"/>
-    
-    <bean class="org.ua.oblik.controllers.validators.CurrencyValidator"/>
-    
-    <bean class="org.ua.oblik.controllers.validators.FormActionValidator"/>
     
     <!-- enabling annotation driven configuration / -->
     <context:annotation-config />

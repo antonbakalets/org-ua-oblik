@@ -1,10 +1,14 @@
 package org.ua.oblik.controllers;
 
-import java.util.List;
+import java.math.BigDecimal;
+import java.util.Date;
 import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,7 +27,6 @@ import org.ua.oblik.controllers.utils.ValidationErrorLoger;
 import org.ua.oblik.controllers.validators.FormActionValidator;
 import org.ua.oblik.service.AccountService;
 import org.ua.oblik.service.TransactionService;
-import org.ua.oblik.service.beans.AccountVO;
 
 /**
  *
@@ -41,6 +44,14 @@ public class FormActionController {
     @Autowired
     private TransactionFactory transactionFactory;
 
+    @Autowired
+    @Qualifier(value = "longDateEditor")
+    protected CustomDateEditor longDateEditor;
+    
+    @Autowired
+    @Qualifier(value="bigDecimalEditor")
+    protected CustomNumberEditor bigDecimalEditor;
+    
     @Autowired
     private TransactionTypePropertyEditor transactionTypePropertyEditor;
 
@@ -74,9 +85,10 @@ public class FormActionController {
 
     @RequestMapping(value = "/formaction", method = RequestMethod.GET)
     public String formaction(final Model model,
+            final @RequestParam(value = "txId", required = false) Integer txId,
             final @RequestParam(value = "type", required = true) TransactionType type) {
-        final FormActionBean transaction = convert(transactionFactory.create(type));
-        model.addAttribute("formActionBean", transaction);
+        final FormActionBean formaction = createFormActionBean(txId, type);
+        model.addAttribute("formActionBean", formaction);
         return "loaded/formaction";
     }
 
@@ -89,8 +101,11 @@ public class FormActionController {
         if (bindingResult.hasErrors()) {
             ValidationErrorLoger.debug(bindingResult);
         } else {
+            final boolean isCreating = bean.getTxId() == null;
             transactionService.save(convert(bean));
-            return "redirect:/formaction";
+            if (isCreating) {
+                return "redirect:/formaction";
+            }
         }
         return "loaded/formaction";
     }
@@ -110,12 +125,29 @@ public class FormActionController {
 
     private FormActionBean convert(TransactionVO tvo) {
         FormActionBean result = new FormActionBean();
+        result.setTxId(tvo.getTxId());
+        result.setDate(tvo.getDate());
+        result.setFirstAccount(tvo.getFirstAccount());
+        result.setFirstAmmount(tvo.getFirstAmmount());
+        result.setNote(tvo.getNote());
+        result.setSecondAccount(tvo.getSecondAccount());
+        result.setSecondAmmount(tvo.getSecondAmmount());
         result.setType(tvo.getType());
         return result;
+    }
+
+    private FormActionBean createFormActionBean(final Integer txId, final TransactionType type) {
+        if (txId == null) {
+            return convert(transactionFactory.create(type));
+        } else {
+            return convert(transactionService.getTransaction(txId));
+        }
     }
 
     @InitBinder
     public void setPropertyEditors(final WebDataBinder binder) {
         binder.registerCustomEditor(TransactionType.class, transactionTypePropertyEditor);
+        binder.registerCustomEditor(Date.class, longDateEditor);
+        binder.registerCustomEditor(BigDecimal.class, bigDecimalEditor);
     }
 }

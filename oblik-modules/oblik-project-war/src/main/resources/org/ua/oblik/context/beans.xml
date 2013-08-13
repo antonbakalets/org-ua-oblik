@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+
+    <bean class="org.ua.oblik.controllers.validators.AccountValidator"/>
+    <bean class="org.ua.oblik.controllers.validators.CurrencyValidator"/>
+    <bean class="org.ua.oblik.controllers.validators.FormActionValidator"/>
+
+    <bean id="shortDateFormat" class="java.text.SimpleDateFormat">
+        <constructor-arg value="dd.MM.yy"/>
+    </bean>
+    
+    <bean id="longDateFormat" class="java.text.SimpleDateFormat">
+        <constructor-arg value="dd.MM.yyyy"/>
+    </bean>
+    
+    <bean id="shortDateEditor" class="org.springframework.beans.propertyeditors.CustomDateEditor">
+        <constructor-arg name="dateFormat" ref="shortDateFormat"/>
+        <constructor-arg name="allowEmpty" value="true"/>
+    </bean>
+    
+    <bean id="longDateEditor" class="org.springframework.beans.propertyeditors.CustomDateEditor">
+        <constructor-arg name="dateFormat" ref="longDateFormat"/>
+        <constructor-arg name="allowEmpty" value="true"/>
+        <constructor-arg name="exactDateLength" value="10"/>
+    </bean>
+    
+    <bean id="stringTrimmerEditor" class="org.springframework.beans.propertyeditors.StringTrimmerEditor">
+        <constructor-arg name="emptyAsNull" value="true"/>
+    </bean>
+    
+    <bean id="numberFormatter" class="org.springframework.format.number.NumberFormatter">
+        <property name="pattern" value="#'#00.0#"/>
+    </bean>
+    
+    <bean id="bigDecimalEditor" class="org.springframework.beans.propertyeditors.CustomNumberEditor">
+        <constructor-arg index="0" value="java.math.BigDecimal"/>
+        <!--<constructor-arg index="1" ref="numberFormatter"/>-->
+        <constructor-arg index="1" value="true"/>
+    </bean>
+    
+    <bean id="transactionTypePropertyEditor" class="org.ua.oblik.controllers.utils.TransactionTypePropertyEditor"/>
+</beans>

@@ -17,6 +17,4 @@
     <import resource="service-context.xml"/>
     
     <bean id="transactionBeanFactory" class="org.ua.oblik.service.beans.TransactionFactory"/>
-    
-    <bean id="transactionTypePropertyEditor" class="org.ua.oblik.controllers.utils.TransactionTypePropertyEditor"/>
 </beans>

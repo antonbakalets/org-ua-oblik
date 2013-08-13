@@ -20,83 +20,77 @@
             <th>${title_account}</th>
             <th>${title_category}</th>
             <th>${title_note}</th>
-            <th> </th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
-    <c:forEach var="transaction" items="${transaction_list}">
-   		<c:if test="${transaction.type == 'TRANSFER'}">
-	    	<tr>
-	            <td>${transaction.date }</td>
-	            <td>-${transaction.firstAmmount } 
-	            	</br>
-	            	${transaction.secondAmmount }
-	            </td>
-	            <td>${transaction.firstAccount.name } -> ${transaction.secondAccount.name }</td>
-	            <td></td>
-	            <td>${transaction.note }</td>
-	            <td>
-	            	<a id="transaction_edit_${transaction.transactionId}" class="btn btn-mini"
-           				href="${pageContext.request.contextPath}/transaction/edit.html?transactionId=${transaction.transactionId}"
-           				data-target="#common-modal" data-toggle="modal">
-            			<i class="icon-edit"></i> 
-        			</a>
-	            </td>
-	            <td>
-	            	<a id="transaction_delete_${transaction.transactionId}" class="btn btn-mini"
-		            	href="${pageContext.request.contextPath}/transaction/delete.html?transactionId=${transaction.transactionId}"
-		           		data-target="#common-modal" data-toggle="modal">
-		            	<i class="icon-trash"></i> 
-		        	</a>
-	            </td>
-	        </tr>
-	    </c:if>
-	    <c:if test="${transaction.type == 'INCOME'}">
-	    	<tr>
-	            <td>${transaction.date }</td>
-	            <td>+ ${transaction.firstAmmount }</td>
-	            <td>${transaction.firstAccount.name }</td>
-	            <td>${transaction.secondAccount.name }</td>
-	            <td>${transaction.note }</td>
-	            <td>
-	            	<a id="transaction_edit_${transaction.transactionId}" class="btn btn-mini"
-           				href="${pageContext.request.contextPath}/transaction/edit.html?transactionId=${transaction.transactionId}"
-           				data-target="#common-modal" data-toggle="modal">
-            			<i class="icon-edit"></i> 
-        			</a>
-	            </td>
-	            <td>        
-	            	<a id="transaction_delete_${transaction.transactionId}" class="btn btn-mini"
-		            	href="${pageContext.request.contextPath}/transaction/delete.html?transactionId=${transaction.transactionId}"
-		           		data-target="#common-modal" data-toggle="modal">
-		            	<i class="icon-trash"></i> 
-		        	</a>
-		        </td>
-	        </tr>
-	    </c:if>
-	   <c:if test="${transaction.type == 'EXPENSE'}">
-	    	<tr>
-	            <td>${transaction.date }</td>
-	            <td>-${transaction.firstAmmount }</td>
-	            <td>${transaction.firstAccount.name }</td>
-	            <td>${transaction.secondAccount.name }</td>
-	            <td>${transaction.note }</td>
-	            <td>
-	            	<a id="transaction_edit_${transaction.transactionId}" class="btn btn-mini"
-           				href="${pageContext.request.contextPath}/transaction/edit.html?transactionId=${transaction.transactionId}"
-           				data-target="#common-modal" data-toggle="modal">
-            			<i class="icon-edit"></i> 
-        			</a>
-	            </td>
-	            <td>
-	            	<a id="transaction_delete_${transaction.transactionId}" class="btn btn-mini"
-		            	href="${pageContext.request.contextPath}/transaction/delete.html?transactionId=${transaction.transactionId}"
-		           		data-target="#common-modal" data-toggle="modal">
-		            	<i class="icon-trash"></i> 
-		        	</a>
-	            </td>
-	        </tr>
-	    </c:if>
-    </c:forEach>
+        <c:forEach var="transaction" items="${transaction_list}">
+            <c:if test="${transaction.type == 'TRANSFER'}">
+                <tr>
+                    <td>${transaction.date }</td>
+                    <td>-${transaction.firstAmmount } 
+                        </br>
+                        ${transaction.secondAmmount }
+                    </td>
+                    <td>${transaction.firstAccount.name } -> ${transaction.secondAccount.name }</td>
+                    <td></td>
+                    <td>${transaction.note }</td>
+                    <td>
+                        <a id="transaction_edit_${transaction.transactionId}" class="btn btn-mini"
+                           href="${pageContext.request.contextPath}/formaction.html?type=transfer&txId=${transaction.transactionId}"
+                           data-target="#common-modal" data-toggle="modal">
+                            <i class="icon-edit"></i> 
+                        </a>
+                        <a id="transaction_delete_${transaction.transactionId}" class="btn btn-mini"
+                           href="${pageContext.request.contextPath}/transaction/delete.html?transactionId=${transaction.transactionId}"
+                           data-target="#common-modal" data-toggle="modal">
+                            <i class="icon-trash"></i> 
+                        </a>
+                    </td>
+                </tr>
+            </c:if>
+            <c:if test="${transaction.type == 'INCOME'}">
+                <tr>
+                    <td>${transaction.date }</td>
+                    <td>+ ${transaction.firstAmmount }</td>
+                    <td>${transaction.firstAccount.name }</td>
+                    <td>${transaction.secondAccount.name }</td>
+                    <td>${transaction.note }</td>
+                    <td>
+                        <a id="transaction_edit_${transaction.transactionId}" class="btn btn-mini"
+                           href="${pageContext.request.contextPath}/formaction.html?type=income&txId=${transaction.transactionId}"
+                           data-target="#common-modal" data-toggle="modal">
+                            <i class="icon-edit"></i> 
+                        </a>
+                        <a id="transaction_delete_${transaction.transactionId}" class="btn btn-mini"
+                           href="${pageContext.request.contextPath}/transaction/delete.html?transactionId=${transaction.transactionId}"
+                           data-target="#common-modal" data-toggle="modal">
+                            <i class="icon-trash"></i> 
+                        </a>
+                    </td>
+                </tr>
+            </c:if>
+            <c:if test="${transaction.type == 'EXPENSE'}">
+                <tr>
+                    <td>${transaction.date }</td>
+                    <td>-${transaction.firstAmmount }</td>
+                    <td>${transaction.firstAccount.name }</td>
+                    <td>${transaction.secondAccount.name }</td>
+                    <td>${transaction.note }</td>
+                    <td>
+                        <a id="transaction_edit_${transaction.transactionId}" class="btn btn-mini"
+                           href="${pageContext.request.contextPath}/formaction.html?type=expense&txId=${transaction.transactionId}"
+                           data-target="#common-modal" data-toggle="modal">
+                            <i class="icon-edit"></i> 
+                        </a>
+                        <a id="transaction_delete_${transaction.transactionId}" class="btn btn-mini"
+                           href="${pageContext.request.contextPath}/transaction/delete.html?transactionId=${transaction.transactionId}"
+                           data-target="#common-modal" data-toggle="modal">
+                            <i class="icon-trash"></i> 
+                        </a>
+                    </td>
+                </tr>
+            </c:if>
+        </c:forEach>
     </tbody>
 </table>

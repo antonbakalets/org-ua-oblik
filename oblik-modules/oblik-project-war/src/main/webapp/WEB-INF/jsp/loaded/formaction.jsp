@@ -15,7 +15,9 @@
         <label class="control-label" for="account-from"><spring:message code="jsp.oblik.account"/></label>
         <div class="controls">
             <form:select id="account-from" path="firstAccount">
-                <form:option value="" label=""/>
+                <c:if test="${empty formActionBean.txId}">
+                    <form:option value="" label=""/>
+                </c:if>
                 <c:forEach var="account" items="${accountFromItems}">
                     <form:option value="${account.accountId}" label="${account.name}" currency="${account.currencySymbol}"/>
                 </c:forEach>
@@ -50,7 +52,9 @@
         <label class="control-label" for="account-to"><spring:message code="jsp.oblik.account"/></label>
         <div class="controls">
             <form:select id="account-to" path="secondAccount">
-                <form:option value="" label=""/>
+                <c:if test="${empty formActionBean.txId}">
+                    <form:option value="" label=""/>
+                </c:if>
                 <c:forEach var="account" items="${accountToItems}">
                     <form:option value="${account.accountId}" label="${account.name}" currency="${account.currencySymbol}"/>
                 </c:forEach>
@@ -77,20 +81,13 @@
         <form:errors path="note" element="div" cssClass="alert iconed-box alert-error"/>
     </div>
 
-    <div class="control-group">
-        <div class="controls">
-            <button id="form-${formActionBean.type}-button" type="button" 
-                    class="btn btn-${fn:toLowerCase(formActionBean.type)}">Submit</button>
+    <c:if test="${empty formActionBean.txId}">
+        <div class="control-group">
+            <div class="controls">
+                <button id="form-${formActionBean.type}-button" type="button" 
+                        class="btn btn-${fn:toLowerCase(formActionBean.type)}">Submit</button>
+            </div>
         </div>
-    </div>
+    </c:if>
 
 </form:form>
-
-<script>
-    $(document).ready(function() {
-
-        
-
-        
-    });
-</script>
