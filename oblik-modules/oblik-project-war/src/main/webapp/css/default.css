@@ -87,73 +87,111 @@ footer .logo {
     color: #6dc3b9 !important;
 }
 
-.btn.transfer {
-    background-color:#48867b;
-    color:#ffffff;
-    border: 1px solid #668c87;
-    background: -moz-linear-gradient(top, #4AC2F3, #569e93) !important;
-    background: -webkit-linear-gradient(top, #4AC2F3, #569e93) !important;
-    background: -o-linear-gradient(top, #4AC2F3, #569e93) !important; 
-    background: -ms-linear-gradient(top, #4AC2F3, #569e93) !important; 
-    -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset; 
-    -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset; 
-    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset;
+.btn-transfer {
+    color: #ffffff;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    background-color: #49afcd;
+    background-image: -moz-linear-gradient(top, #5bc0de, #2f96b4);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#5bc0de), to(#2f96b4));
+    background-image: -webkit-linear-gradient(top, #5bc0de, #2f96b4);
+    background-image: -o-linear-gradient(top, #5bc0de, #2f96b4);
+    background-image: linear-gradient(to bottom, #5bc0de, #2f96b4);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff5bc0de', endColorstr='#ff2f96b4', GradientType=0);
+    border-color: #2f96b4 #2f96b4 #1f6377;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    *background-color: #2f96b4;
+    /* Darken IE7 buttons by default so they stand out more given they won't have borders */
+
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
 }
-.btn.transfer:hover {
-    background-color:#65b6ad;
-    border: 1px solid #668c87;
-    background: -moz-linear-gradient(top, #74cdc3, #5ca89c) !important;
-    background: -webkit-linear-gradient(top, #74cdc3, #5ca89c) !important;
-    background: -o-linear-gradient(top, #74cdc3, #5ca89c) !important; 
-    background: -ms-linear-gradient(top, #74cdc3, #5ca89c) !important; 
-    -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset; 
-    -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset; 
-    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset;
+.btn-transfer:hover,
+.btn-transfer:focus,
+.btn-transfer:active,
+.btn-transfer.active,
+.btn-transfer.disabled,
+.btn-transfer[disabled] {
+    color: #ffffff;
+    background-color: #2f96b4;
+    *background-color: #2a85a0;
+}
+.btn-transfer:active,
+.btn-transfer.active {
+    background-color: #24748c \9;
 }
 
-.btn.income {
-    background-color:#48867b;
-    color:#ffffff;
-    border: 1px solid #668c87;
-    background: -moz-linear-gradient(top, #6dc3b9, #569e93) !important;
-    background: -webkit-linear-gradient(top, #6dc3b9, #569e93) !important;
-    background: -o-linear-gradient(top, #6dc3b9, #569e93) !important; 
-    background: -ms-linear-gradient(top, #6dc3b9, #569e93) !important; 
-    -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset; 
-    -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset; 
-    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset;
+.btn-income {
+    color: #ffffff;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    background-color: #5bb75b;
+    background-image: -moz-linear-gradient(top, #62c462, #51a351);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#62c462), to(#51a351));
+    background-image: -webkit-linear-gradient(top, #62c462, #51a351);
+    background-image: -o-linear-gradient(top, #62c462, #51a351);
+    background-image: linear-gradient(to bottom, #62c462, #51a351);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff62c462', endColorstr='#ff51a351', GradientType=0);
+    border-color: #51a351 #51a351 #387038;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    *background-color: #51a351;
+    /* Darken IE7 buttons by default so they stand out more given they won't have borders */
+
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
 }
-.btn.income:hover {
-    background-color:#65b6ad;
-    border: 1px solid #668c87;
-    background: -moz-linear-gradient(top, #74cdc3, #5ca89c) !important;
-    background: -webkit-linear-gradient(top, #74cdc3, #5ca89c) !important;
-    background: -o-linear-gradient(top, #74cdc3, #5ca89c) !important; 
-    background: -ms-linear-gradient(top, #74cdc3, #5ca89c) !important; 
-    -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset; 
-    -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset; 
-    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset;
+.btn-income:hover,
+.btn-income:focus,
+.btn-income:active,
+.btn-income.active,
+.btn-income.disabled,
+.btn-income[disabled] {
+    color: #ffffff;
+    background-color: #51a351;
+    *background-color: #499249;
+}
+.btn-income:active,
+.btn-income.active {
+    background-color: #408140 \9;
 }
 
-.btn.expense {
-    background-color:#48867b;
-    color:#ffffff;
-    border: 1px solid #C77777;
-    background: -moz-linear-gradient(top, #cc3300, #FFE8E7) !important;
-    background: -webkit-linear-gradient(top, #cc3300, #FFE8E7) !important;
-    background: -o-linear-gradient(top, #cc3300, #FFE8E7) !important; 
-    background: -ms-linear-gradient(top, #cc3300, #FFE8E7) !important; 
-    -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset; 
-    -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset; 
-    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset;
+.btn-expense {
+    color: #ffffff;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    background-color: #da4f49;
+    background-image: -moz-linear-gradient(top, #ee5f5b, #bd362f);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ee5f5b), to(#bd362f));
+    background-image: -webkit-linear-gradient(top, #ee5f5b, #bd362f);
+    background-image: -o-linear-gradient(top, #ee5f5b, #bd362f);
+    background-image: linear-gradient(to bottom, #ee5f5b, #bd362f);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffee5f5b', endColorstr='#ffbd362f', GradientType=0);
+    border-color: #bd362f #bd362f #802420;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    *background-color: #bd362f;
+    /* Darken IE7 buttons by default so they stand out more given they won't have borders */
+
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+}
+.btn-expense:hover,
+.btn-expense:focus,
+.btn-expense:active,
+.btn-expense.active,
+.btn-expense.disabled,
+.btn-expense[disabled] {
+    color: #ffffff;
+    background-color: #bd362f;
+    *background-color: #a9302a;
+}
+.btn-expense:active,
+.btn-expense.active {
+    background-color: #942a25 \9;
 }
 .btn.expense:hover {
     background-color:#65b6ad;
     border: 1px solid #C77777;
-    background: -moz-linear-gradient(top, #FFE8E7, #cc3300) !important;
-    background: -webkit-linear-gradient(top, #FFE8E7, #cc3300) !important;
-    background: -o-linear-gradient(top, #FFE8E7, #cc3300) !important; 
-    background: -ms-linear-gradient(top, #FFE8E7, #cc3300) !important; 
+    background: -moz-linear-gradient(top, #ee5f5b, #ee5f5b) !important;
+    background: -webkit-linear-gradient(top, #ee5f5b, #ee5f5b) !important;
+    background: -o-linear-gradient(top, #ee5f5b, #ee5f5b) !important; 
+    background: -ms-linear-gradient(top, #ee5f5b, #ee5f5b) !important; 
     -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset; 
     -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset; 
     box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset;
@@ -166,7 +204,7 @@ footer .logo {
     background: -webkit-linear-gradient(top , #EFD740, #E5BD2C) repeat scroll 0 0 transparent !important;
     background: -o-linear-gradient(top , #EFD740, #E5BD2C) repeat scroll 0 0 transparent !important;
     background: -ms-linear-gradient(top , #EFD740, #E5BD2C) repeat scroll 0 0 transparent !important;
-    
+
     box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset;
     text-shadow: 0 1px 0 #FFEA8A;
 }
@@ -178,4 +216,22 @@ footer .logo {
     background: -o-linear-gradient(top , #F5E547, #E5BD2C) repeat scroll 0 0 transparent !important;
     background: -ms-linear-gradient(top , #F5E547, #E5BD2C) repeat scroll 0 0 transparent !important;
     box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset;
+}
+
+.form-horizontal .controls input,
+.form-horizontal .controls textarea {
+    width: auto;
+}
+
+.form-horizontal .controls selecy {
+    width: 100%;
+}
+
+
+.form-horizontal .control-label {
+    width: 60px;
+}
+
+.form-horizontal .controls {
+    margin-left: 80px;
 }

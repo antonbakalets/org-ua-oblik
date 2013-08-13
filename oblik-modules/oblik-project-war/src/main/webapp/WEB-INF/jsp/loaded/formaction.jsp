@@ -80,7 +80,7 @@
     <div class="control-group">
         <div class="controls">
             <button id="form-${formActionBean.type}-button" type="button" 
-                    class="btn ${fn:toLowerCase(formActionBean.type)}">Submit</button>
+                    class="btn btn-${fn:toLowerCase(formActionBean.type)}">Submit</button>
         </div>
     </div>
 
@@ -89,7 +89,7 @@
 <script>
     $(document).ready(function() {
 
-        //$(".datepicker").addDatepicker();
+        
 
         
     });

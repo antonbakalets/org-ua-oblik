@@ -19,9 +19,14 @@
             <display:column property="name" title="${title_name}"/>
             <display:column property="currencySymbol" title="${title_currency }"/>
             <display:column property="ammount" title="${title_balance }" value="ammount"/>
+            <display:setProperty name="basic.msg.empty_list">
+                <div class="alert iconed-box alert-info">
+                    <spring:message code="jsp.oblik.account.assets.empty"/>
+                </div>
+            </display:setProperty>
         </display:table>
 
-        <a id="add-assets" class="btn transfer" data-toggle="modal" data-target="#common-modal"
+        <a id="add-assets" class="btn btn-transfer" data-toggle="modal" data-target="#common-modal"
            href="${pageContext.request.contextPath}/account/edit.html?type=ASSETS">
             <spring:message code="jsp.oblik.account.btn.assets"/>
         </a>

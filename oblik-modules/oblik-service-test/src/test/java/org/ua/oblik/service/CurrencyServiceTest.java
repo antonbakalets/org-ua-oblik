@@ -1,7 +1,6 @@
 package org.ua.oblik.service;
 
 import java.io.IOException;
-import org.ua.oblik.service.test.CurrencyServiceTestHelper;
 import java.math.BigDecimal;
 import java.util.List;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -11,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.ua.oblik.service.beans.CurrencyVO;
-import org.ua.oblik.service.test.DefinedCurrency;
 
 /**
  * http://www.planetgeek.ch/wp-content/uploads/2013/06/Clean-Code-V2.1.pdf

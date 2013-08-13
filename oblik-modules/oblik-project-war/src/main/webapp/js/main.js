@@ -3,11 +3,14 @@ $.fn.addDatepicker = function() {
     this.datepicker({
         altFormat: 'dd.mm.yy',
         dateFormat: 'dd.mm.yy',
-        showOn: "button",
-        buttonImage: "../img/ico_calendar.gif",
-        buttonText: '',
+        showOn: "both",
         buttonImageOnly: true
     });
+    /*var imgd = this.next();
+    imgd.hide();
+    imgd.next().click(function () {
+        imgd.click();
+    });*/
 }
 
 $.fn.restrictToNumbers = function() {
@@ -38,7 +41,7 @@ function modalSaveEvent() {
     });
 }
 
-$.fn.attachModal = function () {
+$.fn.attachModal = function() {
     $(this).find('a[data-toggle="modal"]').click(function() {
         $('#common-modal-body').load(
                 $(this).attr('href'),

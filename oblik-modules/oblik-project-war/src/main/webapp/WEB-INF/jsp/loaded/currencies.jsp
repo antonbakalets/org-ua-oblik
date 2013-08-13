@@ -32,6 +32,11 @@
                             class="span2 align-right" headerClass="span2 align-center"/>
             <display:column property="total" title="${title_total}"
                             class="span2 align-right" headerClass="span2 align-center"/>
+            <display:setProperty name="basic.msg.empty_list">
+                <div class="alert iconed-box alert-info">
+                    <spring:message code="jsp.oblik.currency.empty"/>
+                </div>
+            </display:setProperty>
         </display:table>
 
         <a id="add-currency-btn" class="btn currency" title="${headerAdd}"

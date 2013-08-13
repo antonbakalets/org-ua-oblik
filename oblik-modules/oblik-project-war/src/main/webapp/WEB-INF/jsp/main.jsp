@@ -3,34 +3,47 @@
 <%@ taglib prefix="spring"  uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c"       uri="http://java.sun.com/jsp/jstl/core" %>
 
+<spring:message var="altLoading" code="jsp.oblik.loading"/>
+<c:set var="imgLoading">
+    <div class="m-all-5 text-center">
+        <img alt='${altLoading}...' src="${pageContext.request.contextPath}/img/loading.gif"/>
+    </div>
+</c:set>
+
 <div class="container m-bot-25">
     <div class="row">
         <div class="span4">
             <section id="form-actions">
                 <div class="tabbable"> <!-- Only required for left/right tabs -->
                     <ul class="nav nav-tabs">
-                        <li class="active"><a href="#tab-expense" data-toggle="tab">Витрата</a></li>
-                        <li><a href="#tab-transfer" data-toggle="tab">Переказ</a></li>
-                        <li><a href="#tab-income" data-toggle="tab">Дохід</a></li>
+                        <li class="active">
+                            <a href="#tab-expense" data-toggle="tab"><spring:message code="jsp.oblik.expense"/></a>
+                        </li>
+                        <li>
+                            <a href="#tab-transfer" data-toggle="tab"><spring:message code="jsp.oblik.transfer"/></a>
+                        </li>
+                        <li>
+                            <a href="#tab-income" data-toggle="tab"><spring:message code="jsp.oblik.income"/></a>
+                        </li>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane active" id="tab-expense">
-
+                            <c:out value="${imgLoading}" escapeXml="false"/>
                         </div>
                         <div class="tab-pane" id="tab-transfer">
-
+                            <c:out value="${imgLoading}" escapeXml="false"/>
                         </div>
                         <div class="tab-pane" id="tab-income">
-
+                            <c:out value="${imgLoading}" escapeXml="false"/>
                         </div>
                     </div>
                 </div>
             </section>
             <section id="total-by-currency">
-
+                <c:out value="${imgLoading}" escapeXml="false"/>
             </section>
             <section id="total-by-account">
-
+                <c:out value="${imgLoading}" escapeXml="false"/>
             </section>
         </div>
 
@@ -50,10 +63,10 @@
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane active" id="tab-transactions">
-
+                        <c:out value="${imgLoading}" escapeXml="false"/>
                     </div>
                     <div class="tab-pane" id="tab-accounts">
-
+                        <c:out value="${imgLoading}" escapeXml="false"/>
                     </div>
                 </div>
             </div>
@@ -65,10 +78,10 @@
 <div id="common-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="modal-label" aria-hidden="true">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h2 id="common-modal-label">Title</h2>
+        <h2 id="common-modal-label"></h2>
     </div>
     <div id="common-modal-body" class="modal-body">
-        <p>One fine body…this is getting replaced with content that comes from passed-in href</p>
+        <c:out value="${imgLoading}" escapeXml="false"/>
     </div>
     <div class="modal-footer">
         <button class="btn" data-dismiss="modal"><spring:message code="jsp.oblik.button.cancel"/></button>
@@ -81,6 +94,7 @@
         modalSaveEvent();
 
         $("#tab-expense").load('${pageContext.request.contextPath}/formaction.html?type=expense', function() {
+            $(".datepicker").addDatepicker();
             $('#form-EXPENSE-button').click(function() {
                 $('#form-EXPENSE').ajaxSubmit({
                     success: function(data)
@@ -92,6 +106,7 @@
         });
 
         $("#tab-transfer").load('${pageContext.request.contextPath}/formaction.html?type=transfer', function() {
+            $(".datepicker").addDatepicker();
             $('#form-TRANSFER-button').click(function() {
                 $('#form-TRANSFER').ajaxSubmit({
                     success: function(data)
@@ -100,18 +115,19 @@
                     }
                 });
             });
-            
+
             /* TODO
-            * $('#account-from, #account-to').change(function() {
-                if ($('#account-from').filter(':selected').attr('currency') === $('#account-to option:selected').attr('currency')) {
-                    $('#second-ammount-div').hide('slow');
-                } else {
-                    $('#second-ammount-div').show('slow');
-                }
-            });*/
+             * $('#account-from, #account-to').change(function() {
+             if ($('#account-from').filter(':selected').attr('currency') === $('#account-to option:selected').attr('currency')) {
+             $('#second-ammount-div').hide('slow');
+             } else {
+             $('#second-ammount-div').show('slow');
+             }
+             });*/
         });
 
         $("#tab-income").load('${pageContext.request.contextPath}/formaction.html?type=income', function() {
+            $(".datepicker").addDatepicker();
             $('#form-INCOME-button').click(function() {
                 $('#form-INCOME').ajaxSubmit({
                     success: function(data)
