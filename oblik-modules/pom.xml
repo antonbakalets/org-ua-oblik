@@ -125,6 +125,11 @@
                 <version>${javax.transaction.version}</version>
             </dependency>
             <dependency>
+                <groupId>javax.validation</groupId>
+                <artifactId>validation-api</artifactId>
+                <version>${javax.validation.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>jstl</groupId>
                 <artifactId>jstl</artifactId>
                 <version>${jstl.version}</version>
@@ -422,6 +427,7 @@
         <javax.mail.version>1.4.5</javax.mail.version>
         <javax.persistence.version>2.0</javax.persistence.version>
         <javax.transaction.version>1.1</javax.transaction.version>
+        <javax.validation.version>1.0.0.GA</javax.validation.version>
         <jstl.version>1.2</jstl.version>
         <junit.version>4.9</junit.version>
         <log4j.version>1.2.15</log4j.version>

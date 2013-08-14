@@ -13,7 +13,7 @@ public class TransactionBean {
 
     private AccountVO firstAccount;
 
-    private BigDecimal firstAmmount;
+    private String firstAmmount;
 
     private Date date;
 
@@ -21,7 +21,7 @@ public class TransactionBean {
 
     private AccountVO secondAccount;
 
-    private BigDecimal secondAmmount;
+    private String secondAmmount;
 
     
 
@@ -49,11 +49,11 @@ public class TransactionBean {
         this.firstAccount = firstAccount;
     }
 
-    public BigDecimal getFirstAmmount() {
+    public String getFirstAmmount() {
         return firstAmmount;
     }
 
-    public void setFirstAmmount(BigDecimal firstAmmount) {
+    public void setFirstAmmount(String firstAmmount) {
         this.firstAmmount = firstAmmount;
     }
 
@@ -81,11 +81,11 @@ public class TransactionBean {
         this.secondAccount = secondAccount;
     }
 
-    public BigDecimal getSecondAmmount() {
+    public String getSecondAmmount() {
         return secondAmmount;
     }
 
-    public void setSecondAmmount(BigDecimal secondAmmount) {
+    public void setSecondAmmount(String secondAmmount) {
         this.secondAmmount = secondAmmount;
     }
 }

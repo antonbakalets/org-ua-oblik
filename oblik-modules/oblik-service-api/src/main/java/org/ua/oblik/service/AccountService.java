@@ -16,7 +16,7 @@ public interface AccountService {
     AccountVO getAccount(Integer accountId);
 
     void save(AccountVO account);
-    
+
     void delete(Integer accountId);
 
     List<AccountVO> getExpenseAccounts();
@@ -30,6 +30,4 @@ public interface AccountService {
     Map<CurrencyVO, BigDecimal> totalAssetsByCurrency();
 
     boolean isNameExists(String name);
-    
-    boolean isUsed (Integer accountId);
 }

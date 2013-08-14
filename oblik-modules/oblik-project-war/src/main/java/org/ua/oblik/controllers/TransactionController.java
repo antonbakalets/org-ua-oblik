@@ -1,8 +1,10 @@
 package org.ua.oblik.controllers;
 
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.validation.Valid;
 
@@ -26,7 +28,7 @@ import org.ua.oblik.service.beans.TransactionVO;
  * @author Anton Bakalets
  */
 @Controller
-public class TransactionController {
+public class TransactionController extends BaseController {
 
     private static final Logger LOG = LoggerFactory.getLogger(TransactionController.class);
 
@@ -41,10 +43,10 @@ public class TransactionController {
     private AccountService accountService;
 
     @RequestMapping("/transaction/list")
-    public String transactions(final Model model) {
+    public String transactions(final Locale locale, final Model model) {
         LOG.debug("transactions");
         List<TransactionVO> tempList = transactionService.getTransactions();
-        List<TransactionBean> list = convertList(tempList);
+        List<TransactionBean> list = convertList(tempList, locale);
         model.addAttribute(TRANSACTIONS, list);
         return "loaded/transactions";
     }
@@ -54,7 +56,8 @@ public class TransactionController {
             final @RequestParam(value = "transactionId", required = false) Integer transactionId) {
         LOG.debug("Delete transaction, id: " + transactionId + ".");
         TransactionVO tvo =  transactionService.getTransaction(transactionId);
-        TransactionBean transactionBean = convert(tvo);
+        // TODO
+        TransactionBean transactionBean = convert(tvo, Locale.CANADA_FRENCH);
         model.addAttribute(TRANSACTION_BEAN, transactionBean);
         return "loaded/transaction";
     }
@@ -68,23 +71,25 @@ public class TransactionController {
         return "loaded/transaction";
     }
 
-    private TransactionBean convert(TransactionVO tvo) {
+    private TransactionBean convert(TransactionVO tvo, Locale locale) {
         TransactionBean result = new TransactionBean();
         result.setDate(tvo.getDate());
         result.setFirstAccount(accountService.getAccount(tvo.getFirstAccount()));
-        result.setFirstAmmount(tvo.getFirstAmmount());
+        result.setFirstAmmount(formatDecimal(tvo.getFirstAmmount(), locale));
         result.setTransactionId(tvo.getTxId());
         result.setNote(tvo.getNote());
         result.setSecondAccount(accountService.getAccount(tvo.getSecondAccount()));
-        result.setSecondAmmount(tvo.getSecondAmmount());
+        if (tvo.getSecondAmmount() != null) {
+            result.setSecondAmmount(formatDecimal(tvo.getSecondAmmount(), locale));
+        }
         result.setType(tvo.getType());
         return result;
     }
 
-    private List<TransactionBean> convertList(List<TransactionVO> list) {
+    private List<TransactionBean> convertList(List<TransactionVO> list, Locale locale) {
         List<TransactionBean> result = new ArrayList<TransactionBean>();
         for (TransactionVO temp : list) {
-            result.add(convert(temp));
+            result.add(convert(temp, locale));
         }
         return result;
     }

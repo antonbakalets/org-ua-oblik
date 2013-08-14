@@ -27,10 +27,10 @@
                     ${totalAccounts.name}
                 </a>
             </display:column>
-            <display:column property="currencySymbol" title="${title_currency}"
+            <display:column property="ammount" title="${title_currency}"
+                            headerClass="span1 hide" class="span1 align-right"/>
+            <display:column property="currencySymbol" title="${title_balance}" value="ammount"
                             headerClass="span1 align-center" class="span1"/>
-            <display:column property="ammount" title="${title_balance }" value="ammount"
-                            headerClass="span1 align-center" class="span1 align-right"/>
             <display:setProperty name="basic.msg.empty_list">
                 <div class="alert iconed-box alert-info">
                     <spring:message code="jsp.oblik.account.assets.empty"/>

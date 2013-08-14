@@ -79,7 +79,7 @@ public class AccountController {
             final @RequestParam(value = "accountId", required = false) Integer accountId,
             final @RequestParam(value = "type", required = false, defaultValue = ASSETS) AccountVOType type) {
         LOG.debug("Editing account, id: " + accountId + ", type: " + type + ".");
-        AccountBean accountBean = createAccount(accountId);
+        AccountBean accountBean = createAccount(accountId, type);
         model.addAttribute(ACCOUNT_BEAN, accountBean);
         return "loaded/account";
     }
@@ -140,7 +140,7 @@ public class AccountController {
         result.setKind(avo.getType());
         result.setAmmount(avo.getAmmount());
         result.setCurrencySymbol(avo.getCurrencySymbol());
-        result.setUsed(accountService.isUsed(avo.getAccountId()));
+        result.setRemovable(avo.isRemovable());
         return result;
     }
     
@@ -152,9 +152,10 @@ public class AccountController {
         return result;
     }
 
-    private AccountBean createAccount(final Integer accountId) {
+    private AccountBean createAccount(final Integer accountId, AccountVOType type) {
         AccountBean accountBean = convert(accountId == null ? new AccountVO() : accountService.getAccount(accountId));
         accountBean.setOldName(accountBean.getName());
+        accountBean.setKind(type);
         return accountBean;
     }
 }

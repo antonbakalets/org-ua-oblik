@@ -96,7 +96,7 @@ public class FormActionController extends BaseController {
             final boolean isCreating = bean.getTxId() == null;
             transactionService.save(convert(bean));
             if (isCreating) {
-                return "redirect:/formaction";
+                return "redirect:/formaction.html?type=" + bean.getType();
             }
         }
         return "loaded/formaction";

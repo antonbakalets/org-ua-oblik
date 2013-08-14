@@ -33,15 +33,7 @@ public class AccountBean {
 
     private BigDecimal ammount;
     
-    private boolean used;
-
-	public boolean isUsed() {
-		return used;
-	}
-
-	public void setUsed(boolean used) {
-		this.used = used;
-	}
+    private boolean removable;
 
 	public String getCurrencySymbol() {
 		return currencySymbol;
@@ -98,6 +90,12 @@ public class AccountBean {
 	public void setOldName(String oldName) {
 		this.oldName = oldName;
 	}
-    
-    
+
+    public boolean isRemovable() {
+        return removable;
+    }
+
+    public void setRemovable(boolean removable) {
+        this.removable = removable;
+    }
 }

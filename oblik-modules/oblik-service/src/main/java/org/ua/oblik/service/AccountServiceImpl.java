@@ -131,13 +131,12 @@ public class AccountServiceImpl implements AccountService {
         return accountDao.isNameExists(name);
     }
     
-	@Override
-	public boolean isUsed(Integer accountId) {
+	private boolean hasTransactions(Integer accountId) {
 		Account account = accountDao.select(accountId);
 		return accountDao.isUsed(account);
 	}
 
-    private static AccountVO convert(Account model) {
+    private AccountVO convert(Account model) {
         AccountVO result = new AccountVO();
         result.setAccountId(model.getId());
         result.setCurrencyId(model.getCurrency().getId());
@@ -145,10 +144,13 @@ public class AccountServiceImpl implements AccountService {
         result.setName(model.getShortName());
         result.setAmmount(model.getTotal());
         result.setType(convertType(model.getKind()));
+        if (model.getId() != null) {
+            result.setRemovable(hasTransactions(model.getId()));
+        }
         return result;
     }
 
-    private static List<AccountVO> convert(List<Account> modelList) {
+    private List<AccountVO> convert(List<Account> modelList) {
         List<AccountVO> result = new ArrayList<AccountVO>(modelList.size());
         for (Account model : modelList) {
             result.add(convert(model));
@@ -179,8 +181,4 @@ public class AccountServiceImpl implements AccountService {
         }
         throw new IllegalArgumentException("Unnexisting account type.");
     }
-
-
-
-
 }

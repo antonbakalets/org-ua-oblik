@@ -14,6 +14,7 @@ public class AccountVO {
     private String currencySymbol;
     private BigDecimal ammount;
     private AccountVOType type;
+    private boolean removable;
 
     public Integer getAccountId() {
         return accountId;
@@ -61,6 +62,14 @@ public class AccountVO {
 
     public void setType(AccountVOType type) {
         this.type = type;
+    }
+
+    public boolean isRemovable() {
+        return removable;
+    }
+
+    public void setRemovable(boolean removable) {
+        this.removable = removable;
     }
 
     @Override

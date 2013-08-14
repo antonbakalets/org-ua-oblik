@@ -3,11 +3,11 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:p="http://www.springframework.org/schema/p"
        xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
-        http://www.springframework.org/schema/context
-        http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
 
+    <context:property-placeholder location="classpath:/org/ua/oblik/context/beans.properties" />
+    
     <bean class="org.ua.oblik.controllers.validators.AccountValidator"/>
     <bean class="org.ua.oblik.controllers.validators.CurrencyValidator"/>
     <bean class="org.ua.oblik.controllers.validators.FormActionValidator"/>
@@ -35,14 +35,13 @@
         <constructor-arg name="emptyAsNull" value="true"/>
     </bean>
     
-    <bean id="numberFormatter" class="org.springframework.format.number.NumberFormatter">
-        <property name="pattern" value="# #00.00"/>
+    <bean id="decimalNumberFormatter" class="org.springframework.format.number.NumberFormatter">
+        <property name="pattern" value="${decimal.format}"/>
     </bean>
     
     <bean id="bigDecimalEditor" class="org.springframework.beans.propertyeditors.CustomNumberEditor">
-        <constructor-arg index="0" value="java.math.BigDecimal"/>
-        <!--<constructor-arg index="1" ref="numberFormatter"/>-->
-        <constructor-arg index="1" value="true"/>
+        <constructor-arg name="numberClass" value="java.math.BigDecimal"/>
+        <constructor-arg name="allowEmpty" value="true"/>
     </bean>
     
     <bean id="transactionTypePropertyEditor" class="org.ua.oblik.controllers.utils.TransactionTypePropertyEditor"/>
