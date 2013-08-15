@@ -6,11 +6,6 @@ $.fn.addDatepicker = function() {
         showOn: "focus",
         buttonImageOnly: true
     });
-    /*var imgd = this.next();
-     imgd.hide();
-     imgd.next().click(function () {
-     imgd.click();
-     });*/
 }
 
 $.fn.restrictToNumbers = function() {
@@ -19,30 +14,10 @@ $.fn.restrictToNumbers = function() {
     });
 }
 
-function split(val) {
-    return val.split(/,\s*/);
-}
-
-function extractLast(term) {
-    return split(term).pop();
-}
-function modalSaveEvent() {
-    $('#common-modal-save').click(function() {
-        $('#common-modal form').ajaxSubmit({
-            success: function(responseText, statusText, xhr, $form) {
-                $('#common-modal-body').html('');
-                $('#common-modal-body').html(responseText);
-                if ($("#common-modal-body .alert").size() === 0) {
-                    $("#common-modal").modal('hide');
-                }
-                // TODO $('#right-tabs li.active').load();
-            }
-        });
-    });
-}
-
 $.fn.attachModal = function() {
     $(this).find('a[data-toggle="modal"]').click(function() {
+        $('#common-modal-label').text($(this).attr('title'));
+        $('#common-modal-event').text($(this).attr('save-event'));
         $('#common-modal-body').load(
                 $(this).attr('href'),
                 function(response, status, xhr) {
@@ -52,54 +27,199 @@ $.fn.attachModal = function() {
                     return this;
                 }
         );
-        $('#common-modal-label').html($(this).attr('title'));
     });
 }
 
-function initFormExspense() {
-    $(".datepicker").addDatepicker();
-    $('#form-expense-button').click(function() {
-        $('#form-expense').ajaxSubmit({
-            success: function(data)
-            {
-                $('#tab-expense').html(data);
-                initFormExspense();
-            }
-        });
-    });
-}
+jQuery(function($) {
+    'use strict';
 
-function initFormTransfer() {
-    $(".datepicker").addDatepicker();
-    $('#form-transfer-button').click(function() {
-        $('#form-transfer').ajaxSubmit({
-            success: function(data)
-            {
-                $('#tab-transfer').html(data);
-                initFormTransfer();
-            }
-        });
+    var App = {
+        init: function(contextPath) {
+            this.contextPath = contextPath;
+            this.loadExpenseForm();
+            this.loadTransferForm();
+            this.loadIncomeForm();
+            this.loadTotalByCurrency();
+            this.loadTotalByAccount();
+            this.loadTransactions();
+            this.loadAccounts();
+            this.modalSaveEvent();
+        },
+        loadExpenseForm: function() {
+            $("#tab-expense").load(this.contextPath + '/formaction.html?type=expense', function() {
+                App.initExpenseForm();
+            });
+        },
+        loadTransferForm: function() {
+            $("#tab-transfer").load(this.contextPath + '/formaction.html?type=transfer', function() {
+                App.initTransferForm();
+            });
+        },
+        loadIncomeForm: function() {
+            $("#tab-income").load(this.contextPath + '/formaction.html?type=income', function() {
+                App.initIncomeForm();
+            });
+        },
+        initExpenseForm: function() {
+            $("#form-expense-button .datepicker").addDatepicker();
+            $('#form-expense-button').click(function() {
+                $('#form-expense').ajaxSubmit({
+                    success: function(data)
+                    {
+                        $('#tab-expense').html(data);
+                        if ($("#tab-expense .alert").size() === 0) {
+                            reactor.dispatchEvent('transactionEdited');
+                        }
+                        App.initExpenseForm();
+                    }
+                });
+            });
+        },
+        initTransferForm: function() {
+            $("#form-transfer-button .datepicker").addDatepicker();
+            $('#form-transfer-button').click(function() {
+                $('#form-transfer').ajaxSubmit({
+                    success: function(data)
+                    {
+                        $('#tab-transfer').html(data);
+                        if ($("#tab-transfer .alert").size() === 0) {
+                            reactor.dispatchEvent('transactionEdited');
+                        }
+                        App.initTransferForm();
+                    }
+                });
+            });
+
+            /* TODO
+             * $('#account-from, #account-to').change(function() {
+             if ($('#account-from').filter(':selected').attr('currency') === $('#account-to option:selected').attr('currency')) {
+             $('#second-ammount-div').hide('slow');
+             } else {
+             $('#second-ammount-div').show('slow');
+             }
+             });*/
+        },
+        initIncomeForm: function() {
+            $("#form-income-button .datepicker").addDatepicker();
+            $('#form-income-button').click(function() {
+                $('#form-income').ajaxSubmit({
+                    success: function(data)
+                    {
+                        $('#tab-income').html(data);
+                        if ($("#tab-income .alert").size() === 0) {
+                            reactor.dispatchEvent('transactionEdited');
+                        }
+                        App.initIncomeForm();
+                    }
+                });
+            });
+        },
+        loadTotalByCurrency: function() {
+            $("#total-by-currency").load(this.contextPath + '/currency/list.html', function() {
+                $("#total-by-currency").attachModal();
+            });
+        },
+        loadTotalByAccount: function() {
+            $("#total-by-account").load(this.contextPath + '/total/account.html', function() {
+                $("#total-by-account").attachModal();
+            });
+        },
+        loadTransactions: function() {
+            $("#tab-transactions").load(this.contextPath + '/transaction/list.html', function() {
+                $("#tab-transactions").attachModal();
+            });
+        },
+        loadAccounts: function() {
+            $("#tab-accounts").load(this.contextPath + '/account/list.html', function() {
+                $("#tab-accounts").attachModal();
+            });
+        },
+        modalSaveEvent: function() {
+            $('#common-modal-save').click(function() {
+                $('#common-modal form').ajaxSubmit({
+                    success: function(responseText, statusText, xhr, $form) {
+                        $('#common-modal-body').html('');
+                        $('#common-modal-body').html(responseText);
+                        if ($("#common-modal-body .alert").size() === 0) {
+                            $("#common-modal").modal('hide');
+                            reactor.dispatchEvent($('#common-modal-event').text());
+                        }
+                    }
+                });
+            });
+        }
+    };
+
+    App.init($('#contextPath').text());
+
+  
+
+    function Event(name) {
+        this.name = name;
+        this.callbacks = [];
+    }
+    Event.prototype.registerCallback = function(callback) {
+        this.callbacks.push(callback);
+    };
+
+
+
+
+    function Reactor() {
+        this.events = {};
+    }
+
+    Reactor.prototype.registerEvent = function(eventName) {
+        var event = new Event(eventName);
+        this.events[eventName] = event;
+    };
+
+    Reactor.prototype.dispatchEvent = function(eventName, eventArgs) {
+        if (eventName) {
+            console.log('Dispathing event: ' + eventName);
+            this.events[eventName].callbacks.forEach(function(callback) {
+                callback(eventArgs);
+            });
+        } else {
+            console.error('Unknown event name: ' + eventName);
+        }
+    };
+
+    Reactor.prototype.addEventListener = function(eventName, callback) {
+        this.events[eventName].registerCallback(callback);
+    };
+
+
+
+
+    var reactor = new Reactor();
+
+    reactor.registerEvent('currencyAdded');
+    reactor.registerEvent('currencyEdited');
+    reactor.registerEvent('accountEdited');
+    reactor.registerEvent('transactionEdited');
+    
+    reactor.addEventListener('currencyAdded', function() {
+        App.loadTotalByCurrency();
+    });
+    
+    reactor.addEventListener('currencyEdited', function() {
+        App.loadTotalByCurrency();
     });
 
-    /* TODO
-     * $('#account-from, #account-to').change(function() {
-     if ($('#account-from').filter(':selected').attr('currency') === $('#account-to option:selected').attr('currency')) {
-     $('#second-ammount-div').hide('slow');
-     } else {
-     $('#second-ammount-div').show('slow');
-     }
-     });*/
-}
-
-function initFormIncome() {
-    $(".datepicker").addDatepicker();
-    $('#form-income-button').click(function() {
-        $('#form-income').ajaxSubmit({
-            success: function(data)
-            {
-                $('#tab-income').html(data);
-                initFormIncome();
-            }
-        });
+    reactor.addEventListener('accountEdited', function() {
+        App.loadAccounts();
+        App.loadTotalByAccount();
     });
-}
+
+    reactor.addEventListener('transactionEdited', function() {
+        App.loadTransactions();
+        App.loadAccounts();
+        App.loadTotalByAccount();
+        App.loadTotalByCurrency();
+    });
+
+
+
+});
+

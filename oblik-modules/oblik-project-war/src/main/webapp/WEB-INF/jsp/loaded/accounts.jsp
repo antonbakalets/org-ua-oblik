@@ -31,13 +31,13 @@
     <display:column class="span2 align-right">
         <a id="account_${assetsAccounts.accountId}" class="btn btn-mini" title="${editAssetsHeader}"
            href="${pageContext.request.contextPath}/account/edit.html?accountId=${assetsAccounts.accountId}&type=ASSETS"
-           data-target="#common-modal" data-toggle="modal">
+           data-target="#common-modal" data-toggle="modal" save-event="accountEdited">
             <i class="icon-edit"></i> 
         </a>
         <c:if test="${!assetsAccounts.removable}">
             <a id="account_delete_${assetsAccounts.accountId}" class="btn btn-mini"
                href="${pageContext.request.contextPath}/account/delete.html?accountId=${assetsAccounts.accountId}"
-               data-target="#common-modal" data-toggle="modal">
+               data-target="#common-modal" data-toggle="modal" save-event="accountEdited">
                 <i class="icon-trash"></i>    
             </a>
         </c:if>
@@ -50,7 +50,7 @@
 </display:table>
 
 <a id="add-assets" class="btn btn-transfer" title="${addAssetsHeader}"
-   data-toggle="modal" data-target="#common-modal"
+   data-toggle="modal" data-target="#common-modal" save-event="accountEdited"
    href="${pageContext.request.contextPath}/account/edit.html?type=ASSETS">
     <spring:message code="jsp.oblik.account.btn.assets"/>
 </a>
@@ -71,13 +71,13 @@
     <display:column class="span2 align-right">
         <a id="account_${incomeAccounts.accountId}" class="btn btn-mini" title="${editIncomeHeader}"
            href="${pageContext.request.contextPath}/account/edit.html?accountId=${incomeAccounts.accountId}&type=INCOME"
-           data-target="#common-modal" data-toggle="modal">
+           data-target="#common-modal" data-toggle="modal" save-event="accountEdited">
             <i class="icon-edit"></i> 
         </a>
         <c:if test="${!incomeAccounts.removable}">
             <a id="account_delete_${incomeAccounts.accountId}" class="btn btn-mini"
                href="${pageContext.request.contextPath}/account/delete.html?accountId=${incomeAccounts.accountId}"
-               data-target="#common-modal" data-toggle="modal">
+               data-target="#common-modal" data-toggle="modal" save-event="accountEdited">
                 <i class="icon-trash"></i>    
             </a>
         </c:if>
@@ -90,7 +90,7 @@
 </display:table>
 
 <a id="add-income" class="btn btn-income" title="${addIncomeHeader}"
-   data-toggle="modal" data-target="#common-modal"
+   data-toggle="modal" data-target="#common-modal" save-event="accountEdited"
    href="${pageContext.request.contextPath}/account/edit.html?type=INCOME">
     <spring:message code="jsp.oblik.account.btn.income"/>
 </a>
@@ -111,13 +111,13 @@
     <display:column class="span2 align-right">
         <a id="account_${expenseAccounts.accountId}" class="btn btn-mini" title="${editExpenseHeader}"
            href="${pageContext.request.contextPath}/account/edit.html?accountId=${expenseAccounts.accountId}&type=EXPENSE"
-           data-target="#common-modal" data-toggle="modal">
+           data-target="#common-modal" data-toggle="modal" save-event="accountEdited">
             <i class="icon-edit"></i> 
         </a>
         <c:if test="${!expenseAccounts.removable}">
             <a id="account_delete_${expenseAccounts.accountId}" class="btn btn-mini"
                href="${pageContext.request.contextPath}/account/delete.html?accountId=${expenseAccounts.accountId}"
-               data-target="#common-modal" data-toggle="modal">
+               data-target="#common-modal" data-toggle="modal" save-event="accountEdited">
                 <i class="icon-trash"></i>    
             </a>
         </c:if>
@@ -130,7 +130,7 @@
 </display:table>
 
 <a id="add-expense" class="btn btn-expense" title="${addExpenseHeader}"
-   data-toggle="modal" data-target="#common-modal"
+   data-toggle="modal" data-target="#common-modal" save-event="accountEdited"
    href="${pageContext.request.contextPath}/account/edit.html?type=EXPENSE">
     <spring:message code="jsp.oblik.account.btn.expense"/>
 </a>

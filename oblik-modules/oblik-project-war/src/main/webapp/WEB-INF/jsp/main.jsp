@@ -10,6 +10,8 @@
     </div>
 </c:set>
 
+<span id="contextPath" class="hide">${pageContext.request.contextPath}</span>
+
 <div class="container m-bot-25">
     <div class="row">
         <div class="span4">
@@ -87,38 +89,5 @@
         <button class="btn" data-dismiss="modal"><spring:message code="jsp.oblik.button.cancel"/></button>
         <button id="common-modal-save" class="btn btn-primary"><spring:message code="jsp.oblik.button.save"/></button>
     </div>
+    <span id="common-modal-event" class="hide"></span>
 </div>
-
-<script>
-    $(document).ready(function() {
-        modalSaveEvent();
-
-        $("#tab-expense").load('${pageContext.request.contextPath}/formaction.html?type=expense', function() {
-            initFormExspense();
-        });
-
-        $("#tab-transfer").load('${pageContext.request.contextPath}/formaction.html?type=transfer', function() {
-            initFormTransfer();
-        });
-
-        $("#tab-income").load('${pageContext.request.contextPath}/formaction.html?type=income', function() {
-            initFormIncome();
-        });
-
-        $("#total-by-currency").load('${pageContext.request.contextPath}/currency/list.html', function() {
-            $("#total-by-currency").attachModal();
-        });
-
-        $("#total-by-account").load('${pageContext.request.contextPath}/total/account.html', function() {
-            $("#total-by-account").attachModal();
-        });
-
-        $("#tab-transactions").load('${pageContext.request.contextPath}/transaction/list.html', function() {
-            $("#tab-transactions").attachModal();
-        });
-
-        $("#tab-accounts").load('${pageContext.request.contextPath}/account/list.html', function() {
-            $("#tab-accounts").attachModal();
-        });
-    });
-</script>

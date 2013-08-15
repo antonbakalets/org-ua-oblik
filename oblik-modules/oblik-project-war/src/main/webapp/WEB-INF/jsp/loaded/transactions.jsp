@@ -38,12 +38,12 @@
                     <td>
                         <a id="transaction_edit_${transaction.transactionId}" class="btn btn-mini"
                            href="${pageContext.request.contextPath}/formaction.html?type=transfer&txId=${transaction.transactionId}"
-                           data-target="#common-modal" data-toggle="modal">
+                           data-target="#common-modal" data-toggle="modal" save-event="transactionEdited">
                             <i class="icon-edit"></i> 
                         </a>
                         <a id="transaction_delete_${transaction.transactionId}" class="btn btn-mini"
                            href="${pageContext.request.contextPath}/transaction/delete.html?transactionId=${transaction.transactionId}"
-                           data-target="#common-modal" data-toggle="modal">
+                           data-target="#common-modal" data-toggle="modal" save-event="transactionEdited">
                             <i class="icon-trash"></i> 
                         </a>
                     </td>
@@ -59,12 +59,12 @@
                     <td>
                         <a id="transaction_edit_${transaction.transactionId}" class="btn btn-mini"
                            href="${pageContext.request.contextPath}/formaction.html?type=income&txId=${transaction.transactionId}"
-                           data-target="#common-modal" data-toggle="modal">
+                           data-target="#common-modal" data-toggle="modal" save-event="transactionEdited">
                             <i class="icon-edit"></i> 
                         </a>
                         <a id="transaction_delete_${transaction.transactionId}" class="btn btn-mini"
                            href="${pageContext.request.contextPath}/transaction/delete.html?transactionId=${transaction.transactionId}"
-                           data-target="#common-modal" data-toggle="modal">
+                           data-target="#common-modal" data-toggle="modal" save-event="transactionEdited">
                             <i class="icon-trash"></i> 
                         </a>
                     </td>
@@ -80,12 +80,12 @@
                     <td>
                         <a id="transaction_edit_${transaction.transactionId}" class="btn btn-mini"
                            href="${pageContext.request.contextPath}/formaction.html?type=expense&txId=${transaction.transactionId}"
-                           data-target="#common-modal" data-toggle="modal">
+                           data-target="#common-modal" data-toggle="modal" save-event="transactionEdited">
                             <i class="icon-edit"></i> 
                         </a>
                         <a id="transaction_delete_${transaction.transactionId}" class="btn btn-mini"
                            href="${pageContext.request.contextPath}/transaction/delete.html?transactionId=${transaction.transactionId}"
-                           data-target="#common-modal" data-toggle="modal">
+                           data-target="#common-modal" data-toggle="modal" save-event="transactionEdited">
                             <i class="icon-trash"></i> 
                         </a>
                     </td>

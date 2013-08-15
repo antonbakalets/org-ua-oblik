@@ -23,7 +23,7 @@
             <display:column title="${title_symbol}" 
                             class="span1" headerClass="span1 align-center">
                 <a id="currency_${currecyTable.currencyId}" title="${headerEdit}"
-                   data-target="#common-modal" data-toggle="modal"
+                   data-target="#common-modal" data-toggle="modal" save-event="currencyEdited"
                    href="${pageContext.request.contextPath}/currency/edit.html?currencyId=${currecyTable.currencyId}">
                     ${currecyTable.symbol}
                 </a>
@@ -40,7 +40,7 @@
         </display:table>
 
         <a id="add-currency-btn" class="btn currency" title="${headerAdd}"
-           data-toggle="modal" data-target="#common-modal"
+           data-toggle="modal" data-target="#common-modal" save-event="currencyAdded"
            href="${pageContext.request.contextPath}/currency/edit.html">
             <spring:message code="jsp.oblik.button.add.currency"/>
         </a>

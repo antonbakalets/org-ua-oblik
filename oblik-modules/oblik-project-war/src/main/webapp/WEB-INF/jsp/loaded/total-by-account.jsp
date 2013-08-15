@@ -22,7 +22,7 @@
             <display:column title="${title_name}"
                             headerClass="span2 align-center" class="span2">
                 <a id="account_${totalAccounts.accountId}" title="${headerEdit}"
-                   data-target="#common-modal" data-toggle="modal"
+                   data-target="#common-modal" data-toggle="modal" save-event="accountEdited"
                    href="${pageContext.request.contextPath}/account/edit.html?accountId=${totalAccounts.accountId}&type=ASSETS">
                     ${totalAccounts.name}
                 </a>
@@ -39,7 +39,7 @@
         </display:table>
 
         <a id="add-assets" class="btn btn-transfer" title="${headerAdd}"
-           data-toggle="modal" data-target="#common-modal"
+           data-toggle="modal" data-target="#common-modal" save-event="accountEdited"
            href="${pageContext.request.contextPath}/account/edit.html?type=ASSETS">
             <spring:message code="jsp.oblik.account.btn.assets"/>
         </a>
