@@ -17,6 +17,8 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>oblik-dao-api</artifactId>
+            <scope>compile</scope>
+            <optional>true</optional>
         </dependency>
         
         <dependency>

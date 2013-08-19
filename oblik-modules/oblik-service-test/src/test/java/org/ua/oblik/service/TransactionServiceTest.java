@@ -294,6 +294,40 @@ public class TransactionServiceTest extends BaseServiceTest {
     }
     
     @Test
+    public void editIncomeAccountChange() {
+        LOGGER.debug("[TEST] editIncomeAccountChange");
+        
+        defaultBefore();
+        final BigDecimal ughBefore = totalByCurrency(DefinedAccount.UGH_CASH);
+        final BigDecimal cashBefore = totalByAccount(DefinedAccount.UGH_CASH);
+        final BigDecimal cardBefore = totalByAccount(DefinedAccount.UGH_CARD);
+        
+        TransactionVO incomeTx = new TransactionVO();
+        incomeTx.setDate(new Date());
+        incomeTx.setFirstAccount(aH.accountId(DefinedAccount.INCOME_SALARY));
+        final BigDecimal firstDiff = BigDecimal.valueOf(30);
+        incomeTx.setFirstAmmount(firstDiff);
+        incomeTx.setSecondAccount(aH.accountId(DefinedAccount.UGH_CASH));
+        incomeTx.setNote("Зарплата за січень.");
+        incomeTx.setType(TransactionType.INCOME);
+        transactionService.save(incomeTx);
+                
+        final BigDecimal secDiff = BigDecimal.valueOf(100);
+        incomeTx.setFirstAmmount(secDiff);
+        incomeTx.setSecondAccount(aH.accountId(DefinedAccount.UGH_CARD));
+        transactionService.save(incomeTx); 
+        
+        final BigDecimal ughAfter = totalByCurrency(DefinedAccount.UGH_CASH);
+        Assert.assertEquals("Невідповідність у кількості гривні.", ughAfter, ughBefore.add(secDiff));
+        final BigDecimal cashAfter = totalByAccount(DefinedAccount.UGH_CASH);
+        Assert.assertEquals("Невідповідний залишок на рахунку.", cashAfter, cashBefore);
+        final BigDecimal cardAfter = totalByAccount(DefinedAccount.UGH_CARD);
+        Assert.assertEquals("Невідповідний залишок на рахунку.", cardAfter, cardBefore.add(secDiff));
+
+        defaultAfter(defaultCurrencyTotal.add(secDiff));
+    }
+    
+    @Test
     public void editExpense() {
         LOGGER.debug("[TEST] editExpense");
         defaultBefore();
@@ -323,6 +357,39 @@ public class TransactionServiceTest extends BaseServiceTest {
     }
     
     @Test
+    public void editExpenseAccountChange() {
+        LOGGER.debug("[TEST] editExpenseAccountChange");
+        defaultBefore();
+        final BigDecimal ughBefore = totalByCurrency(DefinedAccount.UGH_CASH);
+        final BigDecimal cashBefore = totalByAccount(DefinedAccount.UGH_CASH);
+        final BigDecimal cardBefore = totalByAccount(DefinedAccount.UGH_CARD);
+        
+        TransactionVO expenseTx = new TransactionVO();
+        expenseTx.setDate(new Date());
+        expenseTx.setFirstAccount(aH.accountId(DefinedAccount.UGH_CASH));
+        final BigDecimal diff = BigDecimal.valueOf(85);
+        expenseTx.setFirstAmmount(diff);
+        expenseTx.setSecondAccount(aH.accountId(DefinedAccount.EXPENSE_MARKET));
+        expenseTx.setNote("Витрата на базарі.");
+        expenseTx.setType(TransactionType.EXPENSE);
+        transactionService.save(expenseTx);
+        
+        final BigDecimal secDiff = BigDecimal.valueOf(22);  
+        expenseTx.setFirstAmmount(secDiff);
+        expenseTx.setFirstAccount(aH.accountId(DefinedAccount.UGH_CARD));
+        transactionService.save(expenseTx);
+        
+        final BigDecimal ughAfter = totalByCurrency(DefinedAccount.UGH_CASH);
+        Assert.assertEquals("Невідповідність у кількості гривні.", ughAfter, ughBefore.subtract(secDiff));
+         final BigDecimal cashAfter = totalByAccount(DefinedAccount.UGH_CASH);
+        Assert.assertEquals("Невідповідний залишок на рахунку.", cashAfter, cashBefore);
+        final BigDecimal cardAfter = totalByAccount(DefinedAccount.UGH_CARD);
+        Assert.assertEquals("Невідповідний залишок на рахунку.", cardAfter, cardBefore.subtract(secDiff));
+
+        defaultAfter(defaultCurrencyTotal.subtract(secDiff));
+    }
+    
+    @Test
     public void editTransfer() {
         LOGGER.debug("[TEST] editTransfer");
         defaultBefore();
@@ -332,24 +399,24 @@ public class TransactionServiceTest extends BaseServiceTest {
         final BigDecimal cashBefore = totalByAccount(DefinedAccount.UGH_CASH);
         final BigDecimal cardBefore = totalByAccount(DefinedAccount.EURO_CARD);
         
-        TransactionVO expenseTx = new TransactionVO();
-        expenseTx.setDate(new Date());
-        expenseTx.setFirstAccount(aH.accountId(DefinedAccount.UGH_CASH));
+        TransactionVO transferTx = new TransactionVO();
+        transferTx.setDate(new Date());
+        transferTx.setFirstAccount(aH.accountId(DefinedAccount.UGH_CASH));
         final BigDecimal ughDiff = BigDecimal.valueOf(1050);
-        expenseTx.setFirstAmmount(ughDiff);
-        expenseTx.setSecondAccount(aH.accountId(DefinedAccount.EURO_CARD));
+        transferTx.setFirstAmmount(ughDiff);
+        transferTx.setSecondAccount(aH.accountId(DefinedAccount.EURO_CARD));
         final BigDecimal euroDiff = BigDecimal.valueOf(99);
-        expenseTx.setSecondAmmount(euroDiff);
-        expenseTx.setNote("Купуємо за 1050 грн 99 еуро.");
-        expenseTx.setType(TransactionType.TRANSFER);
-        transactionService.save(expenseTx);
+        transferTx.setSecondAmmount(euroDiff);
+        transferTx.setNote("Купуємо за 1050 грн 99 еуро.");
+        transferTx.setType(TransactionType.TRANSFER);
+        transactionService.save(transferTx);
         
-        expenseTx.setNote("передумали - купуємо за 425 грн 49 еуро");
+        transferTx.setNote("передумали - купуємо за 425 грн 49 еуро");
         final BigDecimal secUghDiff = BigDecimal.valueOf(425);
         final BigDecimal secEuroDiff = BigDecimal.valueOf(49);
-        expenseTx.setFirstAmmount(secUghDiff);
-        expenseTx.setSecondAmmount(secEuroDiff);
-        transactionService.save(expenseTx);
+        transferTx.setFirstAmmount(secUghDiff);
+        transferTx.setSecondAmmount(secEuroDiff);
+        transactionService.save(transferTx);
         
         final BigDecimal ughAfter = totalByCurrency(DefinedAccount.UGH_CASH);
         Assert.assertEquals("Невідповідність у кількості гривні.", ughAfter, ughBefore.subtract(secUghDiff));
@@ -363,6 +430,56 @@ public class TransactionServiceTest extends BaseServiceTest {
         defaultAfter(defaultCurrencyTotal
                 .subtract(secUghDiff)
                 .add(secEuroDiff.multiply(aH.rate(DefinedAccount.EURO_CARD))));
+    }
+    
+    @Test
+    public void editTransferAccountChange() {
+        LOGGER.debug("[TEST] editTransferAccountChange");
+        defaultBefore();
+        
+        final BigDecimal ughBefore = totalByCurrency(DefinedAccount.UGH_DEPOSIT);
+        final BigDecimal depoBefore = totalByAccount(DefinedAccount.UGH_DEPOSIT);
+        final BigDecimal eurBefore = totalByCurrency(DefinedAccount.EURO_CARD);
+        final BigDecimal cardBefore = totalByAccount(DefinedAccount.EURO_CARD);
+        final BigDecimal usdBefore = totalByCurrency(DefinedAccount.USD_CASH);
+        final BigDecimal cashBefore = totalByAccount(DefinedAccount.USD_CASH);
+        
+        TransactionVO transferTx = new TransactionVO();
+        transferTx.setDate(new Date());
+        transferTx.setFirstAccount(aH.accountId(DefinedAccount.UGH_DEPOSIT));
+        final BigDecimal ughDiff = BigDecimal.valueOf(1050);
+        transferTx.setFirstAmmount(ughDiff);
+        transferTx.setSecondAccount(aH.accountId(DefinedAccount.EURO_CARD));
+        final BigDecimal euroDiff = BigDecimal.valueOf(99);
+        transferTx.setSecondAmmount(euroDiff);
+        transferTx.setNote("Купуємо за 1050 грн 99 еуро.");
+        transferTx.setType(TransactionType.TRANSFER);
+        transactionService.save(transferTx);
+        
+        transferTx.setNote("передумали - купуємо за 425 грн 70 доларів, а не євро");
+        final BigDecimal secUghDiff = BigDecimal.valueOf(425);
+        final BigDecimal secUsdDiff = BigDecimal.valueOf(70);
+        transferTx.setFirstAmmount(secUghDiff);
+        transferTx.setSecondAmmount(secUsdDiff);
+        transferTx.setSecondAccount(aH.accountId(DefinedAccount.USD_CASH));
+        transactionService.save(transferTx);
+        
+        final BigDecimal ughAfter = totalByCurrency(DefinedAccount.UGH_DEPOSIT);
+        Assert.assertEquals("Невідповідність у кількості гривні.", ughAfter, ughBefore.subtract(secUghDiff));
+        final BigDecimal depoAfter = totalByAccount(DefinedAccount.UGH_DEPOSIT);
+        Assert.assertEquals("Невідповідний залишок на рахунку.", depoAfter, depoBefore.subtract(secUghDiff));
+        final BigDecimal eurAfter = totalByCurrency(DefinedAccount.EURO_CARD);
+        Assert.assertEquals("Невідповідність у кількості євро.", eurAfter, eurBefore);
+        final BigDecimal cardAfter = totalByAccount(DefinedAccount.EURO_CARD);
+        Assert.assertEquals("Невідповідний залишок на рахунку.", cardAfter, cardBefore);
+        final BigDecimal usdAfter = totalByCurrency(DefinedAccount.USD_CASH);
+        Assert.assertEquals("Невідповідність у кількості доларів.", usdAfter, usdBefore.add(secUsdDiff));
+        final BigDecimal cashAfter = totalByAccount(DefinedAccount.USD_CASH);
+        Assert.assertEquals("Невідповідний залишок на рахунку.", cashAfter, cashBefore.add(secUsdDiff));
+
+        defaultAfter(defaultCurrencyTotal
+                .subtract(secUghDiff)
+                .add(secUsdDiff.multiply(aH.rate(DefinedAccount.USD_CASH))));
     }
     
     @Test

@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import javax.persistence.NoResultException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +22,10 @@ public class CurrencyServiceImpl implements CurrencyService {
 
     @Autowired
     private CurrencyDao currencyDao;
-    
+
     @Autowired
     private TotalService totalService;
-    
+
     @Override
     @Transactional
     public void save(CurrencyVO cvo) {
@@ -78,19 +77,16 @@ public class CurrencyServiceImpl implements CurrencyService {
     }
 
     @Override
-    public CurrencyVO getDefaultCurrency() throws EntityNotFoundException {
-        try {
-            return convert(currencyDao.selectDefault());
-        } catch (NoResultException nre) {
-            throw new EntityNotFoundException("Default currency not found.");
-        }
+    public CurrencyVO getDefaultCurrency() {
+        return convert(currencyDao.selectDefault());
+        
     }
 
     @Override
     public boolean isSymbolExists(String symbol) {
         return currencyDao.isSymbolExists(symbol);
     }
-    
+
     @Override
     public CurrencyVO createCurrency() {
         CurrencyVO result = new CurrencyVO();
@@ -102,7 +98,7 @@ public class CurrencyServiceImpl implements CurrencyService {
         }
         return result;
     }
-    
+
     @Override
     public boolean isDefaultExists() {
         return currencyDao.isDefaultExists();
@@ -116,7 +112,7 @@ public class CurrencyServiceImpl implements CurrencyService {
         result.setDefaultRate(model.getByDefault());
         return result;
     }
-    
+
     private static CurrencyVO convert(Currency model, BigDecimal total) {
         CurrencyVO result = convert(model);
         result.setTotal(total);

@@ -8,6 +8,6 @@ import org.ua.oblik.domain.model.UserLogin;
  */
 public interface UserLoginDao {
 
-    UserLogin loadUserLogin(String username);
+    UserLogin loadUserLogin(String username) throws UserNotFoundException;
     
 }

@@ -22,7 +22,7 @@ public class CurrencyDaoImpl extends AbstractDao<Integer, Currency> implements C
     }
 
     @Override
-    public Currency selectDefault() throws NoResultException {
+    public Currency selectDefault() {
         final CriteriaBuilder cbuilder = entityManager.getCriteriaBuilder();
         final CriteriaQuery<Currency> cquery = cbuilder.createQuery(Currency.class);
         final Root<Currency> root = cquery.from(Currency.class);
