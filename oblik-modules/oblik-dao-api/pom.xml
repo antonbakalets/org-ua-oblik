@@ -15,8 +15,8 @@
     
     <dependencies>
         <dependency>
-            <groupId>javax.persistence</groupId>
-            <artifactId>persistence-api</artifactId>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.0-api</artifactId>
             <optional>true</optional>
         </dependency>
     </dependencies>
