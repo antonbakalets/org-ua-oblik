@@ -129,10 +129,6 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
         </dependency>
-        <!--<dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-        </dependency>-->
     </dependencies>
     
     <build>
@@ -142,12 +138,11 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <includes>
-                        <include>ServiceSuiteTest.java</include>
+                        <include>org/ua/oblik/service/ServiceSuiteTest.java</include>
                     </includes>
                 </configuration>
             </plugin>
         </plugins>
     </build>
-    
-    
+        
 </project>

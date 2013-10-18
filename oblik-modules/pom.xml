@@ -32,28 +32,28 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>oblik-dao-api</artifactId>
-                <version>${oblik.modules.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>oblik-dao-hibernate</artifactId>
-                <version>${oblik.modules.version}</version>
+                <version>${project.version}</version>
                 <scope>runtime</scope>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>oblik-security</artifactId>
-                <version>${oblik.modules.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>oblik-service-api</artifactId>
-                <version>${oblik.modules.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>oblik-service</artifactId>
-                <version>${oblik.modules.version}</version>
+                <version>${project.version}</version>
                 <scope>runtime</scope>
             </dependency>
             
@@ -61,12 +61,7 @@
             <dependency>
                 <groupId>antlr</groupId>
                 <artifactId>antlr</artifactId>
-                <version>2.7.7</version>
-            </dependency>
-            <dependency>
-                <groupId>javassist</groupId>
-                <artifactId>javassist</artifactId>
-                <version>3.9.0.GA</version>
+                <version>${antlr.version}</version>
             </dependency>
             <dependency>
                 <groupId>cglib</groupId>
@@ -82,11 +77,6 @@
                 <groupId>dom4j</groupId>
                 <artifactId>dom4j</artifactId>
                 <version>${dom4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>javax.mail</groupId>
-                <artifactId>mail</artifactId>
-                <version>${javax.mail.version}</version>
             </dependency>
             <dependency>
                 <groupId>commons-beanutils</groupId>
@@ -109,10 +99,20 @@
                 <version>${displaytag.version}</version>
             </dependency>
             <dependency>
+                <groupId>javassist</groupId>
+                <artifactId>javassist</artifactId>
+                <version>${javassist.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>javax</groupId>
                 <artifactId>javaee-api</artifactId>
                 <version>${javaee-api.version}</version>
                 <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>javax.mail</groupId>
+                <artifactId>mail</artifactId>
+                <version>${javax.mail.version}</version>
             </dependency>
             <dependency>
                 <groupId>javax.transaction</groupId>
@@ -322,7 +322,7 @@
             <dependency>
                 <groupId>com.h2database</groupId>
                 <artifactId>h2</artifactId>
-                <version>1.3.160</version>
+                <version>${com.h2database.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
@@ -347,7 +347,6 @@
     </dependencyManagement>
 
     <build>
-        
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -355,22 +354,19 @@
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>${plugin.surefire.version}</version>
                 </plugin>
+                <plugin>
+                    <groupId>org.apache.tomcat.maven</groupId>
+                    <artifactId>tomcat7-maven-plugin</artifactId>
+                    <version>${plugin.tomcat7.version}</version>
+                </plugin>
             </plugins>
         </pluginManagement>
+        
         <plugins>
-            <!--<plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>tomcat-maven-plugin</artifactId>
-                <configuration>
-                    <url>http://127.0.0.1:8080/manager</url>
-                    <server>TomcatServer</server>
-                    <path>/mkyongWebApp</path>
-                </configuration>
-            </plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
+                <version>${plugin.compiler.version}</version>
                 <configuration>
                     <encoding>${project.build.sourceEncoding}</encoding>
                     <source>1.7</source>
@@ -380,37 +376,18 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>2.4.3</version>
+                <version>${plugin.resources.version}</version>
                 <configuration>
                     <encoding>${project.build.sourceEncoding}</encoding>
                 </configuration>
             </plugin>
-            <!--<plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.5.7.201204190339</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>report</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>-->
         </plugins>
     </build>
     
     <properties>
-        <oblik.modules.version>1.0-SNAPSHOT</oblik.modules.version>
-
+        <antlr.version>2.7.7</antlr.version>
         <cglib.version>2.2.2</cglib.version>
+        <com.h2database.version>1.3.173</com.h2database.version>
         <commons.beanutils.version>1.8.3</commons.beanutils.version>
         <commons.collections.version>3.2.1</commons.collections.version>
         <commons.dbcp.version>1.4</commons.dbcp.version>
@@ -429,6 +406,7 @@
         
         <jackson.core.asl.version>1.9.3</jackson.core.asl.version>
         <javaee-api.version>6.0</javaee-api.version>
+        <javassist.version>3.12.1.GA</javassist.version>
         <javax.mail.version>1.4.5</javax.mail.version>
         <javax.persistence.version>2.0</javax.persistence.version>
         <javax.transaction.version>1.1</javax.transaction.version>
@@ -443,6 +421,9 @@
         <slf4j.log4j.version>1.7.2</slf4j.log4j.version>
         <testng.version>6.3.1</testng.version>
         
+        <plugin.compiler.version>3.1</plugin.compiler.version>
+        <plugin.resources.version>2.6</plugin.resources.version>
+        <plugin.tomcat7.version>2.1</plugin.tomcat7.version>
         <plugin.surefire.version>2.16</plugin.surefire.version>
         
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

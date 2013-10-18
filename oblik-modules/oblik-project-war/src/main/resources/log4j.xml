@@ -12,7 +12,7 @@
     </appender>
 
     <appender name="file" class="org.apache.log4j.RollingFileAppender">
-        <param name="File" value="ocinka.log" />
+        <param name="File" value="oblik.log" />
         <param name="Threshold" value="DEBUG" />
         <param name="MaxFileSize" value="5MB" />
         <param name="MaxBackupIndex" value="3" />
