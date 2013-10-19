@@ -1,7 +1,5 @@
 package org.ua.oblik.controllers;
 
-
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -33,9 +31,9 @@ public class TransactionController extends BaseController {
     private static final Logger LOG = LoggerFactory.getLogger(TransactionController.class);
 
     private static final String TRANSACTIONS = "transaction_list";
-    
+
     private static final String TRANSACTION_BEAN = "transaction";
-    
+
     @Autowired
     private TransactionService transactionService;
 
@@ -50,22 +48,22 @@ public class TransactionController extends BaseController {
         model.addAttribute(TRANSACTIONS, list);
         return "loaded/transactions";
     }
-    
+
     @RequestMapping(value = "/transaction/delete", method = RequestMethod.GET)
     public String deleteTransaction(final Model model,
-            final @RequestParam(value = "transactionId", required = false) Integer transactionId) {
+            @RequestParam(value = "transactionId", required = false) final Integer transactionId) {
         LOG.debug("Delete transaction, id: " + transactionId + ".");
-        TransactionVO tvo =  transactionService.getTransaction(transactionId);
+        TransactionVO tvo = transactionService.getTransaction(transactionId);
         // TODO
         TransactionBean transactionBean = convert(tvo, Locale.CANADA_FRENCH);
         model.addAttribute(TRANSACTION_BEAN, transactionBean);
         return "loaded/transaction";
     }
-    
+
     @RequestMapping(value = "/transaction/delete", method = RequestMethod.POST)
-    public String deleteTransaction(final Model model, 
-            final @ModelAttribute(TRANSACTION_BEAN) @Valid TransactionBean transactionBean,
-            BindingResult bindingResult) {
+    public String deleteTransaction(final Model model,
+            @ModelAttribute(TRANSACTION_BEAN) @Valid final TransactionBean transactionBean,
+            final BindingResult bindingResult) {
         LOG.debug("Removing transaction, id: " + transactionBean.getTransactionId() + ".");
         transactionService.delete(transactionBean.getTransactionId());
         return "loaded/transaction";

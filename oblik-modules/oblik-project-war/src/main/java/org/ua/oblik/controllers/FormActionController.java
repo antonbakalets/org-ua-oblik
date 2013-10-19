@@ -42,7 +42,7 @@ public class FormActionController extends BaseController {
 
     @Autowired
     private TransactionFactory transactionFactory;
-    
+
     @Autowired
     private AccountService accountService;
 
@@ -51,13 +51,13 @@ public class FormActionController extends BaseController {
 
     @Autowired
     private FormActionValidator actionValidator;
-    
+
     @Autowired
     private TransactionTypePropertyEditor transactionTypePropertyEditor;
 
     @ModelAttribute
     public void populateModel(final Model model,
-            final @RequestParam(value = "type", required = true) TransactionType type) {
+            @RequestParam(value = "type", required = true) final TransactionType type) {
         final List<AccountVO> assetsAccounts = accountService.getAssetsAccounts();
         switch (type) {
             case EXPENSE:
@@ -77,8 +77,8 @@ public class FormActionController extends BaseController {
 
     @RequestMapping(value = "/formaction", method = RequestMethod.GET)
     public String formaction(final Model model,
-            final @RequestParam(value = "txId", required = false) Integer txId,
-            final @RequestParam(value = "type", required = true) TransactionType type) {
+            @RequestParam(value = "txId", required = false) final Integer txId,
+            @RequestParam(value = "type", required = true) final TransactionType type) {
         final FormActionBean formaction = createFormActionBean(txId, type);
         model.addAttribute("formActionBean", formaction);
         return "loaded/formaction";
@@ -86,7 +86,7 @@ public class FormActionController extends BaseController {
 
     @RequestMapping(value = "/formaction", method = RequestMethod.POST)
     public String submitExpense(final Model model,
-            final @ModelAttribute("formActionBean") @Valid FormActionBean bean,
+            @ModelAttribute("formActionBean") @Valid final FormActionBean bean,
             final BindingResult bindingResult) {
         LOGGER.debug("Saving action: " + bean.getType());
         actionValidator.validate(bean, bindingResult);
@@ -139,7 +139,7 @@ public class FormActionController extends BaseController {
     @InitBinder
     public void setPropertyEditors(final WebDataBinder binder) {
         binder.registerCustomEditor(TransactionType.class, transactionTypePropertyEditor);
-        binder.registerCustomEditor(Date.class, longDateEditor);
-        binder.registerCustomEditor(BigDecimal.class, bigDecimalEditor);
+        binder.registerCustomEditor(Date.class, getLongDateEditor());
+        binder.registerCustomEditor(BigDecimal.class, getBigDecimalEditor());
     }
 }

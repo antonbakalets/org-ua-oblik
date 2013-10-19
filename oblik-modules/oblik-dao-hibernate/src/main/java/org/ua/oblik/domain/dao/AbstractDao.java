@@ -5,8 +5,6 @@ import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.ua.oblik.domain.beans.Identifiable;
 import org.ua.oblik.domain.beans.PaginationBean;
 
@@ -15,13 +13,11 @@ import org.ua.oblik.domain.beans.PaginationBean;
  * @author Anton Bakalets
  */
 abstract class AbstractDao<I, T extends Identifiable<I>> implements DaoFacade<I, T> {
-
-    protected static Logger LOG = LoggerFactory.getLogger(AbstractDao.class);
     
     @PersistenceContext
-    protected EntityManager entityManager;
+    private EntityManager entityManager;
     
-    protected Class<T> entityClass;
+    private final Class<T> entityClass;
         
     public AbstractDao(Class<T> entityClass) {
         this.entityClass = entityClass;

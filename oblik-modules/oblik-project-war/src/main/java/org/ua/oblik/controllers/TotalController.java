@@ -40,7 +40,8 @@ public class TotalController {
     }
 
     @RequestMapping("/total/ammount")
-    public @ResponseBody BigDecimal totalAmmount(final Model model) {
+    @ResponseBody
+    public BigDecimal totalAmmount(final Model model) {
         BigDecimal total = totalService.getDefaultCurrencyTotal();
         LOG.debug("Loading total ammount in default currency: " + total);
         return total;

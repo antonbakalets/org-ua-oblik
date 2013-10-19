@@ -19,22 +19,22 @@ import org.ua.oblik.domain.model.UserLogin;
  */
 public class OblikUserDetailsService implements UserDetailsService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(OblikUserDetailsService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(OblikUserDetailsService.class);
 
     private UserLoginDao userLoginDao;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) {
         final UserLogin userLogin;
         try {
-            LOG.debug("Loading user by username: {}", username);
+            LOGGER.debug("Loading user by username: {}", username);
             userLogin = userLoginDao.loadUserLogin(username);
         } catch (UserNotFoundException unfe) {
-            LOG.warn("Cannot find user by name.", unfe);
-            throw new UsernameNotFoundException("No user with name: " + username);
+            LOGGER.warn("Cannot find user by name.", unfe);
+            throw new UsernameNotFoundException("No user with name: " + username, unfe);
         }
         final String permissions = userLogin.getPermissions();
-        LOG.debug("Loaded user {} with permissions: ", userLogin, permissions);
+        LOGGER.debug("Loaded user {} with permissions: ", userLogin, permissions);
         final List<GrantedAuthority> grantedAuthorities =
                 AuthorityUtils.commaSeparatedStringToAuthorityList(permissions);
         return new User(userLogin.getUsername(), userLogin.getPassword(), grantedAuthorities);

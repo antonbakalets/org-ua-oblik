@@ -24,7 +24,7 @@ public class WelcomeController {
     private static final Logger LOG = LoggerFactory.getLogger(WelcomeController.class);
 
     @RequestMapping("/login")
-    public String login(final Model model, final @RequestParam(value = "action", required = false) String action) {
+    public String login(final Model model, @RequestParam(value = "action", required = false) final String action) {
         LOG.info("login, action: ", action);
 
         if (StringUtils.hasText(action)) {

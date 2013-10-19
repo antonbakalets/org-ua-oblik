@@ -2,8 +2,6 @@ package org.ua.oblik.service;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import org.slf4j.Logger;
@@ -51,8 +49,6 @@ public class TransactionServiceImpl implements TransactionService {
         switch (tvo.getType()) {
             case INCOME:
                 txaction.setDebetAmmount(tvo.getFirstAmmount());
-                //firstAccount.setTotal(firstAccount.getTotal().add(tvo.getFirstAmmount()));
-                //accountDao.update(firstAccount);
                 debet.setTotal(debet.getTotal().add(tvo.getFirstAmmount()));
                 accountDao.update(debet);
                 break;
@@ -60,12 +56,10 @@ public class TransactionServiceImpl implements TransactionService {
                 txaction.setCreditAmmount(tvo.getFirstAmmount());
                 credit.setTotal(credit.getTotal().subtract(tvo.getFirstAmmount()));
                 accountDao.update(credit);
-                //secondAccount.setTotal(secondAccount.getTotal().add(tvo.getFirstAmmount()));
-                //accountDao.update(secondAccount);
                 break;
             case TRANSFER:
-                // TODO implement different currencies
-                if (credit.getCurrency().equals(debet.getCurrency())) { // same currency - one ammount
+                // in case currency is the same - the ammount is the same
+                if (credit.getCurrency().equals(debet.getCurrency())) {
                     tvo.setSecondAmmount(tvo.getFirstAmmount());
                 }
                 txaction.setDebetAmmount(tvo.getSecondAmmount());
@@ -92,63 +86,15 @@ public class TransactionServiceImpl implements TransactionService {
         Account newDebetAccount = accountDao.select(tvo.getSecondAccount());
         switch (tvo.getType()) {
             case INCOME: {
-                final Account oldDebetAccount = txaction.getDebet();
-                if (oldDebetAccount.equals(newDebetAccount)) {
-                    BigDecimal incomeDiff = txaction.getDebetAmmount().subtract(tvo.getFirstAmmount());
-                    newDebetAccount.setTotal(newDebetAccount.getTotal().subtract(incomeDiff));
-                } else {
-                    oldDebetAccount.setTotal(oldDebetAccount.getTotal().subtract(txaction.getDebetAmmount()));
-                    newDebetAccount.setTotal(newDebetAccount.getTotal().add(tvo.getFirstAmmount()));
-                    accountDao.update(oldDebetAccount);
-                }
-                txaction.setDebetAmmount(tvo.getFirstAmmount());
-                //firstAccount.setTotal(firstAccount.getTotal().add(incomeDiff));
-                //accountDao.update(firstAccount);
-                accountDao.update(newDebetAccount);
+                updateIncomeTxaction(tvo, txaction, newDebetAccount);
             }
             break;
             case EXPENSE: {
-                final Account oldCreditAccount = txaction.getCredit();
-                if (oldCreditAccount.equals(newCreditAccount)) {
-                    BigDecimal expenseDiff = txaction.getCreditAmmount().subtract(tvo.getFirstAmmount());
-                    newCreditAccount.setTotal(newCreditAccount.getTotal().add(expenseDiff));
-                } else {
-                    oldCreditAccount.setTotal(oldCreditAccount.getTotal().add(txaction.getCreditAmmount()));
-                    newCreditAccount.setTotal(newCreditAccount.getTotal().subtract(tvo.getFirstAmmount()));
-                    accountDao.update(oldCreditAccount);
-                }
-                txaction.setCreditAmmount(tvo.getFirstAmmount());
-                accountDao.update(newCreditAccount);
-                //secondAccount.setTotal(secondAccount.getTotal().add(expenseDiff));
-                //accountDao.update(secondAccount);
+                updateExpenseTransaction(tvo, txaction, newCreditAccount);
             }
             break;
             case TRANSFER: {
-                if (newCreditAccount.getCurrency().equals(newDebetAccount.getCurrency())) { // same currency - one ammount
-                    tvo.setSecondAmmount(tvo.getFirstAmmount());
-                }
-                final Account oldDebetAccount = txaction.getDebet();
-                if (oldDebetAccount.equals(newDebetAccount)) {
-                    BigDecimal debetDiff = txaction.getDebetAmmount().subtract(tvo.getSecondAmmount());
-                    newDebetAccount.setTotal(newDebetAccount.getTotal().subtract(debetDiff));
-                } else {
-                    oldDebetAccount.setTotal(oldDebetAccount.getTotal().subtract(txaction.getDebetAmmount()));
-                    newDebetAccount.setTotal(newDebetAccount.getTotal().add(tvo.getSecondAmmount()));
-                    accountDao.update(oldDebetAccount);
-                }
-                final Account oldCreditAccount = txaction.getCredit();
-                if (oldCreditAccount.equals(newCreditAccount)) {
-                    BigDecimal creditDiff = txaction.getCreditAmmount().subtract(tvo.getFirstAmmount());
-                    newCreditAccount.setTotal(newCreditAccount.getTotal().add(creditDiff));
-                } else {
-                    oldCreditAccount.setTotal(oldCreditAccount.getTotal().add(txaction.getCreditAmmount()));
-                    newCreditAccount.setTotal(newCreditAccount.getTotal().subtract(tvo.getFirstAmmount()));
-                    accountDao.update(oldCreditAccount);
-                }
-                txaction.setCreditAmmount(tvo.getFirstAmmount());
-                txaction.setDebetAmmount(tvo.getSecondAmmount());
-                accountDao.update(newCreditAccount);
-                accountDao.update(newDebetAccount);
+                updateTransferTxaction(tvo, txaction, newCreditAccount, newDebetAccount);
             }
             break;
         }
@@ -157,6 +103,63 @@ public class TransactionServiceImpl implements TransactionService {
         txaction.setTxDate(tvo.getDate());
         txaction.setComment(tvo.getNote());
         txactionDao.update(txaction);
+    }
+
+    private void updateIncomeTxaction(TransactionVO tvo, Txaction txaction, Account newDebetAccount) {
+        final Account oldDebetAccount = txaction.getDebet();
+        if (oldDebetAccount.equals(newDebetAccount)) {
+            BigDecimal incomeDiff = txaction.getDebetAmmount().subtract(tvo.getFirstAmmount());
+            newDebetAccount.setTotal(newDebetAccount.getTotal().subtract(incomeDiff));
+        } else {
+            oldDebetAccount.setTotal(oldDebetAccount.getTotal().subtract(txaction.getDebetAmmount()));
+            newDebetAccount.setTotal(newDebetAccount.getTotal().add(tvo.getFirstAmmount()));
+            accountDao.update(oldDebetAccount);
+        }
+        txaction.setDebetAmmount(tvo.getFirstAmmount());
+        accountDao.update(newDebetAccount);
+    }
+
+    private void updateExpenseTransaction(TransactionVO tvo, Txaction txaction, Account newCreditAccount) {
+        final Account oldCreditAccount = txaction.getCredit();
+        if (oldCreditAccount.equals(newCreditAccount)) {
+            BigDecimal expenseDiff = txaction.getCreditAmmount().subtract(tvo.getFirstAmmount());
+            newCreditAccount.setTotal(newCreditAccount.getTotal().add(expenseDiff));
+        } else {
+            oldCreditAccount.setTotal(oldCreditAccount.getTotal().add(txaction.getCreditAmmount()));
+            newCreditAccount.setTotal(newCreditAccount.getTotal().subtract(tvo.getFirstAmmount()));
+            accountDao.update(oldCreditAccount);
+        }
+        txaction.setCreditAmmount(tvo.getFirstAmmount());
+        accountDao.update(newCreditAccount);
+    }
+
+    private void updateTransferTxaction(TransactionVO tvo, Txaction txaction, Account newCreditAccount, Account newDebetAccount) {
+        // in case currency is the same - the ammount is the same
+        if (newCreditAccount.getCurrency().equals(newDebetAccount.getCurrency())) {
+            tvo.setSecondAmmount(tvo.getFirstAmmount());
+        }
+        final Account oldDebetAccount = txaction.getDebet();
+        if (oldDebetAccount.equals(newDebetAccount)) {
+            BigDecimal debetDiff = txaction.getDebetAmmount().subtract(tvo.getSecondAmmount());
+            newDebetAccount.setTotal(newDebetAccount.getTotal().subtract(debetDiff));
+        } else {
+            oldDebetAccount.setTotal(oldDebetAccount.getTotal().subtract(txaction.getDebetAmmount()));
+            newDebetAccount.setTotal(newDebetAccount.getTotal().add(tvo.getSecondAmmount()));
+            accountDao.update(oldDebetAccount);
+        }
+        final Account oldCreditAccount = txaction.getCredit();
+        if (oldCreditAccount.equals(newCreditAccount)) {
+            BigDecimal creditDiff = txaction.getCreditAmmount().subtract(tvo.getFirstAmmount());
+            newCreditAccount.setTotal(newCreditAccount.getTotal().add(creditDiff));
+        } else {
+            oldCreditAccount.setTotal(oldCreditAccount.getTotal().add(txaction.getCreditAmmount()));
+            newCreditAccount.setTotal(newCreditAccount.getTotal().subtract(tvo.getFirstAmmount()));
+            accountDao.update(oldCreditAccount);
+        }
+        txaction.setCreditAmmount(tvo.getFirstAmmount());
+        txaction.setDebetAmmount(tvo.getSecondAmmount());
+        accountDao.update(newCreditAccount);
+        accountDao.update(newDebetAccount);
     }
 
     @Transactional

@@ -8,8 +8,13 @@ import java.util.GregorianCalendar;
  *
  * @author Anton Bakalets
  */
-public class DateUtils {
+public final class DateUtils {
 
+    private static final int LAST_HOUR_OF_DAY = 23;
+    private static final int LAST_MINUTE = 59;
+    private static final int LAST_SECOND = 59;
+    private static final int LAST_MILLISECOND = 999;
+    
     private DateUtils() {
     }
 
@@ -27,18 +32,17 @@ public class DateUtils {
     }
 
     private static void setTimeToEndofDay(Calendar calendar) {
-        calendar.set(Calendar.HOUR_OF_DAY, 23);
-        calendar.set(Calendar.MINUTE, 59);
-        calendar.set(Calendar.SECOND, 59);
-        calendar.set(Calendar.MILLISECOND, 999);
+        calendar.set(Calendar.HOUR_OF_DAY, LAST_HOUR_OF_DAY);
+        calendar.set(Calendar.MINUTE, LAST_MINUTE);
+        calendar.set(Calendar.SECOND, LAST_SECOND);
+        calendar.set(Calendar.MILLISECOND, LAST_MILLISECOND);
     }
 
     public static Date getMonthBegining(Date date) {
         Calendar calendar = toCalendar(date);
         calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMinimum(Calendar.DAY_OF_MONTH));
         setTimeToBeginningOfDay(calendar);
-        Date start = calendar.getTime();
-        return start;
+        return calendar.getTime();
     }
 
     public static Date getMonthEnd(Date date) {

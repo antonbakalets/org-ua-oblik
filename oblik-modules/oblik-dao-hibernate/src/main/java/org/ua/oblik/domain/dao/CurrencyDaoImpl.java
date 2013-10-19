@@ -4,11 +4,9 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-
 import org.ua.oblik.domain.model.Currency;
 
 /**
@@ -23,36 +21,36 @@ public class CurrencyDaoImpl extends AbstractDao<Integer, Currency> implements C
 
     @Override
     public Currency selectDefault() {
-        final CriteriaBuilder cbuilder = entityManager.getCriteriaBuilder();
+        final CriteriaBuilder cbuilder = getEntityManager().getCriteriaBuilder();
         final CriteriaQuery<Currency> cquery = cbuilder.createQuery(Currency.class);
         final Root<Currency> root = cquery.from(Currency.class);
         cquery.select(root).where(cbuilder.equal(root.<Boolean>get("byDefault"), Boolean.TRUE));
-        return entityManager.createQuery(cquery).getSingleResult();
+        return getEntityManager().createQuery(cquery).getSingleResult();
     }
 
     @Override
     public boolean isSymbolExists(String symbol) {
-        final CriteriaBuilder cbuilder = entityManager.getCriteriaBuilder();
+        final CriteriaBuilder cbuilder = getEntityManager().getCriteriaBuilder();
         final CriteriaQuery<Long> cquery = cbuilder.createQuery(Long.class);
         final Root<Currency> root = cquery.from(Currency.class);
         cquery.select(cbuilder.count(root)).where(
                 cbuilder.equal(root.<String>get("symbol"), symbol));
-        return entityManager.createQuery(cquery).getSingleResult() > 0;
+        return getEntityManager().createQuery(cquery).getSingleResult() > 0;
     }
 
     @Override
     public boolean isDefaultExists() {
-        final CriteriaBuilder cbuilder = entityManager.getCriteriaBuilder();
+        final CriteriaBuilder cbuilder = getEntityManager().getCriteriaBuilder();
         final CriteriaQuery<Long> cquery = cbuilder.createQuery(Long.class);
         final Root<Currency> root = cquery.from(Currency.class);
         cquery.select(cbuilder.count(root)).where(
                 cbuilder.equal(root.<Boolean>get("byDefault"), Boolean.TRUE));
-        return entityManager.createQuery(cquery).getSingleResult() > 0;
+        return getEntityManager().createQuery(cquery).getSingleResult() > 0;
     }
 
     @Override
     public Map<Integer, BigDecimal> assetsByCurrencyId() {
-        final List<Object[]> list = entityManager.createNativeQuery("select currency.curr_id, accounts1_.sumtotal "
+        final List<Object[]> list = getEntityManager().createNativeQuery("select currency.curr_id, accounts1_.sumtotal "
                 + "from currency currency left join "
                 + "(select currency, sum(total) as sumtotal from account where account.kind='ASSETS' group by currency) "
                 + "accounts1_ on currency.curr_id=accounts1_.currency "

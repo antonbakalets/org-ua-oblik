@@ -1,6 +1,5 @@
 package org.ua.oblik.controllers.beans;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import org.ua.oblik.service.beans.AccountVO;
 import org.ua.oblik.service.beans.TransactionType;
@@ -23,17 +22,15 @@ public class TransactionBean {
 
     private String secondAmmount;
 
-    
-
     public Integer getTransactionId() {
-		return transactionId;
-	}
+        return transactionId;
+    }
 
-	public void setTransactionId(Integer transactionId) {
-		this.transactionId = transactionId;
-	}
+    public void setTransactionId(Integer transactionId) {
+        this.transactionId = transactionId;
+    }
 
-	public TransactionType getType() {
+    public TransactionType getType() {
         return type;
     }
 
@@ -58,14 +55,14 @@ public class TransactionBean {
     }
 
     public Date getDate() {
-		return date;
-	}
+        return date;
+    }
 
-	public void setDate(Date date) {
-		this.date = date;
-	}
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
-	public String getNote() {
+    public String getNote() {
         return note;
     }
 

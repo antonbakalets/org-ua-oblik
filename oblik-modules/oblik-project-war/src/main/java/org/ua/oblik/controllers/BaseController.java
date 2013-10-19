@@ -13,24 +13,33 @@ import org.springframework.format.number.NumberFormatter;
  * @author Anton Bakalets
  */
 abstract class BaseController {
-    
+
     @Autowired
     @Qualifier(value = "decimalNumberFormatter")
-    protected NumberFormatter decimalFormatter;
-     
+    private NumberFormatter decimalFormatter;
+
     @Autowired
     @Qualifier(value = "bigDecimalEditor")
-    protected CustomNumberEditor bigDecimalEditor;
+    private CustomNumberEditor bigDecimalEditor;
 
     @Autowired
     @Qualifier(value = "longDateEditor")
-    protected CustomDateEditor longDateEditor;
+    private CustomDateEditor longDateEditor;
+
+    public NumberFormatter getDecimalFormatter() {
+        return decimalFormatter;
+    }
+
+    public CustomNumberEditor getBigDecimalEditor() {
+        return bigDecimalEditor;
+    }
+
+    public CustomDateEditor getLongDateEditor() {
+        return longDateEditor;
+    }
 
     protected String formatDecimal(BigDecimal value, Locale locale) {
-        if (value == null) {
-            throw new NullPointerException("Cannot format given null as a Number.");
-        }
-        return decimalFormatter.print(value, locale);
+        BigDecimal toFormat = value == null ? BigDecimal.ZERO : value;
+        return getDecimalFormatter().print(toFormat, locale);
     }
-    
 }

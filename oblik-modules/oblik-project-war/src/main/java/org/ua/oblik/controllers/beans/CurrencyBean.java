@@ -11,18 +11,21 @@ import javax.validation.constraints.Size;
  */
 public class CurrencyBean {
 
+    private static final int SYMBOL_MAX_LENGHT = 10;
+    private static final String RATE_MIN_VALUE = "0.001";
+
     private Integer currencyId;
-    
+
     @NotNull
-    @DecimalMin(value = "0.001")
+    @DecimalMin(value = RATE_MIN_VALUE)
     private BigDecimal rate;
-    
+
     @NotNull
-    @Size(min = 1, max = 10)
+    @Size(min = 1, max = SYMBOL_MAX_LENGHT)
     private String symbol;
-    
+
     private String oldSymbol;
-    
+
     private Boolean defaultRate;
 
     public Integer getCurrencyId() {
@@ -57,13 +60,11 @@ public class CurrencyBean {
         this.defaultRate = defaultRate;
     }
 
-	public String getOldSymbol() {
-		return oldSymbol;
-	}
+    public String getOldSymbol() {
+        return oldSymbol;
+    }
 
-	public void setOldSymbol(String oldSymbol) {
-		this.oldSymbol = oldSymbol;
-	}
-    
-    
+    public void setOldSymbol(String oldSymbol) {
+        this.oldSymbol = oldSymbol;
+    }
 }

@@ -7,7 +7,10 @@ import org.springframework.security.core.userdetails.UserDetails;
  *
  * @author Anton Bakalets
  */
-public class SecurityService {
+public final class SecurityService {
+
+    private SecurityService() {
+    }
 
     public static UserDetails getUserDetails() {
         return (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

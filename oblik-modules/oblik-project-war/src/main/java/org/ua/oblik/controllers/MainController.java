@@ -41,7 +41,7 @@ public class MainController extends BaseController {
             final CurrencyVO defaultCurrency = currencyService.getDefaultCurrency();
             model.addAttribute(DEFAULT_CURRENCY_SYMBOL, defaultCurrency.getSymbol());
             model.addAttribute(DEFAULT_CURRENCY_TOTAL, 
-                    decimalFormatter.print(accountService.totalAssets(), locale));
+                    getDecimalFormatter().print(accountService.totalAssets(), locale));
         }
         return "layout";
     }

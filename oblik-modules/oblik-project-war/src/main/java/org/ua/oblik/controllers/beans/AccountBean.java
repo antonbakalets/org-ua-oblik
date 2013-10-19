@@ -15,12 +15,14 @@ import org.ua.oblik.service.beans.AccountVOType;
  */
 public class AccountBean {
 
+    private static final int NAME_MAX_SYMBOLS = 100;
+
     private Integer accountId;
 
     @NotNull
-    @Size(min = 1, max = 100)
+    @Size(min = 1, max = NAME_MAX_SYMBOLS)
     private String name;
-    
+
     private String oldName;
 
     @Enumerated(EnumType.STRING)
@@ -28,22 +30,22 @@ public class AccountBean {
 
     @NotNull
     private Integer currencyId;
-    
+
     private String currencySymbol;
 
     private BigDecimal ammount;
-    
+
     private boolean removable;
 
-	public String getCurrencySymbol() {
-		return currencySymbol;
-	}
+    public String getCurrencySymbol() {
+        return currencySymbol;
+    }
 
-	public void setCurrencySymbol(String currencySymbol) {
-		this.currencySymbol = currencySymbol;
-	}
+    public void setCurrencySymbol(String currencySymbol) {
+        this.currencySymbol = currencySymbol;
+    }
 
-	public Integer getAccountId() {
+    public Integer getAccountId() {
         return accountId;
     }
 
@@ -83,13 +85,13 @@ public class AccountBean {
         this.ammount = ammount;
     }
 
-	public String getOldName() {
-		return oldName;
-	}
+    public String getOldName() {
+        return oldName;
+    }
 
-	public void setOldName(String oldName) {
-		this.oldName = oldName;
-	}
+    public void setOldName(String oldName) {
+        this.oldName = oldName;
+    }
 
     public boolean isRemovable() {
         return removable;

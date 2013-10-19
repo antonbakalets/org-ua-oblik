@@ -79,7 +79,7 @@ public class CurrencyServiceImpl implements CurrencyService {
     @Override
     public CurrencyVO getDefaultCurrency() {
         return convert(currencyDao.selectDefault());
-        
+
     }
 
     @Override
@@ -116,14 +116,6 @@ public class CurrencyServiceImpl implements CurrencyService {
     private static CurrencyVO convert(Currency model, BigDecimal total) {
         CurrencyVO result = convert(model);
         result.setTotal(total);
-        return result;
-    }
-
-    private static List<CurrencyVO> convert(List<Currency> modelList) {
-        List<CurrencyVO> result = new ArrayList<>(modelList.size());
-        for (Currency model : modelList) {
-            result.add(convert(model));
-        }
         return result;
     }
 }

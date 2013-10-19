@@ -13,7 +13,7 @@ public interface CurrencyService {
     
     CurrencyVO getCurrency(Integer currencyId);
     
-    CurrencyVO getDefaultCurrency() throws EntityNotFoundException;
+    CurrencyVO getDefaultCurrency();
     
     void save(CurrencyVO cvo);
     

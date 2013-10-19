@@ -29,18 +29,18 @@ public class TxactionDaoImpl extends AbstractDao<Integer, Txaction> implements T
     @Override
     public List<Txaction> selectByDateRange(Date start, Date end) {
         LOGGER.debug("Selecting Txactions in date range [" + start + ", " + end + "]");
-        final CriteriaBuilder cbuilder = entityManager.getCriteriaBuilder();
+        final CriteriaBuilder cbuilder = getEntityManager().getCriteriaBuilder();
         final CriteriaQuery<Txaction> cquery = cbuilder.createQuery(Txaction.class);
         final Root<Txaction> root = cquery.from(Txaction.class);
         cquery.select(root).where(
                 cbuilder.greaterThanOrEqualTo(root.<Date>get("txDate"), start),
                 cbuilder.lessThanOrEqualTo(root.<Date>get("txDate"), end));
-        return entityManager.createQuery(cquery).getResultList();
+        return getEntityManager().createQuery(cquery).getResultList();
     }
 
     @Override
     public List<Txaction> selectAll() {
-        final CriteriaBuilder cbuilder = entityManager.getCriteriaBuilder();
+        final CriteriaBuilder cbuilder = getEntityManager().getCriteriaBuilder();
         final CriteriaQuery<Txaction> cquery = cbuilder.createQuery(Txaction.class);
         final Root<Txaction> root = cquery.from(Txaction.class);
         cquery.select(root).orderBy(cbuilder.desc(root.get("txDate")));

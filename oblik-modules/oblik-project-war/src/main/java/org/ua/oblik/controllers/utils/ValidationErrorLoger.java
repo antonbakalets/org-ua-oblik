@@ -10,9 +10,12 @@ import org.springframework.validation.ObjectError;
  *
  * @author Anton Bakalets
  */
-public class ValidationErrorLoger {
+public final class ValidationErrorLoger {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ValidationErrorLoger.class);
+
+    private ValidationErrorLoger() {
+    }
 
     public static void debug(BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {

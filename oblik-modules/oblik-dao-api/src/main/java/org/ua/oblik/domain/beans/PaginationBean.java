@@ -8,6 +8,8 @@ import java.io.Serializable;
  */
 public class PaginationBean implements Serializable {
     
+    private static final int DEFAULT_PAGE_SIZE = 10;
+    
     public static final String ASC = "asc";
     
     private int page;
@@ -19,7 +21,7 @@ public class PaginationBean implements Serializable {
 
     public PaginationBean() {
         page = 1;
-        pageSize = 10;
+        pageSize = DEFAULT_PAGE_SIZE;
     }
 
     public PaginationBean(int pageSize) {

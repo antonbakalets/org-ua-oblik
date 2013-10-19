@@ -53,7 +53,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public BigDecimal totalAssets() {
-        BigDecimal result = new BigDecimal(0);
+        BigDecimal result = BigDecimal.ZERO;
         List<AccountVO> list = getAssetsAccounts();
         for (AccountVO avo : list) {
             Integer currencyId = avo.getCurrencyId();
@@ -71,7 +71,8 @@ public class AccountServiceImpl implements AccountService {
         account.setCurrency(currency);
         account.setKind(convertType(avo.getType())); // TODO
         account.setShortName(avo.getName());
-        account.setTotal(BigDecimal.ZERO); // Account has zero on creation
+        // On creation account ammount in zero
+        account.setTotal(BigDecimal.ZERO);
         accountDao.insert(account);
         avo.setAccountId(account.getAccoId());
     }
@@ -109,7 +110,7 @@ public class AccountServiceImpl implements AccountService {
         HashMap<CurrencyVO, BigDecimal> result = new HashMap<CurrencyVO, BigDecimal>();
 
         for (CurrencyVO cvo : listCur) {
-            BigDecimal toRes = new BigDecimal(0);
+            BigDecimal toRes = BigDecimal.ZERO;
             for (AccountVO avo : listAcc) {
                 if (avo.getCurrencyId() == cvo.getCurrencyId()) {
                     toRes = toRes.add(avo.getAmmount());
@@ -119,22 +120,23 @@ public class AccountServiceImpl implements AccountService {
         }
         return result;
     }
+
     @Transactional
-	@Override
-	public void delete(Integer accountId) {
-		Account account = accountDao.select(accountId);
-		accountDao.delete(account);
-	}
+    @Override
+    public void delete(Integer accountId) {
+        Account account = accountDao.select(accountId);
+        accountDao.delete(account);
+    }
 
     @Override
     public boolean isNameExists(String name) {
         return accountDao.isNameExists(name);
     }
-    
-	private boolean hasTransactions(Integer accountId) {
-		Account account = accountDao.select(accountId);
-		return accountDao.isUsed(account);
-	}
+
+    private boolean hasTransactions(Integer accountId) {
+        Account account = accountDao.select(accountId);
+        return accountDao.isUsed(account);
+    }
 
     private AccountVO convert(Account model) {
         AccountVO result = new AccountVO();

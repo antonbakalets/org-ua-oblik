@@ -53,19 +53,20 @@ public class CurrencyController extends BaseController {
 
     @RequestMapping(value = "/currency/edit", method = RequestMethod.GET)
     public String editCurrency(final HttpSession session, final Model model,
-            final @RequestParam(value = "currencyId", required = false) Integer currencyId) {
+            @RequestParam(value = "currencyId", required = false) final Integer currencyId) {
         LOGGER.debug("Editing currency, id: " + currencyId + ".");
         CurrencyBean currencyBean = createCurrencyBean(currencyId);
         currencyBean.setOldSymbol(currencyBean.getSymbol());
-        session.setAttribute(SAVING_DEFAULT_CURRENCY, Boolean.valueOf(currencyBean.getDefaultRate())); // TODO convert to annotations?
+        // TODO convert to annotations?
+        session.setAttribute(SAVING_DEFAULT_CURRENCY, Boolean.valueOf(currencyBean.getDefaultRate()));
         model.addAttribute(CURRENCY_BEAN, currencyBean);
         return "loaded/currency";
     }
 
     @RequestMapping(value = "/currency/edit", method = RequestMethod.POST)
     public String saveCurrency(final HttpSession session, final Model model,
-            final @ModelAttribute(CURRENCY_BEAN) @Valid CurrencyBean currencyBean,
-            BindingResult bindingResult) {
+            @ModelAttribute(CURRENCY_BEAN) @Valid final CurrencyBean currencyBean,
+            final BindingResult bindingResult) {
         LOGGER.debug("Saving currency, id: " + currencyBean.getCurrencyId() + ".");
         if ((Boolean) session.getAttribute(SAVING_DEFAULT_CURRENCY)) {
             currencyBean.setDefaultRate(Boolean.TRUE);
@@ -100,7 +101,7 @@ public class CurrencyController extends BaseController {
     }
 
     private CurrencyBean createCurrencyBean(final Integer currencyId) {
-        CurrencyVO result = null;
+        CurrencyVO result;
         if (currencyId == null) {
             result = currencyService.createCurrency();
         } else {
@@ -108,9 +109,9 @@ public class CurrencyController extends BaseController {
         }
         return convert(result);
     }
-    
+
     @InitBinder
     public void setPropertyEditors(final WebDataBinder binder) {
-        binder.registerCustomEditor(BigDecimal.class, bigDecimalEditor);
+        binder.registerCustomEditor(BigDecimal.class, getBigDecimalEditor());
     }
 }

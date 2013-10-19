@@ -4,6 +4,8 @@ import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.ua.oblik.domain.model.UserLogin;
 
 /**
@@ -12,20 +14,24 @@ import org.ua.oblik.domain.model.UserLogin;
  */
 public class UserLoginDaoImpl extends AbstractDao<Integer, UserLogin> implements UserLoginDao {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserLoginDaoImpl.class);
+    
     public UserLoginDaoImpl() {
         super(UserLogin.class);
     }
 
     @Override
     public UserLogin loadUserLogin(String username) throws UserNotFoundException {
-        final CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        final CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<UserLogin> cq = cb.createQuery(UserLogin.class);
         Root<UserLogin> root = cq.from(UserLogin.class);
         cq.select(root).where(cb.equal(cb.lower(root.<String>get("username")), username.toLowerCase()));
         try {
-            return entityManager.createQuery(cq).getSingleResult();
+            return getEntityManager().createQuery(cq).getSingleResult();
         } catch (NoResultException nre) {
-            throw new UserNotFoundException("Cannot find user " + username + ".");
+            final String message = "Cannot find user " + username + ".";
+            LOGGER.error(message);
+            throw new UserNotFoundException(message, nre);
         }
     }
 }
