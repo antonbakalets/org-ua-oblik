@@ -27,4 +27,53 @@
             <artifactId>slf4j-api</artifactId>
         </dependency>
     </dependencies>
+    
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>sql-maven-plugin</artifactId>
+                <dependencies>
+                    <dependency>
+                        <groupId>mysql</groupId>
+                        <artifactId>mysql-connector-java</artifactId>
+                        <version>${mysql.version}</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <forceMojoExecution>${db.force.execution}</forceMojoExecution>
+                    <settingsKey>${db.server}</settingsKey>
+                    <driver>${db.driver}</driver>
+                    <url>${db.url}</url>
+                    <encoding>UTF-8</encoding>
+                    <orderFile>ascending</orderFile>
+                    <keepFormat>true</keepFormat>
+                    <driverProperties>characterEncoding=utf8,connectionCollation=utf8_general_ci</driverProperties>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>execution-mysql</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <delimiterType>normal</delimiterType>
+                            <srcFiles>
+                                <srcFile>src/main/resources/db/mysql/30-oblik-objects.sql</srcFile>
+                                <srcFile>src/main/resources/db/mysql/40-oblik-data.sql</srcFile>
+                            </srcFiles>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+    
+    <properties>
+        <db.force.execution>true</db.force.execution>
+        <db.server>mysql-server</db.server>
+        <db.driver>com.mysql.jdbc.Driver</db.driver>
+        <db.url>jdbc:mysql://localhost:3306/oblik_db</db.url>
+    </properties>
 </project>

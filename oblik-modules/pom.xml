@@ -359,6 +359,11 @@
                     <artifactId>tomcat7-maven-plugin</artifactId>
                     <version>${plugin.tomcat7.version}</version>
                 </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>sql-maven-plugin</artifactId>
+                    <version>${plugin.sql.version}</version>
+                </plugin>
             </plugins>
         </pluginManagement>
         
@@ -425,6 +430,7 @@
         <plugin.resources.version>2.6</plugin.resources.version>
         <plugin.tomcat7.version>2.1</plugin.tomcat7.version>
         <plugin.surefire.version>2.16</plugin.surefire.version>
+        <plugin.sql.version>1.5</plugin.sql.version>
         
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <netbeans.hint.deploy.server>Tomcat</netbeans.hint.deploy.server>
