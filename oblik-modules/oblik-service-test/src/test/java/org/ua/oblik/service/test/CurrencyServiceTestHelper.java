@@ -32,9 +32,9 @@ public class CurrencyServiceTestHelper {
     }
 
     public void saveDefinedCurrencies() {
-        currencies.put(DefinedCurrency.UGH, createAndSaveCurrency(DefinedCurrency.UGH));
-        currencies.put(DefinedCurrency.USD, createAndSaveCurrency(DefinedCurrency.USD));
-        currencies.put(DefinedCurrency.EUR, createAndSaveCurrency(DefinedCurrency.EUR));
+        for (DefinedCurrency dc : DefinedCurrency.values()) {
+            currencies.put(dc, createAndSaveCurrency(dc));
+        }
     }
     
     public CurrencyVO getDefinedCurrency(DefinedCurrency definedCurrency) {

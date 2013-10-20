@@ -66,7 +66,7 @@ public class CurrencyServiceImpl implements CurrencyService {
         final Map<Integer, BigDecimal> assetsByCurrency = totalService.getCurrenciesTotal();
         List<CurrencyVO> result = new ArrayList<>(currencies.size());
         for (Currency model : currencies) {
-            result.add(convert(model, assetsByCurrency.get(model.getCurrId())));
+            result.add(convert(model, assetsByCurrency.get(model.getId())));
         }
         return result;
     }

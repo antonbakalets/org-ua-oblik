@@ -56,16 +56,16 @@ public class AccountDaoImpl extends AbstractDao<Integer, Account> implements Acc
     }
 
     @Override
-    public boolean isUsed(Account account) {
+    public boolean isUsed(Integer accountId) {
         final CriteriaBuilder cbuilder = getEntityManager().getCriteriaBuilder();
         final CriteriaQuery<Long> cquery = cbuilder.createQuery(Long.class);
         final Root<Txaction> root = cquery.from(Txaction.class);
         Long count = (long) 0;
         cquery.select(cbuilder.count(root)).where(
-                cbuilder.equal(root.<Integer>get("debet"), account.getAccoId()));
+                cbuilder.equal(root.<Integer>get("debet"), accountId));
         count += getEntityManager().createQuery(cquery).getSingleResult();
         cquery.select(cbuilder.count(root)).where(
-                cbuilder.equal(root.<Integer>get("credit"), account.getAccoId()));
+                cbuilder.equal(root.<Integer>get("credit"), accountId));
         count += getEntityManager().createQuery(cquery).getSingleResult();
         return count > 0;
     }

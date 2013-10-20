@@ -23,7 +23,7 @@ import org.ua.oblik.domain.beans.Identifiable;
 @Entity
 @Table(name = "account")
 public class Account implements Serializable, Identifiable<Integer> {
-    
+
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -35,7 +35,7 @@ public class Account implements Serializable, Identifiable<Integer> {
     @Basic(optional = false)
     @Column(name = "short_name")
     private String shortName;
-    
+
     @Basic(optional = false)
     @Column(name = "kind")
     @Enumerated(EnumType.STRING)
@@ -52,16 +52,6 @@ public class Account implements Serializable, Identifiable<Integer> {
     public Account() {
     }
 
-    public Account(Integer accoId) {
-        this.accoId = accoId;
-    }
-
-    public Account(Integer accoId, String shortName, BigDecimal total) {
-        this.accoId = accoId;
-        this.shortName = shortName;
-        this.total = total;
-    }
-
     @Override
     public Integer getId() {
         return accoId;
@@ -70,14 +60,6 @@ public class Account implements Serializable, Identifiable<Integer> {
     @Override
     public void setId(Integer id) {
         this.accoId = id;
-    }
-
-    public Integer getAccoId() {
-        return accoId;
-    }
-
-    public void setAccoId(Integer accoId) {
-        this.accoId = accoId;
     }
 
     public String getShortName() {
@@ -135,5 +117,5 @@ public class Account implements Serializable, Identifiable<Integer> {
     public String toString() {
         return "Account[ accoId=" + accoId + " ]";
     }
-    
+
 }

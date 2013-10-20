@@ -20,5 +20,5 @@ public interface AccountDao extends DaoFacade<Integer, Account> {
     
     boolean isNameExists(String name);
 
-    boolean isUsed(Account account);
+    boolean isUsed(Integer accountId);
 }

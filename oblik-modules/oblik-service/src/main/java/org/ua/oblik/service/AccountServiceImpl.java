@@ -16,7 +16,6 @@ import org.ua.oblik.domain.dao.CurrencyDao;
 import org.ua.oblik.domain.model.Account;
 import org.ua.oblik.domain.model.Currency;
 import org.ua.oblik.service.beans.AccountVO;
-import org.ua.oblik.service.beans.AccountVOType;
 import org.ua.oblik.service.beans.CurrencyVO;
 
 /**
@@ -38,7 +37,14 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public AccountVO getAccount(Integer accountId) {
-        return convert(accountDao.select(accountId));
+        final Account selected = accountDao.select(accountId);
+        if (selected == null) {
+            final String message = "No account found with id " + accountId;
+            LOGGER.error(message);
+            throw new EntityNotFoundException(message);
+        } else {
+            return convert(selected);
+        }
     }
 
     @Override
@@ -69,12 +75,12 @@ public class AccountServiceImpl implements AccountService {
         final Currency currency = currencyDao.select(avo.getCurrencyId());
         final Account account = new Account();
         account.setCurrency(currency);
-        account.setKind(convertType(avo.getType())); // TODO
+        account.setKind(AccountTypeConverter.convert(avo.getType()));
         account.setShortName(avo.getName());
         // On creation account ammount in zero
         account.setTotal(BigDecimal.ZERO);
         accountDao.insert(account);
-        avo.setAccountId(account.getAccoId());
+        avo.setAccountId(account.getId());
     }
 
     private void update(AccountVO avo) {
@@ -82,7 +88,7 @@ public class AccountServiceImpl implements AccountService {
         final Currency currency = currencyDao.select(avo.getCurrencyId());
         final Account account = accountDao.select(avo.getAccountId());
         account.setCurrency(currency);
-        account.setKind(convertType(avo.getType())); // TODO
+        account.setKind(AccountTypeConverter.convert(avo.getType()));
         account.setShortName(avo.getName());
         account.setTotal(avo.getAmmount());
         accountDao.update(account);
@@ -134,8 +140,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     private boolean hasTransactions(Integer accountId) {
-        Account account = accountDao.select(accountId);
-        return accountDao.isUsed(account);
+        return accountId != null && accountDao.isUsed(accountId);
     }
 
     private AccountVO convert(Account model) {
@@ -145,10 +150,8 @@ public class AccountServiceImpl implements AccountService {
         result.setCurrencySymbol(model.getCurrency().getSymbol());
         result.setName(model.getShortName());
         result.setAmmount(model.getTotal());
-        result.setType(convertType(model.getKind()));
-        if (model.getId() != null) {
-            result.setRemovable(hasTransactions(model.getId()));
-        }
+        result.setType(AccountTypeConverter.convert(model.getKind()));
+        result.setRemovable(hasTransactions(model.getId()));
         return result;
     }
 
@@ -158,29 +161,5 @@ public class AccountServiceImpl implements AccountService {
             result.add(convert(model));
         }
         return result;
-    }
-
-    private static AccountVOType convertType(AccountKind kind) {
-        switch (kind) {
-            case ASSETS:
-                return AccountVOType.ASSETS;
-            case EXPENSE:
-                return AccountVOType.EXPENSE;
-            case INCOME:
-                return AccountVOType.INCOME;
-        }
-        throw new IllegalArgumentException("Unnexisting account type.");
-    }
-
-    private static AccountKind convertType(AccountVOType type) {
-        switch (type) {
-            case ASSETS:
-                return AccountKind.ASSETS;
-            case EXPENSE:
-                return AccountKind.EXPENSE;
-            case INCOME:
-                return AccountKind.INCOME;
-        }
-        throw new IllegalArgumentException("Unnexisting account type.");
     }
 }

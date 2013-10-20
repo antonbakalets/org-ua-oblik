@@ -23,7 +23,7 @@ import org.ua.oblik.domain.beans.Identifiable;
 @Entity
 @Table(name = "txaction")
 public class Txaction implements Serializable, Identifiable<Integer> {
-    
+
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -40,7 +40,7 @@ public class Txaction implements Serializable, Identifiable<Integer> {
     @JoinColumn(name = "credit", referencedColumnName = "acco_id")
     @ManyToOne
     private Account credit;
-    
+
     @Column(name = "credit_ammount")
     private BigDecimal creditAmmount;
 
@@ -50,15 +50,11 @@ public class Txaction implements Serializable, Identifiable<Integer> {
 
     @Column(name = "debet_ammount")
     private BigDecimal debetAmmount;
-    
+
     @Column(name = "tx_comment")
     private String comment;
 
     public Txaction() {
-    }
-
-    public Txaction(Integer txacId) {
-        this.txacId = txacId;
     }
 
     @Override
@@ -69,14 +65,6 @@ public class Txaction implements Serializable, Identifiable<Integer> {
     @Override
     public void setId(Integer id) {
         this.txacId = id;
-    }
-
-    public Integer getTxacId() {
-        return txacId;
-    }
-
-    public void setTxacId(Integer txacId) {
-        this.txacId = txacId;
     }
 
     public Date getTxDate() {
@@ -150,5 +138,5 @@ public class Txaction implements Serializable, Identifiable<Integer> {
     public String toString() {
         return "org.ua.oblik.domain.model.Txaction[ txacId=" + txacId + " ]";
     }
-    
+
 }

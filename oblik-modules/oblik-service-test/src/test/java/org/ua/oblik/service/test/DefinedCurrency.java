@@ -9,10 +9,11 @@ import java.math.BigDecimal;
 public enum DefinedCurrency {
     UGH("грн.", BigDecimal.ONE),
     USD("дол. США", BigDecimal.valueOf(8.15)),
-    EUR("євро", BigDecimal.valueOf(10.8));
+    EUR("євро", BigDecimal.valueOf(10.8)),
+    TBD("тимчасова", BigDecimal.TEN);
     
-    private String symbol;
-    private BigDecimal rate;
+    private final String symbol;
+    private final BigDecimal rate;
 
     private DefinedCurrency(String symbol, BigDecimal rate) {
         this.symbol = symbol;

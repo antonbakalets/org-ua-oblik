@@ -57,14 +57,6 @@ public class UserLogin implements Serializable, Identifiable<Integer> {
     public void setId(Integer id) {
         this.loginId = id;
     }
-    
-    public Integer getLoginId() {
-        return loginId;
-    }
-
-    public void setLoginId(Integer loginId) {
-        this.loginId = loginId;
-    }
 
     public String getUsername() {
         return username;
@@ -115,7 +107,6 @@ public class UserLogin implements Serializable, Identifiable<Integer> {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof UserLogin)) {
             return false;
         }

@@ -22,6 +22,7 @@ import org.ua.oblik.domain.beans.Identifiable;
 @Entity
 @Table(name = "currency")
 public class Currency implements Serializable, Identifiable<Integer> {
+
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -48,17 +49,6 @@ public class Currency implements Serializable, Identifiable<Integer> {
     public Currency() {
     }
 
-    public Currency(Integer currId) {
-        this.currId = currId;
-    }
-
-    public Currency(Integer currId, String symbol, boolean byDefault, BigDecimal rate) {
-        this.currId = currId;
-        this.symbol = symbol;
-        this.byDefault = byDefault;
-        this.rate = rate;
-    }
-
     @Override
     public Integer getId() {
         return currId;
@@ -67,14 +57,6 @@ public class Currency implements Serializable, Identifiable<Integer> {
     @Override
     public void setId(Integer id) {
         this.currId = id;
-    }
-
-    public Integer getCurrId() {
-        return currId;
-    }
-
-    public void setCurrId(Integer currId) {
-        this.currId = currId;
     }
 
     public String getSymbol() {
@@ -132,5 +114,5 @@ public class Currency implements Serializable, Identifiable<Integer> {
     public String toString() {
         return "Currency[ currId=" + currId + " ]";
     }
-    
+
 }

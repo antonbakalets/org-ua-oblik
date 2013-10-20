@@ -21,11 +21,13 @@ public enum DefinedAccount {
     EXPENSE_MARKET(DefinedCurrency.UGH, "Базар.", AccountVOType.EXPENSE),
     EXPENSE_TRANSPORT(DefinedCurrency.UGH, "Транспорт.", AccountVOType.EXPENSE),
     EXPENSE_IN_DOLLAR(DefinedCurrency.USD, "Покупки в доларах.", AccountVOType.EXPENSE),
-    EXPENSE_IN_EURO(DefinedCurrency.EUR, "Покупки в євро.", AccountVOType.EXPENSE);
+    EXPENSE_IN_EURO(DefinedCurrency.EUR, "Покупки в євро.", AccountVOType.EXPENSE),
     
-    private DefinedCurrency currency;
-    private String accountName;
-    private AccountVOType accountType;
+    TO_BE_DELETED(DefinedCurrency.EUR, "Тестовий рахунок для видалення", AccountVOType.ASSETS);
+    
+    private final DefinedCurrency currency;
+    private final String accountName;
+    private final AccountVOType accountType;
 
     private DefinedAccount(DefinedCurrency currency, String accountName, AccountVOType accountType) {
         this.currency = currency;
