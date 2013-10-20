@@ -4,6 +4,8 @@ import java.util.Locale;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.format.number.NumberFormatter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +18,7 @@ import org.ua.oblik.service.beans.CurrencyVO;
  * @author Anton Bakalets
  */
 @Controller
-public class MainController extends BaseController {
+public class MainController {
 
     private static final Logger LOG = LoggerFactory.getLogger(MainController.class);
 
@@ -31,6 +33,10 @@ public class MainController extends BaseController {
 
     @Autowired
     private AccountService accountService;
+    
+    @Autowired
+    @Qualifier(value = "decimalNumberFormatter")
+    private NumberFormatter decimalFormatter;
 
     @RequestMapping("/main")
     public String welcome(final Locale locale, final Model model) {
@@ -41,7 +47,7 @@ public class MainController extends BaseController {
             final CurrencyVO defaultCurrency = currencyService.getDefaultCurrency();
             model.addAttribute(DEFAULT_CURRENCY_SYMBOL, defaultCurrency.getSymbol());
             model.addAttribute(DEFAULT_CURRENCY_TOTAL, 
-                    getDecimalFormatter().print(accountService.totalAssets(), locale));
+                    decimalFormatter.print(accountService.totalAssets(), locale));
         }
         return "layout";
     }

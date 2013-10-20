@@ -1,5 +1,6 @@
 package org.ua.oblik.controllers;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -9,6 +10,8 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.format.number.NumberFormatter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,7 +29,7 @@ import org.ua.oblik.service.beans.TransactionVO;
  * @author Anton Bakalets
  */
 @Controller
-public class TransactionController extends BaseController {
+public class TransactionController {
 
     private static final Logger LOG = LoggerFactory.getLogger(TransactionController.class);
 
@@ -34,6 +37,10 @@ public class TransactionController extends BaseController {
 
     private static final String TRANSACTION_BEAN = "transaction";
 
+    @Autowired
+    @Qualifier(value = "decimalNumberFormatter")
+    private NumberFormatter decimalFormatter;
+    
     @Autowired
     private TransactionService transactionService;
 
@@ -84,6 +91,11 @@ public class TransactionController extends BaseController {
         return result;
     }
 
+    protected String formatDecimal(BigDecimal value, Locale locale) {
+        BigDecimal toFormat = value == null ? BigDecimal.ZERO : value;
+        return decimalFormatter.print(toFormat, locale);
+    }
+    
     private List<TransactionBean> convertList(List<TransactionVO> list, Locale locale) {
         List<TransactionBean> result = new ArrayList<TransactionBean>();
         for (TransactionVO temp : list) {

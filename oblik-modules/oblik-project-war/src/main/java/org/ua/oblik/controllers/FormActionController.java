@@ -1,7 +1,5 @@
 package org.ua.oblik.controllers;
 
-import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 import javax.validation.Valid;
 import org.slf4j.Logger;
@@ -10,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,7 +16,6 @@ import org.ua.oblik.controllers.beans.FormActionBean;
 import org.ua.oblik.service.beans.TransactionVO;
 import org.ua.oblik.service.beans.TransactionFactory;
 import org.ua.oblik.service.beans.TransactionType;
-import org.ua.oblik.controllers.utils.TransactionTypePropertyEditor;
 import org.ua.oblik.controllers.utils.ValidationErrorLoger;
 import org.ua.oblik.controllers.validators.FormActionValidator;
 import org.ua.oblik.service.AccountService;
@@ -32,7 +27,7 @@ import org.ua.oblik.service.beans.AccountVO;
  * @author Anton Bakalets
  */
 @Controller
-public class FormActionController extends BaseController {
+public class FormActionController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FormActionController.class);
 
@@ -51,9 +46,6 @@ public class FormActionController extends BaseController {
 
     @Autowired
     private FormActionValidator actionValidator;
-
-    @Autowired
-    private TransactionTypePropertyEditor transactionTypePropertyEditor;
 
     @ModelAttribute
     public void populateModel(final Model model,
@@ -134,12 +126,5 @@ public class FormActionController extends BaseController {
         } else {
             return convert(transactionService.getTransaction(txId));
         }
-    }
-
-    @InitBinder
-    public void setPropertyEditors(final WebDataBinder binder) {
-        binder.registerCustomEditor(TransactionType.class, transactionTypePropertyEditor);
-        binder.registerCustomEditor(Date.class, getLongDateEditor());
-        binder.registerCustomEditor(BigDecimal.class, getBigDecimalEditor());
     }
 }
