@@ -369,6 +369,11 @@
                     <artifactId>sonar-maven-plugin</artifactId>
                     <version>${plugin.sonar.version}</version>
                 </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>${plugin.failsafe.version}</version>
+                </plugin>
             </plugins>
         </pluginManagement>
         
@@ -390,6 +395,43 @@
                 <configuration>
                     <encoding>${project.build.sourceEncoding}</encoding>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skipTests>true</skipTests>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${plugin.jacoco.version}</version>
+                <executions>
+                    <execution>
+                        <id>prepare-unit-tests</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                        <configuration>
+                            <destFile>${sonar.jacoco.reportPath}</destFile>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>prepare-integration-tests</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                        <phase>pre-integration-test</phase>
+                        <configuration>
+                            <destFile>${sonar.jacoco.itReportPath}</destFile>
+                            <includes>
+                                <include>org/ua/oblik/**/*.java</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
@@ -431,12 +473,24 @@
         <slf4j.log4j.version>1.7.2</slf4j.log4j.version>
         <testng.version>6.3.1</testng.version>
         
+        <plugin.antrun.version>1.7</plugin.antrun.version>
         <plugin.compiler.version>3.1</plugin.compiler.version>
+        <plugin.failsafe.version>2.16</plugin.failsafe.version>
+        <plugin.jacoco.version>0.6.3.201306030806</plugin.jacoco.version>
         <plugin.resources.version>2.6</plugin.resources.version>
         <plugin.tomcat7.version>2.1</plugin.tomcat7.version>
         <plugin.surefire.version>2.16</plugin.surefire.version>
         <plugin.sonar.version>2.1</plugin.sonar.version>
         <plugin.sql.version>1.5</plugin.sql.version>
+        
+        <!-- select JaCoCo as a coverage tool -->
+        <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
+        <!-- force sonar to reuse reports generated during build cycle -->
+        <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+        <!-- set path for unit tests reports -->
+        <sonar.jacoco.reportPath>${project.basedir}/target/jacoco-unit.exec</sonar.jacoco.reportPath>
+        <!-- all modules have to use the same integration tests report file -->
+        <sonar.jacoco.itReportPath>${project.basedir}/../target/jacoco-it.exec</sonar.jacoco.itReportPath>
         
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <netbeans.hint.deploy.server>Tomcat</netbeans.hint.deploy.server>
