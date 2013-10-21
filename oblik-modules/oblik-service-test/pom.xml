@@ -151,7 +151,20 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skipTests>false</skipTests>
+                    <includes>
+                        <include>org/ua/oblik/service/DateUtilsTest.java</include>
+                    </includes>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
-        
+
+    <properties>
+        <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco-unit.exec</sonar.jacoco.reportPath>
+    </properties>        
 </project>

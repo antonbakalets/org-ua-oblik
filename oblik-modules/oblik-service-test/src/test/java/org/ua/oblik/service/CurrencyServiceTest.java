@@ -29,31 +29,40 @@ public class CurrencyServiceTest extends BaseServiceTest {
     private CurrencyService currencyService;
 
     @Autowired
+    private TotalService totalService;
+    
+    @Autowired
     private CurrencyServiceTestHelper currencyServiceTestHelper;
 
     @Test
     public void getDefaultCurrency() {
-        LOGGER.debug("Get default currency.");
+        LOGGER.debug("[TEST] Get default currency.");
         final CurrencyVO expected = currencyService.getDefaultCurrency();
         final CurrencyVO actual = currencyServiceTestHelper.getDefinedCurrency(DefinedCurrency.values()[0]);
         Assert.assertEquals("", expected.getCurrencyId(), actual.getCurrencyId());
         Assert.assertEquals("", expected.getSymbol(), actual.getSymbol());
         Assert.assertEquals("", expected.getRate().compareTo(BigDecimal.ONE), 0);
         Assert.assertTrue("", expected.getDefaultRate());
+        
+        final BigDecimal total = totalService.getDefaultCurrencyTotal();
+        LOGGER.debug("[TEST] Default currency total: " + total);
     }
     
     @Test
     public void listCurrencies() throws IOException {
-        LOGGER.debug("Listing all currencies:");
+        LOGGER.debug("[TEST] Listing all currencies:");
         final List<CurrencyVO> currencies = currencyService.getCurrencies();
+        
         for (CurrencyVO currency : currencies) {
-            LOGGER.debug(mapper.writeValueAsString(currency));
+            LOGGER.debug("[TEST] " + mapper.writeValueAsString(currency));
+            final BigDecimal total = totalService.getCurrencyTotal(currency.getCurrencyId());
+            LOGGER.debug("[TEST] Currency" + currency + " toatal: " + total);
         }
     }
 
     @Test
     public void getCurrency() {
-        LOGGER.debug("Getting currency.");
+        LOGGER.debug("[TEST] Getting currency.");
         final CurrencyVO euro = currencyService.createCurrency();
         final String UGH_SYMBOL = "UGH";
         euro.setSymbol(UGH_SYMBOL);
@@ -70,7 +79,7 @@ public class CurrencyServiceTest extends BaseServiceTest {
     
     @Test
     public void isSymbolExists() {
-        LOGGER.debug("checking is currency symbol exists.");
+        LOGGER.debug("[TEST] Checking is currency symbol exists.");
         final CurrencyVO currency = currencyService.getDefaultCurrency();
         Assert.assertTrue(currencyService.isSymbolExists(currency.getSymbol()));
         Assert.assertFalse(currencyService.isSymbolExists(UUID.randomUUID().toString()));
@@ -78,7 +87,7 @@ public class CurrencyServiceTest extends BaseServiceTest {
 
     @Test
     public void updateCurrency() {
-        LOGGER.debug("Updating currency");
+        LOGGER.debug("[TEST] Updating currency");
         final CurrencyVO currency = currencyServiceTestHelper.getDefinedCurrency(DefinedCurrency.EUR);
         final String newSymbol = currency.getSymbol() + " (new)";
         currency.setSymbol(newSymbol);
