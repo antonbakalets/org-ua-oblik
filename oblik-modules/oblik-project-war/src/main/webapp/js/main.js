@@ -223,3 +223,20 @@ jQuery(function($) {
 
 });
 
+function calc(expression) {
+    var result = expression;
+    try {
+        var valid = validMathSymbols(expression);
+        if (valid) {
+            result = eval(expression); 
+        }
+    } catch (e) {
+        // do nothing
+    }
+    return result;
+}   
+
+function validMathSymbols(expression) {
+    var pattern = /^[^a-zA-Z][-*+/()\d\s\.]*$/g;
+    return pattern.test(expression);
+}  

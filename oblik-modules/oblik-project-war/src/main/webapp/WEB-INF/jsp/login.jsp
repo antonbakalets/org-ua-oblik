@@ -29,7 +29,7 @@
             <br/>
             <br/>
             <br/>
-        </header>>
+        </header>
         <div class="container clearfix">
             <form method="POST" action="<c:url value="/j_spring_security_check"/>" class="form-horizontal">
                 <fieldset>

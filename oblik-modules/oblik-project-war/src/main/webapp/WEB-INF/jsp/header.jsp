@@ -23,6 +23,10 @@
     <span id="default-currency-symbol" class="hidden">${defaultCurrencySymbol}</span>
     <span id="default-currency-total" class="hidden">${defaultCurrencyTotal}</span>
 
+    <a href="https://github.com/antonbakalets/org-ua-oblik">
+        <img style="position: absolute; top: 0; right: 0; border: 0; z-index: 1;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub">
+    </a>
+    
     <div class="container">
         <div class="row">
             <div class="header-top-container">
