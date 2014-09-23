@@ -5,13 +5,13 @@
 
 <ul class="list-group">
     <li class="list-group-item active">
-        <h4><spring:message code="jsp.oblik.totalByAccounts"/></h4>
+        <h4 class="panel-title"><spring:message code="jsp.oblik.totalByAccounts"/></h4>
     </li>
     <c:forEach var="entry" items="${assetsAccounts}">
         <li class="list-group-item">
             <div class="edit-link">
                 <span class="hidden"><c:out value="${entry.accountId}"/></span>
-                <a id="account_${entry.accountId}" title="${headerEdit}"
+                <a id="account_${entry.accountId}"
                    href="${pageContext.request.contextPath}/account/edit.html?accountId=${entry.accountId}&type=ASSETS">
                     ${entry.name}
                 </a>
@@ -22,7 +22,7 @@
     </c:forEach>
     <li class="list-group-item">
         <div class="edit-link">
-            <a id="add-assets" class="btn btn-transfer" title="${headerAdd}"
+            <a id="add-assets" class="btn btn-link"
                href="${pageContext.request.contextPath}/account/edit.html?type=ASSETS">
                 <span class="glyphicon glyphicon-plus"/>
                 <spring:message code="jsp.oblik.account.btn.assets"/>

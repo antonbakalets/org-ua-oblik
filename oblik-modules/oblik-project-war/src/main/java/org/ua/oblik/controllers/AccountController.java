@@ -58,19 +58,22 @@ public class AccountController {
         model.addAttribute(CURRENCY_LIST, currencyService.getCurrencies());
     }
 
-    @RequestMapping("/account/list")
-    public String list(final Model model) {
-        LOG.debug("account list");
-        List<AccountVO> assetsAccountsListVO = accountService.getAssetsAccounts();
-        List<AccountBean> assetsAccountsList = convertList(assetsAccountsListVO);
-        model.addAttribute(ASSETS_ACCOUNTS, assetsAccountsList);
+    @RequestMapping("/account/incomes")
+    public String listIncome(final Model model) {
+        LOG.debug("Listing income accounts.");
         List<AccountVO> incomeAccountsListVO = accountService.getIncomeAccounts();
         List<AccountBean> incomeAccountsList = convertList(incomeAccountsListVO);
         model.addAttribute(INCOME_ACCOUNTS, incomeAccountsList);
+        return "loaded/incomes";
+    }
+    
+    @RequestMapping("/account/expenses")
+    public String listExpense(final Model model) {
+        LOG.debug("Listing expense accounts.");
         List<AccountVO> expenseAccountsListVO = accountService.getExpenseAccounts();
         List<AccountBean> expenseAccountsList = convertList(expenseAccountsListVO);
         model.addAttribute(EXPENSE_ACCOUNTS, expenseAccountsList);
-        return "loaded/accounts";
+        return "loaded/expenses";
     }
 
     @RequestMapping(value = "/account/edit", method = RequestMethod.GET)
@@ -144,7 +147,7 @@ public class AccountController {
     }
 
     private List<AccountBean> convertList(List<AccountVO> list) {
-        List<AccountBean> result = new ArrayList<AccountBean>();
+        List<AccountBean> result = new ArrayList<>();
         for (AccountVO temp : list) {
             result.add(convert(temp));
         }

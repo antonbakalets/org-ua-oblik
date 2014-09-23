@@ -150,12 +150,23 @@ jQuery(function ($) {
         },
         loadTransactions: function () {
             $("#tab-transactions").load(this.contextPath + '/transaction/list.html', function () {
-                $("#tab-transactions").attachModal();
+                //$("#tab-transactions").attachModal();
             });
         },
         loadAccounts: function () {
-            $("#tab-accounts").load(this.contextPath + '/account/list.html', function () {
-                $("#tab-accounts").attachModal();
+            $("#section-incomes").load(this.contextPath + '/account/incomes.html', function () {
+                $("#section-incomes .edit-link").ineditable({
+                    success: function() {
+                        reactor.dispatchEvent('accountEdited');
+                    }
+                });
+            });
+            $("#section-expenses").load(this.contextPath + '/account/expenses.html', function () {
+                $("#section-expenses .edit-link").ineditable({
+                    success: function() {
+                        reactor.dispatchEvent('accountEdited');
+                    }
+                });
             });
         },
         modalSaveEvent: function () {

@@ -22,58 +22,55 @@
                 <c:out value="${imgLoading}" escapeXml="false"/>
             </section>
         </div>
-            
+
         <div class="col-xs-6 col-sm-6">
-            <div id="right-tabs" class="tabbable"> <!-- Only required for left/right tabs -->
-                <ul class="nav nav-tabs">
-                    <li class="active">
-                        <a href="#tab-transactions" data-toggle="tab">
-                            <spring:message code="jsp.oblik.transactions"/>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#tab-accounts" data-toggle="tab">
-                            <spring:message code="jsp.oblik.accounts"/>
-                        </a>
-                    </li>
-                </ul>
-                <div class="tab-content">
-                    <div class="tab-pane active" id="tab-transactions">
-                        <c:out value="${imgLoading}" escapeXml="false"/>
-                    </div>
-                    <div class="tab-pane" id="tab-accounts">
-                        <c:out value="${imgLoading}" escapeXml="false"/>
-                    </div>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4 class="panel-title"><spring:message code="jsp.oblik.transactions"/></h4>
+                </div>
+                <div id="tab-transactions" class="panel-body">
+                    <c:out value="${imgLoading}" escapeXml="false"/>
                 </div>
             </div>
         </div>
-                    
+
         <div class="col-xs-6 col-sm-3">
             <section id="form-actions">
-                <div class="tabbable"> <!-- Only required for left/right tabs -->
-                    <ul class="nav nav-tabs">
-                        <li class="active">
-                            <a href="#tab-expense" data-toggle="tab"><spring:message code="jsp.oblik.expense"/></a>
-                        </li>
-                        <li>
-                            <a href="#tab-transfer" data-toggle="tab"><spring:message code="jsp.oblik.transfer"/></a>
-                        </li>
-                        <li>
-                            <a href="#tab-income" data-toggle="tab"><spring:message code="jsp.oblik.income"/></a>
-                        </li>
-                    </ul>
-                    <div class="tab-content">
-                        <div class="tab-pane active" id="tab-expense">
-                            <c:out value="${imgLoading}" escapeXml="false"/>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <ul class="nav nav-pills">
+                            <li class="active">
+                                <a href="#tab-expense" data-toggle="tab"><spring:message code="jsp.oblik.expense"/></a>
+                            </li>
+                            <li>
+                                <a href="#tab-transfer" data-toggle="tab"><spring:message code="jsp.oblik.transfer"/></a>
+                            </li>
+                            <li>
+                                <a href="#tab-income" data-toggle="tab"><spring:message code="jsp.oblik.income"/></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="panel-body">
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="tab-expense">
+                                <c:out value="${imgLoading}" escapeXml="false"/>
+                            </div>
+                            <div class="tab-pane" id="tab-transfer">
+                                <c:out value="${imgLoading}" escapeXml="false"/>
+                            </div>
+                            <div class="tab-pane" id="tab-income">
+                                <c:out value="${imgLoading}" escapeXml="false"/>
+                            </div>
                         </div>
-                        <div class="tab-pane" id="tab-transfer">
-                            <c:out value="${imgLoading}" escapeXml="false"/>
-                        </div>
-                        <div class="tab-pane" id="tab-income">
-                            <c:out value="${imgLoading}" escapeXml="false"/>
-                        </div>
+
                     </div>
                 </div>
+            </section>
+            <section id="section-incomes">
+                <c:out value="${imgLoading}" escapeXml="false"/>
+            </section>
+            <section id="section-expenses">
+                <c:out value="${imgLoading}" escapeXml="false"/>
             </section>
         </div>
     </div>

@@ -7,16 +7,17 @@
 
 <c:set var="fabType" value="${fn:toLowerCase(formActionBean.type)}"/>
 
-<form:form id="form-${fabType}" cssClass="form-horizontal m-top-10"
+
+<form:form id="form-${fabType}" cssClass="form-horizontal"
            modelAttribute="formActionBean" method="POST" 
            action="${pageContext.request.contextPath}/formaction.html">
     <form:hidden path="txId"/>
     <form:hidden path="type"/>
-    
+
     <div class="control-group">
         <label class="control-label" for="account-from-${fabType}"><spring:message code="jsp.oblik.account"/></label>
-        <div class="controls">
-            <form:select id="account-from-${fabType}" path="firstAccount">
+        <div class="">
+            <form:select id="account-from-${fabType}" path="firstAccount" cssClass="form-control">
                 <c:if test="${empty formActionBean.txId}">
                     <form:option value="" label=""/>
                 </c:if>
@@ -30,10 +31,10 @@
 
     <div class="control-group">
         <label class="control-label" for="firstAmmount-${fabType}"><spring:message code="jsp.oblik.ammount"/></label>
-        <div class="controls">
-            <div class="input-append">
-                <form:input id="firstAmmount-${fabType}" path="firstAmmount"/>
-                <span class="add-on"><i class="icon-list-alt"></i></span>
+        <div class="">
+            <div class="input-group">
+                <form:input id="firstAmmount-${fabType}" path="firstAmmount" cssClass="form-control"/>
+                <span class="input-group-addon"><span class="glyphicon glyphicon-list-alt"/></span>
             </div>
         </div>
         <form:errors path="firstAmmount" element="div" cssClass="alert iconed-box alert-error"/>
@@ -41,10 +42,10 @@
 
     <div class="control-group">
         <label class="control-label" for="date-${fabType}"><spring:message code="jsp.oblik.date"/></label>
-        <div class="controls">
-            <div class="input-append">
-                <form:input id="date-${fabType}" path="date" cssClass="datepicker"/>
-                <span class="add-on"><i class="icon-calendar"></i></span>
+        <div class="">
+            <div class="input-group">
+                <form:input id="date-${fabType}" path="date" cssClass="form-control datepicker"/>
+                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"/></span>
             </div>
         </div>
         <form:errors path="date" element="div" cssClass="alert iconed-box alert-error"/>
@@ -52,8 +53,8 @@
 
     <div class="control-group">
         <label class="control-label" for="account-to-${fabType}"><spring:message code="jsp.oblik.account"/></label>
-        <div class="controls">
-            <form:select id="account-to-${fabType}" path="secondAccount">
+        <div class="">
+            <form:select id="account-to-${fabType}" path="secondAccount" cssClass="form-control">
                 <c:if test="${empty formActionBean.txId}">
                     <form:option value="" label=""/>
                 </c:if>
@@ -68,8 +69,11 @@
     <c:if test="${formActionBean.type == 'TRANSFER'}">
         <div id="second-ammount-div-${fabType}" class="control-group">
             <label class="control-label" for="secondAmmount-${fabType}"><spring:message code="jsp.oblik.expense.ammount"/></label>
-            <div class="controls">
-                <form:input id="secondAmmount-${fabType}" path="secondAmmount"/>
+            <div class="">
+                <div class="input-group">
+                    <form:input id="secondAmmount-${fabType}" path="secondAmmount" cssClass="form-control"/>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-list-alt"/></span>
+                </div>
             </div>
             <form:errors path="secondAmmount" element="div" cssClass="alert iconed-box alert-error"/>
         </div>
@@ -77,15 +81,15 @@
 
     <div class="control-group">
         <label class="control-label" for="note-${fabType}"><spring:message code="jsp.oblik.note"/></label>
-        <div class="controls">
-            <form:textarea id="note-${fabType}" path="note"/>
+        <div class="">
+            <form:textarea id="note-${fabType}" path="note" cssClass="form-control"/>
         </div>
         <form:errors path="note" element="div" cssClass="alert iconed-box alert-error"/>
     </div>
 
     <c:if test="${empty formActionBean.txId}">
         <div class="control-group">
-            <div class="controls">
+            <div class="">
                 <button id="form-${fabType}-button" type="button" 
                         class="btn btn-${fabType}">Submit</button>
             </div>
