@@ -1,48 +1,32 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <%@ taglib prefix="spring"  uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="display" uri="http://displaytag.sf.net" %>
+<%@ taglib prefix="c"       uri="http://java.sun.com/jsp/jstl/core" %>
 
-<spring:message var="title_total" code="jsp.oblik.totalByAccounts"/>
-<spring:message var="title_name" code="jsp.oblik.account.name"/>
-<spring:message var="title_currency" code="jsp.oblik.account.currency"/>
-<spring:message var="title_balance" code="jsp.oblik.account.balance"/> 
-
-<spring:message var="headerAdd" code="jsp.oblik.account.assets.header.add"/>
-<spring:message var="headerEdit" code="jsp.oblik.account.assets.header.edit"/>
-
-<h3 class="title-block">${title_total }</h3>
-<div class="content-container-white">
-    <div class="m-all-5">
-        <display:table id="totalAccounts"
-                       name="assetsAccounts"
-                       requestURI="total/account.html"
-                       class="table table-striped table-hover table-condensed">
-            <display:column property="accountId" title="accountId" 
-                            headerClass="hide" class="hide"/>
-            <display:column title="${title_name}"
-                            headerClass="span2 align-center" class="span2 edit-link">
-                <a id="account_${totalAccounts.accountId}" title="${headerEdit}"
-                   href="${pageContext.request.contextPath}/account/edit.html?accountId=${totalAccounts.accountId}&type=ASSETS">
-                    ${totalAccounts.name}
+<ul class="list-group">
+    <li class="list-group-item active">
+        <h4><spring:message code="jsp.oblik.totalByAccounts"/></h4>
+    </li>
+    <c:forEach var="entry" items="${assetsAccounts}">
+        <li class="list-group-item">
+            <div class="edit-link">
+                <span class="hidden"><c:out value="${entry.accountId}"/></span>
+                <a id="account_${entry.accountId}" title="${headerEdit}"
+                   href="${pageContext.request.contextPath}/account/edit.html?accountId=${entry.accountId}&type=ASSETS">
+                    ${entry.name}
                 </a>
-            </display:column>
-            <display:column property="ammount" title="${title_currency}"
-                            headerClass="span1 hide" class="span1 align-right"/>
-            <display:column property="currencySymbol" title="${title_balance}" value="ammount"
-                            headerClass="span1 align-center" class="span1"/>
-            <display:setProperty name="basic.msg.empty_list">
-                <div class="alert iconed-box alert-info">
-                    <spring:message code="jsp.oblik.account.assets.empty"/>
-                </div>
-            </display:setProperty>
-        </display:table>
-
-        <div  class="edit-link">
+                <c:out value="${entry.ammount}"/>
+                <c:out value="${entry.currencySymbol}"/>
+            </div>
+        </li>
+    </c:forEach>
+    <li class="list-group-item">
+        <div class="edit-link">
             <a id="add-assets" class="btn btn-transfer" title="${headerAdd}"
-
                href="${pageContext.request.contextPath}/account/edit.html?type=ASSETS">
+                <span class="glyphicon glyphicon-plus"/>
                 <spring:message code="jsp.oblik.account.btn.assets"/>
             </a>
         </div>
-    </div>
-</div>
+    </li>
+</ul>
