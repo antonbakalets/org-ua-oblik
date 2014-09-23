@@ -12,6 +12,7 @@
 
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/bootstrap.css" />
 
+        <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-2.1.1.js"></script>
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
 
         <link rel="shortcut icon" href="${pageContext.request.contextPath}/img/favicon.ico" />

@@ -14,15 +14,15 @@
         <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,400,600&subset=latin,cyrillic-ext,cyrillic'/>
 
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/bootstrap.css" />
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/default.css" />
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/jquery-ui-1.9.2.custom.css" />
+        <!--<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/default.css" />-->
         
-        <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-1.9.1.js"></script>
-        <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-ui-1.9.2.custom.js"></script>
-        <script type="text/javascript" src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
+        <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-2.1.1.js"></script>
+        <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-ui-1.11.1.js"></script>
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.form.js"></script>
+        <script type="text/javascript" src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
+        <script type="text/javascript" src="${pageContext.request.contextPath}/js/ineditable.js"></script>
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/main.js"></script>
-
+        
         <link rel="shortcut icon" href="${pageContext.request.contextPath}/img/favicon.ico" />
 
         <title><spring:message code="jsp.oblik.title"/></title>
@@ -34,8 +34,8 @@
             Your browser is not JavaScript enabled.
         </noscript>
         
-        <%@include file="header.jsp" %>
+        <%--@include file="header.jsp" --%>
         <%@include file="main.jsp" %>
-        <%@include file="footer.jsp" %>
+        <%--@include file="footer.jsp" --%>
     </body>
 </html>

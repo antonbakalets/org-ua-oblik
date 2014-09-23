@@ -1,26 +1,42 @@
 
-$.fn.addDatepicker = function() {
-    this.datepicker({
-        altFormat: 'dd.mm.yy',
-        dateFormat: 'dd.mm.yy',
-        showOn: "focus",
-        buttonImageOnly: true
-    });
-}
+/*$.fn.addDatepicker = function () {
+ this.datepicker({
+ altFormat: 'dd.mm.yy',
+ dateFormat: 'dd.mm.yy',
+ showOn: "focus",
+ buttonImageOnly: true
+ });
+ };*/
 
-$.fn.restrictToNumbers = function() {
-    $(this).keyup(function() {
+$.fn.restrictToNumbers = function () {
+    $(this).keyup(function () {
         this.value = this.value.replace(/[^0-9\.]/g, '');
     });
-}
+};
 
-$.fn.attachModal = function() {
-    $(this).find('a[data-toggle="modal"]').click(function() {
+$.fn.attachEditForm = function () {
+    $(this).find('a[data-toggle="modal"]').click(function (e) {
+        e.preventDefault();
+        var ahref = $(this).attr('href');
+        $(this).before('<div/>');
+        $(this).prev().load(ahref,
+                function (response, status, xhr) {
+                    if (status === 'error') {
+                        alert('error loading from: ' + ahref);
+                    }
+                    return this;
+                }
+        );
+    });
+};
+
+$.fn.attachModal = function () {
+    $(this).find('a[data-toggle="modal"]').click(function () {
         $('#common-modal-label').text($(this).attr('title'));
         $('#common-modal-event').text($(this).attr('save-event'));
         $('#common-modal-body').load(
                 $(this).attr('href'),
-                function(response, status, xhr) {
+                function (response, status, xhr) {
                     if (status === 'error') {
                         $('#common-modal-body').html('<h2>Oh boy</h2><p>Sorry, but there was an error:' + xhr.status + ' ' + xhr.statusText + '</p>');
                     }
@@ -28,13 +44,13 @@ $.fn.attachModal = function() {
                 }
         );
     });
-}
+};
 
-jQuery(function($) {
+jQuery(function ($) {
     'use strict';
 
     var App = {
-        init: function(contextPath) {
+        init: function (contextPath) {
             this.contextPath = contextPath;
             this.loadExpenseForm();
             this.loadTransferForm();
@@ -45,26 +61,26 @@ jQuery(function($) {
             this.loadAccounts();
             this.modalSaveEvent();
         },
-        loadExpenseForm: function() {
-            $("#tab-expense").load(this.contextPath + '/formaction.html?type=expense', function() {
+        loadExpenseForm: function () {
+            $("#tab-expense").load(this.contextPath + '/formaction.html?type=expense', function () {
                 App.initExpenseForm();
             });
         },
-        loadTransferForm: function() {
-            $("#tab-transfer").load(this.contextPath + '/formaction.html?type=transfer', function() {
+        loadTransferForm: function () {
+            $("#tab-transfer").load(this.contextPath + '/formaction.html?type=transfer', function () {
                 App.initTransferForm();
             });
         },
-        loadIncomeForm: function() {
-            $("#tab-income").load(this.contextPath + '/formaction.html?type=income', function() {
+        loadIncomeForm: function () {
+            $("#tab-income").load(this.contextPath + '/formaction.html?type=income', function () {
                 App.initIncomeForm();
             });
         },
-        initExpenseForm: function() {
-            $("#form-expense-button .datepicker").addDatepicker();
-            $('#form-expense-button').click(function() {
+        initExpenseForm: function () {
+            //$("#form-expense-button .datepicker").addDatepicker();
+            $('#form-expense-button').click(function () {
                 $('#form-expense').ajaxSubmit({
-                    success: function(data)
+                    success: function (data)
                     {
                         $('#tab-expense').html(data);
                         if ($("#tab-expense .alert").size() === 0) {
@@ -75,11 +91,11 @@ jQuery(function($) {
                 });
             });
         },
-        initTransferForm: function() {
-            $("#form-transfer-button .datepicker").addDatepicker();
-            $('#form-transfer-button').click(function() {
+        initTransferForm: function () {
+            //$("#form-transfer-button .datepicker").addDatepicker();
+            $('#form-transfer-button').click(function () {
                 $('#form-transfer').ajaxSubmit({
-                    success: function(data)
+                    success: function (data)
                     {
                         $('#tab-transfer').html(data);
                         if ($("#tab-transfer .alert").size() === 0) {
@@ -99,11 +115,11 @@ jQuery(function($) {
              }
              });*/
         },
-        initIncomeForm: function() {
-            $("#form-income-button .datepicker").addDatepicker();
-            $('#form-income-button').click(function() {
+        initIncomeForm: function () {
+            //$("#form-income-button .datepicker").addDatepicker();
+            $('#form-income-button').click(function () {
                 $('#form-income').ajaxSubmit({
-                    success: function(data)
+                    success: function (data)
                     {
                         $('#tab-income').html(data);
                         if ($("#tab-income .alert").size() === 0) {
@@ -114,30 +130,38 @@ jQuery(function($) {
                 });
             });
         },
-        loadTotalByCurrency: function() {
-            $("#total-by-currency").load(this.contextPath + '/currency/list.html', function() {
-                $("#total-by-currency").attachModal();
+        loadTotalByCurrency: function () {
+            $("#total-by-currency").load(this.contextPath + '/currency/list.html', function () {
+                $("#total-by-currency .edit-link").ineditable({
+                    success: function() {
+                        reactor.dispatchEvent('currencyAdded');
+                    }
+                });
             });
         },
-        loadTotalByAccount: function() {
-            $("#total-by-account").load(this.contextPath + '/total/account.html', function() {
-                $("#total-by-account").attachModal();
+        loadTotalByAccount: function () {
+            $("#total-by-account").load(this.contextPath + '/total/account.html', function () {
+                $("#total-by-account .edit-link").ineditable({
+                    success: function() {
+                        reactor.dispatchEvent('accountEdited');
+                    }
+                });
             });
         },
-        loadTransactions: function() {
-            $("#tab-transactions").load(this.contextPath + '/transaction/list.html', function() {
+        loadTransactions: function () {
+            $("#tab-transactions").load(this.contextPath + '/transaction/list.html', function () {
                 $("#tab-transactions").attachModal();
             });
         },
-        loadAccounts: function() {
-            $("#tab-accounts").load(this.contextPath + '/account/list.html', function() {
+        loadAccounts: function () {
+            $("#tab-accounts").load(this.contextPath + '/account/list.html', function () {
                 $("#tab-accounts").attachModal();
             });
         },
-        modalSaveEvent: function() {
-            $('#common-modal-save').click(function() {
+        modalSaveEvent: function () {
+            $('#common-modal-save').click(function () {
                 $('#common-modal form').ajaxSubmit({
-                    success: function(responseText, statusText, xhr, $form) {
+                    success: function (responseText, statusText, xhr, $form) {
                         $('#common-modal-body').html('');
                         $('#common-modal-body').html(responseText);
                         if ($("#common-modal-body .alert").size() === 0) {
@@ -152,13 +176,13 @@ jQuery(function($) {
 
     App.init($('#contextPath').text());
 
-  
+
 
     function Event(name) {
         this.name = name;
         this.callbacks = [];
     }
-    Event.prototype.registerCallback = function(callback) {
+    Event.prototype.registerCallback = function (callback) {
         this.callbacks.push(callback);
     };
 
@@ -169,15 +193,15 @@ jQuery(function($) {
         this.events = {};
     }
 
-    Reactor.prototype.registerEvent = function(eventName) {
+    Reactor.prototype.registerEvent = function (eventName) {
         var event = new Event(eventName);
         this.events[eventName] = event;
     };
 
-    Reactor.prototype.dispatchEvent = function(eventName, eventArgs) {
+    Reactor.prototype.dispatchEvent = function (eventName, eventArgs) {
         if (eventName) {
             console.log('Dispathing event: ' + eventName);
-            this.events[eventName].callbacks.forEach(function(callback) {
+            this.events[eventName].callbacks.forEach(function (callback) {
                 callback(eventArgs);
             });
         } else {
@@ -185,7 +209,7 @@ jQuery(function($) {
         }
     };
 
-    Reactor.prototype.addEventListener = function(eventName, callback) {
+    Reactor.prototype.addEventListener = function (eventName, callback) {
         this.events[eventName].registerCallback(callback);
     };
 
@@ -198,29 +222,26 @@ jQuery(function($) {
     reactor.registerEvent('currencyEdited');
     reactor.registerEvent('accountEdited');
     reactor.registerEvent('transactionEdited');
-    
-    reactor.addEventListener('currencyAdded', function() {
-        App.loadTotalByCurrency();
-    });
-    
-    reactor.addEventListener('currencyEdited', function() {
+
+    reactor.addEventListener('currencyAdded', function () {
         App.loadTotalByCurrency();
     });
 
-    reactor.addEventListener('accountEdited', function() {
+    reactor.addEventListener('currencyEdited', function () {
+        App.loadTotalByCurrency();
+    });
+
+    reactor.addEventListener('accountEdited', function () {
         App.loadAccounts();
         App.loadTotalByAccount();
     });
 
-    reactor.addEventListener('transactionEdited', function() {
+    reactor.addEventListener('transactionEdited', function () {
         App.loadTransactions();
         App.loadAccounts();
         App.loadTotalByAccount();
         App.loadTotalByCurrency();
     });
-
-
-
 });
 
 function calc(expression) {
@@ -228,13 +249,13 @@ function calc(expression) {
     try {
         var valid = validMathSymbols(expression);
         if (valid) {
-            result = eval(expression); 
+            result = eval(expression);
         }
     } catch (e) {
         // do nothing
     }
     return result;
-}   
+}
 
 function validMathSymbols(expression) {
     var pattern = /^[^a-zA-Z][-*+/()\d\s\.]*$/g;
