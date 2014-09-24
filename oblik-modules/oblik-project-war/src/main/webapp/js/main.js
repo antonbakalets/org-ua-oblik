@@ -133,7 +133,7 @@ jQuery(function ($) {
         loadTotalByCurrency: function () {
             $("#total-by-currency").load(this.contextPath + '/currency/list.html', function () {
                 $("#total-by-currency .edit-link").ineditable({
-                    success: function() {
+                    success: function () {
                         reactor.dispatchEvent('currencyAdded');
                     }
                 });
@@ -142,7 +142,7 @@ jQuery(function ($) {
         loadTotalByAccount: function () {
             $("#total-by-account").load(this.contextPath + '/total/account.html', function () {
                 $("#total-by-account .edit-link").ineditable({
-                    success: function() {
+                    success: function () {
                         reactor.dispatchEvent('accountEdited');
                     }
                 });
@@ -156,14 +156,14 @@ jQuery(function ($) {
         loadAccounts: function () {
             $("#section-incomes").load(this.contextPath + '/account/incomes.html', function () {
                 $("#section-incomes .edit-link").ineditable({
-                    success: function() {
+                    success: function () {
                         reactor.dispatchEvent('accountEdited');
                     }
                 });
             });
             $("#section-expenses").load(this.contextPath + '/account/expenses.html', function () {
                 $("#section-expenses .edit-link").ineditable({
-                    success: function() {
+                    success: function () {
                         reactor.dispatchEvent('accountEdited');
                     }
                 });

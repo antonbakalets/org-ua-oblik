@@ -5,25 +5,28 @@
 
 <form:form id="form-currency" modelAttribute="currencyBean" method="POST" 
            action="${pageContext.request.contextPath}/currency/edit.html">
-    <fieldset>
-        <form:hidden path="currencyId"/>
-        <form:hidden path="defaultRate"/>
-        <form:hidden path="oldSymbol"/>
 
-        <label><spring:message code="jsp.oblik.currency.symbol"/></label>
-        <form:input path="symbol"/>
-        <form:errors path="symbol" element="div" cssClass="alert alert-error"/>
+    <form:hidden path="currencyId"/>
+    <form:hidden path="defaultRate"/>
+    <form:hidden path="oldSymbol"/>
 
-        <label for="rate"><spring:message code="jsp.oblik.currency.rate"/></label>
+    <div class="form-group">
+        <label class="sr-only"><spring:message var="labelSymbol" code="jsp.oblik.currency.symbol"/></label>
+        <form:input path="symbol" placeholder="${labelSymbol}" cssClass="form-control"/>
+        <form:errors path="symbol" element="div" cssClass="alert alert-danger"/>
+    </div>
+
+    <div class="form-group">
+        <label class="sr-only"><spring:message var="labelRate" code="jsp.oblik.currency.rate"/></label>
         <c:choose>
             <c:when test="${currencyBean.defaultRate}">
-                <input id="rate" type="text" disabled="disabled" value="${currencyBean.rate}"/>
+                <p class="form-control-static">${currencyBean.rate}</p>
                 <form:hidden path="rate"/>
             </c:when>
             <c:otherwise>
-                <form:input path="rate"/>
-                <form:errors path="rate" element="div" cssClass="alert alert-error"/>
+                <form:input path="rate" placeholder="${labelRate}" cssClass="form-control"/>
+                <form:errors path="rate" element="div" cssClass="alert alert-danger"/>
             </c:otherwise>
         </c:choose>
-    </fieldset>
+    </div>
 </form:form>

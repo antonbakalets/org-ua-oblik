@@ -26,16 +26,17 @@ $.widget("oblik.ineditable", {
             this.container.append(this.formDiv);
 
             var btnContainer = $("<div/>");
-            this.saveBtn = $("<button type='button' class='btn btn-primary btn-sm pull-right'/>");
+            this.saveBtn = $("<button type='button' class='btn btn-link btn-sm'/>");
             this.saveBtn.append(this.options.save);
             btnContainer.append(this.saveBtn);
 
-            this.closeBtn = $("<button type='button' class='btn btn-default btn-sm pull-right'/>");
+            this.closeBtn = $("<button type='button' class='btn btn-link btn-sm'/>");
             this.closeBtn.append(this.options.close);
             btnContainer.append(this.closeBtn);
             this._on(this.closeBtn, {click: "close"});
             
             this.container.append(btnContainer);
+            this.container.append($("<div class='clearfix'/>"));
         }
     },
     _show: function () {
