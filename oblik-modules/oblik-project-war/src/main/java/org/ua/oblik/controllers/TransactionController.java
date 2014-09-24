@@ -2,8 +2,11 @@ package org.ua.oblik.controllers;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -34,6 +37,8 @@ public class TransactionController {
     private static final Logger LOG = LoggerFactory.getLogger(TransactionController.class);
 
     private static final String TRANSACTIONS = "transaction_list";
+    
+    private static final String TRANSACTION_MAP = "transaction_map";
 
     private static final String TRANSACTION_BEAN = "transaction";
 
@@ -53,6 +58,7 @@ public class TransactionController {
         List<TransactionVO> tempList = transactionService.getTransactions();
         List<TransactionBean> list = convertList(tempList, locale);
         model.addAttribute(TRANSACTIONS, list);
+        model.addAttribute(TRANSACTION_MAP, convertToMap(tempList, locale));
         return "loaded/transactions";
     }
 
@@ -97,9 +103,25 @@ public class TransactionController {
     }
     
     private List<TransactionBean> convertList(List<TransactionVO> list, Locale locale) {
-        List<TransactionBean> result = new ArrayList<TransactionBean>();
+        List<TransactionBean> result = new ArrayList<>();
         for (TransactionVO temp : list) {
             result.add(convert(temp, locale));
+        }
+        return result;
+    }
+    
+    private Map<Date, List<TransactionBean>> convertToMap(List<TransactionVO> list, Locale locale) {
+        Map<Date, List<TransactionBean>> result = new HashMap<>();
+        for (TransactionVO elem : list) {
+            TransactionBean converted = convert(elem, locale);
+            List<TransactionBean> dayList = result.get(converted.getDate());
+            if (dayList == null) {
+                dayList = new ArrayList<>();
+                dayList.add(converted);
+                result.put(converted.getDate(), dayList);
+            } else {
+                dayList.add(converted);
+            }            
         }
         return result;
     }
