@@ -1,12 +1,6 @@
 
-/*$.fn.addDatepicker = function () {
- this.datepicker({
- altFormat: 'dd.mm.yy',
- dateFormat: 'dd.mm.yy',
- showOn: "focus",
- buttonImageOnly: true
- });
- };*/
+$.fn.datepicker.defaults.format = "dd.mm.yyyy";
+$.fn.datepicker.defaults.weekStart = 1;
 
 $.fn.restrictToNumbers = function () {
     $(this).keyup(function () {
@@ -76,15 +70,15 @@ jQuery(function ($) {
                 App.initIncomeForm();
             });
         },
-        initExpenseForm: function () {
-            //$("#form-expense-button .datepicker").addDatepicker();
+        initExpenseForm: function (id) {
+            $("#form-expense .datepicker").datepicker();
             $('#form-expense-button').click(function () {
                 $('#form-expense').ajaxSubmit({
                     success: function (data)
                     {
                         $('#tab-expense').html(data);
                         if ($("#tab-expense .alert").size() === 0) {
-                            reactor.dispatchEvent('transactionEdited');
+                            reactor.dispatchEvent('transactionSave', id);
                         }
                         App.initExpenseForm();
                     }
@@ -92,14 +86,14 @@ jQuery(function ($) {
             });
         },
         initTransferForm: function () {
-            //$("#form-transfer-button .datepicker").addDatepicker();
+            $("#form-transfer .datepicker").datepicker();
             $('#form-transfer-button').click(function () {
                 $('#form-transfer').ajaxSubmit({
                     success: function (data)
                     {
                         $('#tab-transfer').html(data);
                         if ($("#tab-transfer .alert").size() === 0) {
-                            reactor.dispatchEvent('transactionEdited');
+                            reactor.dispatchEvent('transactionSave');
                         }
                         App.initTransferForm();
                     }
@@ -116,14 +110,14 @@ jQuery(function ($) {
              });*/
         },
         initIncomeForm: function () {
-            //$("#form-income-button .datepicker").addDatepicker();
+            $("#form-income .datepicker").datepicker();
             $('#form-income-button').click(function () {
                 $('#form-income').ajaxSubmit({
                     success: function (data)
                     {
                         $('#tab-income').html(data);
                         if ($("#tab-income .alert").size() === 0) {
-                            reactor.dispatchEvent('transactionEdited');
+                            reactor.dispatchEvent('transactionSave');
                         }
                         App.initIncomeForm();
                     }
@@ -150,7 +144,12 @@ jQuery(function ($) {
         },
         loadTransactions: function () {
             $("#tab-transactions").load(this.contextPath + '/transaction/list.html', function () {
-                //$("#tab-transactions").attachModal();
+                $(a['.transactionEdit']).each(function () {
+                    $(this).click(function (e) {
+                        e.preventDefault();
+                        reactor.dispatchEvent('accountEdit', $(this).attr('id'));
+                    });
+                });
             });
         },
         loadAccounts: function () {
@@ -232,10 +231,12 @@ jQuery(function ($) {
     reactor.registerEvent('currencyAdded');
     reactor.registerEvent('currencyEdited');
     reactor.registerEvent('accountEdited');
-    reactor.registerEvent('transactionEdited');
+    reactor.registerEvent('transactionSave');
+    reactor.registerEvent('transactionEdit');
 
     reactor.addEventListener('currencyAdded', function () {
         App.loadTotalByCurrency();
+        App.loadExpenseForm();
     });
 
     reactor.addEventListener('currencyEdited', function () {
@@ -247,7 +248,7 @@ jQuery(function ($) {
         App.loadTotalByAccount();
     });
 
-    reactor.addEventListener('transactionEdited', function () {
+    reactor.addEventListener('transactionSave', function () {
         App.loadTransactions();
         App.loadAccounts();
         App.loadTotalByAccount();
