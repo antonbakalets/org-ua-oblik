@@ -10,13 +10,14 @@
     <head> 
         <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        
+
         <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,400,600&subset=latin,cyrillic-ext,cyrillic'/>
 
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/normalize.css" />
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/bootstrap.css" />
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/datepicker.css" />
         <!--<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/default.css" />-->
-        
+
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-2.1.1.js"></script>
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-ui-1.11.1.js"></script>
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.form.js"></script>
@@ -25,7 +26,7 @@
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/ineditable.js"></script>
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/calculable.js"></script>
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/main.js"></script>
-        
+
         <link rel="shortcut icon" href="${pageContext.request.contextPath}/img/favicon.ico" />
 
         <title><spring:message code="jsp.oblik.title"/></title>
@@ -36,9 +37,11 @@
             This page uses JavaScript and requires a JavaScript enabled browser.
             Your browser is not JavaScript enabled.
         </noscript>
-        
-        <%--@include file="header.jsp" --%>
-        <%@include file="main.jsp" %>
-        <%--@include file="footer.jsp" --%>
+
+        <div class="container">
+            <%@include file="header.jsp" %>
+            <%@include file="main.jsp" %>
+            <%@include file="footer.jsp" %>
+        </div>
     </body>
 </html>

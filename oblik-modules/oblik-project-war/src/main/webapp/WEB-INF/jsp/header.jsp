@@ -19,31 +19,30 @@
 </c:set>
 
 <header class="subhead" id="overview">
-    <span id="default-currency-exists" class="hidden">${defaultCurrencyExists}</span>
-    <span id="default-currency-symbol" class="hidden">${defaultCurrencySymbol}</span>
-    <span id="default-currency-total" class="hidden">${defaultCurrencyTotal}</span>
+    <div class="page-header">
 
-    <a href="https://github.com/antonbakalets/org-ua-oblik">
-        <img style="position: absolute; top: 0; right: 0; border: 0; z-index: 1;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub">
-    </a>
-    
-    <div class="container">
+        <span id="default-currency-exists" class="hidden">${defaultCurrencyExists}</span>
+        <span id="default-currency-symbol" class="hidden">${defaultCurrencySymbol}</span>
+        <span id="default-currency-total" class="hidden">${defaultCurrencyTotal}</span>
+
+        <a href="https://github.com/antonbakalets/org-ua-oblik">
+            <img style="position: absolute; top: 0; right: 0; border: 0; z-index: 1;"
+                 src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"
+                 alt="Fork me on GitHub">
+        </a>
+
+        <!-- <h1>putt title here</h1> -->
+
         <div class="row">
-            <div class="header-top-container">
-                <div class="span12">
-                    <div class="pull-right">
-                        <spring:message code="jsp.oblik.hi"/>,
-                        <a><security:authentication property="principal.username" /></a>!
-                    </div>
+            <div class="col-xs-6 col-sm-3">
+                <div class="well">
+                    <spring:message code="jsp.oblik.hi"/>,
+                    <a><security:authentication property="principal.username" /></a>!
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="header-bot-container">
-                <div class="span12">
-                    <div class="pull-right">
-                        <c:out escapeXml="false" value="${defaultCurrencyBlock}"/>
-                    </div>
+            <div class="col-xs-6 col-sm-9">
+                <div class="well">
+                    <c:out escapeXml="false" value="${defaultCurrencyBlock}"/>
                 </div>
             </div>
         </div>
