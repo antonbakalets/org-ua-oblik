@@ -33,7 +33,7 @@
         <label class="control-label" for="firstAmmount-${fabType}"><spring:message code="jsp.oblik.ammount"/></label>
         <div class="">
             <div class="input-group">
-                <form:input id="firstAmmount-${fabType}" path="firstAmmount" cssClass="form-control"/>
+                <form:input id="firstAmmount-${fabType}" path="firstAmmount" cssClass="form-control calculable"/>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-list-alt"/></span>
             </div>
         </div>
@@ -50,7 +50,7 @@
         </div>
         <form:errors path="date" element="div" cssClass="alert iconed-box alert-error"/>
     </div>
-
+    
     <div class="control-group">
         <label class="control-label" for="account-to-${fabType}"><spring:message code="jsp.oblik.account"/></label>
         <div class="">
@@ -71,7 +71,7 @@
             <label class="control-label" for="secondAmmount-${fabType}"><spring:message code="jsp.oblik.expense.ammount"/></label>
             <div class="">
                 <div class="input-group">
-                    <form:input id="secondAmmount-${fabType}" path="secondAmmount" cssClass="form-control"/>
+                    <form:input id="secondAmmount-${fabType}" path="secondAmmount" cssClass="form-control calculable"/>
                     <span class="input-group-addon"><span class="glyphicon glyphicon-list-alt"/></span>
                 </div>
             </div>

@@ -1,12 +1,7 @@
 
 $.fn.datepicker.defaults.format = "dd.mm.yyyy";
 $.fn.datepicker.defaults.weekStart = 1;
-
-$.fn.restrictToNumbers = function () {
-    $(this).keyup(function () {
-        this.value = this.value.replace(/[^0-9\.]/g, '');
-    });
-};
+$.fn.datepicker.defaults.todayBtn = "linked";
 
 $.fn.attachEditForm = function () {
     $(this).find('a[data-toggle="modal"]').click(function (e) {
@@ -72,6 +67,7 @@ jQuery(function ($) {
         },
         initExpenseForm: function (id) {
             $("#form-expense .datepicker").datepicker();
+            $("#form-expense .calculable").calculable();
             $('#form-expense-button').click(function () {
                 $('#form-expense').ajaxSubmit({
                     success: function (data)
@@ -87,6 +83,7 @@ jQuery(function ($) {
         },
         initTransferForm: function () {
             $("#form-transfer .datepicker").datepicker();
+            $("#form-transfer .calculable").calculable();
             $('#form-transfer-button').click(function () {
                 $('#form-transfer').ajaxSubmit({
                     success: function (data)
@@ -111,6 +108,7 @@ jQuery(function ($) {
         },
         initIncomeForm: function () {
             $("#form-income .datepicker").datepicker();
+            $("#form-income .calculable").calculable();
             $('#form-income-button').click(function () {
                 $('#form-income').ajaxSubmit({
                     success: function (data)
@@ -255,21 +253,3 @@ jQuery(function ($) {
         App.loadTotalByCurrency();
     });
 });
-
-function calc(expression) {
-    var result = expression;
-    try {
-        var valid = validMathSymbols(expression);
-        if (valid) {
-            result = eval(expression);
-        }
-    } catch (e) {
-        // do nothing
-    }
-    return result;
-}
-
-function validMathSymbols(expression) {
-    var pattern = /^[^a-zA-Z][-*+/()\d\s\.]*$/g;
-    return pattern.test(expression);
-}  
