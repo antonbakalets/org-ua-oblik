@@ -34,36 +34,8 @@
     </div>
 
     <div class="col-xs-6 col-sm-3">
-        <section id="form-actions">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <ul class="nav nav-pills">
-                        <li class="active">
-                            <a href="#tab-expense" data-toggle="tab"><spring:message code="jsp.oblik.expense"/></a>
-                        </li>
-                        <li>
-                            <a href="#tab-transfer" data-toggle="tab"><spring:message code="jsp.oblik.transfer"/></a>
-                        </li>
-                        <li>
-                            <a href="#tab-income" data-toggle="tab"><spring:message code="jsp.oblik.income"/></a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="panel-body">
-                    <div class="tab-content">
-                        <div class="tab-pane active" id="tab-expense">
-                            <c:out value="${imgLoading}" escapeXml="false"/>
-                        </div>
-                        <div class="tab-pane" id="tab-transfer">
-                            <c:out value="${imgLoading}" escapeXml="false"/>
-                        </div>
-                        <div class="tab-pane" id="tab-income">
-                            <c:out value="${imgLoading}" escapeXml="false"/>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
+        <section id="section-actions">
+            <c:out value="${imgLoading}" escapeXml="false"/>
         </section>
         <section id="section-incomes">
             <c:out value="${imgLoading}" escapeXml="false"/>

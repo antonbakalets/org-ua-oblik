@@ -34,7 +34,7 @@
 
                     ${transaction.note }
 
-                    <a id="transaction_edit_${transaction.transactionId}" class="btn btn-mini"
+                    <a id="transaction_edit_${transaction.transactionId}" class="btn btn-mini transaction-edit"
                        href="${pageContext.request.contextPath}/formaction.html?type=transfer&txId=${transaction.transactionId}"
                        data-target="#common-modal" data-toggle="modal" save-event="transactionEdited">
                         <span class="glyphicon glyphicon-edit"/>
@@ -55,7 +55,7 @@
                     ${transaction.secondAccount.name }
                     ${transaction.note }
                     
-                        <a id="transaction_edit_${transaction.transactionId}" class="btn btn-mini"
+                        <a id="transaction_edit_${transaction.transactionId}" class="btn btn-mini transaction-edit"
                            href="${pageContext.request.contextPath}/formaction.html?type=income&txId=${transaction.transactionId}"
                            data-target="#common-modal" data-toggle="modal" save-event="transactionEdited">
                             <span class="glyphicon glyphicon-edit"/>
@@ -76,7 +76,7 @@
                     ${transaction.secondAccount.name }
                     ${transaction.note }
                     
-                        <a id="transaction_edit_${transaction.transactionId}" class="btn btn-mini"
+                        <a id="transaction_edit_${transaction.transactionId}" class="btn btn-mini transaction-edit"
                            href="${pageContext.request.contextPath}/formaction.html?type=expense&txId=${transaction.transactionId}"
                            data-target="#common-modal" data-toggle="modal" save-event="transactionEdited">
                             <span class="glyphicon glyphicon-edit"/>

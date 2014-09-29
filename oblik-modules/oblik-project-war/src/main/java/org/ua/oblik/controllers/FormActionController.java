@@ -1,5 +1,6 @@
 package org.ua.oblik.controllers;
 
+import java.util.Date;
 import java.util.List;
 import javax.validation.Valid;
 import org.slf4j.Logger;
@@ -13,14 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.ua.oblik.controllers.beans.FormActionBean;
-import org.ua.oblik.service.beans.TransactionVO;
-import org.ua.oblik.service.beans.TransactionFactory;
-import org.ua.oblik.service.beans.TransactionType;
 import org.ua.oblik.controllers.utils.ValidationErrorLoger;
 import org.ua.oblik.controllers.validators.FormActionValidator;
 import org.ua.oblik.service.AccountService;
 import org.ua.oblik.service.TransactionService;
 import org.ua.oblik.service.beans.AccountVO;
+import org.ua.oblik.service.beans.TransactionFactory;
+import org.ua.oblik.service.beans.TransactionType;
+import org.ua.oblik.service.beans.TransactionVO;
 
 /**
  *
@@ -49,7 +50,8 @@ public class FormActionController {
 
     @ModelAttribute
     public void populateModel(final Model model,
-            @RequestParam(value = "type", required = true) final TransactionType type) {
+            @RequestParam(value = "type", required = false) final TransactionType requestedType) {
+        final TransactionType type = requestedType == null ? TransactionType.EXPENSE : requestedType;
         final List<AccountVO> assetsAccounts = accountService.getAssetsAccounts();
         switch (type) {
             case EXPENSE:
@@ -69,9 +71,8 @@ public class FormActionController {
 
     @RequestMapping(value = "/formaction", method = RequestMethod.GET)
     public String formaction(final Model model,
-            @RequestParam(value = "txId", required = false) final Integer txId,
-            @RequestParam(value = "type", required = true) final TransactionType type) {
-        final FormActionBean formaction = createFormActionBean(txId, type);
+            @RequestParam(value = "txId", required = false) final Integer txId) {
+        final FormActionBean formaction = createFormActionBean(txId);
         model.addAttribute("formActionBean", formaction);
         return "loaded/formaction";
     }
@@ -120,11 +121,15 @@ public class FormActionController {
         return result;
     }
 
-    private FormActionBean createFormActionBean(final Integer txId, final TransactionType type) {
+    private FormActionBean createFormActionBean(final Integer txId) {
+        final TransactionType defaultType = TransactionType.EXPENSE;
+        final FormActionBean result;
         if (txId == null) {
-            return convert(transactionFactory.create(type));
+            result = convert(transactionFactory.create(defaultType));
+            result.setDate(new Date());
         } else {
-            return convert(transactionService.getTransaction(txId));
+            result = convert(transactionService.getTransaction(txId));
         }
+        return result;
     }
 }
