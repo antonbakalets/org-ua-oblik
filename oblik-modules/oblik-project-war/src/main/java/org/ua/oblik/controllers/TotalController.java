@@ -36,8 +36,7 @@ public class TotalController {
     @RequestMapping("/total/account")
     public String totalAccount(final Model model) {
         LOG.debug("Loading total by account...");
-        List<AccountVO> list = accountService.getAccounts(
-                new AccountCriteria.Builder().setType(AccountVOType.ASSETS).build());
+        List<AccountVO> list = accountService.getAccounts(AccountCriteria.ASSETS_CRITERIA);
         model.addAttribute(ASSETS_ACCOUNTS, list);
         return "loaded/total-by-account";
     }

@@ -11,7 +11,7 @@ import org.ua.oblik.service.beans.AccountVO;
  */
 class AccountFilter {
     
-    private AccountCriteria criteria;
+    private AccountCriteria criteria = AccountCriteria.EMPTY_CRITERIA;
 
     public void setCriteria(AccountCriteria criteria) {
         this.criteria = criteria;

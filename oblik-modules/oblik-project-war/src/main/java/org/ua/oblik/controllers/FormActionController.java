@@ -54,17 +54,14 @@ public class FormActionController {
     public void populateModel(final Model model,
             @RequestParam(value = "type", required = false) final TransactionType requestedType) {
         final TransactionType type = requestedType == null ? TransactionType.EXPENSE : requestedType;
-        final List<AccountVO> assetsAccounts = accountService.getAccounts(
-                new AccountCriteria.Builder().setType(AccountVOType.ASSETS).build());
+        final List<AccountVO> assetsAccounts = accountService.getAccounts(AccountCriteria.ASSETS_CRITERIA);
         switch (type) {
             case EXPENSE:
                 model.addAttribute(ACCOUNT_FROM_ITEMS, assetsAccounts);
-                model.addAttribute(ACCOUNT_TO_ITEMS, accountService.getAccounts(
-                new AccountCriteria.Builder().setType(AccountVOType.EXPENSE).build()));
+                model.addAttribute(ACCOUNT_TO_ITEMS, accountService.getAccounts(AccountCriteria.EXPENSE_CRITERIA));
                 break;
             case INCOME:
-                model.addAttribute(ACCOUNT_FROM_ITEMS, accountService.getAccounts(
-                new AccountCriteria.Builder().setType(AccountVOType.INCOME).build()));
+                model.addAttribute(ACCOUNT_FROM_ITEMS, accountService.getAccounts(AccountCriteria.INCOME_CRITERIA));
                 model.addAttribute(ACCOUNT_TO_ITEMS, assetsAccounts);
                 break;
             case TRANSFER:

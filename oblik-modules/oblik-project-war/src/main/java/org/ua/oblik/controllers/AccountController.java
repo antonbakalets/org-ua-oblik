@@ -62,8 +62,7 @@ public class AccountController {
     @RequestMapping("/account/incomes")
     public String listIncome(final Model model) {
         LOG.debug("Listing income accounts.");
-        List<AccountVO> incomeAccountsListVO = accountService.getAccounts(
-                new AccountCriteria.Builder().setType(AccountVOType.INCOME).build());
+        List<AccountVO> incomeAccountsListVO = accountService.getAccounts(AccountCriteria.INCOME_CRITERIA);
         List<AccountBean> incomeAccountsList = convertList(incomeAccountsListVO);
         model.addAttribute(INCOME_ACCOUNTS, incomeAccountsList);
         return "loaded/incomes";
@@ -72,8 +71,7 @@ public class AccountController {
     @RequestMapping("/account/expenses")
     public String listExpense(final Model model) {
         LOG.debug("Listing expense accounts.");
-        List<AccountVO> expenseAccountsListVO = accountService.getAccounts(
-                new AccountCriteria.Builder().setType(AccountVOType.EXPENSE).build());
+        List<AccountVO> expenseAccountsListVO = accountService.getAccounts(AccountCriteria.EXPENSE_CRITERIA);
         List<AccountBean> expenseAccountsList = convertList(expenseAccountsListVO);
         model.addAttribute(EXPENSE_ACCOUNTS, expenseAccountsList);
         return "loaded/expenses";
