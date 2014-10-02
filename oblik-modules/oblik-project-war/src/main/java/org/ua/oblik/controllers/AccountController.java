@@ -20,6 +20,7 @@ import org.ua.oblik.controllers.utils.ValidationErrorLoger;
 import org.ua.oblik.controllers.validators.AccountValidator;
 import org.ua.oblik.service.AccountService;
 import org.ua.oblik.service.CurrencyService;
+import org.ua.oblik.service.beans.AccountCriteria;
 import org.ua.oblik.service.beans.AccountVO;
 import org.ua.oblik.service.beans.AccountVOType;
 
@@ -61,7 +62,8 @@ public class AccountController {
     @RequestMapping("/account/incomes")
     public String listIncome(final Model model) {
         LOG.debug("Listing income accounts.");
-        List<AccountVO> incomeAccountsListVO = accountService.getIncomeAccounts();
+        List<AccountVO> incomeAccountsListVO = accountService.getAccounts(
+                new AccountCriteria.Builder().setType(AccountVOType.INCOME).build());
         List<AccountBean> incomeAccountsList = convertList(incomeAccountsListVO);
         model.addAttribute(INCOME_ACCOUNTS, incomeAccountsList);
         return "loaded/incomes";
@@ -70,7 +72,8 @@ public class AccountController {
     @RequestMapping("/account/expenses")
     public String listExpense(final Model model) {
         LOG.debug("Listing expense accounts.");
-        List<AccountVO> expenseAccountsListVO = accountService.getExpenseAccounts();
+        List<AccountVO> expenseAccountsListVO = accountService.getAccounts(
+                new AccountCriteria.Builder().setType(AccountVOType.EXPENSE).build());
         List<AccountBean> expenseAccountsList = convertList(expenseAccountsListVO);
         model.addAttribute(EXPENSE_ACCOUNTS, expenseAccountsList);
         return "loaded/expenses";

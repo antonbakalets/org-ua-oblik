@@ -15,6 +15,7 @@ import org.ua.oblik.domain.dao.AccountDao;
 import org.ua.oblik.domain.dao.CurrencyDao;
 import org.ua.oblik.domain.model.Account;
 import org.ua.oblik.domain.model.Currency;
+import org.ua.oblik.service.beans.AccountCriteria;
 import org.ua.oblik.service.beans.AccountVO;
 import org.ua.oblik.service.beans.CurrencyVO;
 
@@ -94,19 +95,15 @@ public class AccountServiceImpl implements AccountService {
         accountDao.update(account);
     }
 
-    @Override
-    public List<AccountVO> getExpenseAccounts() {
-        return convert(accountDao.selectByKind(AccountKind.EXPENSE));
-    }
-
-    @Override
-    public List<AccountVO> getIncomeAccounts() {
-        return convert(accountDao.selectByKind(AccountKind.INCOME));
-    }
-
-    @Override
-    public List<AccountVO> getAssetsAccounts() {
+    private List<AccountVO> getAssetsAccounts() {
         return convert(accountDao.selectByKind(AccountKind.ASSETS));
+    }
+    
+    @Override
+    public List<AccountVO> getAccounts(AccountCriteria criteria) {
+        AccountFilter filter = new AccountFilter();
+        filter.setCriteria(criteria);
+        return filter.filter(convert(accountDao.selectAll()));
     }
 
     @Override
@@ -118,7 +115,7 @@ public class AccountServiceImpl implements AccountService {
         for (CurrencyVO cvo : listCur) {
             BigDecimal toRes = BigDecimal.ZERO;
             for (AccountVO avo : listAcc) {
-                if (avo.getCurrencyId() == cvo.getCurrencyId()) {
+                if (avo.getCurrencyId().equals(cvo.getCurrencyId())) {
                     toRes = toRes.add(avo.getAmmount());
                 }
             }
@@ -156,7 +153,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     private List<AccountVO> convert(List<Account> modelList) {
-        List<AccountVO> result = new ArrayList<AccountVO>(modelList.size());
+        List<AccountVO> result = new ArrayList<>(modelList.size());
         for (Account model : modelList) {
             result.add(convert(model));
         }

@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
+import org.ua.oblik.service.beans.AccountCriteria;
 import org.ua.oblik.service.beans.AccountVO;
 import org.ua.oblik.service.beans.CurrencyVO;
 
@@ -19,11 +20,7 @@ public interface AccountService {
 
     void delete(Integer accountId);
 
-    List<AccountVO> getExpenseAccounts();
-
-    List<AccountVO> getIncomeAccounts();
-
-    List<AccountVO> getAssetsAccounts();
+    List<AccountVO> getAccounts(AccountCriteria criteria);
 
     BigDecimal totalAssets();
 

@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.ua.oblik.service.AccountService;
 import org.ua.oblik.service.TotalService;
+import org.ua.oblik.service.beans.AccountCriteria;
 import org.ua.oblik.service.beans.AccountVO;
+import org.ua.oblik.service.beans.AccountVOType;
 
 /**
  *
@@ -34,7 +36,8 @@ public class TotalController {
     @RequestMapping("/total/account")
     public String totalAccount(final Model model) {
         LOG.debug("Loading total by account...");
-        List<AccountVO> list = accountService.getAssetsAccounts();
+        List<AccountVO> list = accountService.getAccounts(
+                new AccountCriteria.Builder().setType(AccountVOType.ASSETS).build());
         model.addAttribute(ASSETS_ACCOUNTS, list);
         return "loaded/total-by-account";
     }
