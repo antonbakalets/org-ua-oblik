@@ -10,7 +10,7 @@ public class AccountOption {
     
     private String name;
     
-    private String symbol;
+    private Integer currency;
 
     public Integer getId() {
         return id;
@@ -28,11 +28,11 @@ public class AccountOption {
         this.name = name;
     }
 
-    public String getSymbol() {
-        return symbol;
+    public Integer getCurrency() {
+        return currency;
     }
 
-    public void setSymbol(String symbol) {
-        this.symbol = symbol;
-    }    
+    public void setCurrency(Integer currency) {
+        this.currency = currency;
+    }
 }

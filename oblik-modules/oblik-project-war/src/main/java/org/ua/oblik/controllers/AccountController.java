@@ -184,7 +184,7 @@ public class AccountController {
             AccountOption option = new AccountOption();
             option.setId(temp.getAccountId());
             option.setName(temp.getName());
-            option.setSymbol(temp.getCurrencySymbol());
+            option.setCurrency(temp.getCurrencyId());
             result.add(option);
         }
         return result;

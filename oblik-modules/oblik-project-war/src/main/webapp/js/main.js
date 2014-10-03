@@ -9,6 +9,7 @@ jQuery(function ($) {
     var App = {
         init: function (contextPath) {
             this.contextPath = contextPath;
+            this.actionType = '';
             this.loadActionsForm(this.contextPath + '/formaction.html');
             this.loadTotalByCurrency();
             this.loadTotalByAccount();
@@ -17,6 +18,7 @@ jQuery(function ($) {
         },
         loadActionsForm: function (href) {
             $("#section-actions").load(href, function () {
+                this.actionType = $('#type').val().toUpperCase();
                 App.initActionsForm(href);
             });
         },
@@ -44,6 +46,12 @@ jQuery(function ($) {
                         App.initActionsForm();
                     }
                 });
+            });
+            $('#account-from').change(function () {
+                App.loadSecondAccountOptions($('#account-from :selected').attr('currency'));
+            });
+            $('#account-to').change(function () {
+                App.loadFirstAccountOptions($('#account-to :selected').attr('currency'));
             });
         },
         loadTotalByCurrency: function () {
@@ -108,21 +116,41 @@ jQuery(function ($) {
         loadFirstAccountOptions: function (currency) {
             var accountType = this.actionType === "INCOME" ? "INCOME" : "ASSETS";
             var optionsUrl = this.contextPath + '/account/options.json?type=' + accountType;
-            if(currency) {
+            if (this.actionType !== "TRANSFER" && currency) {
                 optionsUrl = optionsUrl + "&currency=" + currency;
             }
             $.getJSON(optionsUrl, function (data) {
+                $('#account-from option').not('#account-from :first').remove();
                 for (var i in data) {
                     var id = data[i].id;
                     var name = data[i].name;
-                    var symbol = data[i].symbol;
+                    var currId = data[i].currency;
+                    var option = $('<option>' + name + '</option>');
+                    option.attr('currency', currId);
+                    option.val(id);
+                    $('#account-from').append(option);
                 }
             });
         },
         loadSecondAccountOptions: function (currency) {
-
+            var accountType = this.actionType === "EXPENSE" ? "EXPENSE" : "ASSETS";
+            var optionsUrl = this.contextPath + '/account/options.json?type=' + accountType;
+            if (this.actionType !== "TRANSFER" && currency) {
+                optionsUrl = optionsUrl + "&currency=" + currency;
+            }
+            $.getJSON(optionsUrl, function (data) {
+                $('#account-to option').not('#account-to :first').remove();
+                for (var i in data) {
+                    var id = data[i].id;
+                    var name = data[i].name;
+                    var currId = data[i].currency;
+                    var option = $('<option>' + name + '</option>');
+                    option.attr('currency', currId);
+                    option.val(id);
+                    $('#account-to').append(option);
+                }
+            });
         }
-
     };
 
     App.init($('#contextPath').text());
@@ -190,6 +218,8 @@ jQuery(function ($) {
     reactor.addEventListener('accountEdited', function () {
         App.loadAccounts();
         App.loadTotalByAccount();
+        App.loadFirstAccountOptions();
+        App.loadSecondAccountOptions();
     });
 
     reactor.addEventListener('transactionSave', function () {
