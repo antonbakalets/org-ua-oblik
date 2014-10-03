@@ -40,13 +40,17 @@ $.widget("oblik.ineditable", {
         }
     },
     _show: function () {
-        this.element.hide(this.options.effect);
-        this.container.show(this.options.effect);
+        var reference = this;
+        this.element.hide(this.options.effect, function() {
+            reference.container.show(reference.options.effect);
+        });
         this.element.addClass(this.options.inediting);
     },
     _hide: function () {
-        this.container.hide(this.options.effect);
-        this.element.show(this.options.effect);
+        var reference = this;
+        this.container.hide(this.options.effect, function() {
+            reference.element.show(reference.options.effect);
+        });
         this.element.removeClass(this.options.inediting);
     },
     _inediting: function (e) {

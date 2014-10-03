@@ -39,7 +39,7 @@ public class AccountServiceTestHelper {
         return account;
     }
 
-    public AccountVO createAccount(DefinedAccount definedAccount) {
+    private AccountVO createAccount(DefinedAccount definedAccount) {
         final CurrencyVO currencyVO = currencyServiceTestHelper.getDefinedCurrency(definedAccount.getCurrency());
         final AccountVO result  = new AccountVO();
         result.setAmmount(BigDecimal.ZERO);

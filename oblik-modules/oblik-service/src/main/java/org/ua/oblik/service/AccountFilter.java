@@ -32,7 +32,7 @@ class AccountFilter {
     }
 
     private boolean filterBySymbol(AccountVO elem) {
-        return criteria.getCurrencySymbol() == null ||
-                criteria.getCurrencySymbol().equals(elem.getCurrencySymbol());
+        return criteria.getCurrencyId()== null ||
+                criteria.getCurrencyId().equals(elem.getCurrencyId());
     }
 }

@@ -8,7 +8,7 @@ public class AccountCriteria {
     
     private AccountVOType type;
     
-    private String currencySymbol;
+    private Integer currencyId;
 
     public AccountVOType getType() {
         return type;
@@ -18,12 +18,12 @@ public class AccountCriteria {
         this.type = type;
     }
 
-    public String getCurrencySymbol() {
-        return currencySymbol;
+    public Integer getCurrencyId() {
+        return currencyId;
     }
 
-    public void setCurrencySymbol(String currencySymbol) {
-        this.currencySymbol = currencySymbol;
+    public void setCurrencyId(Integer currencyId) {
+        this.currencyId = currencyId;
     }
     
     public static AccountCriteria EMPTY_CRITERIA = new Builder().build();
@@ -38,22 +38,22 @@ public class AccountCriteria {
         
         private AccountVOType type;
     
-        private String currencySymbol;
+        private Integer currencyId;
 
         public Builder setType(AccountVOType type) {
             this.type = type;
             return this;
         }
 
-        public Builder setCurrencySymbol(String currencySymbol) {
-            this.currencySymbol = currencySymbol;
+        public Builder setCurrencyId(Integer currencyId) {
+            this.currencyId = currencyId;
             return this;
         }
 
         public AccountCriteria build() {
             AccountCriteria criteria = new AccountCriteria();
             criteria.setType(this.type);
-            criteria.setCurrencySymbol(this.currencySymbol);
+            criteria.setCurrencyId(this.currencyId);
             return criteria;
         }
     }
