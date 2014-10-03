@@ -3,7 +3,7 @@ $.widget("oblik.ineditable", {
     options: {
         ineditable: "ineditable",
         inediting: "inediting",
-        hidden: "hidden",
+        effect: "blind",
         save: "<span class='glyphicon glyphicon-ok'></span>",
         close: "<span class='glyphicon glyphicon-remove'></span>",
         success: function () {
@@ -20,7 +20,7 @@ $.widget("oblik.ineditable", {
         var exists = typeof this.container !== 'undefined';
         if (!exists) {
             this.container = $("<div/>");
-            this.container.addClass(this.options.hidden);
+            this.container.attr("style", "display: none;");
             this.element.before(this.container);
             this.formDiv = $("<div/>");
             this.container.append(this.formDiv);
@@ -40,20 +40,19 @@ $.widget("oblik.ineditable", {
         }
     },
     _show: function () {
-        this.container.removeClass(this.options.hidden);
+        this.element.hide(this.options.effect);
+        this.container.show(this.options.effect);
         this.element.addClass(this.options.inediting);
-        this.element.addClass(this.options.hidden);
     },
     _hide: function () {
-        this.container.addClass(this.options.hidden);
+        this.container.hide(this.options.effect);
+        this.element.show(this.options.effect);
         this.element.removeClass(this.options.inediting);
-        this.element.removeClass(this.options.hidden);
     },
     _inediting: function (e) {
         e.preventDefault();
         this.closeInEditing();
         this.element.addClass(this.options.inediting);
-        this.element.addClass(this.options.hidden);
         this._show();
         this._load();
     },

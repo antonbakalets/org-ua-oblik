@@ -1,5 +1,7 @@
 package org.ua.oblik.controllers;
 
+import org.ua.oblik.controllers.beans.AccountOption;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.ua.oblik.controllers.beans.AccountBean;
 import org.ua.oblik.controllers.utils.ValidationErrorLoger;
 import org.ua.oblik.controllers.validators.AccountValidator;
@@ -23,6 +26,7 @@ import org.ua.oblik.service.CurrencyService;
 import org.ua.oblik.service.beans.AccountCriteria;
 import org.ua.oblik.service.beans.AccountVO;
 import org.ua.oblik.service.beans.AccountVOType;
+import org.ua.oblik.service.beans.TransactionType;
 
 /**
  *
@@ -123,6 +127,18 @@ public class AccountController {
         accountService.delete(accountBean.getAccountId());
         return "loaded/deleteAccount";
     }
+    
+    @RequestMapping("/account/options")
+    @ResponseBody
+    public List<AccountOption> list(final Model model,
+            @RequestParam(value = "type", required = false) final AccountVOType type,
+            @RequestParam(value = "currency", required = false) final Integer currency) {
+        final List<AccountVO> accounts = accountService.getAccounts(new AccountCriteria.Builder()
+                .setType(type)
+                .setCurrencyId(currency).build());
+        final List<AccountOption> convertToOptions = convertToOptions(accounts);
+        return convertToOptions;
+    }
 
     private AccountVO convert(AccountBean accountBean) {
         AccountVO result = new AccountVO();
@@ -160,5 +176,17 @@ public class AccountController {
         accountBean.setOldName(accountBean.getName());
         accountBean.setKind(type);
         return accountBean;
+    }
+    
+    private List<AccountOption> convertToOptions(List<AccountVO> accounts) {
+        List<AccountOption> result = new ArrayList<>();
+        for (AccountVO temp : accounts) {
+            AccountOption option = new AccountOption();
+            option.setId(temp.getAccountId());
+            option.setName(temp.getName());
+            option.setSymbol(temp.getCurrencySymbol());
+            result.add(option);
+        }
+        return result;
     }
 }

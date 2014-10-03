@@ -20,7 +20,6 @@ import org.ua.oblik.service.AccountService;
 import org.ua.oblik.service.TransactionService;
 import org.ua.oblik.service.beans.AccountCriteria;
 import org.ua.oblik.service.beans.AccountVO;
-import org.ua.oblik.service.beans.AccountVOType;
 import org.ua.oblik.service.beans.TransactionFactory;
 import org.ua.oblik.service.beans.TransactionType;
 import org.ua.oblik.service.beans.TransactionVO;

@@ -36,7 +36,7 @@
                         <form:option value="" label="${accountLabel}" disabled="disabled" selected="selected"/>
                     </c:if>
                     <c:forEach var="account" items="${accountFromItems}">
-                        <form:option value="${account.accountId}" label="${account.name}" currency="${account.currencySymbol}"/>
+                        <form:option value="${account.accountId}" label="${account.name}" currency="${account.currencyId}"/>
                     </c:forEach>
                 </form:select>
                 <form:errors path="firstAccount" element="div" cssClass="alert alert-danger"/>
@@ -67,13 +67,14 @@
                         <form:option value="" label="${accountLabel}" disabled="disabled" selected="selected"/>
                     </c:if>
                     <c:forEach var="account" items="${accountToItems}">
-                        <form:option value="${account.accountId}" label="${account.name}" currency="${account.currencySymbol}"/>
+                        <form:option value="${account.accountId}" label="${account.name}" currency="${account.currencyId}"/>
                     </c:forEach>
                 </form:select>
                 <form:errors path="secondAccount" element="div" cssClass="alert alert-danger"/>
             </div>
 
-            <div id="second-ammount-div" class="form-group hidden">
+            <c:set var="secondAmmountStyle"><c:if test="${empty formActionBean.txId}">style="display: none;"</c:if></c:set>
+            <div id="second-ammount-div" class="form-group" ${secondAmmountStyle}>
                 <label class="sr-only"><spring:message var="secondAmountLabel" code="jsp.oblik.expense.ammount"/></label>
                 <div class="input-group">
                     <form:input id="secondAmmount" path="secondAmmount" cssClass="form-control calculable" placeholder="${secondAmountLabel}"/>
