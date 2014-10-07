@@ -27,63 +27,64 @@
         </noscript>
 
         <header>
-            <br/>
-            <br/>
-            <br/>
+            <div class="page-header">
+                <a href="https://github.com/antonbakalets/org-ua-oblik">
+                    <img style="position: absolute; top: 0; right: 0; border: 0; z-index: 1;"
+                         src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"
+                         alt="Fork me on GitHub">
+                </a>
+                
+                <!-- TODO <h1>putt title here</h1> -->
+            </div>
         </header>
-        <div class="container clearfix">
-            <form method="POST" action="<c:url value="/j_spring_security_check"/>" class="form-horizontal">
-                <fieldset>
-                    <div id="legend">
-                        <legend class=""><spring:message code="login.title"/></legend>
-                    </div>
 
-                    <c:if test="${!empty messageCode}">
-                        <div class="alert alert-success">
-                            <button type="button" class="close" data-dismiss="alert">×</button>
-                            <spring:message code="${messageCode}"/>
+        <div class="container">
+            <div class="row vertical-offset-100">
+                <div class="col-md-4 col-md-offset-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h2 class="panel-title"><spring:message code="login.title"/></h2>
                         </div>
-                    </c:if>
+                        <div class="panel-body">
+                            <form method="POST" action="<c:url value="/j_spring_security_check"/>" role="form">
+                                <c:if test="${!empty messageCode}">
+                                    <div class="alert alert-success">
+                                        <button type="button" class="close" data-dismiss="alert">×</button>
+                                        <spring:message code="${messageCode}"/>
+                                    </div>
+                                </c:if>
 
-                    <c:if test="${!empty SPRING_SECURITY_LAST_EXCEPTION.message}">
-                        <div class="alert alert-error">
-                            <button type="button" class="close" data-dismiss="alert">×</button>
-                            <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/>
-                        </div>
-                    </c:if>
+                                <c:if test="${!empty SPRING_SECURITY_LAST_EXCEPTION.message}">
+                                    <div class="alert alert-error">
+                                        <button type="button" class="close" data-dismiss="alert">×</button>
+                                        <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/>
+                                    </div>
+                                </c:if>
 
-                    <div class="control-group">
-                        <label class="control-label"  for="username"><spring:message code="login.username"/>:</label>
-                        <div class="controls">
-                            <input type="text" id="username" name="j_username" placeholder="" class="input-xlarge" autocomplete="off">
-                        </div>
-                    </div>
-
-                    <div class="control-group">
-                        <label class="control-label" for="password"><spring:message code="login.password"/>:</label>
-                        <div class="controls">
-                            <input type="password" id="password" name="j_password" placeholder="" class="input-xlarge">
-                        </div>
-                    </div>
-
-                    <div class="control-group">
-                        <div class="controls">
-                            <label class="checkbox" for="password">
-                                <input id="login-rememberme" type="checkbox" name="_spring_security_remember_me" />
-                                <spring:message code="login.remember"/>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="control-group">
-                        <div class="controls">
-                            <input id="login-submit" type="submit" value="<spring:message code="login.button.login"/>" class="btn btn-success"/>
-                            <%-- TODO <a href="#"><spring:message code="login.forgot.password"/></a>--%>
+                                <div class="form-group">
+                                    <label class="sr-only"><spring:message var="labelUsername" code="login.username"/></label>
+                                    <input type="text" id="username" name="j_username" placeholder="${labelUsername}" class="form-control" autocomplete="off">
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only" ><spring:message var="labelPassword" code="login.password"/></label>
+                                    <input type="password" id="password" name="j_password" class="form-control" placeholder="${labelPassword}" value="">
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input id="login-rememberme" type="checkbox" name="_spring_security_remember_me" />
+                                        <spring:message code="login.remember"/>
+                                    </label>
+                                </div>
+                                <input id="login-submit" type="submit" value="<spring:message code="login.button.login"/>" class="btn btn-lg btn-success btn-block"/>
+                                <%-- TODO <a href="#"><spring:message code="login.forgot.password"/></a>--%>
+                                <%-- TODO <a href="#"><spring:message code="login.register"/></a>--%>
+                            </form>
                         </div>
                     </div>
-                </fieldset>
-            </form>
+                </div>
+            </div>
         </div>
+
         <footer>
             <br/>
             <br/>
