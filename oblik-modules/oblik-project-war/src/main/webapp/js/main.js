@@ -48,10 +48,14 @@ jQuery(function ($) {
                 });
             });
             $('#account-from').change(function () {
-                App.loadSecondAccountOptions($('#account-from :selected').attr('currency'));
+                if (!$('#account-to :selected').val()) {
+                    App.loadSecondAccountOptions($('#account-from :selected').attr('currency'));
+                }
             });
             $('#account-to').change(function () {
-                App.loadFirstAccountOptions($('#account-to :selected').attr('currency'));
+                if (!$('#account-from :selected').val()) {
+                    App.loadFirstAccountOptions($('#account-to :selected').attr('currency'));
+                }
             });
         },
         loadTotalByCurrency: function () {

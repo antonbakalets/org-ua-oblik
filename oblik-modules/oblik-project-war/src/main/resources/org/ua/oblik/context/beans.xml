@@ -20,6 +20,10 @@
         <constructor-arg value="dd.MM.yyyy"/>
     </bean>
     
+    <bean id="monthDateFormat" class="java.text.SimpleDateFormat">
+        <constructor-arg value="MMyyyy"/>
+    </bean>
+    
     <bean id="shortDateEditor" class="org.springframework.beans.propertyeditors.CustomDateEditor">
         <constructor-arg name="dateFormat" ref="shortDateFormat"/>
         <constructor-arg name="allowEmpty" value="true"/>
@@ -29,6 +33,11 @@
         <constructor-arg name="dateFormat" ref="longDateFormat"/>
         <constructor-arg name="allowEmpty" value="true"/>
         <constructor-arg name="exactDateLength" value="10"/>
+    </bean>
+    
+    <bean id="monthDateEditor" class="org.springframework.beans.propertyeditors.CustomDateEditor">
+        <constructor-arg name="dateFormat" ref="monthDateFormat"/>
+        <constructor-arg name="allowEmpty" value="false"/>
     </bean>
     
     <bean id="stringTrimmerEditor" class="org.springframework.beans.propertyeditors.StringTrimmerEditor">

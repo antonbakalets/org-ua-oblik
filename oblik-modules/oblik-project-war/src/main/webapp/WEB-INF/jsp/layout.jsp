@@ -13,10 +13,9 @@
 
         <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,400,600&subset=latin,cyrillic-ext,cyrillic'/>
 
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/normalize.css" />
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/datepicker3.css" />
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/bootstrap.css" />
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/datepicker.css" />
-        <!--<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/default.css" />-->
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/normalize.css" />
 
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-2.1.1.js"></script>
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-ui-1.11.1.js"></script>
