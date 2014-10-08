@@ -13,7 +13,7 @@ jQuery(function ($) {
             this.loadActionsForm(this.contextPath + '/formaction.html');
             this.loadTotalByCurrency();
             this.loadTotalByAccount();
-            this.loadTransactions();
+            this.loadTransactions(this.contextPath + '/transaction/list.html');
             this.loadAccounts();
         },
         loadActionsForm: function (href) {
@@ -76,8 +76,17 @@ jQuery(function ($) {
                 });
             });
         },
-        loadTransactions: function () {
-            $("#tab-transactions").load(this.contextPath + '/transaction/list.html', function () {
+        loadTransactions: function (href) {
+            $("#tab-transactions").load(href, function () {
+                $('#transaction-prev').click(function(e) {
+                    e.preventDefault();
+                    App.loadTransactions($(this).attr('href'));
+                });
+                $('#transaction-curr').text(App.localizeMonth($('#transaction-curr').text()));
+                $('#transaction-next').click(function(e) {
+                    e.preventDefault();
+                    App.loadTransactions($(this).attr('href'));
+                });
                 $('#tab-transactions a.transaction-edit').each(function () {
                     $(this).click(function (e) {
                         e.preventDefault();
@@ -154,6 +163,10 @@ jQuery(function ($) {
                     $('#account-to').append(option);
                 }
             });
+        },
+        localizeMonth: function (month) {
+            var index = parseInt(month.substring(0, 2)) - 1;
+            return $.fn.datepicker.dates['ua'].months[index] + " " + month.substring(2, 6);
         }
     };
 

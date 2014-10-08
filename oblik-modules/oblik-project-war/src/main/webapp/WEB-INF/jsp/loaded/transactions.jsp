@@ -14,13 +14,18 @@
 <h3 class="title-block"><spring:message var="title_transactions" code="jsp.oblik.transactions"/></h3>
 
 <ul class="pager">
-    <li><a href="${pageContext.request.contextPath}/transaction/list.html?month=${monthArray[0]}">
+    <li>
+        <a id="transaction-prev" href="${pageContext.request.contextPath}/transaction/list.html?month=${monthArray[0]}">
             <span class="glyphicon glyphicon-backward"/>
         </a></li>
-    <li class="disabled"><a href="#">${monthArray[1]}</a></li>
-    <li><a href="${pageContext.request.contextPath}/transaction/list.html?month=${monthArray[2]}">
+    <li class="disabled">
+        <a id="transaction-curr" href="#">${monthArray[1]}</a>
+    </li>
+    <li>
+        <a id="transaction-next" href="${pageContext.request.contextPath}/transaction/list.html?month=${monthArray[2]}">
             <span class="glyphicon glyphicon-forward"/>
-        </a></li>
+        </a>
+    </li>
 </ul>
 
 
