@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.ua.oblik.domain.dao.UserLoginDao;
 import org.ua.oblik.domain.dao.UserNotFoundException;
-import org.ua.oblik.domain.model.UserLogin;
+import org.ua.oblik.domain.model.UserLoginEntity;
 
 /**
  *
@@ -25,7 +25,7 @@ public class OblikUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) {
-        final UserLogin userLogin;
+        final UserLoginEntity userLogin;
         try {
             LOGGER.debug("Loading user by username: {}", username);
             userLogin = userLoginDao.loadUserLogin(username);

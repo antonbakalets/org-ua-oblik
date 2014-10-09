@@ -14,7 +14,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import org.ua.oblik.domain.beans.Identifiable;
 
 /**
  *
@@ -22,7 +21,7 @@ import org.ua.oblik.domain.beans.Identifiable;
  */
 @Entity
 @Table(name = "account")
-public class Account implements Serializable, Identifiable<Integer> {
+public class Account implements Serializable, AccountEntity {
 
     private static final long serialVersionUID = 1L;
 
@@ -47,7 +46,7 @@ public class Account implements Serializable, Identifiable<Integer> {
 
     @JoinColumn(name = "currency", referencedColumnName = "curr_id")
     @ManyToOne(optional = false)
-    private Currency currency;
+    private CurrencyEntity currency;
 
     public Account() {
     }
@@ -62,35 +61,43 @@ public class Account implements Serializable, Identifiable<Integer> {
         this.accoId = id;
     }
 
+    @Override
     public String getShortName() {
         return shortName;
     }
 
+    @Override
     public void setShortName(String shortName) {
         this.shortName = shortName;
     }
 
+    @Override
     public AccountKind getKind() {
         return kind;
     }
 
+    @Override
     public void setKind(AccountKind kind) {
         this.kind = kind;
     }
 
+    @Override
     public BigDecimal getTotal() {
         return total;
     }
 
+    @Override
     public void setTotal(BigDecimal total) {
         this.total = total;
     }
 
-    public Currency getCurrency() {
+    @Override
+    public CurrencyEntity getCurrency() {
         return currency;
     }
 
-    public void setCurrency(Currency currency) {
+    @Override
+    public void setCurrency(CurrencyEntity currency) {
         this.currency = currency;
     }
 
@@ -103,7 +110,7 @@ public class Account implements Serializable, Identifiable<Integer> {
 
     @Override
     public boolean equals(Object object) {
-        if (!(object instanceof Account)) {
+        if (!(object instanceof AccountEntity)) {
             return false;
         }
         Account other = (Account) object;

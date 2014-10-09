@@ -10,5 +10,8 @@
     <bean id="apartmentDao" class="org.ua.oblik.domain.dao.AccountDaoImpl"/>
     <bean id="buildingDao" class="org.ua.oblik.domain.dao.CurrencyDaoImpl"/>
     <bean id="entranceDao" class="org.ua.oblik.domain.dao.TxactionDaoImpl"/>
-    
+
+    <!-- Data layer entities factory -->
+    <bean id="entitiesFactory" class="org.ua.oblik.domain.model.EntitiesFactoryImpl"/>
+
 </beans>

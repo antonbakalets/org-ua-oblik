@@ -12,12 +12,4 @@
     <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
     <name>Oblik - DAO API</name>
-    
-    <dependencies>
-        <dependency>
-            <groupId>org.hibernate.javax.persistence</groupId>
-            <artifactId>hibernate-jpa-2.0-api</artifactId>
-            <optional>true</optional>
-        </dependency>
-    </dependencies>
 </project>

@@ -2,16 +2,17 @@ package org.ua.oblik.domain.dao;
 
 import java.util.Date;
 import java.util.List;
-import org.ua.oblik.domain.model.Txaction;
+
+import org.ua.oblik.domain.model.TxactionEntity;
 
 /**
  *
  * @author Anton Bakalets
  */
-public interface TxactionDao extends DaoFacade<Integer, Txaction> {
+public interface TxactionDao extends DaoFacade<Integer, TxactionEntity> {
     
-    List<Txaction> selectByMonth(Date date);
+    List<? extends TxactionEntity> selectByMonth(Date date);
     
-    List<Txaction> selectByDateRange(Date start, Date end);
+    List<? extends TxactionEntity> selectByDateRange(Date start, Date end);
     
 }

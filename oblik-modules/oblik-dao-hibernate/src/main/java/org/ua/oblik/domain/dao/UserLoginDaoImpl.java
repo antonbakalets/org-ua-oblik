@@ -7,12 +7,13 @@ import javax.persistence.criteria.Root;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.ua.oblik.domain.model.UserLogin;
+import org.ua.oblik.domain.model.UserLoginEntity;
 
 /**
  *
  * @author Anton Bakalets
  */
-public class UserLoginDaoImpl extends AbstractDao<Integer, UserLogin> implements UserLoginDao {
+public class UserLoginDaoImpl extends AbstractDao<Integer, UserLoginEntity, UserLogin> implements UserLoginDao {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserLoginDaoImpl.class);
     
@@ -21,7 +22,7 @@ public class UserLoginDaoImpl extends AbstractDao<Integer, UserLogin> implements
     }
 
     @Override
-    public UserLogin loadUserLogin(String username) throws UserNotFoundException {
+    public UserLoginEntity loadUserLogin(String username) throws UserNotFoundException {
         final CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<UserLogin> cq = cb.createQuery(UserLogin.class);
         Root<UserLogin> root = cq.from(UserLogin.class);

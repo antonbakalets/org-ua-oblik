@@ -1,10 +1,14 @@
 package org.ua.oblik.domain.dao;
 
 import java.util.List;
-import javax.persistence.*;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+
 import org.ua.oblik.domain.beans.Identifiable;
 import org.ua.oblik.domain.beans.PaginationBean;
 
@@ -12,14 +16,14 @@ import org.ua.oblik.domain.beans.PaginationBean;
  *
  * @author Anton Bakalets
  */
-abstract class AbstractDao<I, T extends Identifiable<I>> implements DaoFacade<I, T> {
+abstract class AbstractDao<I, T extends Identifiable<I>, R extends T> implements DaoFacade<I, T> {
     
     @PersistenceContext
     private EntityManager entityManager;
     
-    private final Class<T> entityClass;
+    private final Class<R> entityClass;
         
-    public AbstractDao(Class<T> entityClass) {
+    public AbstractDao(Class<R> entityClass) {
         this.entityClass = entityClass;
     }
 
@@ -27,7 +31,7 @@ abstract class AbstractDao<I, T extends Identifiable<I>> implements DaoFacade<I,
         return entityManager;
     }
 
-    public Class<T> getEntityClass() {
+    public Class<R> getEntityClass() {
         return entityClass;
     }
     
@@ -57,19 +61,19 @@ abstract class AbstractDao<I, T extends Identifiable<I>> implements DaoFacade<I,
     }
 
     @Override
-    public List<T> selectAll() {
+    public List<? extends T> selectAll() {
         CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
         cq.select(cq.from(entityClass));
         return getEntityManager().createQuery(cq).getResultList();
     }
 
     @Override
-    public List<T> selectRange(int[] range) {
+    public List<? extends T> selectRange(int[] range) {
         return selectRange(range[0], range[1] - range[0]);
     }
     
     @Override
-    public List<T> selectRange(int skipResults, int maxResults) {
+    public List<? extends T> selectRange(int skipResults, int maxResults) {
         CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
         cq.select(cq.from(entityClass));
         return getEntityManager().createQuery(cq)
@@ -79,7 +83,7 @@ abstract class AbstractDao<I, T extends Identifiable<I>> implements DaoFacade<I,
     }
 
     @Override
-    public List<T> selectRange(PaginationBean paginationBean) {
+    public List<? extends T> selectRange(PaginationBean paginationBean) {
         final CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         final CriteriaQuery cq = cb.createQuery();
         final Root<T> from = cq.from(entityClass);

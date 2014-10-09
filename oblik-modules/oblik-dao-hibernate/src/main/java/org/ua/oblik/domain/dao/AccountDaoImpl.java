@@ -9,22 +9,20 @@ import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Root;
 import org.ua.oblik.domain.beans.AccountKind;
-import org.ua.oblik.domain.model.Account;
-import org.ua.oblik.domain.model.Currency;
-import org.ua.oblik.domain.model.Txaction;
+import org.ua.oblik.domain.model.*;
 
 /**
  *
  * @author Anton Bakalets
  */
-public class AccountDaoImpl extends AbstractDao<Integer, Account> implements AccountDao {
+public class AccountDaoImpl extends AbstractDao<Integer, AccountEntity, Account> implements AccountDao {
 
     public AccountDaoImpl() {
         super(Account.class);
     }
 
     @Override
-    public List<Account> selectByKind(AccountKind accountKind) {
+    public List<? extends AccountEntity> selectByKind(AccountKind accountKind) {
         final CriteriaBuilder cbuilder = getEntityManager().getCriteriaBuilder();
         final CriteriaQuery<Account> cquery = cbuilder.createQuery(Account.class);
         final Root<Account> root = cquery.from(Account.class);
@@ -33,7 +31,7 @@ public class AccountDaoImpl extends AbstractDao<Integer, Account> implements Acc
     }
 
     @Override
-    public BigDecimal calculateTotal(Currency currency) {
+    public BigDecimal calculateTotal(CurrencyEntity currency) {
         final CriteriaBuilder cbuilder = getEntityManager().getCriteriaBuilder();
         final CriteriaQuery<BigDecimal> cquery = cbuilder.createQuery(BigDecimal.class);
         final Root<Account> root = cquery.from(Account.class);

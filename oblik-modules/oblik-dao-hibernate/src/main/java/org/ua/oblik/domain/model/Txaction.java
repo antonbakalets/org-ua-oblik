@@ -14,7 +14,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import org.ua.oblik.domain.beans.Identifiable;
 
 /**
  *
@@ -22,7 +21,7 @@ import org.ua.oblik.domain.beans.Identifiable;
  */
 @Entity
 @Table(name = "txaction")
-public class Txaction implements Serializable, Identifiable<Integer> {
+public class Txaction implements Serializable, TxactionEntity {
 
     private static final long serialVersionUID = 1L;
 
@@ -39,14 +38,14 @@ public class Txaction implements Serializable, Identifiable<Integer> {
 
     @JoinColumn(name = "credit", referencedColumnName = "acco_id")
     @ManyToOne
-    private Account credit;
+    private AccountEntity credit;
 
     @Column(name = "credit_ammount")
     private BigDecimal creditAmmount;
 
     @JoinColumn(name = "debet", referencedColumnName = "acco_id")
     @ManyToOne
-    private Account debet;
+    private AccountEntity debet;
 
     @Column(name = "debet_ammount")
     private BigDecimal debetAmmount;
@@ -67,50 +66,62 @@ public class Txaction implements Serializable, Identifiable<Integer> {
         this.txacId = id;
     }
 
+    @Override
     public Date getTxDate() {
         return txDate;
     }
 
+    @Override
     public void setTxDate(Date txDate) {
         this.txDate = txDate;
     }
 
-    public Account getCredit() {
+    @Override
+    public AccountEntity getCredit() {
         return credit;
     }
 
-    public void setCredit(Account credit) {
+    @Override
+    public void setCredit(AccountEntity credit) {
         this.credit = credit;
     }
 
-    public Account getDebet() {
+    @Override
+    public AccountEntity getDebet() {
         return debet;
     }
 
-    public void setDebet(Account debet) {
+    @Override
+    public void setDebet(AccountEntity debet) {
         this.debet = debet;
     }
 
+    @Override
     public BigDecimal getCreditAmmount() {
         return creditAmmount;
     }
 
+    @Override
     public void setCreditAmmount(BigDecimal creditAmmount) {
         this.creditAmmount = creditAmmount;
     }
 
+    @Override
     public BigDecimal getDebetAmmount() {
         return debetAmmount;
     }
 
+    @Override
     public void setDebetAmmount(BigDecimal debetAmmount) {
         this.debetAmmount = debetAmmount;
     }
 
+    @Override
     public String getComment() {
         return comment;
     }
 
+    @Override
     public void setComment(String comment) {
         this.comment = comment;
     }
@@ -124,7 +135,7 @@ public class Txaction implements Serializable, Identifiable<Integer> {
 
     @Override
     public boolean equals(Object object) {
-        if (!(object instanceof Txaction)) {
+        if (!(object instanceof TxactionEntity)) {
             return false;
         }
         Txaction other = (Txaction) object;

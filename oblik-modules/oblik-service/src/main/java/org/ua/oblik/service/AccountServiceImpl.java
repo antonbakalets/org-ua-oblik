@@ -13,8 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.ua.oblik.domain.beans.AccountKind;
 import org.ua.oblik.domain.dao.AccountDao;
 import org.ua.oblik.domain.dao.CurrencyDao;
-import org.ua.oblik.domain.model.Account;
-import org.ua.oblik.domain.model.Currency;
+import org.ua.oblik.domain.model.AccountEntity;
+import org.ua.oblik.domain.model.CurrencyEntity;
+import org.ua.oblik.domain.model.EntitiesFactory;
 import org.ua.oblik.service.beans.AccountCriteria;
 import org.ua.oblik.service.beans.AccountVO;
 import org.ua.oblik.service.beans.CurrencyVO;
@@ -36,9 +37,12 @@ public class AccountServiceImpl implements AccountService {
     @Autowired
     private CurrencyService currencyService;
 
+    @Autowired
+    private EntitiesFactory entitiesFactory;
+
     @Override
     public AccountVO getAccount(Integer accountId) {
-        final Account selected = accountDao.select(accountId);
+        final AccountEntity selected = accountDao.select(accountId);
         if (selected == null) {
             final String message = "No account found with id " + accountId;
             LOGGER.error(message);
@@ -73,8 +77,8 @@ public class AccountServiceImpl implements AccountService {
 
     private void insert(AccountVO avo) {
         LOGGER.debug("Saving new acoount, name: " + avo.getName());
-        final Currency currency = currencyDao.select(avo.getCurrencyId());
-        final Account account = new Account();
+        final CurrencyEntity currency = currencyDao.select(avo.getCurrencyId());
+        final AccountEntity account = entitiesFactory.createAccountEntity();
         account.setCurrency(currency);
         account.setKind(AccountTypeConverter.convert(avo.getType()));
         account.setShortName(avo.getName());
@@ -86,8 +90,8 @@ public class AccountServiceImpl implements AccountService {
 
     private void update(AccountVO avo) {
         LOGGER.debug("Updating acoount, name: " + avo.getName());
-        final Currency currency = currencyDao.select(avo.getCurrencyId());
-        final Account account = accountDao.select(avo.getAccountId());
+        final CurrencyEntity currency = currencyDao.select(avo.getCurrencyId());
+        final AccountEntity account = accountDao.select(avo.getAccountId());
         account.setCurrency(currency);
         account.setKind(AccountTypeConverter.convert(avo.getType()));
         account.setShortName(avo.getName());
@@ -127,7 +131,7 @@ public class AccountServiceImpl implements AccountService {
     @Transactional
     @Override
     public void delete(Integer accountId) {
-        Account account = accountDao.select(accountId);
+        AccountEntity account = accountDao.select(accountId);
         accountDao.delete(account);
     }
 
@@ -140,7 +144,7 @@ public class AccountServiceImpl implements AccountService {
         return accountId != null && accountDao.isUsed(accountId);
     }
 
-    private AccountVO convert(Account model) {
+    private AccountVO convert(AccountEntity model) {
         AccountVO result = new AccountVO();
         result.setAccountId(model.getId());
         result.setCurrencyId(model.getCurrency().getId());
@@ -152,9 +156,9 @@ public class AccountServiceImpl implements AccountService {
         return result;
     }
 
-    private List<AccountVO> convert(List<Account> modelList) {
+    private List<AccountVO> convert(List<? extends AccountEntity> modelList) {
         List<AccountVO> result = new ArrayList<>(modelList.size());
-        for (Account model : modelList) {
+        for (AccountEntity model : modelList) {
             result.add(convert(model));
         }
         return result;

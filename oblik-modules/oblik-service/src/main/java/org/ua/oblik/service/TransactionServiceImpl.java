@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.ua.oblik.domain.beans.AccountKind;
 import org.ua.oblik.domain.dao.AccountDao;
 import org.ua.oblik.domain.dao.TxactionDao;
-import org.ua.oblik.domain.model.Account;
-import org.ua.oblik.domain.model.Txaction;
+import org.ua.oblik.domain.model.AccountEntity;
+import org.ua.oblik.domain.model.EntitiesFactory;
+import org.ua.oblik.domain.model.TxactionEntity;
 import org.ua.oblik.service.beans.TransactionType;
 import org.ua.oblik.service.beans.TransactionVO;
 
@@ -30,6 +32,9 @@ public class TransactionServiceImpl implements TransactionService {
     @Autowired
     private TxactionDao txactionDao;
 
+    @Autowired
+    private EntitiesFactory entitiesFactory;
+
     @Transactional
     @Override
     public void save(TransactionVO tvo) {
@@ -43,9 +48,9 @@ public class TransactionServiceImpl implements TransactionService {
 
     //@Secured
     private void insert(TransactionVO tvo) {
-        Txaction txaction = new Txaction();
-        Account credit = accountDao.select(tvo.getFirstAccount());
-        Account debet = accountDao.select(tvo.getSecondAccount());
+        TxactionEntity txaction = entitiesFactory.createTxactionEntity();
+        AccountEntity credit = accountDao.select(tvo.getFirstAccount());
+        AccountEntity debet = accountDao.select(tvo.getSecondAccount());
         switch (tvo.getType()) {
             case INCOME:
                 txaction.setDebetAmmount(tvo.getFirstAmmount());
@@ -81,9 +86,9 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     private void update(TransactionVO tvo) {
-        Txaction txaction = txactionDao.select(tvo.getTxId());
-        Account newCreditAccount = accountDao.select(tvo.getFirstAccount());
-        Account newDebetAccount = accountDao.select(tvo.getSecondAccount());
+        TxactionEntity txaction = txactionDao.select(tvo.getTxId());
+        AccountEntity newCreditAccount = accountDao.select(tvo.getFirstAccount());
+        AccountEntity newDebetAccount = accountDao.select(tvo.getSecondAccount());
         switch (tvo.getType()) {
             case INCOME: {
                 updateIncomeTxaction(tvo, txaction, newDebetAccount);
@@ -105,8 +110,8 @@ public class TransactionServiceImpl implements TransactionService {
         txactionDao.update(txaction);
     }
 
-    private void updateIncomeTxaction(TransactionVO tvo, Txaction txaction, Account newDebetAccount) {
-        final Account oldDebetAccount = txaction.getDebet();
+    private void updateIncomeTxaction(TransactionVO tvo, TxactionEntity txaction, AccountEntity newDebetAccount) {
+        final AccountEntity oldDebetAccount = txaction.getDebet();
         if (oldDebetAccount.equals(newDebetAccount)) {
             BigDecimal incomeDiff = txaction.getDebetAmmount().subtract(tvo.getFirstAmmount());
             newDebetAccount.setTotal(newDebetAccount.getTotal().subtract(incomeDiff));
@@ -119,8 +124,8 @@ public class TransactionServiceImpl implements TransactionService {
         accountDao.update(newDebetAccount);
     }
 
-    private void updateExpenseTransaction(TransactionVO tvo, Txaction txaction, Account newCreditAccount) {
-        final Account oldCreditAccount = txaction.getCredit();
+    private void updateExpenseTransaction(TransactionVO tvo, TxactionEntity txaction, AccountEntity newCreditAccount) {
+        final AccountEntity oldCreditAccount = txaction.getCredit();
         if (oldCreditAccount.equals(newCreditAccount)) {
             BigDecimal expenseDiff = txaction.getCreditAmmount().subtract(tvo.getFirstAmmount());
             newCreditAccount.setTotal(newCreditAccount.getTotal().add(expenseDiff));
@@ -133,12 +138,12 @@ public class TransactionServiceImpl implements TransactionService {
         accountDao.update(newCreditAccount);
     }
 
-    private void updateTransferTxaction(TransactionVO tvo, Txaction txaction, Account newCreditAccount, Account newDebetAccount) {
+    private void updateTransferTxaction(TransactionVO tvo, TxactionEntity txaction, AccountEntity newCreditAccount, AccountEntity newDebetAccount) {
         // in case currency is the same - the ammount is the same
         if (newCreditAccount.getCurrency().equals(newDebetAccount.getCurrency())) {
             tvo.setSecondAmmount(tvo.getFirstAmmount());
         }
-        final Account oldDebetAccount = txaction.getDebet();
+        final AccountEntity oldDebetAccount = txaction.getDebet();
         if (oldDebetAccount.equals(newDebetAccount)) {
             BigDecimal debetDiff = txaction.getDebetAmmount().subtract(tvo.getSecondAmmount());
             newDebetAccount.setTotal(newDebetAccount.getTotal().subtract(debetDiff));
@@ -147,7 +152,7 @@ public class TransactionServiceImpl implements TransactionService {
             newDebetAccount.setTotal(newDebetAccount.getTotal().add(tvo.getSecondAmmount()));
             accountDao.update(oldDebetAccount);
         }
-        final Account oldCreditAccount = txaction.getCredit();
+        final AccountEntity oldCreditAccount = txaction.getCredit();
         if (oldCreditAccount.equals(newCreditAccount)) {
             BigDecimal creditDiff = txaction.getCreditAmmount().subtract(tvo.getFirstAmmount());
             newCreditAccount.setTotal(newCreditAccount.getTotal().add(creditDiff));
@@ -165,9 +170,9 @@ public class TransactionServiceImpl implements TransactionService {
     @Transactional
     @Override
     public void delete(Integer transactionId) {
-        Txaction txaction = txactionDao.select(transactionId);
-        final Account credit = txaction.getCredit();
-        final Account debet = txaction.getDebet();
+        TxactionEntity txaction = txactionDao.select(transactionId);
+        final AccountEntity credit = txaction.getCredit();
+        final AccountEntity debet = txaction.getDebet();
 
         if (debet.getKind() == AccountKind.ASSETS && credit.getKind() == AccountKind.INCOME) {
             debet.setTotal(debet.getTotal().subtract(txaction.getDebetAmmount()));
@@ -205,11 +210,11 @@ public class TransactionServiceImpl implements TransactionService {
         return convert(txactionDao.selectByMonth(date));
     }
 
-    private static TransactionVO convert(Txaction model) {
+    private static TransactionVO convert(TxactionEntity model) {
         TransactionVO result = new TransactionVO();
         result.setTxId(model.getId());
-        final Account credit = model.getCredit();
-        final Account debet = model.getDebet();
+        final AccountEntity credit = model.getCredit();
+        final AccountEntity debet = model.getDebet();
         if (debet.getKind() == AccountKind.ASSETS && credit.getKind() == AccountKind.INCOME) {
             result.setType(TransactionType.INCOME);
             result.setFirstAccount(debet.getId());
@@ -236,9 +241,9 @@ public class TransactionServiceImpl implements TransactionService {
         return result;
     }
 
-    private static List<TransactionVO> convert(List<Txaction> modelList) {
+    private static List<TransactionVO> convert(List<? extends TxactionEntity> modelList) {
         List<TransactionVO> result = new ArrayList<>(modelList.size());
-        for (Txaction model : modelList) {
+        for (TxactionEntity model : modelList) {
             result.add(convert(model));
         }
         return result;

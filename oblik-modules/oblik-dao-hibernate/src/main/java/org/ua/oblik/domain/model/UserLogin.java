@@ -8,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import org.ua.oblik.domain.beans.Identifiable;
 
 /**
  *
@@ -16,7 +15,7 @@ import org.ua.oblik.domain.beans.Identifiable;
  */
 @Entity
 @Table(name = "user_login")
-public class UserLogin implements Serializable, Identifiable<Integer> {
+public class UserLogin implements Serializable, UserLoginEntity {
 
     private static final long serialVersionUID = 1L;
 
@@ -58,42 +57,52 @@ public class UserLogin implements Serializable, Identifiable<Integer> {
         this.loginId = id;
     }
 
+    @Override
     public String getUsername() {
         return username;
     }
 
+    @Override
     public void setUsername(String username) {
         this.username = username;
     }
 
+    @Override
     public String getPassword() {
         return password;
     }
 
+    @Override
     public void setPassword(String password) {
         this.password = password;
     }
 
+    @Override
     public String getEmail() {
         return email;
     }
 
+    @Override
     public void setEmail(String email) {
         this.email = email;
     }
 
+    @Override
     public String getPermissions() {
         return permissions;
     }
 
+    @Override
     public void setPermissions(String permissions) {
         this.permissions = permissions;
     }
 
+    @Override
     public String getActivationUuid() {
         return activationUuid;
     }
 
+    @Override
     public void setActivationUuid(String activationUuid) {
         this.activationUuid = activationUuid;
     }
@@ -107,7 +116,7 @@ public class UserLogin implements Serializable, Identifiable<Integer> {
 
     @Override
     public boolean equals(Object object) {
-        if (!(object instanceof UserLogin)) {
+        if (!(object instanceof UserLoginEntity)) {
             return false;
         }
         UserLogin other = (UserLogin) object;

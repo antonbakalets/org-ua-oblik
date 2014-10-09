@@ -8,12 +8,13 @@ import javax.persistence.criteria.Root;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.ua.oblik.domain.model.Txaction;
+import org.ua.oblik.domain.model.TxactionEntity;
 
 /**
  *
  * @author Anton Bakalets
  */
-public class TxactionDaoImpl extends AbstractDao<Integer, Txaction> implements TxactionDao {
+public class TxactionDaoImpl extends AbstractDao<Integer, TxactionEntity, Txaction> implements TxactionDao {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TxactionDaoImpl.class);
     
@@ -22,12 +23,12 @@ public class TxactionDaoImpl extends AbstractDao<Integer, Txaction> implements T
     }
 
     @Override
-    public List<Txaction> selectByMonth(Date date) {
+    public List<? extends TxactionEntity> selectByMonth(Date date) {
         return selectByDateRange(DateUtils.getMonthBegining(date), DateUtils.getMonthEnd(date));
     }
 
     @Override
-    public List<Txaction> selectByDateRange(Date start, Date end) {
+    public List<? extends TxactionEntity> selectByDateRange(Date start, Date end) {
         LOGGER.debug("Selecting Txactions in date range [" + start + ", " + end + "]");
         final CriteriaBuilder cbuilder = getEntityManager().getCriteriaBuilder();
         final CriteriaQuery<Txaction> cquery = cbuilder.createQuery(Txaction.class);
@@ -39,7 +40,7 @@ public class TxactionDaoImpl extends AbstractDao<Integer, Txaction> implements T
     }
 
     @Override
-    public List<Txaction> selectAll() {
+    public List<? extends TxactionEntity> selectAll() {
         final CriteriaBuilder cbuilder = getEntityManager().getCriteriaBuilder();
         final CriteriaQuery<Txaction> cquery = cbuilder.createQuery(Txaction.class);
         final Root<Txaction> root = cquery.from(Txaction.class);

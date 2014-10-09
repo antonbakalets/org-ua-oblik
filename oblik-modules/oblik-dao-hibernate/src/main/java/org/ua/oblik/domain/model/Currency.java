@@ -13,7 +13,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import org.ua.oblik.domain.beans.Identifiable;
 
 /**
  *
@@ -21,7 +20,7 @@ import org.ua.oblik.domain.beans.Identifiable;
  */
 @Entity
 @Table(name = "currency")
-public class Currency implements Serializable, Identifiable<Integer> {
+public class Currency implements Serializable, CurrencyEntity {
 
     private static final long serialVersionUID = 1L;
 
@@ -44,7 +43,7 @@ public class Currency implements Serializable, Identifiable<Integer> {
     private BigDecimal rate;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "currency", fetch = FetchType.LAZY)
-    private List<Account> accounts;
+    private List<AccountEntity> accounts;
 
     public Currency() {
     }
@@ -59,35 +58,43 @@ public class Currency implements Serializable, Identifiable<Integer> {
         this.currId = id;
     }
 
+    @Override
     public String getSymbol() {
         return symbol;
     }
 
+    @Override
     public void setSymbol(String symbol) {
         this.symbol = symbol;
     }
 
+    @Override
     public boolean getByDefault() {
         return byDefault;
     }
 
+    @Override
     public void setByDefault(boolean byDefault) {
         this.byDefault = byDefault;
     }
 
+    @Override
     public BigDecimal getRate() {
         return rate;
     }
 
+    @Override
     public void setRate(BigDecimal rate) {
         this.rate = rate;
     }
 
-    public List<Account> getAccounts() {
+    @Override
+    public List<AccountEntity> getAccounts() {
         return accounts;
     }
 
-    public void setAccounts(List<Account> accounts) {
+    @Override
+    public void setAccounts(List<AccountEntity> accounts) {
         this.accounts = accounts;
     }
 
@@ -100,7 +107,7 @@ public class Currency implements Serializable, Identifiable<Integer> {
 
     @Override
     public boolean equals(Object object) {
-        if (!(object instanceof Currency)) {
+        if (!(object instanceof CurrencyEntity)) {
             return false;
         }
         Currency other = (Currency) object;
