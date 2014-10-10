@@ -5,11 +5,11 @@ package org.ua.oblik.domain.model;
  */
 public interface EntitiesFactory {
 
-    AccountEntity createAccountEntity();
+    Account createAccountEntity();
 
-    CurrencyEntity createCurrencyEntity();
+    Currency createCurrencyEntity();
 
-    TxactionEntity createTxactionEntity();
+    Txaction createTxactionEntity();
 
-    UserLoginEntity createUserLoginEntity();
+    UserLogin createUserLoginEntity();
 }

@@ -15,7 +15,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "user_login")
-public class UserLogin implements Serializable, UserLoginEntity {
+public class UserLoginEntity implements Serializable, UserLogin {
 
     private static final long serialVersionUID = 1L;
 
@@ -44,7 +44,7 @@ public class UserLogin implements Serializable, UserLoginEntity {
     @Column(name = "activation_uuid")
     private String activationUuid;
 
-    public UserLogin() {
+    public UserLoginEntity() {
     }
 
     @Override
@@ -116,10 +116,10 @@ public class UserLogin implements Serializable, UserLoginEntity {
 
     @Override
     public boolean equals(Object object) {
-        if (!(object instanceof UserLoginEntity)) {
+        if (!(object instanceof UserLogin)) {
             return false;
         }
-        UserLogin other = (UserLogin) object;
+        UserLoginEntity other = (UserLoginEntity) object;
         if ((this.loginId == null && other.loginId != null) || (this.loginId != null && !this.loginId.equals(other.loginId))) {
             return false;
         }
@@ -128,6 +128,6 @@ public class UserLogin implements Serializable, UserLoginEntity {
 
     @Override
     public String toString() {
-        return "org.ua.oblik.domain.model.UserLogin[ loginId=" + loginId + " ]";
+        return "UserLoginEntity[ loginId=" + loginId + " ]";
     }
 }

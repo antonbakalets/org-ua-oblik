@@ -13,19 +13,19 @@ import org.ua.oblik.domain.model.UserLoginEntity;
  *
  * @author Anton Bakalets
  */
-public class UserLoginDaoImpl extends AbstractDao<Integer, UserLoginEntity, UserLogin> implements UserLoginDao {
+public class UserLoginDaoImpl extends AbstractDao<Integer, UserLogin, UserLoginEntity> implements UserLoginDao {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserLoginDaoImpl.class);
     
     public UserLoginDaoImpl() {
-        super(UserLogin.class);
+        super(UserLoginEntity.class);
     }
 
     @Override
-    public UserLoginEntity loadUserLogin(String username) throws UserNotFoundException {
+    public UserLogin loadUserLogin(String username) throws UserNotFoundException {
         final CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-        CriteriaQuery<UserLogin> cq = cb.createQuery(UserLogin.class);
-        Root<UserLogin> root = cq.from(UserLogin.class);
+        CriteriaQuery<UserLoginEntity> cq = cb.createQuery(UserLoginEntity.class);
+        Root<UserLoginEntity> root = cq.from(UserLoginEntity.class);
         cq.select(root).where(cb.equal(cb.lower(root.<String>get("username")), username.toLowerCase()));
         try {
             return getEntityManager().createQuery(cq).getSingleResult();

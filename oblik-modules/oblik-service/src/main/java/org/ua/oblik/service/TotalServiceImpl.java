@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.ua.oblik.domain.dao.AccountDao;
 import org.ua.oblik.domain.dao.CurrencyDao;
-import org.ua.oblik.domain.model.CurrencyEntity;
+import org.ua.oblik.domain.model.Currency;
 
 /**
  *
@@ -37,7 +37,7 @@ public class TotalServiceImpl implements TotalService {
 
     @Override
     public BigDecimal getCurrencyTotal(Integer currencyId) {
-        final CurrencyEntity currency = currencyDao.select(currencyId);
+        final Currency currency = currencyDao.select(currencyId);
         return accountDao.calculateTotal(currency);
     }
 }

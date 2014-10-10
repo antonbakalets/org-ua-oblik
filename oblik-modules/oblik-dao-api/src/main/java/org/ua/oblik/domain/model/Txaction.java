@@ -8,19 +8,19 @@ import org.ua.oblik.domain.beans.Identifiable;
 /**
  *
  */
-public interface TxactionEntity extends Identifiable<Integer> {
+public interface Txaction extends Identifiable<Integer> {
 
     Date getTxDate();
 
     void setTxDate(Date txDate);
 
-    AccountEntity getCredit();
+    Account getCredit();
 
-    void setCredit(AccountEntity credit);
+    void setCredit(Account credit);
 
-    AccountEntity getDebet();
+    Account getDebet();
 
-    void setDebet(AccountEntity debet);
+    void setDebet(Account debet);
 
     BigDecimal getCreditAmmount();
 

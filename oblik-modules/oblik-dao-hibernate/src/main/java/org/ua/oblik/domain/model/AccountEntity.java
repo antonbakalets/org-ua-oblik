@@ -1,19 +1,11 @@
 package org.ua.oblik.domain.model;
 
-import org.ua.oblik.domain.beans.AccountKind;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+
+import javax.persistence.*;
+
+import org.ua.oblik.domain.beans.AccountKind;
 
 /**
  *
@@ -21,7 +13,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "account")
-public class Account implements Serializable, AccountEntity {
+public class AccountEntity implements Serializable, Account {
 
     private static final long serialVersionUID = 1L;
 
@@ -45,10 +37,10 @@ public class Account implements Serializable, AccountEntity {
     private BigDecimal total;
 
     @JoinColumn(name = "currency", referencedColumnName = "curr_id")
-    @ManyToOne(optional = false)
-    private CurrencyEntity currency;
+    @ManyToOne(optional = false, targetEntity = CurrencyEntity.class)
+    private Currency currency;
 
-    public Account() {
+    public AccountEntity() {
     }
 
     @Override
@@ -92,12 +84,12 @@ public class Account implements Serializable, AccountEntity {
     }
 
     @Override
-    public CurrencyEntity getCurrency() {
+    public Currency getCurrency() {
         return currency;
     }
 
     @Override
-    public void setCurrency(CurrencyEntity currency) {
+    public void setCurrency(Currency currency) {
         this.currency = currency;
     }
 
@@ -110,10 +102,10 @@ public class Account implements Serializable, AccountEntity {
 
     @Override
     public boolean equals(Object object) {
-        if (!(object instanceof AccountEntity)) {
+        if (!(object instanceof Account)) {
             return false;
         }
-        Account other = (Account) object;
+        AccountEntity other = (AccountEntity) object;
         if ((this.accoId == null && other.accoId != null) || (this.accoId != null && !this.accoId.equals(other.accoId))) {
             return false;
         }
@@ -122,7 +114,7 @@ public class Account implements Serializable, AccountEntity {
 
     @Override
     public String toString() {
-        return "Account[ accoId=" + accoId + " ]";
+        return "AccountEntity[ accoId=" + accoId + " ]";
     }
 
 }

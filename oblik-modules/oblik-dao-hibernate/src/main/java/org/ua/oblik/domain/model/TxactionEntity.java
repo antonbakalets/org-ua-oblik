@@ -21,7 +21,7 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "txaction")
-public class Txaction implements Serializable, TxactionEntity {
+public class TxactionEntity implements Serializable, Txaction {
 
     private static final long serialVersionUID = 1L;
 
@@ -37,15 +37,15 @@ public class Txaction implements Serializable, TxactionEntity {
     private Date txDate;
 
     @JoinColumn(name = "credit", referencedColumnName = "acco_id")
-    @ManyToOne
-    private AccountEntity credit;
+    @ManyToOne(targetEntity = AccountEntity.class)
+    private Account credit;
 
     @Column(name = "credit_ammount")
     private BigDecimal creditAmmount;
 
     @JoinColumn(name = "debet", referencedColumnName = "acco_id")
-    @ManyToOne
-    private AccountEntity debet;
+    @ManyToOne(targetEntity = AccountEntity.class)
+    private Account debet;
 
     @Column(name = "debet_ammount")
     private BigDecimal debetAmmount;
@@ -53,7 +53,7 @@ public class Txaction implements Serializable, TxactionEntity {
     @Column(name = "tx_comment")
     private String comment;
 
-    public Txaction() {
+    public TxactionEntity() {
     }
 
     @Override
@@ -77,22 +77,22 @@ public class Txaction implements Serializable, TxactionEntity {
     }
 
     @Override
-    public AccountEntity getCredit() {
+    public Account getCredit() {
         return credit;
     }
 
     @Override
-    public void setCredit(AccountEntity credit) {
+    public void setCredit(Account credit) {
         this.credit = credit;
     }
 
     @Override
-    public AccountEntity getDebet() {
+    public Account getDebet() {
         return debet;
     }
 
     @Override
-    public void setDebet(AccountEntity debet) {
+    public void setDebet(Account debet) {
         this.debet = debet;
     }
 
@@ -135,10 +135,10 @@ public class Txaction implements Serializable, TxactionEntity {
 
     @Override
     public boolean equals(Object object) {
-        if (!(object instanceof TxactionEntity)) {
+        if (!(object instanceof Txaction)) {
             return false;
         }
-        Txaction other = (Txaction) object;
+        TxactionEntity other = (TxactionEntity) object;
         if ((this.txacId == null && other.txacId != null) || (this.txacId != null && !this.txacId.equals(other.txacId))) {
             return false;
         }
@@ -147,7 +147,7 @@ public class Txaction implements Serializable, TxactionEntity {
 
     @Override
     public String toString() {
-        return "org.ua.oblik.domain.model.Txaction[ txacId=" + txacId + " ]";
+        return "TxactionEntity[ txacId=" + txacId + " ]";
     }
 
 }

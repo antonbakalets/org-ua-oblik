@@ -5,7 +5,7 @@ import org.ua.oblik.domain.beans.Identifiable;
 /**
  *
  */
-public interface UserLoginEntity extends Identifiable<Integer> {
+public interface UserLogin extends Identifiable<Integer> {
 
     String getUsername();
 

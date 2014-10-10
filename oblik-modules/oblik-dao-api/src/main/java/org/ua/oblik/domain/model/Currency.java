@@ -8,7 +8,7 @@ import org.ua.oblik.domain.beans.Identifiable;
 /**
  *
  */
-public interface CurrencyEntity extends Identifiable<Integer> {
+public interface Currency extends Identifiable<Integer> {
 
     String getSymbol();
 
@@ -22,7 +22,7 @@ public interface CurrencyEntity extends Identifiable<Integer> {
 
     void setRate(BigDecimal rate);
 
-    List<AccountEntity> getAccounts();
+    List<Account> getAccounts();
 
-    void setAccounts(List<AccountEntity> accounts);
+    void setAccounts(List<Account> accounts);
 }

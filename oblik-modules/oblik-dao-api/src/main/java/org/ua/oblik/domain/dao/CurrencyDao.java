@@ -3,15 +3,15 @@ package org.ua.oblik.domain.dao;
 import java.math.BigDecimal;
 import java.util.Map;
 
-import org.ua.oblik.domain.model.CurrencyEntity;
+import org.ua.oblik.domain.model.Currency;
 
 /**
  *
  * @author Anton Bakalets
  */
-public interface CurrencyDao extends DaoFacade<Integer, CurrencyEntity> {
+public interface CurrencyDao extends DaoFacade<Integer, Currency> {
 
-    CurrencyEntity selectDefault();
+    Currency selectDefault();
     
     boolean isSymbolExists(String symbol);
 

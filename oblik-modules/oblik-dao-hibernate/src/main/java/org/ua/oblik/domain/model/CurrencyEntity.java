@@ -20,7 +20,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "currency")
-public class Currency implements Serializable, CurrencyEntity {
+public class CurrencyEntity implements Serializable, Currency {
 
     private static final long serialVersionUID = 1L;
 
@@ -42,10 +42,11 @@ public class Currency implements Serializable, CurrencyEntity {
     @Column(name = "rate")
     private BigDecimal rate;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "currency", fetch = FetchType.LAZY)
-    private List<AccountEntity> accounts;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "currency",
+            fetch = FetchType.LAZY, targetEntity = AccountEntity.class)
+    private List<Account> accounts;
 
-    public Currency() {
+    public CurrencyEntity() {
     }
 
     @Override
@@ -89,12 +90,12 @@ public class Currency implements Serializable, CurrencyEntity {
     }
 
     @Override
-    public List<AccountEntity> getAccounts() {
+    public List<Account> getAccounts() {
         return accounts;
     }
 
     @Override
-    public void setAccounts(List<AccountEntity> accounts) {
+    public void setAccounts(List<Account> accounts) {
         this.accounts = accounts;
     }
 
@@ -107,10 +108,10 @@ public class Currency implements Serializable, CurrencyEntity {
 
     @Override
     public boolean equals(Object object) {
-        if (!(object instanceof CurrencyEntity)) {
+        if (!(object instanceof Currency)) {
             return false;
         }
-        Currency other = (Currency) object;
+        CurrencyEntity other = (CurrencyEntity) object;
         if ((this.currId == null && other.currId != null) || (this.currId != null && !this.currId.equals(other.currId))) {
             return false;
         }
@@ -119,7 +120,7 @@ public class Currency implements Serializable, CurrencyEntity {
 
     @Override
     public String toString() {
-        return "Currency[ currId=" + currId + " ]";
+        return "CurrencyEntity[ currId=" + currId + " ]";
     }
 
 }

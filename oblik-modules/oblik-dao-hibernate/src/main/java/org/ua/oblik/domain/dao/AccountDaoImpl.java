@@ -15,29 +15,29 @@ import org.ua.oblik.domain.model.*;
  *
  * @author Anton Bakalets
  */
-public class AccountDaoImpl extends AbstractDao<Integer, AccountEntity, Account> implements AccountDao {
+public class AccountDaoImpl extends AbstractDao<Integer, Account, AccountEntity> implements AccountDao {
 
     public AccountDaoImpl() {
-        super(Account.class);
+        super(AccountEntity.class);
     }
 
     @Override
-    public List<? extends AccountEntity> selectByKind(AccountKind accountKind) {
+    public List<? extends Account> selectByKind(AccountKind accountKind) {
         final CriteriaBuilder cbuilder = getEntityManager().getCriteriaBuilder();
-        final CriteriaQuery<Account> cquery = cbuilder.createQuery(Account.class);
-        final Root<Account> root = cquery.from(Account.class);
+        final CriteriaQuery<AccountEntity> cquery = cbuilder.createQuery(AccountEntity.class);
+        final Root<AccountEntity> root = cquery.from(AccountEntity.class);
         cquery.select(root).where(cbuilder.equal(root.<AccountKind>get("kind"), accountKind));
         return getEntityManager().createQuery(cquery).getResultList();
     }
 
     @Override
-    public BigDecimal calculateTotal(CurrencyEntity currency) {
+    public BigDecimal calculateTotal(Currency currency) {
         final CriteriaBuilder cbuilder = getEntityManager().getCriteriaBuilder();
         final CriteriaQuery<BigDecimal> cquery = cbuilder.createQuery(BigDecimal.class);
-        final Root<Account> root = cquery.from(Account.class);
+        final Root<AccountEntity> root = cquery.from(AccountEntity.class);
         Path<BigDecimal> path = root.<BigDecimal>get("total");
         cquery.select(cbuilder.sum(path)).where(
-                cbuilder.equal(root.<Currency>get("currency"), currency),
+                cbuilder.equal(root.<CurrencyEntity>get("currency"), currency),
                 cbuilder.equal(root.<AccountKind>get("kind"), AccountKind.ASSETS));
         final BigDecimal sum = getEntityManager().createQuery(cquery).getSingleResult();
         return sum == null ? BigDecimal.ZERO : sum;
@@ -47,7 +47,7 @@ public class AccountDaoImpl extends AbstractDao<Integer, AccountEntity, Account>
     public boolean isNameExists(String shortName) {
         final CriteriaBuilder cbuilder = getEntityManager().getCriteriaBuilder();
         final CriteriaQuery<Long> cquery = cbuilder.createQuery(Long.class);
-        final Root<Account> root = cquery.from(Account.class);
+        final Root<AccountEntity> root = cquery.from(AccountEntity.class);
         cquery.select(cbuilder.count(root)).where(
                 cbuilder.equal(root.<String>get("shortName"), shortName));
         return getEntityManager().createQuery(cquery).getSingleResult() > 0;
@@ -57,7 +57,7 @@ public class AccountDaoImpl extends AbstractDao<Integer, AccountEntity, Account>
     public boolean isUsed(Integer accountId) {
         final CriteriaBuilder cbuilder = getEntityManager().getCriteriaBuilder();
         final CriteriaQuery<Long> cquery = cbuilder.createQuery(Long.class);
-        final Root<Txaction> root = cquery.from(Txaction.class);
+        final Root<TxactionEntity> root = cquery.from(TxactionEntity.class);
         Long count = (long) 0;
         cquery.select(cbuilder.count(root)).where(
                 cbuilder.equal(root.<Integer>get("debet"), accountId));
@@ -72,8 +72,8 @@ public class AccountDaoImpl extends AbstractDao<Integer, AccountEntity, Account>
     public BigDecimal calculateDefaultTotal() {
         final CriteriaBuilder cbuilder = getEntityManager().getCriteriaBuilder();
         final CriteriaQuery<BigDecimal> cquery = cbuilder.createQuery(BigDecimal.class);
-        final Root<Account> root = cquery.from(Account.class);
-        final Join<Account, Currency> join = root.join("currency");
+        final Root<AccountEntity> root = cquery.from(AccountEntity.class);
+        final Join<AccountEntity, CurrencyEntity> join = root.join("currency");
         final Expression<BigDecimal> product = cbuilder.prod(
                 root.<BigDecimal>get("total"), join.<BigDecimal>get("rate"));
         cquery.select(cbuilder.sum(product)).where(

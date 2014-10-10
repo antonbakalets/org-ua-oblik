@@ -1,6 +1,6 @@
 package org.ua.oblik.domain.dao;
 
-import org.ua.oblik.domain.model.UserLoginEntity;
+import org.ua.oblik.domain.model.UserLogin;
 
 /**
  *
@@ -8,6 +8,6 @@ import org.ua.oblik.domain.model.UserLoginEntity;
  */
 public interface UserLoginDao {
 
-    UserLoginEntity loadUserLogin(String username) throws UserNotFoundException;
+    UserLogin loadUserLogin(String username) throws UserNotFoundException;
     
 }

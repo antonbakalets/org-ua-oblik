@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+
 import org.ua.oblik.domain.model.Currency;
 import org.ua.oblik.domain.model.CurrencyEntity;
 
@@ -14,17 +15,17 @@ import org.ua.oblik.domain.model.CurrencyEntity;
  *
  * @author Anton Bakalets
  */
-public class CurrencyDaoImpl extends AbstractDao<Integer, CurrencyEntity, Currency> implements CurrencyDao {
+public class CurrencyDaoImpl extends AbstractDao<Integer, Currency, CurrencyEntity> implements CurrencyDao {
 
     public CurrencyDaoImpl() {
-        super(Currency.class);
+        super(CurrencyEntity.class);
     }
 
     @Override
-    public CurrencyEntity selectDefault() {
+    public Currency selectDefault() {
         final CriteriaBuilder cbuilder = getEntityManager().getCriteriaBuilder();
-        final CriteriaQuery<Currency> cquery = cbuilder.createQuery(Currency.class);
-        final Root<Currency> root = cquery.from(Currency.class);
+        final CriteriaQuery<CurrencyEntity> cquery = cbuilder.createQuery(CurrencyEntity.class);
+        final Root<CurrencyEntity> root = cquery.from(CurrencyEntity.class);
         cquery.select(root).where(cbuilder.equal(root.<Boolean>get("byDefault"), Boolean.TRUE));
         return getEntityManager().createQuery(cquery).getSingleResult();
     }
@@ -33,7 +34,7 @@ public class CurrencyDaoImpl extends AbstractDao<Integer, CurrencyEntity, Curren
     public boolean isSymbolExists(String symbol) {
         final CriteriaBuilder cbuilder = getEntityManager().getCriteriaBuilder();
         final CriteriaQuery<Long> cquery = cbuilder.createQuery(Long.class);
-        final Root<Currency> root = cquery.from(Currency.class);
+        final Root<CurrencyEntity> root = cquery.from(CurrencyEntity.class);
         cquery.select(cbuilder.count(root)).where(
                 cbuilder.equal(root.<String>get("symbol"), symbol));
         return getEntityManager().createQuery(cquery).getSingleResult() > 0;
@@ -43,7 +44,7 @@ public class CurrencyDaoImpl extends AbstractDao<Integer, CurrencyEntity, Curren
     public boolean isDefaultExists() {
         final CriteriaBuilder cbuilder = getEntityManager().getCriteriaBuilder();
         final CriteriaQuery<Long> cquery = cbuilder.createQuery(Long.class);
-        final Root<Currency> root = cquery.from(Currency.class);
+        final Root<CurrencyEntity> root = cquery.from(CurrencyEntity.class);
         cquery.select(cbuilder.count(root)).where(
                 cbuilder.equal(root.<Boolean>get("byDefault"), Boolean.TRUE));
         return getEntityManager().createQuery(cquery).getSingleResult() > 0;

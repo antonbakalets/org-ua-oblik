@@ -14,25 +14,25 @@ import org.ua.oblik.domain.model.TxactionEntity;
  *
  * @author Anton Bakalets
  */
-public class TxactionDaoImpl extends AbstractDao<Integer, TxactionEntity, Txaction> implements TxactionDao {
+public class TxactionDaoImpl extends AbstractDao<Integer, Txaction, TxactionEntity> implements TxactionDao {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TxactionDaoImpl.class);
     
     public TxactionDaoImpl() {
-        super(Txaction.class);
+        super(TxactionEntity.class);
     }
 
     @Override
-    public List<? extends TxactionEntity> selectByMonth(Date date) {
+    public List<? extends Txaction> selectByMonth(Date date) {
         return selectByDateRange(DateUtils.getMonthBegining(date), DateUtils.getMonthEnd(date));
     }
 
     @Override
-    public List<? extends TxactionEntity> selectByDateRange(Date start, Date end) {
+    public List<? extends Txaction> selectByDateRange(Date start, Date end) {
         LOGGER.debug("Selecting Txactions in date range [" + start + ", " + end + "]");
         final CriteriaBuilder cbuilder = getEntityManager().getCriteriaBuilder();
-        final CriteriaQuery<Txaction> cquery = cbuilder.createQuery(Txaction.class);
-        final Root<Txaction> root = cquery.from(Txaction.class);
+        final CriteriaQuery<TxactionEntity> cquery = cbuilder.createQuery(TxactionEntity.class);
+        final Root<TxactionEntity> root = cquery.from(TxactionEntity.class);
         cquery.select(root).where(
                 cbuilder.greaterThanOrEqualTo(root.<Date>get("txDate"), start),
                 cbuilder.lessThanOrEqualTo(root.<Date>get("txDate"), end));
@@ -40,10 +40,10 @@ public class TxactionDaoImpl extends AbstractDao<Integer, TxactionEntity, Txacti
     }
 
     @Override
-    public List<? extends TxactionEntity> selectAll() {
+    public List<? extends Txaction> selectAll() {
         final CriteriaBuilder cbuilder = getEntityManager().getCriteriaBuilder();
-        final CriteriaQuery<Txaction> cquery = cbuilder.createQuery(Txaction.class);
-        final Root<Txaction> root = cquery.from(Txaction.class);
+        final CriteriaQuery<TxactionEntity> cquery = cbuilder.createQuery(TxactionEntity.class);
+        final Root<TxactionEntity> root = cquery.from(TxactionEntity.class);
         cquery.select(root).orderBy(cbuilder.desc(root.get("txDate")));
         return getEntityManager().createQuery(cquery).getResultList();
     }

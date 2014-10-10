@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.ua.oblik.domain.dao.CurrencyDao;
-import org.ua.oblik.domain.model.CurrencyEntity;
+import org.ua.oblik.domain.model.Currency;
 import org.ua.oblik.domain.model.EntitiesFactory;
 import org.ua.oblik.service.beans.CurrencyVO;
 
@@ -42,7 +42,7 @@ public class CurrencyServiceImpl implements CurrencyService {
     }
 
     private void insert(CurrencyVO cvo) {
-        CurrencyEntity currency = entitiesFactory.createCurrencyEntity();
+        Currency currency = entitiesFactory.createCurrencyEntity();
         currency.setSymbol(cvo.getSymbol());
         if (isDefaultExists()) {
             LOGGER.debug("Saving new currency, symbol: " + cvo.getSymbol());
@@ -59,7 +59,7 @@ public class CurrencyServiceImpl implements CurrencyService {
 
     private void update(CurrencyVO cvo) {
         LOGGER.debug("Updating currency, symbol: " + cvo.getSymbol());
-        CurrencyEntity currency = currencyDao.select(cvo.getCurrencyId());
+        Currency currency = currencyDao.select(cvo.getCurrencyId());
         currency.setRate(cvo.getRate());
         currency.setSymbol(cvo.getSymbol());
         currencyDao.update(currency);
@@ -67,10 +67,10 @@ public class CurrencyServiceImpl implements CurrencyService {
 
     @Override
     public List<CurrencyVO> getCurrencies() {
-        final List<? extends CurrencyEntity> currencies = currencyDao.selectAll();
+        final List<? extends Currency> currencies = currencyDao.selectAll();
         final Map<Integer, BigDecimal> assetsByCurrency = totalService.getCurrenciesTotal();
         List<CurrencyVO> result = new ArrayList<>(currencies.size());
-        for (CurrencyEntity model : currencies) {
+        for (Currency model : currencies) {
             result.add(convert(model, assetsByCurrency.get(model.getId())));
         }
         return result;
@@ -109,7 +109,7 @@ public class CurrencyServiceImpl implements CurrencyService {
         return currencyDao.isDefaultExists();
     }
 
-    private static CurrencyVO convert(CurrencyEntity model) {
+    private static CurrencyVO convert(Currency model) {
         CurrencyVO result = new CurrencyVO();
         result.setCurrencyId(model.getId());
         result.setRate(model.getRate());
@@ -118,7 +118,7 @@ public class CurrencyServiceImpl implements CurrencyService {
         return result;
     }
 
-    private static CurrencyVO convert(CurrencyEntity model, BigDecimal total) {
+    private static CurrencyVO convert(Currency model, BigDecimal total) {
         CurrencyVO result = convert(model);
         result.setTotal(total);
         return result;
