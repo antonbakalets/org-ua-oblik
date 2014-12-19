@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
  *
  * @author Anton Bakalets
  */
-public class CurrencyBean {
+public class CurrencyEditBean {
 
     private static final int SYMBOL_MAX_LENGHT = 10;
     private static final String RATE_MIN_VALUE = "0.001";

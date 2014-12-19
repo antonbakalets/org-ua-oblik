@@ -1,12 +1,17 @@
 package org.ua.oblik.controllers;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.format.number.NumberFormatter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,7 +19,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.ua.oblik.controllers.beans.CurrencyBean;
+import org.ua.oblik.controllers.beans.CurrencyEditBean;
+import org.ua.oblik.controllers.beans.CurrencyListBean;
 import org.ua.oblik.controllers.utils.ValidationErrorLoger;
 import org.ua.oblik.controllers.validators.CurrencyValidator;
 import org.ua.oblik.service.CurrencyService;
@@ -35,17 +41,26 @@ public class CurrencyController {
 
     private static final String SAVING_DEFAULT_CURRENCY = "savingDefaultCurrency";
 
+    private static final String DEFAULT_CURRENCY_SYMBOL = "defaultCurrencySymbol";
+    
     @Autowired
     private CurrencyValidator currencyValidator;
 
     @Autowired
     private CurrencyService currencyService;
 
+    @Autowired
+    @Qualifier(value = "decimalNumberFormatter")
+    private NumberFormatter decimalFormatter;
+
     @RequestMapping(value = "/currency/list", method = RequestMethod.GET)
-    public String listCurrencies(final Model model) {
+    public String listCurrencies(final Model model, final Locale locale) {
         LOGGER.debug("Showing currency list.");
         List<CurrencyVO> list = currencyService.getCurrencies();
-        model.addAttribute(CURRENCY_LIST, list);
+        List<CurrencyListBean> beanList = convert(list, locale);
+        model.addAttribute(CURRENCY_LIST, beanList);
+        final CurrencyVO defaultCurrency = currencyService.getDefaultCurrency();
+        model.addAttribute(DEFAULT_CURRENCY_SYMBOL, defaultCurrency.getSymbol());
         return "loaded/currencies";
     }
 
@@ -53,44 +68,63 @@ public class CurrencyController {
     public String editCurrency(final HttpSession session, final Model model,
             @RequestParam(value = "currencyId", required = false) final Integer currencyId) {
         LOGGER.debug("Editing currency, id: " + currencyId + ".");
-        CurrencyBean currencyBean = createCurrencyBean(currencyId);
-        currencyBean.setOldSymbol(currencyBean.getSymbol());
+        CurrencyEditBean currencyEditBean = createCurrencyBean(currencyId);
+        currencyEditBean.setOldSymbol(currencyEditBean.getSymbol());
         // TODO convert to annotations?
-        session.setAttribute(SAVING_DEFAULT_CURRENCY, Boolean.valueOf(currencyBean.getDefaultRate()));
-        model.addAttribute(CURRENCY_BEAN, currencyBean);
+        session.setAttribute(SAVING_DEFAULT_CURRENCY, Boolean.valueOf(currencyEditBean.getDefaultRate()));
+        model.addAttribute(CURRENCY_BEAN, currencyEditBean);
         return "loaded/currency";
     }
 
     @RequestMapping(value = "/currency/edit", method = RequestMethod.POST)
     public String saveCurrency(final HttpSession session, final Model model,
-            @ModelAttribute(CURRENCY_BEAN) @Valid final CurrencyBean currencyBean,
+            @ModelAttribute(CURRENCY_BEAN) @Valid final CurrencyEditBean currencyEditBean,
             final BindingResult bindingResult) {
-        LOGGER.debug("Saving currency, id: " + currencyBean.getCurrencyId() + ".");
+        LOGGER.debug("Saving currency, id: " + currencyEditBean.getCurrencyId() + ".");
         if ((Boolean) session.getAttribute(SAVING_DEFAULT_CURRENCY)) {
-            currencyBean.setDefaultRate(Boolean.TRUE);
-            currencyBean.setRate(BigDecimal.ONE);
+            currencyEditBean.setDefaultRate(Boolean.TRUE);
+            currencyEditBean.setRate(BigDecimal.ONE);
         }
-        currencyValidator.validate(currencyBean, bindingResult);
+        currencyValidator.validate(currencyEditBean, bindingResult);
         if (bindingResult.hasErrors()) {
             ValidationErrorLoger.debug(bindingResult);
         } else {
-            CurrencyVO cvo = convert(currencyBean);
+            CurrencyVO cvo = convert(currencyEditBean);
             currencyService.save(cvo);
         }
         return "loaded/currency";
     }
 
-    private CurrencyVO convert(CurrencyBean currencyBean) {
-        CurrencyVO result = new CurrencyVO();
-        result.setCurrencyId(currencyBean.getCurrencyId());
-        result.setRate(currencyBean.getRate());
-        result.setSymbol(currencyBean.getSymbol());
-        result.setDefaultRate(currencyBean.getDefaultRate());
+    private List<CurrencyListBean> convert(List<CurrencyVO> list, Locale locale) {
+        List<CurrencyListBean> result = new ArrayList<>();
+        for (CurrencyVO vo : list) {
+            result.add(convertToListBean(vo, locale));
+        }
         return result;
     }
 
-    private CurrencyBean convert(CurrencyVO cvo) {
-        CurrencyBean result = new CurrencyBean();
+    private CurrencyListBean convertToListBean(CurrencyVO vo, Locale locale) {
+        CurrencyListBean result = new CurrencyListBean();
+        result.setCurrencyId(vo.getCurrencyId());
+        result.setTotal(formatDecimal(vo.getTotal(), locale));
+        result.setRate(formatDecimal(vo.getRate(), locale));
+        result.setSymbol(vo.getSymbol());
+        result.setDefaultRate(vo.getDefaultRate());
+
+        return result;
+    }
+
+    private CurrencyVO convert(CurrencyEditBean currencyEditBean) {
+        CurrencyVO result = new CurrencyVO();
+        result.setCurrencyId(currencyEditBean.getCurrencyId());
+        result.setRate(currencyEditBean.getRate());
+        result.setSymbol(currencyEditBean.getSymbol());
+        result.setDefaultRate(currencyEditBean.getDefaultRate());
+        return result;
+    }
+
+    private CurrencyEditBean convert(CurrencyVO cvo) {
+        CurrencyEditBean result = new CurrencyEditBean();
         result.setCurrencyId(cvo.getCurrencyId());
         result.setRate(cvo.getRate());
         result.setSymbol(cvo.getSymbol());
@@ -98,7 +132,7 @@ public class CurrencyController {
         return result;
     }
 
-    private CurrencyBean createCurrencyBean(final Integer currencyId) {
+    private CurrencyEditBean createCurrencyBean(final Integer currencyId) {
         CurrencyVO result;
         if (currencyId == null) {
             result = currencyService.createCurrency();
@@ -106,5 +140,10 @@ public class CurrencyController {
             result = currencyService.getCurrency(currencyId);
         }
         return convert(result);
+    }
+
+    protected String formatDecimal(BigDecimal value, Locale locale) {
+        BigDecimal toFormat = value == null ? BigDecimal.ZERO : value;
+        return decimalFormatter.print(toFormat, locale);
     }
 }

@@ -16,7 +16,9 @@
                     <c:out value="${entry.total}"/>
                     <c:out value="${entry.symbol}"/>
                 </a>
-                (<c:out value="${entry.rate}"/>)
+                <c:if test="${!entry.defaultRate}">
+                    (<c:out value="${entry.rate}"/> <c:out value="${defaultCurrencySymbol}"/>/<c:out value="${entry.symbol}"/>)
+                </c:if>
             </div>
         </li>
     </c:forEach>

@@ -48,8 +48,13 @@
         <property name="pattern" value="${decimal.format}"/>
     </bean>
     
+    <bean id="decimalFormat" class="java.text.DecimalFormat">
+        <constructor-arg value="${decimal.format}"/>
+    </bean>
+    
     <bean id="bigDecimalEditor" class="org.springframework.beans.propertyeditors.CustomNumberEditor">
         <constructor-arg name="numberClass" value="java.math.BigDecimal"/>
+        <constructor-arg name="numberFormat" ref="decimalFormat"/>
         <constructor-arg name="allowEmpty" value="true"/>
     </bean>
     

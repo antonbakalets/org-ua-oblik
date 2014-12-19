@@ -79,11 +79,11 @@ public class TransactionController {
     }
 
     @RequestMapping(value = "/transaction/delete", method = RequestMethod.GET)
-    public String deleteTransaction(final Model model,
+    public String deleteTransaction(final Model model, final Locale locale,
             @RequestParam(value = "transactionId", required = false) final Integer transactionId) {
         LOG.debug("Delete transaction, id: " + transactionId + ".");
         TransactionVO tvo = transactionService.getTransaction(transactionId);
-        // TODO
+        // TODO Locale locale = LocaleContextHolder.getLocale();
         TransactionBean transactionBean = convert(tvo, Locale.CANADA_FRENCH);
         model.addAttribute(TRANSACTION_BEAN, transactionBean);
         return "loaded/transaction";
