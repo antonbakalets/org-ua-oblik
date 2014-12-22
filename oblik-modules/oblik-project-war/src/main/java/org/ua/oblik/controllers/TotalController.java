@@ -2,6 +2,7 @@ package org.ua.oblik.controllers;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Locale;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,11 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.ua.oblik.service.AccountService;
+import org.ua.oblik.controllers.beans.AccountListBean;
 import org.ua.oblik.service.TotalService;
-import org.ua.oblik.service.beans.AccountCriteria;
-import org.ua.oblik.service.beans.AccountVO;
-import org.ua.oblik.service.beans.AccountVOType;
 
 /**
  *
@@ -28,24 +26,24 @@ public class TotalController {
     private static final String ASSETS_ACCOUNTS = "assetsAccounts";
 
     @Autowired
-    private AccountService accountService;
+    private AccountFacade accountFacade;
 
     @Autowired
     private TotalService totalService;
 
     @RequestMapping("/total/account")
-    public String totalAccount(final Model model) {
+    public String totalAccount(final Model model, final Locale locale) {
         LOG.debug("Loading total by account...");
-        List<AccountVO> list = accountService.getAccounts(AccountCriteria.ASSETS_CRITERIA);
+        List<AccountListBean> list = accountFacade.getAssetsAccounts(locale);
         model.addAttribute(ASSETS_ACCOUNTS, list);
         return "loaded/total-by-account";
     }
 
     @RequestMapping("/total/ammount")
     @ResponseBody
-    public BigDecimal totalAmmount(final Model model) {
+    public BigDecimal totalAmount() {
         BigDecimal total = totalService.getDefaultCurrencyTotal();
-        LOG.debug("Loading total ammount in default currency: " + total);
+        LOG.debug("Loading total amount in default currency: " + total);
         return total;
     }
 }

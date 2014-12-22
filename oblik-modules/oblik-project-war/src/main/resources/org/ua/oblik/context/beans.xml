@@ -11,6 +11,7 @@
     <bean class="org.ua.oblik.controllers.validators.CurrencyValidator"/>
     <bean class="org.ua.oblik.controllers.validators.FormActionValidator"/>
 
+    <bean class="org.ua.oblik.controllers.AccountFacade"/>
     <bean class="org.ua.oblik.controllers.CurrencyFacade"/>
 
     <bean id="shortDateFormat" class="java.text.SimpleDateFormat">

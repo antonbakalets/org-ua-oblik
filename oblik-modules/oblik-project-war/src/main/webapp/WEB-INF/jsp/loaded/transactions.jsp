@@ -44,20 +44,18 @@
 
                     ${transaction.secondAmmount }
 
-                    ${transaction.firstAccount.name } -> ${transaction.secondAccount.name }</td>
+                    ${transaction.firstAccount.name } -> ${transaction.secondAccount.name}
 
                     ${transaction.note }
 
-                    <a id="transaction_edit_${transaction.transactionId}" class="btn btn-mini transaction-edit"
-                       href="${pageContext.request.contextPath}/formaction.html?type=transfer&txId=${transaction.transactionId}"
-                       data-target="#common-modal" data-toggle="modal" save-event="transactionEdited">
+                    <a id="transaction_edit_${transaction.transactionId}" class="btn btn-link btn-xs pull-right"
+                       href="${pageContext.request.contextPath}/formaction.html?type=transfer&txId=${transaction.transactionId}">
                         <span class="glyphicon glyphicon-edit"/>
-
-                        <a id="transaction_delete_${transaction.transactionId}" class="btn btn-mini"
-                           href="${pageContext.request.contextPath}/transaction/delete.html?transactionId=${transaction.transactionId}"
-                           data-target="#common-modal" data-toggle="modal" save-event="transactionEdited">
-                            <span class="glyphicon glyphicon-trash"/> 
-                        </a>
+                    </a>
+                    <a id="transaction_delete_${transaction.transactionId}" class="btn btn-link btn-xs pull-right"
+                       href="${pageContext.request.contextPath}/transaction/delete.html?transactionId=${transaction.transactionId}">
+                        <span class="glyphicon glyphicon-trash"/> 
+                    </a>
 
                 </li>
             </c:if>
@@ -69,14 +67,12 @@
                     ${transaction.secondAccount.name }
                     ${transaction.note }
 
-                    <a id="transaction_edit_${transaction.transactionId}" class="btn btn-mini transaction-edit"
-                       href="${pageContext.request.contextPath}/formaction.html?type=income&txId=${transaction.transactionId}"
-                       data-target="#common-modal" data-toggle="modal" save-event="transactionEdited">
+                    <a id="transaction_edit_${transaction.transactionId}" class="btn btn-link btn-xs pull-right"
+                       href="${pageContext.request.contextPath}/formaction.html?type=income&txId=${transaction.transactionId}">
                         <span class="glyphicon glyphicon-edit"/>
                     </a>
-                    <a id="transaction_delete_${transaction.transactionId}" class="btn btn-mini"
-                       href="${pageContext.request.contextPath}/transaction/delete.html?transactionId=${transaction.transactionId}"
-                       data-target="#common-modal" data-toggle="modal" save-event="transactionEdited">
+                    <a id="transaction_delete_${transaction.transactionId}" class="btn btn-link btn-xs pull-right"
+                       href="${pageContext.request.contextPath}/transaction/delete.html?transactionId=${transaction.transactionId}">
                         <span class="glyphicon glyphicon-trash"/> 
                     </a>
 
@@ -90,14 +86,12 @@
                     ${transaction.secondAccount.name }
                     ${transaction.note }
 
-                    <a id="transaction_edit_${transaction.transactionId}" class="btn btn-mini transaction-edit"
-                       href="${pageContext.request.contextPath}/formaction.html?type=expense&txId=${transaction.transactionId}"
-                       data-target="#common-modal" data-toggle="modal" save-event="transactionEdited">
+                    <a id="transaction_edit_${transaction.transactionId}" class="btn btn-link btn-xs pull-right"
+                       href="${pageContext.request.contextPath}/formaction.html?type=expense&txId=${transaction.transactionId}">
                         <span class="glyphicon glyphicon-edit"/>
                     </a>
-                    <a id="transaction_delete_${transaction.transactionId}" class="btn btn-mini"
-                       href="${pageContext.request.contextPath}/transaction/delete.html?transactionId=${transaction.transactionId}"
-                       data-target="#common-modal" data-toggle="modal" save-event="transactionEdited">
+                    <a id="transaction_delete_${transaction.transactionId}" class="btn btn-link btn-xs pull-right"
+                       href="${pageContext.request.contextPath}/transaction/delete.html?transactionId=${transaction.transactionId}">
                         <span class="glyphicon glyphicon-trash"/> 
                     </a>
 
