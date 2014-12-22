@@ -1,7 +1,5 @@
 package org.ua.oblik.controllers;
 
-import org.ua.oblik.controllers.beans.AccountOption;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,12 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.ua.oblik.controllers.beans.AccountBean;
+import org.ua.oblik.controllers.beans.AccountOption;
 import org.ua.oblik.controllers.utils.ValidationErrorLoger;
 import org.ua.oblik.controllers.validators.AccountValidator;
 import org.ua.oblik.service.AccountService;
@@ -26,7 +21,6 @@ import org.ua.oblik.service.CurrencyService;
 import org.ua.oblik.service.beans.AccountCriteria;
 import org.ua.oblik.service.beans.AccountVO;
 import org.ua.oblik.service.beans.AccountVOType;
-import org.ua.oblik.service.beans.TransactionType;
 
 /**
  *
