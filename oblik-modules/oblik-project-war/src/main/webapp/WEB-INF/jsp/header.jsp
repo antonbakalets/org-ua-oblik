@@ -8,11 +8,11 @@
     <c:if test="${defaultCurrencyExists}">
         <span>
             <spring:message code="jsp.oblik.default.currency.total"/>:
-            <span class="text-assets strong">
-                <strong>
+            <strong>
+                <span id="default-total" class="text-assets strong">
                     <c:out value="${defaultCurrencyTotal}"/>
-                </strong>
-            </span> 
+                </span> 
+            </strong>
             <c:out value="${defaultCurrencySymbol}"/>
         </span>
     </c:if>

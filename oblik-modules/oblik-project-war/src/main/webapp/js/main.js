@@ -10,11 +10,17 @@ jQuery(function ($) {
         init: function (contextPath) {
             this.contextPath = contextPath;
             this.actionType = '';
+            this.loadTotal();
             this.loadActionsForm(this.contextPath + '/formaction.html');
             this.loadTotalByCurrency();
             this.loadTotalByAccount();
-            this.loadTransactions(this.contextPath + '/transaction/list.html');
+            this.loadTransactions();
             this.loadAccounts();
+        },
+        loadTotal: function () {
+            $("#default-total").load(this.contextPath + '/total/ammount.json', function() {
+                
+            });
         },
         loadActionsForm: function (href) {
             $("#section-actions").load(href, function () {
@@ -62,7 +68,7 @@ jQuery(function ($) {
             $("#total-by-currency").load(this.contextPath + '/currency/list.html', function () {
                 $("#total-by-currency .edit-link").ineditable({
                     success: function () {
-                        reactor.dispatchEvent('currencyAdded');
+                        reactor.dispatchEvent('currencySave');
                     }
                 });
             });
@@ -71,12 +77,15 @@ jQuery(function ($) {
             $("#total-by-account").load(this.contextPath + '/total/account.html', function () {
                 $("#total-by-account .edit-link").ineditable({
                     success: function () {
-                        reactor.dispatchEvent('accountEdited');
+                        reactor.dispatchEvent('accountSave');
                     }
                 });
             });
         },
         loadTransactions: function (href) {
+            if (!href) {
+                href = this.contextPath + '/transaction/list.html';
+            }
             $("#tab-transactions").load(href, function () {
                 $('#transaction-prev').click(function(e) {
                     e.preventDefault();
@@ -99,14 +108,14 @@ jQuery(function ($) {
             $("#section-incomes").load(this.contextPath + '/account/incomes.html', function () {
                 $("#section-incomes .edit-link").ineditable({
                     success: function () {
-                        reactor.dispatchEvent('accountEdited');
+                        reactor.dispatchEvent('accountSave');
                     }
                 });
             });
             $("#section-expenses").load(this.contextPath + '/account/expenses.html', function () {
                 $("#section-expenses .edit-link").ineditable({
                     success: function () {
-                        reactor.dispatchEvent('accountEdited');
+                        reactor.dispatchEvent('accountSave');
                     }
                 });
             });
@@ -183,8 +192,6 @@ jQuery(function ($) {
     };
 
 
-
-
     function Reactor() {
         this.events = {};
     }
@@ -210,29 +217,22 @@ jQuery(function ($) {
     };
 
 
-
-
     var reactor = new Reactor();
 
-    reactor.registerEvent('currencyAdded');
-    reactor.registerEvent('currencyEdited');
-    reactor.registerEvent('accountEdited');
+    reactor.registerEvent('currencySave');
+    reactor.registerEvent('accountSave');
     reactor.registerEvent('transactionSave');
     reactor.registerEvent('transactionEdit');
     reactor.registerEvent('transactionTypeChange');
     reactor.registerEvent('firstAccountOptionChange');
     reactor.registerEvent('secondAccountOptionChange');
 
-    reactor.addEventListener('currencyAdded', function () {
-        App.loadTotalByCurrency();
-        App.loadExpenseForm();
+    reactor.addEventListener('currencySave', function () {
+        App.loadTotal();
     });
 
-    reactor.addEventListener('currencyEdited', function () {
-        App.loadTotalByCurrency();
-    });
-
-    reactor.addEventListener('accountEdited', function () {
+    reactor.addEventListener('accountSave', function () {
+        App.loadTotal();
         App.loadAccounts();
         App.loadTotalByAccount();
         App.loadFirstAccountOptions();
@@ -240,6 +240,7 @@ jQuery(function ($) {
     });
 
     reactor.addEventListener('transactionSave', function () {
+        App.loadTotal();
         App.loadTransactions();
         App.loadAccounts();
         App.loadTotalByAccount();

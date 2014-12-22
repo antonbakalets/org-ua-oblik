@@ -93,6 +93,12 @@
                 <button id="action-button" type="button" class="btn btn-primary">
                     <spring:message code="jsp.oblik.button.save"/>
                 </button>
+                <c:if test="${!empty formActionBean.txId}">
+                    <a id="action-delete-${formActionBean.txId}" class="btn btn-link btn-xs pull-right"
+                       href="${pageContext.request.contextPath}/transaction/delete.html?transactionId=${formActionBean.txId}">
+                        <span class="glyphicon glyphicon-trash"/> 
+                    </a>
+                </c:if>
             </div>
         </form:form>
     </div>

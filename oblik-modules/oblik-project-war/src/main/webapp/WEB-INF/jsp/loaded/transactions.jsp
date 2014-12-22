@@ -38,26 +38,19 @@
             <c:forEach var="transaction" items="${list}">
                 <c:if test="${transaction.type == 'TRANSFER'}">
 
-                <li class="list-group-item list-group-item-info">
+                <div class="row">
 
-                    -${transaction.firstAmmount } 
-
-                    ${transaction.secondAmmount }
-
-                    ${transaction.firstAccount.name } -> ${transaction.secondAccount.name}
-
-                    ${transaction.note }
-
-                    <a id="transaction_edit_${transaction.transactionId}" class="btn btn-link btn-xs pull-right"
+                    <div class="col-xs-2">-${transaction.firstAmmount }</div>
+                    <div class="col-xs-2">${transaction.secondAmmount }</div>
+                    <div class="col-xs-3">${transaction.firstAccount.name } -> ${transaction.secondAccount.name}</div>
+                    <div class="col-xs-3">${transaction.note }</div>
+                    <div class="col-xs-1">
+                    <a id="transaction_edit_${transaction.transactionId}" class="btn btn-link btn-xs pull-right transaction-edit"
                        href="${pageContext.request.contextPath}/formaction.html?type=transfer&txId=${transaction.transactionId}">
                         <span class="glyphicon glyphicon-edit"/>
                     </a>
-                    <a id="transaction_delete_${transaction.transactionId}" class="btn btn-link btn-xs pull-right"
-                       href="${pageContext.request.contextPath}/transaction/delete.html?transactionId=${transaction.transactionId}">
-                        <span class="glyphicon glyphicon-trash"/> 
-                    </a>
-
-                </li>
+                    </div>
+                </div>
             </c:if>
             <c:if test="${transaction.type == 'INCOME'}">
                 <li class="list-group-item list-group-item-success">
@@ -67,15 +60,10 @@
                     ${transaction.secondAccount.name }
                     ${transaction.note }
 
-                    <a id="transaction_edit_${transaction.transactionId}" class="btn btn-link btn-xs pull-right"
+                    <a id="transaction_edit_${transaction.transactionId}" class="btn btn-link btn-xs pull-right transaction-edit"
                        href="${pageContext.request.contextPath}/formaction.html?type=income&txId=${transaction.transactionId}">
                         <span class="glyphicon glyphicon-edit"/>
                     </a>
-                    <a id="transaction_delete_${transaction.transactionId}" class="btn btn-link btn-xs pull-right"
-                       href="${pageContext.request.contextPath}/transaction/delete.html?transactionId=${transaction.transactionId}">
-                        <span class="glyphicon glyphicon-trash"/> 
-                    </a>
-
                 </li>
             </c:if>
             <c:if test="${transaction.type == 'EXPENSE'}">
@@ -86,15 +74,10 @@
                     ${transaction.secondAccount.name }
                     ${transaction.note }
 
-                    <a id="transaction_edit_${transaction.transactionId}" class="btn btn-link btn-xs pull-right"
+                    <a id="transaction_edit_${transaction.transactionId}" class="btn btn-link btn-xs pull-right transaction-edit"
                        href="${pageContext.request.contextPath}/formaction.html?type=expense&txId=${transaction.transactionId}">
                         <span class="glyphicon glyphicon-edit"/>
                     </a>
-                    <a id="transaction_delete_${transaction.transactionId}" class="btn btn-link btn-xs pull-right"
-                       href="${pageContext.request.contextPath}/transaction/delete.html?transactionId=${transaction.transactionId}">
-                        <span class="glyphicon glyphicon-trash"/> 
-                    </a>
-
                 </li>
             </c:if>
         </c:forEach>
