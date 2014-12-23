@@ -10,17 +10,21 @@ public class TransactionBean {
 
     private TransactionType type;
 
-    private AccountVO firstAccount;
+    private String firstAccountName;
 
-    private String firstAmmount;
+    private String firstAmount;
+    
+    private String firstSymbol;
 
-    private Date date;
+    private String date;
 
     private String note;
 
-    private AccountVO secondAccount;
+    private String secondAccountName;
 
-    private String secondAmmount;
+    private String secondAmount;
+    
+    private String secondSymbol;
 
     public Integer getTransactionId() {
         return transactionId;
@@ -38,27 +42,35 @@ public class TransactionBean {
         this.type = type;
     }
 
-    public AccountVO getFirstAccount() {
-        return firstAccount;
+    public String getFirstAccountName() {
+        return firstAccountName;
     }
 
-    public void setFirstAccount(AccountVO firstAccount) {
-        this.firstAccount = firstAccount;
+    public void setFirstAccountName(String firstAccountName) {
+        this.firstAccountName = firstAccountName;
     }
 
-    public String getFirstAmmount() {
-        return firstAmmount;
+    public String getFirstAmount() {
+        return firstAmount;
     }
 
-    public void setFirstAmmount(String firstAmmount) {
-        this.firstAmmount = firstAmmount;
+    public void setFirstAmount(String firstAmount) {
+        this.firstAmount = firstAmount;
     }
 
-    public Date getDate() {
+    public String getFirstSymbol() {
+        return firstSymbol;
+    }
+
+    public void setFirstSymbol(String firstSymbol) {
+        this.firstSymbol = firstSymbol;
+    }
+
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
@@ -70,19 +82,27 @@ public class TransactionBean {
         this.note = note;
     }
 
-    public AccountVO getSecondAccount() {
-        return secondAccount;
+    public String getSecondAccountName() {
+        return secondAccountName;
     }
 
-    public void setSecondAccount(AccountVO secondAccount) {
-        this.secondAccount = secondAccount;
+    public void setSecondAccountName(String secondAccountName) {
+        this.secondAccountName = secondAccountName;
     }
 
-    public String getSecondAmmount() {
-        return secondAmmount;
+    public String getSecondAmount() {
+        return secondAmount;
     }
 
-    public void setSecondAmmount(String secondAmmount) {
-        this.secondAmmount = secondAmmount;
+    public void setSecondAmount(String secondAmount) {
+        this.secondAmount = secondAmount;
+    }
+
+    public String getSecondSymbol() {
+        return secondSymbol;
+    }
+
+    public void setSecondSymbol(String secondSymbol) {
+        this.secondSymbol = secondSymbol;
     }
 }

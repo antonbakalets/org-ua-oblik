@@ -25,7 +25,6 @@
     </li>
 </ul>
 
-
 <c:forEach var="entry" items="${transaction_map}">
     <c:set var="date" value="${entry.key}"/>
     <c:set var="list" value="${entry.value}"/>
@@ -35,16 +34,15 @@
     </div>
     <c:forEach var="transaction" items="${list}">
         <c:if test="${transaction.type == 'TRANSFER'}">
-
             <div class="row transaction-row">
-                <div class="col-xs-2 list-group-item-info text-right">
-                    <strong>${transaction.firstAmmount}</strong>
-                        ${transaction.secondAmmount}
+                <div class="col-xs-2 bg-info text-info text-right">
+                    <strong>${transaction.firstAmount}&nbsp;${transaction.firstSymbol}</strong>
+                        ${transaction.secondAmount}&nbsp;${transaction.secondSymbol}
                 </div>
-                <div class="col-xs-2 account-assets">${transaction.firstAccount.name}</div>
-                <div class="col-xs-2 account-assets">${transaction.secondAccount.name}</div>
+                <div class="col-xs-2 account-assets">${transaction.firstAccountName}</div>
+                <div class="col-xs-2 account-assets">${transaction.secondAccountName}</div>
                 <div class="col-xs-5">${transaction.note}</div>
-                <div class="col-xs-1">
+                <div class="col-xs-1 ">
                     <a id="transaction_edit_${transaction.transactionId}"
                        class="btn btn-link btn-xs pull-right transaction-edit"
                        href="${pageContext.request.contextPath}/formaction.html?type=transfer&txId=${transaction.transactionId}">
@@ -55,9 +53,11 @@
         </c:if>
         <c:if test="${transaction.type == 'INCOME'}">
             <div class="row transaction-row">
-                <div class="col-xs-2 list-group-item-success text-right">${transaction.firstAmmount}</div>
-                <div class="col-xs-2 account-income">${transaction.secondAccount.name}</div>
-                <div class="col-xs-2 account-assets">${transaction.firstAccount.name}</div>
+                <div class="col-xs-2 list-group-item-success text-right">
+                    <strong>${transaction.firstAmount}&nbsp;${transaction.firstSymbol}</strong>
+                </div>
+                <div class="col-xs-2 account-income">${transaction.secondAccountName}</div>
+                <div class="col-xs-2 account-assets">${transaction.firstAccountName}</div>
                 <div class="col-xs-5">${transaction.note}</div>
                 <div class="col-xs-1">
                     <a id="transaction_edit_${transaction.transactionId}"
@@ -70,10 +70,11 @@
         </c:if>
         <c:if test="${transaction.type == 'EXPENSE'}">
             <div class="row transaction-row">
-
-                <div class="col-xs-2 list-group-item-danger text-right">${transaction.firstAmmount}</div>
-                <div class="col-xs-2 account-assets">${transaction.firstAccount.name}</div>
-                <div class="col-xs-2 account-expense">${transaction.secondAccount.name}</div>
+                <div class="col-xs-2 list-group-item-danger text-right">
+                    <strong>${transaction.firstAmount}&nbsp;${transaction.firstSymbol}</strong>
+                </div>
+                <div class="col-xs-2 account-assets">${transaction.firstAccountName}</div>
+                <div class="col-xs-2 account-expense">${transaction.secondAccountName}</div>
                 <div class="col-xs-5">${transaction.note}</div>
                 <div class="col-xs-1">
                     <a id="transaction_edit_${transaction.transactionId}"

@@ -13,14 +13,15 @@
 
     <bean class="org.ua.oblik.controllers.AccountFacade"/>
     <bean class="org.ua.oblik.controllers.CurrencyFacade"/>
+    <bean class="org.ua.oblik.controllers.TransactionFacade"/>
     <bean class="org.ua.oblik.controllers.TotalFacade"/>
 
     <bean id="shortDateFormat" class="java.text.SimpleDateFormat">
-        <constructor-arg value="dd.MM.yy"/>
+        <constructor-arg value="${date.short.format}"/>
     </bean>
     
     <bean id="longDateFormat" class="java.text.SimpleDateFormat">
-        <constructor-arg value="dd.MM.yyyy"/>
+        <constructor-arg value="${date.long.format}"/>
     </bean>
     
     <bean id="monthDateFormat" class="java.text.SimpleDateFormat">
@@ -53,6 +54,10 @@
     
     <bean id="decimalFormat" class="java.text.DecimalFormat">
         <constructor-arg value="${decimal.format}"/>
+    </bean>
+    
+    <bean id="longDateFormatter" class="org.springframework.format.datetime.DateFormatter">
+        <property name="pattern" value="${date.long.format}"/>
     </bean>
     
     <bean id="bigDecimalEditor" class="org.springframework.beans.propertyeditors.CustomNumberEditor">
