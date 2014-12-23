@@ -6,7 +6,9 @@ $.widget("oblik.ineditable", {
         effect: "blind",
         save: "<span class='glyphicon glyphicon-ok'></span>",
         close: "<span class='glyphicon glyphicon-remove'></span>",
-        success: function () {
+        onSuccess: function () {
+        },
+        onEdit: function () {
         }
     },
     _create: function () {
@@ -34,21 +36,21 @@ $.widget("oblik.ineditable", {
             this.closeBtn.append(this.options.close);
             btnContainer.append(this.closeBtn);
             this._on(this.closeBtn, {click: "close"});
-            
+
             this.container.append(btnContainer);
             this.container.append($("<div class='clearfix'/>"));
         }
     },
     _show: function () {
         var reference = this;
-        this.element.hide(this.options.effect, function() {
+        this.element.hide(this.options.effect, function () {
             reference.container.show(reference.options.effect);
         });
         this.element.addClass(this.options.inediting);
     },
     _hide: function () {
         var reference = this;
-        this.container.hide(this.options.effect, function() {
+        this.container.hide(this.options.effect, function () {
             reference.element.show(reference.options.effect);
         });
         this.element.removeClass(this.options.inediting);
@@ -61,8 +63,11 @@ $.widget("oblik.ineditable", {
         this._load();
     },
     _load: function () {
+        var reference = this;
         this.formDiv.load(this.ahref, function () {
-            // TODO
+            if ($.isFunction(reference.options.onEdit)) {
+                reference.options.onEdit.call();
+            }
         });
         this._on(this.saveBtn, {click: "_save"});
     },
@@ -73,8 +78,8 @@ $.widget("oblik.ineditable", {
                 reference.formDiv.html(responseText);
                 if (reference.formDiv.find(".alert").size() === 0) {
                     reference.close();
-                    if ($.isFunction(reference.options.success)) {
-                        reference.options.success.call();
+                    if ($.isFunction(reference.options.onSuccess)) {
+                        reference.options.onSuccess.call();
                     }
                 }
             }

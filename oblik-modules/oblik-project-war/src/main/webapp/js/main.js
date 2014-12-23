@@ -5,30 +5,34 @@ $.fn.datepicker.defaults.todayBtn = "linked";
 
 jQuery(function ($) {
     'use strict';
-
+    
     var App = {
         init: function (contextPath) {
             this.contextPath = contextPath;
             this.actionType = '';
+            this.page = contextPath + '/transaction/list.html';
             this.loadTotal();
-            this.loadActionsForm(this.contextPath + '/formaction.html');
+            this.loadActionsForm();
             this.loadTotalByCurrency();
             this.loadTotalByAccount();
             this.loadTransactions();
             this.loadAccounts();
         },
         loadTotal: function () {
-            $("#default-total").load(this.contextPath + '/total/ammount.json', function() {
+            $("#default-total").load(this.contextPath + '/total/header.html', function() {
                 
             });
         },
         loadActionsForm: function (href) {
+            if (!href) {
+                href = this.contextPath + '/formaction.html';
+            }
             $("#section-actions").load(href, function () {
                 this.actionType = $('#type').val().toUpperCase();
-                App.initActionsForm(href);
+                App.initActionsForm();
             });
         },
-        initActionsForm: function (href) {
+        initActionsForm: function () {
             $("#actions-type li").click(function () {
                 if (!$("#txId").val()) {
                     $(this).addClass('active');
@@ -40,7 +44,8 @@ jQuery(function ($) {
             });
             $("#form-actions .datepicker").datepicker();
             $("#form-actions .calculable").calculable();
-            $('#action-button').click(function () {
+            $('#action-button').click(function (e) {
+                e.preventDefault();
                 $('#form-actions').ajaxSubmit({
                     success: function (data)
                     {
@@ -52,6 +57,10 @@ jQuery(function ($) {
                         App.initActionsForm();
                     }
                 });
+            });
+            $('#action-cancel').click(function (e) {
+                e.preventDefault();
+                App.loadActionsForm();
             });
             $('#account-from').change(function () {
                 if (!$('#account-to :selected').val()) {
@@ -67,8 +76,11 @@ jQuery(function ($) {
         loadTotalByCurrency: function () {
             $("#total-by-currency").load(this.contextPath + '/currency/list.html', function () {
                 $("#total-by-currency .edit-link").ineditable({
-                    success: function () {
+                    onSuccess: function () {
                         reactor.dispatchEvent('currencySave');
+                    },
+                    onEdit: function () {
+                        reactor.dispatchEvent('currencyEdit');
                     }
                 });
             });
@@ -76,17 +88,21 @@ jQuery(function ($) {
         loadTotalByAccount: function () {
             $("#total-by-account").load(this.contextPath + '/total/account.html', function () {
                 $("#total-by-account .edit-link").ineditable({
-                    success: function () {
+                    onSuccess: function () {
                         reactor.dispatchEvent('accountSave');
+                    },
+                    onEdit: function () {
+                        reactor.dispatchEvent('accountEdit');
                     }
                 });
             });
         },
         loadTransactions: function (href) {
             if (!href) {
-                href = this.contextPath + '/transaction/list.html';
+                href = this.page;
             }
             $("#tab-transactions").load(href, function () {
+                this.page = $('#transaction-curr').attr('href');
                 $('#transaction-prev').click(function(e) {
                     e.preventDefault();
                     App.loadTransactions($(this).attr('href'));
@@ -107,15 +123,21 @@ jQuery(function ($) {
         loadAccounts: function () {
             $("#section-incomes").load(this.contextPath + '/account/incomes.html', function () {
                 $("#section-incomes .edit-link").ineditable({
-                    success: function () {
+                    onSuccess: function () {
                         reactor.dispatchEvent('accountSave');
+                    },
+                    onEdit: function () {
+                        reactor.dispatchEvent('accountEdit');
                     }
                 });
             });
             $("#section-expenses").load(this.contextPath + '/account/expenses.html', function () {
                 $("#section-expenses .edit-link").ineditable({
-                    success: function () {
+                    onSuccess: function () {
                         reactor.dispatchEvent('accountSave');
+                    },
+                    onEdit: function () {
+                        reactor.dispatchEvent('accountEdit');
                     }
                 });
             });
@@ -219,36 +241,49 @@ jQuery(function ($) {
 
     var reactor = new Reactor();
 
+    reactor.registerEvent('currencyEdit');
     reactor.registerEvent('currencySave');
+    reactor.registerEvent('accountEdit');
     reactor.registerEvent('accountSave');
-    reactor.registerEvent('transactionSave');
     reactor.registerEvent('transactionEdit');
+    reactor.registerEvent('transactionSave');
     reactor.registerEvent('transactionTypeChange');
     reactor.registerEvent('firstAccountOptionChange');
     reactor.registerEvent('secondAccountOptionChange');
+
+    reactor.addEventListener('currencyEdit', function () {
+        App.loadActionsForm();
+    });
 
     reactor.addEventListener('currencySave', function () {
         App.loadTotal();
     });
 
+    reactor.addEventListener('accountEdit', function () {
+        App.loadActionsForm();
+    });
+
     reactor.addEventListener('accountSave', function () {
         App.loadTotal();
         App.loadAccounts();
+        App.loadTransactions();
         App.loadTotalByAccount();
         App.loadFirstAccountOptions();
         App.loadSecondAccountOptions();
     });
 
+    reactor.addEventListener('transactionEdit', function (href) {
+        $(".ineditable").ineditable("closeInEditing");
+        App.loadActionsForm(href);
+    });
+
     reactor.addEventListener('transactionSave', function () {
+        App.loadActionsForm();
         App.loadTotal();
         App.loadTransactions();
         App.loadAccounts();
         App.loadTotalByAccount();
         App.loadTotalByCurrency();
-    });
-
-    reactor.addEventListener('transactionEdit', function (href) {
-        App.loadActionsForm(href);
     });
 
     reactor.addEventListener('firstAccountOptionChange', function () {

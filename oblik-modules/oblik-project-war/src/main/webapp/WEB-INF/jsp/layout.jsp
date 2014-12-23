@@ -15,6 +15,7 @@
 
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/datepicker3.css" />
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/bootstrap.css" />
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/default.css" />
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/normalize.css" />
 
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-2.1.1.js"></script>

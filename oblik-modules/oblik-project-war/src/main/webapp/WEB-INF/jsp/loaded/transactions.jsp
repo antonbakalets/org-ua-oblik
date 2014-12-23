@@ -1,9 +1,7 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="spring"  uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="display" uri="http://displaytag.sf.net" %>
-<%@ taglib prefix="c"       uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
-
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <spring:message var="title_date" code="jsp.oblik.date"/>
 <spring:message var="title_ammount" code="jsp.oblik.ammount"/>
@@ -11,15 +9,14 @@
 <spring:message var="title_category" code="jsp.oblik.category"/>
 <spring:message var="title_note" code="jsp.oblik.note"/>
 
-<h3 class="title-block"><spring:message var="title_transactions" code="jsp.oblik.transactions"/></h3>
-
 <ul class="pager">
     <li>
         <a id="transaction-prev" href="${pageContext.request.contextPath}/transaction/list.html?month=${monthArray[0]}">
             <span class="glyphicon glyphicon-backward"/>
         </a></li>
     <li class="disabled">
-        <a id="transaction-curr" href="#">${monthArray[1]}</a>
+        <a id="transaction-curr"
+           href="${pageContext.request.contextPath}/transaction/list.html?month=${monthArray[1]}">${monthArray[1]}</a>
     </li>
     <li>
         <a id="transaction-next" href="${pageContext.request.contextPath}/transaction/list.html?month=${monthArray[2]}">
@@ -33,53 +30,59 @@
     <c:set var="date" value="${entry.key}"/>
     <c:set var="list" value="${entry.value}"/>
 
-    <ul class="list-group">
-        <li class="list-group-item active"><c:out value="${date}"/></li>
-            <c:forEach var="transaction" items="${list}">
-                <c:if test="${transaction.type == 'TRANSFER'}">
+    <div class="row date-row">
+        <div class="col-xs-3"><c:out value="${date}"/></div>
+    </div>
+    <c:forEach var="transaction" items="${list}">
+        <c:if test="${transaction.type == 'TRANSFER'}">
 
-                <div class="row">
-
-                    <div class="col-xs-2">-${transaction.firstAmmount }</div>
-                    <div class="col-xs-2">${transaction.secondAmmount }</div>
-                    <div class="col-xs-3">${transaction.firstAccount.name } -> ${transaction.secondAccount.name}</div>
-                    <div class="col-xs-3">${transaction.note }</div>
-                    <div class="col-xs-1">
-                    <a id="transaction_edit_${transaction.transactionId}" class="btn btn-link btn-xs pull-right transaction-edit"
+            <div class="row transaction-row">
+                <div class="col-xs-2 list-group-item-info text-right">
+                    <strong>${transaction.firstAmmount}</strong>
+                        ${transaction.secondAmmount}
+                </div>
+                <div class="col-xs-2 account-assets">${transaction.firstAccount.name}</div>
+                <div class="col-xs-2 account-assets">${transaction.secondAccount.name}</div>
+                <div class="col-xs-5">${transaction.note}</div>
+                <div class="col-xs-1">
+                    <a id="transaction_edit_${transaction.transactionId}"
+                       class="btn btn-link btn-xs pull-right transaction-edit"
                        href="${pageContext.request.contextPath}/formaction.html?type=transfer&txId=${transaction.transactionId}">
                         <span class="glyphicon glyphicon-edit"/>
                     </a>
-                    </div>
                 </div>
-            </c:if>
-            <c:if test="${transaction.type == 'INCOME'}">
-                <li class="list-group-item list-group-item-success">
-
-                    + ${transaction.firstAmmount }
-                    ${transaction.firstAccount.name }
-                    ${transaction.secondAccount.name }
-                    ${transaction.note }
-
-                    <a id="transaction_edit_${transaction.transactionId}" class="btn btn-link btn-xs pull-right transaction-edit"
+            </div>
+        </c:if>
+        <c:if test="${transaction.type == 'INCOME'}">
+            <div class="row transaction-row">
+                <div class="col-xs-2 list-group-item-success text-right">${transaction.firstAmmount}</div>
+                <div class="col-xs-2 account-income">${transaction.secondAccount.name}</div>
+                <div class="col-xs-2 account-assets">${transaction.firstAccount.name}</div>
+                <div class="col-xs-5">${transaction.note}</div>
+                <div class="col-xs-1">
+                    <a id="transaction_edit_${transaction.transactionId}"
+                       class="btn btn-link btn-xs pull-right transaction-edit"
                        href="${pageContext.request.contextPath}/formaction.html?type=income&txId=${transaction.transactionId}">
                         <span class="glyphicon glyphicon-edit"/>
                     </a>
-                </li>
-            </c:if>
-            <c:if test="${transaction.type == 'EXPENSE'}">
-                <li class="list-group-item list-group-item-danger">
+                </div>
+            </div>
+        </c:if>
+        <c:if test="${transaction.type == 'EXPENSE'}">
+            <div class="row transaction-row">
 
-                    -${transaction.firstAmmount }
-                    ${transaction.firstAccount.name }
-                    ${transaction.secondAccount.name }
-                    ${transaction.note }
-
-                    <a id="transaction_edit_${transaction.transactionId}" class="btn btn-link btn-xs pull-right transaction-edit"
+                <div class="col-xs-2 list-group-item-danger text-right">${transaction.firstAmmount}</div>
+                <div class="col-xs-2 account-assets">${transaction.firstAccount.name}</div>
+                <div class="col-xs-2 account-expense">${transaction.secondAccount.name}</div>
+                <div class="col-xs-5">${transaction.note}</div>
+                <div class="col-xs-1">
+                    <a id="transaction_edit_${transaction.transactionId}"
+                       class="btn btn-link btn-xs pull-right transaction-edit"
                        href="${pageContext.request.contextPath}/formaction.html?type=expense&txId=${transaction.transactionId}">
                         <span class="glyphicon glyphicon-edit"/>
                     </a>
-                </li>
-            </c:if>
-        </c:forEach>
-    </ul>
+                </div>
+            </div>
+        </c:if>
+    </c:forEach>
 </c:forEach>

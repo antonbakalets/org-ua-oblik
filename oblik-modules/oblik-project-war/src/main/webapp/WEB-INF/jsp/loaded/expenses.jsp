@@ -8,7 +8,7 @@
         <h4 class="panel-title"><spring:message code="jsp.oblik.account.expense"/></h4>
     </li>
     <c:forEach var="entry" items="${expenseAccounts}">
-        <li class="list-group-item">
+        <li class="list-group-item account-expense">
             <div class="edit-link">
                 <span class="hidden"><c:out value="${entry.accountId}"/></span>
                 <c:out value="${entry.name}"/>

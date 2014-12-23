@@ -1,237 +1,35 @@
-header {
-    background-image: url("../img/header-bg.png");
-    background-position: left top;
-    background-repeat: repeat-x;
-    height: 121px;
-    margin-bottom: 22px;
-}
-.header-top-container {
-    height: 14px;
-    margin: 14px 0 14px 0;
-    font-size: 14px;
-}
-.header-bot-container {
-    height: 42px;
-    line-height: 42px;
-    margin: 14px 0 14px 0;
-    font-size: 22px;
-}
-.header-bot-container span {
-    display: inline-block;
-    vertical-align: middle;
-    line-height: normal;
-}
-footer h3, footer h4 {
-    font-weight: normal;
-}
-footer .caption {
-    float: none;
-}
-footer .logo {
-    margin-bottom: 8px;
-}
-.footer-content-bg {
-    padding-top: 25px;
-    padding-bottom: 18px;
-    background-color: #efefef;
-    background-image: url(../img/footer-bg.png);
-    background-repeat: repeat-x;
-    background-position: left top;	
+.transaction-row {
+    background-color: #ffffff;
+    border: 1px solid #dddddd;
+    display: block;
+    margin: 0px 0px -1px 0px;
+    padding: 10px 15px;
+    position: relative;
 }
 
-.content-container-white {
-    background-color: #FDFDFD;
-    border: 1px solid #D6D6D6;
-    border-radius: 3px 3px 3px 3px;
-}
-.content-under-container-white {
-    background-color: #FDFDFD;
-    border-color: #D6D6D6;
-    border-radius: 0 0 3px 3px;
-    border-style: none solid solid;
-    border-width: 1px;
-    height: 2px;
-    margin-left: 3px;
-    margin-right: 3px;
-}
-.m-top-10 {
-    margin-top: 10px !important;
-}
-.m-bot-25 {
-    margin-bottom: 25px !important;
-}
-.m-all-5 {
-    margin: 5px;
+.date-row {
+    background-color: transparent;
+    border: 1px solid #dddddd;
+    display: block;
+    margin: 15px 0px -1px 0px;
+    padding: 10px 15px;
+    position: relative;
 }
 
-.table th.align-right,
-.table td.align-right {
-    text-align: right;
-}
-.table th.align-left,
-.table td.align-left {
-    text-align: left;
-}
-.table th.align-center,
-.table td.align-center {
-    text-align: center;
+.account-assets:before {
+    content: "";
+    display: block;
+    border-top: 5px solid #d9edf7;
 }
 
-.text-assets {
-    color: #4AC2F3 !important;
-}
-.text-expense {
-    color: #cc3300 !important;
-}
-.text-income {
-    color: #6dc3b9 !important;
+.account-expense:before {
+    content: "";
+    display: block;
+    border-top: 5px solid #f2dede;
 }
 
-.btn-transfer {
-    color: #ffffff;
-    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-    background-color: #49afcd;
-    background-image: -moz-linear-gradient(top, #5bc0de, #2f96b4);
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#5bc0de), to(#2f96b4));
-    background-image: -webkit-linear-gradient(top, #5bc0de, #2f96b4);
-    background-image: -o-linear-gradient(top, #5bc0de, #2f96b4);
-    background-image: linear-gradient(to bottom, #5bc0de, #2f96b4);
-    background-repeat: repeat-x;
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff5bc0de', endColorstr='#ff2f96b4', GradientType=0);
-    border-color: #2f96b4 #2f96b4 #1f6377;
-    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-    *background-color: #2f96b4;
-    /* Darken IE7 buttons by default so they stand out more given they won't have borders */
-
-    filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-}
-.btn-transfer:hover,
-.btn-transfer:focus,
-.btn-transfer:active,
-.btn-transfer.active,
-.btn-transfer.disabled,
-.btn-transfer[disabled] {
-    color: #ffffff;
-    background-color: #2f96b4;
-    *background-color: #2a85a0;
-}
-.btn-transfer:active,
-.btn-transfer.active {
-    background-color: #24748c \9;
-}
-
-.btn-income {
-    color: #ffffff;
-    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-    background-color: #5bb75b;
-    background-image: -moz-linear-gradient(top, #62c462, #51a351);
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#62c462), to(#51a351));
-    background-image: -webkit-linear-gradient(top, #62c462, #51a351);
-    background-image: -o-linear-gradient(top, #62c462, #51a351);
-    background-image: linear-gradient(to bottom, #62c462, #51a351);
-    background-repeat: repeat-x;
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff62c462', endColorstr='#ff51a351', GradientType=0);
-    border-color: #51a351 #51a351 #387038;
-    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-    *background-color: #51a351;
-    /* Darken IE7 buttons by default so they stand out more given they won't have borders */
-
-    filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-}
-.btn-income:hover,
-.btn-income:focus,
-.btn-income:active,
-.btn-income.active,
-.btn-income.disabled,
-.btn-income[disabled] {
-    color: #ffffff;
-    background-color: #51a351;
-    *background-color: #499249;
-}
-.btn-income:active,
-.btn-income.active {
-    background-color: #408140 \9;
-}
-
-.btn-expense {
-    color: #ffffff;
-    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-    background-color: #da4f49;
-    background-image: -moz-linear-gradient(top, #ee5f5b, #bd362f);
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ee5f5b), to(#bd362f));
-    background-image: -webkit-linear-gradient(top, #ee5f5b, #bd362f);
-    background-image: -o-linear-gradient(top, #ee5f5b, #bd362f);
-    background-image: linear-gradient(to bottom, #ee5f5b, #bd362f);
-    background-repeat: repeat-x;
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffee5f5b', endColorstr='#ffbd362f', GradientType=0);
-    border-color: #bd362f #bd362f #802420;
-    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-    *background-color: #bd362f;
-    /* Darken IE7 buttons by default so they stand out more given they won't have borders */
-
-    filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-}
-.btn-expense:hover,
-.btn-expense:focus,
-.btn-expense:active,
-.btn-expense.active,
-.btn-expense.disabled,
-.btn-expense[disabled] {
-    color: #ffffff;
-    background-color: #bd362f;
-    *background-color: #a9302a;
-}
-.btn-expense:active,
-.btn-expense.active {
-    background-color: #942a25 \9;
-}
-.btn.expense:hover {
-    background-color:#65b6ad;
-    border: 1px solid #C77777;
-    background: -moz-linear-gradient(top, #ee5f5b, #ee5f5b) !important;
-    background: -webkit-linear-gradient(top, #ee5f5b, #ee5f5b) !important;
-    background: -o-linear-gradient(top, #ee5f5b, #ee5f5b) !important; 
-    background: -ms-linear-gradient(top, #ee5f5b, #ee5f5b) !important; 
-    -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset; 
-    -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset; 
-    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset;
-}
-.btn.currency {
-    background-color:#e5bd2c;
-    color: #333733;
-    border: 1px solid #BE9D25;
-    background: -moz-linear-gradient(top , #EFD740, #E5BD2C) repeat scroll 0 0 transparent !important;
-    background: -webkit-linear-gradient(top , #EFD740, #E5BD2C) repeat scroll 0 0 transparent !important;
-    background: -o-linear-gradient(top , #EFD740, #E5BD2C) repeat scroll 0 0 transparent !important;
-    background: -ms-linear-gradient(top , #EFD740, #E5BD2C) repeat scroll 0 0 transparent !important;
-
-    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset;
-    text-shadow: 0 1px 0 #FFEA8A;
-}
-.btn.currency:hover {
-    background-color:#f3e043;
-    border: 1px solid #BE9D25;
-    background: -moz-linear-gradient(top , #F5E547, #E5BD2C) repeat scroll 0 0 transparent !important;
-    background: -webkit-linear-gradient(top , #F5E547, #E5BD2C) repeat scroll 0 0 transparent !important;
-    background: -o-linear-gradient(top , #F5E547, #E5BD2C) repeat scroll 0 0 transparent !important;
-    background: -ms-linear-gradient(top , #F5E547, #E5BD2C) repeat scroll 0 0 transparent !important;
-    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset;
-}
-
-.form-horizontal .controls input,
-.form-horizontal .controls textarea {
-    width: auto;
-}
-
-.form-horizontal .controls selecy {
-    width: 100%;
-}
-
-
-.form-horizontal .control-label {
-    width: 60px;
-}
-
-.form-horizontal .controls {
-    margin-left: 80px;
+.account-income:before {
+    content: "";
+    display: block;
+    border-top: 5px solid #dff0d8;
 }

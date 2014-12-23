@@ -73,7 +73,7 @@
                 <form:errors path="secondAccount" element="div" cssClass="alert alert-danger"/>
             </div>
 
-            <c:set var="secondAmmountStyle"><c:if test="${empty formActionBean.txId}">style="display: none;"</c:if></c:set>
+            <c:set var="secondAmmountStyle"><c:if test="${formActionBean.type != 'TRANSFER'}">style="display: none;"</c:if></c:set>
             <div id="second-ammount-div" class="form-group" ${secondAmmountStyle}>
                 <label class="sr-only"><spring:message var="secondAmountLabel" code="jsp.oblik.expense.ammount"/></label>
                 <div class="input-group">
@@ -90,9 +90,12 @@
             </div>
 
             <div class="form-group">
-                <button id="action-button" type="button" class="btn btn-primary">
-                    <spring:message code="jsp.oblik.button.save"/>
-                </button>
+                <a id="action-button" class="btn btn-link btn-xs" href="#">
+                    <span class="glyphicon glyphicon-ok"/> 
+                </a>
+                <a id="action-cancel" class="btn btn-link btn-xs" href="#">
+                    <span class="glyphicon glyphicon-remove"/> 
+                </a>
                 <c:if test="${!empty formActionBean.txId}">
                     <a id="action-delete-${formActionBean.txId}" class="btn btn-link btn-xs pull-right"
                        href="${pageContext.request.contextPath}/transaction/delete.html?transactionId=${formActionBean.txId}">

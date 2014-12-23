@@ -13,6 +13,7 @@
 
     <bean class="org.ua.oblik.controllers.AccountFacade"/>
     <bean class="org.ua.oblik.controllers.CurrencyFacade"/>
+    <bean class="org.ua.oblik.controllers.TotalFacade"/>
 
     <bean id="shortDateFormat" class="java.text.SimpleDateFormat">
         <constructor-arg value="dd.MM.yy"/>

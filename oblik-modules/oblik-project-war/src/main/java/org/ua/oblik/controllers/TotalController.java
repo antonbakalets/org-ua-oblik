@@ -25,18 +25,40 @@ public class TotalController {
 
     private static final String ASSETS_ACCOUNTS = "assetsAccounts";
 
+
+    private static final String DEFAULT_CURRENCY_EXISTS = "defaultCurrencyExists";
+
+    private static final String DEFAULT_CURRENCY_SYMBOL = "defaultCurrencySymbol";
+
+    private static final String DEFAULT_CURRENCY_TOTAL = "defaultCurrencyTotal";
+
     @Autowired
     private AccountFacade accountFacade;
 
     @Autowired
     private TotalService totalService;
 
+    @Autowired
+    private TotalFacade totalFacade;
+
     @RequestMapping("/total/account")
     public String totalAccount(final Model model, final Locale locale) {
-        LOG.debug("Loading total by account...");
+        LOG.debug("Loading total by account.");
         List<AccountListBean> list = accountFacade.getAssetsAccounts(locale);
         model.addAttribute(ASSETS_ACCOUNTS, list);
         return "loaded/total-by-account";
+    }
+
+    @RequestMapping("/total/header")
+    public String totalHeader(final Model model, final Locale locale) {
+        LOG.debug("Loading total header.");
+        final boolean defaultExists = totalFacade.isDefaultExists();
+        model.addAttribute(DEFAULT_CURRENCY_EXISTS, defaultExists);
+        if (defaultExists) {
+            model.addAttribute(DEFAULT_CURRENCY_SYMBOL, totalFacade.getDefaultCurrencySymbol());
+            model.addAttribute(DEFAULT_CURRENCY_TOTAL, totalFacade.totalAssets(locale));
+        }
+        return "loaded/total-header";
     }
 
     @RequestMapping("/total/ammount")

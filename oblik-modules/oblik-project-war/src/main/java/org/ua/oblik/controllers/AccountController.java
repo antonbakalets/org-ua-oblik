@@ -102,7 +102,7 @@ public class AccountController {
     @RequestMapping("/account/options")
     @ResponseBody
     public List<AccountOption> list(
-            @RequestParam(value = "type", required = false) final AccountVOType type,
+            @RequestParam(value = "type", required = true) final AccountVOType type,
             @RequestParam(value = "currency", required = false) final Integer currency) {
         return accountFacade.getAccountOptions(type, currency);
     }
