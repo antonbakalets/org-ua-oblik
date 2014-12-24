@@ -24,6 +24,7 @@
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/bootstrap-datepicker.js"></script>
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/locales/bootstrap-datepicker.ua.js"></script>
+        <script type="text/javascript" src="${pageContext.request.contextPath}/js/bootstrap-confirmation.js"></script>
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/ineditable.js"></script>
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/calculable.js"></script>
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/main.js"></script>

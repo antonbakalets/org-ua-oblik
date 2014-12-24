@@ -80,4 +80,8 @@ class TransactionFacade extends AbstractHelper {
         }
         return result;
     }
+
+    public void delete(Integer transactionId) {
+        transactionService.delete(transactionId);
+    }
 }

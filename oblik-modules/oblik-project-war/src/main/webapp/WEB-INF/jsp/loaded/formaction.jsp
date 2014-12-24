@@ -6,6 +6,7 @@
 <%@ taglib prefix="fn"      uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <c:set var="disableType" value="${empty formActionBean.txId ? '' : 'disabled'}"/>
+<spring:message var="transactionDelete" code="jsp.oblik.transaction.delete.dialog"/>
 
 <div class="panel panel-default">
     <div id="transaction-panel" class="panel-body">
@@ -97,9 +98,11 @@
                     <span class="glyphicon glyphicon-remove"/> 
                 </a>
                 <c:if test="${!empty formActionBean.txId}">
-                    <a id="action-delete-${formActionBean.txId}" class="btn btn-link btn-xs pull-right"
-                       href="${pageContext.request.contextPath}/transaction/delete.html?transactionId=${formActionBean.txId}">
-                        <span class="glyphicon glyphicon-trash"/> 
+                    <a id="action-delete" class="btn btn-link btn-xs pull-right"
+                        href="${pageContext.request.contextPath}/transaction/delete.html?transactionId=${formActionBean.txId}"
+                        data-btnOkLabel=" " data-btnCancelLabel=" "
+                        data-title="${transactionDelete}">
+                        <span class="glyphicon glyphicon-trash"/>
                     </a>
                 </c:if>
             </div>

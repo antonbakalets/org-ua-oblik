@@ -1,34 +1,19 @@
 package org.ua.oblik.controllers;
 
-import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.format.number.NumberFormatter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.ua.oblik.controllers.beans.TransactionBean;
-import org.ua.oblik.service.AccountService;
-import org.ua.oblik.service.TransactionService;
-import org.ua.oblik.service.beans.TransactionVO;
+import org.springframework.web.bind.annotation.*;
 
 /**
  *
@@ -66,24 +51,12 @@ public class TransactionController {
         return "loaded/transactions";
     }
 
-    /*@RequestMapping(value = "/transaction/delete", method = RequestMethod.GET)
-    public String deleteTransaction(final Model model, final Locale locale,
-            @RequestParam(value = "transactionId", required = false) final Integer transactionId) {
+    @RequestMapping(value = "/transaction/delete", method = RequestMethod.GET)
+    public @ResponseBody String deleteTransaction(@RequestParam(value = "transactionId", required = false) final Integer transactionId) {
         LOG.debug("Delete transaction, id: " + transactionId + ".");
-        TransactionVO tvo = transactionService.getTransaction(transactionId);
-        TransactionBean transactionBean = convert(tvo, locale);
-        model.addAttribute(TRANSACTION_BEAN, TransactionFacade.getTransaction(transactionId, locale));
-        return "loaded/transaction";
+        transactionFacade.delete(transactionId);
+        return "deleted";
     }
-
-    @RequestMapping(value = "/transaction/delete", method = RequestMethod.POST)
-    public String deleteTransaction(final Model model,
-            @ModelAttribute(TRANSACTION_BEAN) @Valid final TransactionBean transactionBean,
-            final BindingResult bindingResult) {
-        LOG.debug("Removing transaction, id: " + transactionBean.getTransactionId() + ".");
-        transactionService.delete(transactionBean.getTransactionId());
-        return "loaded/transaction";
-    }*/
     
     @InitBinder
     public void setPropertyEditors(final WebDataBinder binder) {

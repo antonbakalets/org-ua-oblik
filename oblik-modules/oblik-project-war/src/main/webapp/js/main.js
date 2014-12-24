@@ -5,7 +5,7 @@ $.fn.datepicker.defaults.todayBtn = "linked";
 
 jQuery(function ($) {
     'use strict';
-    
+
     var App = {
         init: function (contextPath) {
             this.contextPath = contextPath;
@@ -33,6 +33,7 @@ jQuery(function ($) {
             });
         },
         initActionsForm: function () {
+
             $("#actions-type li").click(function () {
                 if (!$("#txId").val()) {
                     $(this).addClass('active');
@@ -62,6 +63,20 @@ jQuery(function ($) {
                 e.preventDefault();
                 App.loadActionsForm();
             });
+            $('#action-delete').confirmation({singleton:true,
+                onConfirm: function() {
+                    var deleteRef = $('#action-delete').attr('href');
+                    $("#default-total").load(deleteRef, function(response, status, xhr) {
+                        if (response === "deleted") {
+                            reactor.dispatchEvent('transactionDelete');
+                        }
+                    });
+                }
+            });
+            /*$('#action-delete').click(function (e) {
+                e.preventDefault();
+                App.loadActionsForm();
+            });*/
             $('#account-from').change(function () {
                 if (!$('#account-to :selected').val()) {
                     App.loadSecondAccountOptions($('#account-from :selected').attr('currency'));
@@ -247,6 +262,7 @@ jQuery(function ($) {
     reactor.registerEvent('accountSave');
     reactor.registerEvent('transactionEdit');
     reactor.registerEvent('transactionSave');
+    reactor.registerEvent('transactionDelete');
     reactor.registerEvent('transactionTypeChange');
     reactor.registerEvent('firstAccountOptionChange');
     reactor.registerEvent('secondAccountOptionChange');
@@ -257,6 +273,9 @@ jQuery(function ($) {
 
     reactor.addEventListener('currencySave', function () {
         App.loadTotal();
+        App.loadAccounts();
+        App.loadTransactions();
+        App.loadTotalByAccount();
     });
 
     reactor.addEventListener('accountEdit', function () {
@@ -278,6 +297,15 @@ jQuery(function ($) {
     });
 
     reactor.addEventListener('transactionSave', function () {
+        App.loadActionsForm();
+        App.loadTotal();
+        App.loadTransactions();
+        App.loadAccounts();
+        App.loadTotalByAccount();
+        App.loadTotalByCurrency();
+    });
+
+    reactor.addEventListener('transactionDelete', function () {
         App.loadActionsForm();
         App.loadTotal();
         App.loadTransactions();
