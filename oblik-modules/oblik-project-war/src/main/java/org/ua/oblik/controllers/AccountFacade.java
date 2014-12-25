@@ -11,10 +11,7 @@ import org.ua.oblik.controllers.beans.AccountOption;
 import org.ua.oblik.controllers.beans.CurrencyOption;
 import org.ua.oblik.service.AccountService;
 import org.ua.oblik.service.CurrencyService;
-import org.ua.oblik.service.beans.AccountCriteria;
-import org.ua.oblik.service.beans.AccountVO;
-import org.ua.oblik.service.beans.AccountVOType;
-import org.ua.oblik.service.beans.CurrencyVO;
+import org.ua.oblik.service.beans.*;
 
 /**
  *

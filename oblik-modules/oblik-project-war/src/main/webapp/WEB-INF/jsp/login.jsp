@@ -78,7 +78,33 @@
                                 <input id="login-submit" type="submit" value="<spring:message code="login.button.login"/>" class="btn btn-lg btn-success btn-block"/>
                                 <%-- TODO <a href="#"><spring:message code="login.forgot.password"/></a>--%>
                                 <%-- TODO <a href="#"><spring:message code="login.register"/></a>--%>
+
+                                    <input id="openid_identifier" name="openid_identifier" target="_top"
+                                           type="hidden"
+                                           value="https://www.google.com/accounts/o8/id"/>
+                                    <img src="../img/ico_calendar.gif" onClick="submitForm('googleOpenId')"/>
                             </form>
+                        </div>
+                    </div>
+                    <!-- Social Sign In Buttons -->
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row social-button-row">
+                                <div class="col-lg-4">
+                                    <!-- Add Facebook sign in button -->
+                                    <a href="${pageContext.request.contextPath}/auth/facebook"><button class="btn btn-facebook">
+                                        <span class="glyphicon glyphicon-tasks"/> | facebook
+                                    </button></a>
+                                </div>
+                            </div>
+                            <div class="row social-button-row">
+                                <div class="col-lg-4">
+                                    <!-- Add Twitter sign in Button -->
+                                    <a href="${pageContext.request.contextPath}/auth/twitter"><button class="btn btn-twitter">
+                                        <span class="glyphicon glyphicon-tasks"/> | twitter
+                                    </button></a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

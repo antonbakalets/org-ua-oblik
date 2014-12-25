@@ -55,6 +55,23 @@ public class CurrencyVO {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        CurrencyVO that = (CurrencyVO) o;
+
+        if (currencyId != null ? !currencyId.equals(that.currencyId) : that.currencyId != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return currencyId != null ? currencyId.hashCode() : 0;
+    }
+
+    @Override
     public String toString() {
         return "CurrencyVO{" + "currencyId=" + currencyId + ", rate=" + rate + ", symbol=" + symbol + '}';
     }

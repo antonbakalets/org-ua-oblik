@@ -20,7 +20,7 @@ class AccountFilter {
     List<AccountVO> filter(List<AccountVO> list) {
         List<AccountVO> result = new ArrayList<>();
         for (AccountVO elem : list) {
-            if (filterByType(elem) && filterBySymbol(elem)) {
+            if (filterByType(elem) && filterBySymbol(elem) && filterByExcludedAccount(elem)) {
                 result.add(elem);
             }
         }
@@ -34,5 +34,9 @@ class AccountFilter {
     private boolean filterBySymbol(AccountVO elem) {
         return criteria.getCurrencyId()== null ||
                 criteria.getCurrencyId().equals(elem.getCurrencyId());
+    }
+
+    private boolean filterByExcludedAccount(AccountVO elem) {
+        return criteria.getExcludeAccountId() == null || !criteria.getExcludeAccountId().equals(elem.getAccountId());
     }
 }

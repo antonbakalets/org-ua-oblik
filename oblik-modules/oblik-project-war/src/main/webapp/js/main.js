@@ -1,4 +1,3 @@
-
 $.fn.datepicker.defaults.format = "dd.mm.yyyy";
 $.fn.datepicker.defaults.weekStart = 1;
 $.fn.datepicker.defaults.todayBtn = "linked";
@@ -6,7 +5,7 @@ $.fn.datepicker.defaults.todayBtn = "linked";
 jQuery(function ($) {
     'use strict';
 
-    var App = {
+    var application = {
         init: function (contextPath) {
             this.contextPath = contextPath;
             this.actionType = '';
@@ -19,8 +18,8 @@ jQuery(function ($) {
             this.loadAccounts();
         },
         loadTotal: function () {
-            $("#default-total").load(this.contextPath + '/total/header.html', function() {
-                
+            $("#default-total").load(this.contextPath + '/total/header.html', function () {
+
             });
         },
         loadActionsForm: function (href) {
@@ -28,64 +27,58 @@ jQuery(function ($) {
                 href = this.contextPath + '/formaction.html';
             }
             $("#section-actions").load(href, function () {
-                this.actionType = $('#type').val().toUpperCase();
-                App.initActionsForm();
+                application.initActionsForm();
             });
         },
         initActionsForm: function () {
-
             $("#actions-type li").click(function () {
                 if (!$("#txId").val()) {
                     $(this).addClass('active');
                     $("#actions-type li").not(this).each(function () {
                         $(this).removeClass('active');
                     });
-                    App.setActionsType($("#actions-type li").index($(this)));
                 }
+                application.setActionsType($("#actions-type li").index($(this)));
+                application.loadFirstAccountOptions();
+                application.loadSecondAccountOptions();
             });
+            application.setActionsType($("#actions-type li").index($(this)));
+            application.loadFirstAccountOptions();
+            application.loadSecondAccountOptions();
             $("#form-actions .datepicker").datepicker();
             $("#form-actions .calculable").calculable();
             $('#action-button').click(function (e) {
                 e.preventDefault();
                 $('#form-actions').ajaxSubmit({
-                    success: function (data)
-                    {
+                    success: function (data) {
                         $('#section-actions').html(data);
                         if ($("#section-actions .alert").size() === 0) {
                             var txId = $("#section-actions #txId").val();
                             reactor.dispatchEvent('transactionSave', txId);
                         }
-                        App.initActionsForm();
+                        application.initActionsForm();
                     }
                 });
             });
             $('#action-cancel').click(function (e) {
                 e.preventDefault();
-                App.loadActionsForm();
+                application.loadActionsForm();
             });
-            $('#action-delete').confirmation({singleton:true,
-                onConfirm: function() {
+            $('#action-delete').confirmation({singleton: true,
+                onConfirm: function () {
                     var deleteRef = $('#action-delete').attr('href');
-                    $("#default-total").load(deleteRef, function(response, status, xhr) {
+                    $("#default-total").load(deleteRef, function (response, status, xhr) {
                         if (response === "deleted") {
                             reactor.dispatchEvent('transactionDelete');
                         }
                     });
                 }
             });
-            /*$('#action-delete').click(function (e) {
-                e.preventDefault();
-                App.loadActionsForm();
-            });*/
             $('#account-from').change(function () {
-                if (!$('#account-to :selected').val()) {
-                    App.loadSecondAccountOptions($('#account-from :selected').attr('currency'));
-                }
+                application.loadSecondAccountOptions();
             });
             $('#account-to').change(function () {
-                if (!$('#account-from :selected').val()) {
-                    App.loadFirstAccountOptions($('#account-to :selected').attr('currency'));
-                }
+                application.loadFirstAccountOptions();
             });
         },
         loadTotalByCurrency: function () {
@@ -118,14 +111,14 @@ jQuery(function ($) {
             }
             $("#tab-transactions").load(href, function () {
                 this.page = $('#transaction-curr').attr('href');
-                $('#transaction-prev').click(function(e) {
+                $('#transaction-prev').click(function (e) {
                     e.preventDefault();
-                    App.loadTransactions($(this).attr('href'));
+                    application.loadTransactions($(this).attr('href'));
                 });
-                $('#transaction-curr').text(App.localizeMonth($('#transaction-curr').text()));
-                $('#transaction-next').click(function(e) {
+                $('#transaction-curr').text(application.localizeMonth($('#transaction-curr').text()));
+                $('#transaction-next').click(function (e) {
                     e.preventDefault();
-                    App.loadTransactions($(this).attr('href'));
+                    application.loadTransactions($(this).attr('href'));
                 });
                 $('#tab-transactions a.transaction-edit').each(function () {
                     $(this).click(function (e) {
@@ -168,16 +161,10 @@ jQuery(function ($) {
                 this.actionType = "EXPENSE";
                 $('#second-ammount-div').hide('blind');
             }
-            $('#type').val(this.actionType);
-            App.loadFirstAccountOptions();
-            App.loadSecondAccountOptions();
         },
-        loadFirstAccountOptions: function (currency) {
+        loadFirstAccountOptions: function () {
             var accountType = this.actionType === "INCOME" ? "INCOME" : "ASSETS";
             var optionsUrl = this.contextPath + '/account/options.json?type=' + accountType;
-            if (this.actionType !== "TRANSFER" && currency) {
-                optionsUrl = optionsUrl + "&currency=" + currency;
-            }
             $.getJSON(optionsUrl, function (data) {
                 $('#account-from option').not('#account-from :first').remove();
                 for (var i in data) {
@@ -191,12 +178,13 @@ jQuery(function ($) {
                 }
             });
         },
-        loadSecondAccountOptions: function (currency) {
+        loadSecondAccountOptions: function () {
             var accountType = this.actionType === "EXPENSE" ? "EXPENSE" : "ASSETS";
             var optionsUrl = this.contextPath + '/account/options.json?type=' + accountType;
-            if (this.actionType !== "TRANSFER" && currency) {
+            /*var currency = $('#account-from :selected').attr('currency');
+            if (currency) {
                 optionsUrl = optionsUrl + "&currency=" + currency;
-            }
+            }*/
             $.getJSON(optionsUrl, function (data) {
                 $('#account-to option').not('#account-to :first').remove();
                 for (var i in data) {
@@ -216,14 +204,14 @@ jQuery(function ($) {
         }
     };
 
-    App.init($('#contextPath').text());
-
+    application.init($('#contextPath').text());
 
 
     function Event(name) {
         this.name = name;
         this.callbacks = [];
     }
+
     Event.prototype.registerCallback = function (callback) {
         this.callbacks.push(callback);
     };
@@ -268,57 +256,57 @@ jQuery(function ($) {
     reactor.registerEvent('secondAccountOptionChange');
 
     reactor.addEventListener('currencyEdit', function () {
-        App.loadActionsForm();
+        application.loadActionsForm();
     });
 
     reactor.addEventListener('currencySave', function () {
-        App.loadTotal();
-        App.loadAccounts();
-        App.loadTransactions();
-        App.loadTotalByAccount();
+        application.loadTotal();
+        application.loadAccounts();
+        application.loadTransactions();
+        application.loadTotalByAccount();
     });
 
     reactor.addEventListener('accountEdit', function () {
-        App.loadActionsForm();
+        application.loadActionsForm();
     });
 
     reactor.addEventListener('accountSave', function () {
-        App.loadTotal();
-        App.loadAccounts();
-        App.loadTransactions();
-        App.loadTotalByAccount();
-        App.loadFirstAccountOptions();
-        App.loadSecondAccountOptions();
+        application.loadTotal();
+        application.loadAccounts();
+        application.loadTransactions();
+        application.loadTotalByAccount();
+        application.loadFirstAccountOptions();
+        application.loadSecondAccountOptions();
     });
 
     reactor.addEventListener('transactionEdit', function (href) {
         $(".ineditable").ineditable("closeInEditing");
-        App.loadActionsForm(href);
+        application.loadActionsForm(href);
     });
 
     reactor.addEventListener('transactionSave', function () {
-        App.loadActionsForm();
-        App.loadTotal();
-        App.loadTransactions();
-        App.loadAccounts();
-        App.loadTotalByAccount();
-        App.loadTotalByCurrency();
+        application.loadActionsForm();
+        application.loadTotal();
+        application.loadTransactions();
+        application.loadAccounts();
+        application.loadTotalByAccount();
+        application.loadTotalByCurrency();
     });
 
     reactor.addEventListener('transactionDelete', function () {
-        App.loadActionsForm();
-        App.loadTotal();
-        App.loadTransactions();
-        App.loadAccounts();
-        App.loadTotalByAccount();
-        App.loadTotalByCurrency();
+        application.loadActionsForm();
+        application.loadTotal();
+        application.loadTransactions();
+        application.loadAccounts();
+        application.loadTotalByAccount();
+        application.loadTotalByCurrency();
     });
 
     reactor.addEventListener('firstAccountOptionChange', function () {
-        App.loadSecondAccountOptions();
+        application.loadSecondAccountOptions();
     });
 
     reactor.addEventListener('secondAccountOptionChange', function () {
-        App.loadFirstAccountOptions();
+        application.loadFirstAccountOptions();
     });
 });
