@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <%@ taglib prefix="c"       uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring"  uri="http://www.springframework.org/tags" %>
 
@@ -7,13 +8,9 @@
 <c:set var="locale" value="${pageContext.response.locale}"/>
 <html lang="${locale.language}" xmlns="http://www.w3.org/1999/xhtml">
     <head> 
-        <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/bootstrap.css" />
-
-        <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-2.1.1.js"></script>
-        <script type="text/javascript" src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
 
         <link rel="shortcut icon" href="${pageContext.request.contextPath}/img/favicon.ico" />
 
@@ -78,33 +75,7 @@
                                 <input id="login-submit" type="submit" value="<spring:message code="login.button.login"/>" class="btn btn-lg btn-success btn-block"/>
                                 <%-- TODO <a href="#"><spring:message code="login.forgot.password"/></a>--%>
                                 <%-- TODO <a href="#"><spring:message code="login.register"/></a>--%>
-
-                                    <input id="openid_identifier" name="openid_identifier" target="_top"
-                                           type="hidden"
-                                           value="https://www.google.com/accounts/o8/id"/>
-                                    <img src="../img/ico_calendar.gif" onClick="submitForm('googleOpenId')"/>
                             </form>
-                        </div>
-                    </div>
-                    <!-- Social Sign In Buttons -->
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <div class="row social-button-row">
-                                <div class="col-lg-4">
-                                    <!-- Add Facebook sign in button -->
-                                    <a href="${pageContext.request.contextPath}/auth/facebook"><button class="btn btn-facebook">
-                                        <span class="glyphicon glyphicon-tasks"/> | facebook
-                                    </button></a>
-                                </div>
-                            </div>
-                            <div class="row social-button-row">
-                                <div class="col-lg-4">
-                                    <!-- Add Twitter sign in Button -->
-                                    <a href="${pageContext.request.contextPath}/auth/twitter"><button class="btn btn-twitter">
-                                        <span class="glyphicon glyphicon-tasks"/> | twitter
-                                    </button></a>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>

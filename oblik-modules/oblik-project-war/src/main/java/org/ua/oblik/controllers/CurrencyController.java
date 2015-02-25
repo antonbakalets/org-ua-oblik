@@ -49,7 +49,9 @@ public class CurrencyController {
         LOGGER.debug("Showing currency list.");
         List<CurrencyListBean> beanList = currencyHelper.getCurrencies(locale);
         model.addAttribute(CURRENCY_LIST, beanList);
-        model.addAttribute(DEFAULT_CURRENCY_SYMBOL, currencyHelper.getDefaultCurrencySymbol());
+        if (!beanList.isEmpty()) {
+            model.addAttribute(DEFAULT_CURRENCY_SYMBOL, currencyHelper.getDefaultCurrencySymbol());
+        }
         return "loaded/currencies";
     }
 

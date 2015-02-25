@@ -1,12 +1,12 @@
-DROP TABLE IF EXISTS User_Login;
-DROP TABLE IF EXISTS Txaction;
-DROP TABLE IF EXISTS Account;
-DROP TABLE IF EXISTS Currency;
+DROP TABLE IF EXISTS user_login;
+DROP TABLE IF EXISTS txaction;
+DROP TABLE IF EXISTS account;
+DROP TABLE IF EXISTS currency;
 
 -- -----------------------------------------------------
 -- Table User_Login
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS User_Login (
+CREATE TABLE IF NOT EXISTS user_login (
     login_id            INT UNSIGNED NOT NULL AUTO_INCREMENT,
     username            VARCHAR(100) NOT NULL,
     password            VARCHAR(100) NOT NULL,
@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS User_Login (
 -- -----------------------------------------------------
 -- Table Currency
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS Currency (
+CREATE TABLE IF NOT EXISTS currency (
     curr_id         INT UNSIGNED NOT NULL AUTO_INCREMENT,
     symbol          VARCHAR(10) NOT NULL ,
     by_default      BOOL NOT NULL DEFAULT FALSE,
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS Currency (
 -- -----------------------------------------------------
 -- Table Account
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS Account (
+CREATE TABLE IF NOT EXISTS account (
     acco_id         INT UNSIGNED NOT NULL AUTO_INCREMENT,
     short_name      VARCHAR(100) NOT NULL,
     kind            VARCHAR(7) NOT NULL,
@@ -38,16 +38,16 @@ CREATE TABLE IF NOT EXISTS Account (
     currency        INT UNSIGNED NOT NULL,
     PRIMARY KEY (acco_id),
     CONSTRAINT fk_acco_curr
-        FOREIGN KEY (currency) REFERENCES Currency (curr_id)
+        FOREIGN KEY (currency) REFERENCES currency (curr_id)
         ON DELETE NO ACTION ON UPDATE NO ACTION
 );
 
-CREATE INDEX in_acco_curr ON Account(currency ASC);
+CREATE INDEX in_acco_curr ON account(currency ASC);
 
 -- -----------------------------------------------------
 -- Table Txaction
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS Txaction (
+CREATE TABLE IF NOT EXISTS txaction (
     txac_id         INT UNSIGNED NOT NULL AUTO_INCREMENT,
     tx_date         DATE NOT NULL,
     debet           INT UNSIGNED NULL,
@@ -57,12 +57,12 @@ CREATE TABLE IF NOT EXISTS Txaction (
     tx_comment      VARCHAR(250) NULL,
     PRIMARY KEY (txac_id),
     CONSTRAINT fk_tx_debet
-        FOREIGN KEY (debet) REFERENCES Account (acco_id)
+        FOREIGN KEY (debet) REFERENCES account (acco_id)
         ON DELETE NO ACTION ON UPDATE NO ACTION,
     CONSTRAINT fk_tx_credit
-        FOREIGN KEY (credit) REFERENCES Account (acco_id)
+        FOREIGN KEY (credit) REFERENCES account (acco_id)
         ON DELETE NO ACTION ON UPDATE NO ACTION
 );
 
-CREATE INDEX in_tx_debet ON Txaction(debet ASC);
-CREATE INDEX in_tx_credit ON Txaction(credit ASC);
+CREATE INDEX in_tx_debet ON txaction(debet ASC);
+CREATE INDEX in_tx_credit ON txaction(credit ASC);
