@@ -6,7 +6,7 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <name>Oblik - Source projects</name>
-        
+
     <profiles>
         <profile>
             <id>default</id>
@@ -24,11 +24,11 @@
             </modules>
         </profile>
     </profiles>
-    
+
     <dependencyManagement>
         <dependencies>
             <!-- Module dependencies -->
-            
+
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>oblik-dao-api</artifactId>
@@ -56,7 +56,7 @@
                 <version>${project.version}</version>
                 <scope>runtime</scope>
             </dependency>
-            
+
             <!-- Common dependencies -->
             <dependency>
                 <groupId>antlr</groupId>
@@ -73,10 +73,16 @@
                 <artifactId>gson</artifactId>
                 <version>${google.gson.version}</version>
             </dependency>
-            <dependency><!-- Hibernate compile scope dependency. --> 
+            <dependency><!-- Hibernate compile scope dependency. -->
                 <groupId>dom4j</groupId>
                 <artifactId>dom4j</artifactId>
                 <version>${dom4j.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>xml-apis</groupId>
+                        <artifactId>xml-apis</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>commons-beanutils</groupId>
@@ -92,11 +98,6 @@
                 <groupId>commons-dbcp</groupId>
                 <artifactId>commons-dbcp</artifactId>
                 <version>${commons.dbcp.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>displaytag</groupId>
-                <artifactId>displaytag</artifactId>
-                <version>${displaytag.version}</version>
             </dependency>
             <dependency>
                 <groupId>javassist</groupId>
@@ -167,7 +168,7 @@
                 <artifactId>jackson-mapper-asl</artifactId>
                 <version>${jackson.core.asl.version}</version>
             </dependency>
-            <dependency><!-- Hibernate compile scope dependency. --> 
+            <dependency><!-- Hibernate compile scope dependency. -->
                 <groupId>org.jboss.logging</groupId>
                 <artifactId>jboss-logging</artifactId>
                 <version>${jboss-logging.version}</version>
@@ -179,7 +180,7 @@
                     </exclusion>
                 </exclusions>
             </dependency>
-            <dependency><!-- Hibernate compile scope dependency. --> 
+            <dependency><!-- Hibernate compile scope dependency. -->
                 <groupId>org.hibernate.common</groupId>
                 <artifactId>hibernate-commons-annotations</artifactId>
                 <version>${hibernate.annotations.version}</version>
@@ -226,7 +227,7 @@
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-log4j12</artifactId>
-                <version>${slf4j.log4j.version}</version>
+                <version>${slf4j.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
@@ -284,7 +285,7 @@
                 <artifactId>spring-webmvc</artifactId>
                 <version>${springframework.version}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-config</artifactId>
@@ -305,7 +306,7 @@
                 <artifactId>spring-security-web</artifactId>
                 <version>${springframework.security.version}</version>
             </dependency>
-            
+
             <!-- Test dependencies -->
             <dependency>
                 <groupId>com.h2database</groupId>
@@ -331,6 +332,19 @@
                 <artifactId>testng</artifactId>
                 <scope>test</scope>
             </dependency>
+            <dependency>
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-java</artifactId>
+                <version>2.45.0</version>
+                <scope>test</scope>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>selenium-htmlunit-driver</artifactId>
+                        <groupId>org.seleniumhq.selenium</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
@@ -364,7 +378,7 @@
                 </plugin>
             </plugins>
         </pluginManagement>
-        
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -423,7 +437,7 @@
             </plugin>
         </plugins>
     </build>
-    
+
     <properties>
         <antlr.version>2.7.7</antlr.version>
         <cglib.version>2.2.2</cglib.version>
@@ -431,10 +445,9 @@
         <commons.beanutils.version>1.8.3</commons.beanutils.version>
         <commons.collections.version>3.2.1</commons.collections.version>
         <commons.dbcp.version>1.4</commons.dbcp.version>
-        <displaytag.version>1.2</displaytag.version>
         <dom4j.version>1.6.1</dom4j.version>
-        <google.gson.version>2.1</google.gson.version>    
-            
+        <google.gson.version>2.1</google.gson.version>
+
         <!-- Hibernate / JPA -->
         <hibernate.version>4.2.1.Final</hibernate.version>
         <hibernate.annotations.version>4.0.1.Final</hibernate.annotations.version>
@@ -443,7 +456,7 @@
 
         <!-- Bean validation -->
         <hibernate-validator.version>4.3.1.Final</hibernate-validator.version>
-        
+
         <jackson.core.asl.version>1.9.3</jackson.core.asl.version>
         <javaee-api.version>6.0</javaee-api.version>
         <javassist.version>3.12.1.GA</javassist.version>
@@ -457,10 +470,9 @@
         <mysql.version>5.1.15</mysql.version>
         <springframework.version>3.2.4.RELEASE</springframework.version>
         <springframework.security.version>3.1.4.RELEASE</springframework.security.version>
-        <slf4j.version>1.7.7</slf4j.version>
-        <slf4j.log4j.version>1.7.7</slf4j.log4j.version>
+        <slf4j.version>1.7.10</slf4j.version>
         <testng.version>6.3.1</testng.version>
-        
+
         <plugin.antrun.version>1.7</plugin.antrun.version>
         <plugin.compiler.version>3.1</plugin.compiler.version>
         <plugin.failsafe.version>2.16</plugin.failsafe.version>
@@ -470,7 +482,7 @@
         <plugin.surefire.version>2.16</plugin.surefire.version>
         <plugin.sonar.version>2.1</plugin.sonar.version>
         <plugin.sql.version>1.5</plugin.sql.version>
-        
+
         <!-- select JaCoCo as a coverage tool -->
         <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
         <!-- force sonar to reuse reports generated during build cycle -->
@@ -479,7 +491,7 @@
         <sonar.jacoco.reportPath>${project.basedir}/target/jacoco-unit.exec</sonar.jacoco.reportPath>
         <!-- all modules have to use the same integration tests report file -->
         <sonar.jacoco.itReportPath>${project.basedir}/../target/jacoco-it.exec</sonar.jacoco.itReportPath>
-        
+
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <netbeans.hint.deploy.server>Tomcat</netbeans.hint.deploy.server>
     </properties>

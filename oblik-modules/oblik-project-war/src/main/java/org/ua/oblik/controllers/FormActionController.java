@@ -82,8 +82,8 @@ public class FormActionController {
     public String submitExpense(final Model model,
             @ModelAttribute("formActionBean") @Valid final FormActionBean bean,
             final BindingResult bindingResult) {
-        LOGGER.debug("Saving action: " + bean.getType());
         actionValidator.validate(bean, bindingResult);
+        LOGGER.debug("Saving action: " + bean.getType());
         if (bindingResult.hasErrors()) {
             ValidationErrorLoger.debug(bindingResult);
         } else {
