@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="UITest" verbose="1">
+    <parameter name="driverClassName" value="org.openqa.selenium.firefox.FirefoxDriver"/>
+    <parameter name="base.url" value="http://localhost:8080"/>
+
+
+	<test name="Login and registration UI test" enabled="false">
+		<classes>
+			<class name="org.ua.oblik.uitest.LoginUITestNg" />
+		</classes>
+	</test>
+
+    <test name="Transactions UI test" enabled="true">
+        <parameter name="username" value="paco"/>
+        <parameter name="password" value="hola"/>
+        <classes>
+            <class name="org.ua.oblik.uitest.CurrencyUITestNg"/>
+        </classes>
+    </test>
+</suite>

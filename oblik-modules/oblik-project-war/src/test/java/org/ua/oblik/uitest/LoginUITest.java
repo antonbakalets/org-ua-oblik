@@ -1,13 +1,13 @@
 package org.ua.oblik.uitest;
 
+import java.util.concurrent.TimeUnit;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -25,7 +25,7 @@ public class LoginUITest {
     
     @Test
     public void loginFailTest() {
-        driver.get("http://localhost:25519/login.html");
+        driver.get("http://localhost:8080/login.html");
         WebElement username = driver.findElement(By.id("username"));
         username.sendKeys("paco");
 
