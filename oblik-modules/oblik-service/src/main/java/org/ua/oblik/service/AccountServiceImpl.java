@@ -140,8 +140,8 @@ public class AccountServiceImpl implements AccountService {
         return accountDao.isNameExists(name);
     }
 
-    private boolean hasTransactions(Integer accountId) {
-        return accountId != null && accountDao.isUsed(accountId);
+    private boolean isNoTransactions(Integer accountId) {
+        return accountId != null && !accountDao.isUsed(accountId);
     }
 
     private AccountVO convert(Account model) {
@@ -152,7 +152,7 @@ public class AccountServiceImpl implements AccountService {
         result.setName(model.getShortName());
         result.setAmmount(model.getTotal());
         result.setType(AccountTypeConverter.convert(model.getKind()));
-        result.setRemovable(hasTransactions(model.getId()));
+        result.setRemovable(isNoTransactions(model.getId()));
         return result;
     }
 

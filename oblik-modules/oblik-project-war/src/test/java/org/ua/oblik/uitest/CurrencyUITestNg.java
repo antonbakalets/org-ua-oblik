@@ -1,5 +1,6 @@
 package org.ua.oblik.uitest;
 
+import java.util.List;
 import java.util.Random;
 
 import org.openqa.selenium.By;
@@ -7,7 +8,6 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.BeforeClass;
@@ -22,6 +22,7 @@ import junit.framework.Assert;
 public class CurrencyUITestNg extends AbstractUITestNg {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CurrencyUITestNg.class);
+    private WebElement section;
 
     @BeforeClass
     @Parameters({ "username", "password" })
@@ -31,16 +32,11 @@ public class CurrencyUITestNg extends AbstractUITestNg {
         fillLoginPage(username, password, false);
         driver.get(baseUrl + "/main.html");
         Assert.assertEquals("Page url.", baseUrl + "/main.html", driver.getCurrentUrl());
+        section = driver.findElement(By.id("total-by-currency"));
     }
 
     @Test
-    public void addDefaultCurrency() {
-
-    }
-
-    @Test
-    public void testCurrency() throws InterruptedException {
-        WebElement section = driver.findElement(By.id("total-by-currency"));
+    public void testAddCurrency() {
         int beforeLi = section.findElements(By.tagName("li")).size();
         addCurrency(getSymbol(), "02");
         Assert.assertEquals("There should be one more currency in the list.", beforeLi + 1, section.findElements(By.tagName("li")).size());
@@ -48,21 +44,92 @@ public class CurrencyUITestNg extends AbstractUITestNg {
         Assert.assertEquals("There should be one more currency in the list.", beforeLi + 2, section.findElements(By.tagName("li")).size());
     }
 
+    @Test
+    public void testTryToAddCurrency() {
+        WebElement liCurrencyAdd = driver.findElement(By.id("li-currency-add"));
+        int beforeLi = section.findElements(By.tagName("li")).size();
+        liCurrencyAdd.findElement(By.id("add-currency-btn")).click();
+        driverWait.until(elementFinishedResizing(liCurrencyAdd));
+        liCurrencyAdd.findElement(By.id("symbol")).sendKeys("долар США");
+        liCurrencyAdd.findElement(By.id("rate")).sendKeys("34");
+        liCurrencyAdd.findElement(By.className("glyphicon-remove")).click();
+        driverWait.until(elementFinishedResizing(liCurrencyAdd));
+        Assert.assertEquals("List shouldn't change.", beforeLi, section.findElements(By.tagName("li")).size());
+    }
+
+    @Test
+    public void testTryToAddExistingCurrency() {
+        WebElement liCurrencyAdd = driver.findElement(By.id("li-currency-add"));
+        int beforeLi = section.findElements(By.tagName("li")).size();
+        liCurrencyAdd.findElement(By.id("add-currency-btn")).click();
+        driverWait.until(elementFinishedResizing(liCurrencyAdd));
+        liCurrencyAdd.findElement(By.id("symbol")).sendKeys("долар США");
+        liCurrencyAdd.findElement(By.id("rate")).sendKeys("34");
+        liCurrencyAdd.findElement(By.className("glyphicon-ok")).click();
+        driverWait.until(waitMillis(500));
+
+        liCurrencyAdd = driver.findElement(By.id("li-currency-add"));
+        liCurrencyAdd.findElement(By.id("add-currency-btn")).click();
+        driverWait.until(elementFinishedResizing(liCurrencyAdd));
+        liCurrencyAdd.findElement(By.id("symbol")).sendKeys("долар США");
+        liCurrencyAdd.findElement(By.id("rate")).sendKeys("34");
+        liCurrencyAdd.findElement(By.className("glyphicon-ok")).click();
+        Assert.assertTrue(driver.findElement(By.id("symbol.errors")).isDisplayed());
+        liCurrencyAdd.findElement(By.className("glyphicon-remove")).click();
+
+        Assert.assertEquals("There should be only one more currency in the list.", beforeLi + 1, section.findElements(By.tagName("li")).size());
+        // TODO delete
+    }
+
+    @Test
+    public void testAddWrongCurrency() {
+        WebElement liCurrencyAdd = driver.findElement(By.id("li-currency-add"));
+        liCurrencyAdd.findElement(By.id("add-currency-btn")).click();
+        driverWait.until(elementFinishedResizing(liCurrencyAdd));
+        liCurrencyAdd.findElement(By.id("symbol")).sendKeys("morethan10s");
+        liCurrencyAdd.findElement(By.className("glyphicon-ok")).click();
+        Assert.assertTrue(driver.findElement(By.id("symbol.errors")).isDisplayed());
+        Assert.assertTrue(driver.findElement(By.id("rate.errors")).isDisplayed());
+
+        liCurrencyAdd.findElement(By.id("rate")).sendKeys("rate");
+        liCurrencyAdd.findElement(By.className("glyphicon-ok")).click();
+        Assert.assertTrue(driver.findElement(By.id("rate.errors")).isDisplayed());
+
+        liCurrencyAdd.findElement(By.className("glyphicon-remove")).click();
+        driverWait.until(elementFinishedResizing(liCurrencyAdd));
+    }
+
+    @Test
+    public void testDeleteAllCurrencies() {
+        List<WebElement> currencyLis = section.findElements(By.tagName("li"));
+        for (int i = 1; i < currencyLis.size() - 1; i++) {
+            WebElement li = currencyLis.get(i);
+            li.findElement(By.tagName("a")).click();
+            driverWait.until(elementFinishedResizing(li));
+            WebElement trashBtn = li.findElement(By.className("glyphicon-trash"));
+            Assert.assertTrue(trashBtn.isDisplayed());
+        }
+    }
+
+    @Test(dependsOnMethods = "testDeleteAllCurrencies")
+    public void addDefaultCurrency() {
+
+    }
+
     private String getSymbol() {
-        String s = "a" + (new Random().nextInt() - 1000000);
+        String s = "a" + new Random().nextInt();
         return s.substring(0, 9);
     }
 
     private void addCurrency(CharSequence symbol, CharSequence rate) {
         LOGGER.debug("Adding new currency {} with rate {}.", symbol, rate);
-        WebElement liCurrecyAdd = driver.findElement(By.id("li-currency-add"));
-        liCurrecyAdd.findElement(By.id("add-currency-btn")).click();
-        WebDriverWait wait = new WebDriverWait(driver, 10);
-        wait.until(elementFinishedResizing(liCurrecyAdd));
-        liCurrecyAdd.findElement(By.id("symbol")).sendKeys(symbol);
-        liCurrecyAdd.findElement(By.id("rate")).sendKeys(rate);
-        liCurrecyAdd.findElement(By.className("glyphicon-ok")).click();
-        wait.until(waitMillis(500));
+        WebElement liCurrencyAdd = driver.findElement(By.id("li-currency-add"));
+        liCurrencyAdd.findElement(By.id("add-currency-btn")).click();
+        driverWait.until(elementFinishedResizing(liCurrencyAdd));
+        liCurrencyAdd.findElement(By.id("symbol")).sendKeys(symbol);
+        liCurrencyAdd.findElement(By.id("rate")).sendKeys(rate);
+        liCurrencyAdd.findElement(By.className("glyphicon-ok")).click();
+        driverWait.until(waitMillis(500));
         LOGGER.debug("Finished adding currency {}.", symbol);
     }
 
@@ -82,6 +149,10 @@ public class CurrencyUITestNg extends AbstractUITestNg {
         };
     }
 
+    @Deprecated
+    /**
+     * @deprecated it's a bad idea
+     */
     public static ExpectedCondition<Boolean> waitMillis(final Integer millis) {
         return new ExpectedCondition<Boolean>() {
             @Override

@@ -4,10 +4,12 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import org.ua.oblik.domain.model.AccountEntity;
 import org.ua.oblik.domain.model.Currency;
 import org.ua.oblik.domain.model.CurrencyEntity;
 
@@ -62,5 +64,15 @@ public class CurrencyDaoImpl extends AbstractDao<Integer, Currency, CurrencyEnti
             map.put((Integer) obs[0], (BigDecimal) obs[1]);
         }
         return map;
+    }
+
+    @Override
+    public boolean isUsed(Integer currencyId) {
+        final CriteriaBuilder cbuilder = getEntityManager().getCriteriaBuilder();
+        final CriteriaQuery<Long> cquery = cbuilder.createQuery(Long.class);
+        final Root<AccountEntity> root = cquery.from(AccountEntity.class);
+        cquery.select(cbuilder.count(root)).where(
+                cbuilder.equal(root.<Integer>get("currency"), currencyId));
+        return getEntityManager().createQuery(cquery).getSingleResult() > 0;
     }
 }

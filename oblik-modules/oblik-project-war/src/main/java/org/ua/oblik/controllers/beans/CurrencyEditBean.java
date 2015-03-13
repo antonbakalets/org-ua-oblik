@@ -28,6 +28,8 @@ public class CurrencyEditBean {
 
     private Boolean defaultRate;
 
+    private Boolean removable;
+
     public Integer getCurrencyId() {
         return currencyId;
     }
@@ -66,5 +68,13 @@ public class CurrencyEditBean {
 
     public void setOldSymbol(String oldSymbol) {
         this.oldSymbol = oldSymbol;
+    }
+
+    public Boolean getRemovable() {
+        return removable;
+    }
+
+    public void setRemovable(Boolean removable) {
+        this.removable = removable;
     }
 }

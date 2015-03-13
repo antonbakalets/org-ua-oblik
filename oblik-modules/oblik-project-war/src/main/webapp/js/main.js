@@ -264,6 +264,7 @@ jQuery(function ($) {
         application.loadAccounts();
         application.loadTransactions();
         application.loadTotalByAccount();
+        application.loadTotalByCurrency();
     });
 
     reactor.addEventListener('accountEdit', function () {

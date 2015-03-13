@@ -101,6 +101,7 @@ public class CurrencyServiceImpl implements CurrencyService {
         } else {
             result.setDefaultRate(Boolean.FALSE);
         }
+        result.setDefaultRate(Boolean.FALSE);
         return result;
     }
 
@@ -109,16 +110,21 @@ public class CurrencyServiceImpl implements CurrencyService {
         return currencyDao.isDefaultExists();
     }
 
-    private static CurrencyVO convert(Currency model) {
+    private CurrencyVO convert(Currency model) {
         CurrencyVO result = new CurrencyVO();
         result.setCurrencyId(model.getId());
         result.setRate(model.getRate());
         result.setSymbol(model.getSymbol());
         result.setDefaultRate(model.getByDefault());
+        result.setRemovable(noAccounts(model.getId()));
         return result;
     }
 
-    private static CurrencyVO convert(Currency model, BigDecimal total) {
+    private boolean noAccounts(Integer currencyId) {
+        return currencyId != null && !currencyDao.isUsed(currencyId);
+    }
+
+    private CurrencyVO convert(Currency model, BigDecimal total) {
         CurrencyVO result = convert(model);
         result.setTotal(total);
         return result;

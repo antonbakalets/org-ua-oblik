@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Parameters;
@@ -17,6 +18,7 @@ public class AbstractUITestNg {
 
     protected WebDriver driver;
     protected String baseUrl;
+    protected WebDriverWait driverWait;
 
     @BeforeTest
     @Parameters({ "driverClassName", "base.url" })
@@ -26,6 +28,7 @@ public class AbstractUITestNg {
         driver = ctor.newInstance();
         this.baseUrl = baseUrl;
         driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+        driverWait = new WebDriverWait(driver, 10);
     }
 
     @AfterTest

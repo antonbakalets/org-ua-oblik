@@ -30,4 +30,12 @@
             </c:otherwise>
         </c:choose>
     </div>
+
+    <c:if test="${currencyBean.removable}">
+        <div class="form-group">
+            <button type='button' class='btn btn-link btn-sm'>
+                <span class='glyphicon glyphicon-trash'></span>
+            </button>
+        </div>
+    </c:if>
 </form:form>

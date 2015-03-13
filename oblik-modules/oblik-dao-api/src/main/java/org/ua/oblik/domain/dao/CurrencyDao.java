@@ -18,5 +18,6 @@ public interface CurrencyDao extends DaoFacade<Integer, Currency> {
     boolean isDefaultExists();
     
     Map<Integer, BigDecimal> assetsByCurrencyId();
-    
+
+    boolean isUsed(Integer currencyId);
 }

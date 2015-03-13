@@ -75,6 +75,7 @@ class CurrencyFacade extends AbstractHelper {
         result.setRate(cvo.getRate());
         result.setSymbol(cvo.getSymbol());
         result.setDefaultRate(cvo.getDefaultRate());
+        result.setRemovable(cvo.getRemovable());
         return result;
     }
 }

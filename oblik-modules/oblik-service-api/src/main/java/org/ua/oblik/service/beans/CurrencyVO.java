@@ -11,8 +11,9 @@ public class CurrencyVO {
     private Integer currencyId;
     private BigDecimal rate;
     private String symbol;
-    private Boolean defaultRate;
+    private boolean defaultRate;
     private BigDecimal total;
+    private boolean removable;
 
     public Integer getCurrencyId() {
         return currencyId;
@@ -38,11 +39,11 @@ public class CurrencyVO {
         this.symbol = symbol;
     }
 
-    public Boolean getDefaultRate() {
+    public boolean getDefaultRate() {
         return defaultRate;
     }
 
-    public void setDefaultRate(Boolean defaultRate) {
+    public void setDefaultRate(boolean defaultRate) {
         this.defaultRate = defaultRate;
     }
 
@@ -52,6 +53,14 @@ public class CurrencyVO {
 
     public void setTotal(BigDecimal total) {
         this.total = total;
+    }
+
+    public boolean getRemovable() {
+        return removable;
+    }
+
+    public void setRemovable(boolean removable) {
+        this.removable = removable;
     }
 
     @Override
