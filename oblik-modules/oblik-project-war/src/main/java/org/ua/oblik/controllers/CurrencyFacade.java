@@ -42,6 +42,10 @@ class CurrencyFacade extends AbstractHelper {
         currencyService.save(cvo);
     }
 
+    public void remove(Integer currencyId) {
+        currencyService.remove(currencyId);
+    }
+
     private List<CurrencyListBean> convert(List<CurrencyVO> list, Locale locale) {
         List<CurrencyListBean> result = new ArrayList<>();
         for (CurrencyVO vo : list) {

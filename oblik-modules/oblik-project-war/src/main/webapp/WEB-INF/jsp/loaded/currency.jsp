@@ -10,6 +10,7 @@
     <form:hidden path="currencyId"/>
     <form:hidden path="defaultRate"/>
     <form:hidden path="oldSymbol"/>
+    <form:hidden path="removable"/>
 
     <div class="form-group">
         <label class="sr-only"><spring:message var="labelSymbol" code="jsp.oblik.currency.symbol"/></label>
@@ -30,12 +31,4 @@
             </c:otherwise>
         </c:choose>
     </div>
-
-    <c:if test="${currencyBean.removable}">
-        <div class="form-group">
-            <button type='button' class='btn btn-link btn-sm'>
-                <span class='glyphicon glyphicon-trash'></span>
-            </button>
-        </div>
-    </c:if>
 </form:form>

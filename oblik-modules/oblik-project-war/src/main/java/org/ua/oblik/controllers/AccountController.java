@@ -82,21 +82,18 @@ public class AccountController {
         return "loaded/account";
     }
 
-    /*@RequestMapping(value = "/account/delete", method = RequestMethod.GET)
-    public String deleteTransaction(final Model model,
-            @RequestParam(value = "accountId", required = false) final Integer accountId) {
-        LOG.debug("Delete account, id: " + accountId + ".");
-        AccountBean accountBean = accountFacade.getAccount(accountId);
-        model.addAttribute(ACCOUNT_BEAN, accountBean);
-        return "loaded/deleteAccount";
-    }*/
-
-    @RequestMapping(value = "/account/delete", method = RequestMethod.POST)
-    public String deleteTransaction(@ModelAttribute(ACCOUNT_BEAN) @Valid final AccountBean accountBean,
-            final BindingResult bindingResult) {
-        LOG.debug("Removes account, id: " + accountBean.getAccountId() + ".");
-        accountFacade.delete(accountBean.getAccountId());
-        return "loaded/deleteAccount";
+    @RequestMapping(value = "/account/edit", method = RequestMethod.DELETE)
+    @ResponseBody
+    public Boolean removeAccount(final Model model,
+                                @RequestParam(value = "accountId", required = false) final Integer accountId) {
+        LOG.debug("Removing account, id: " + accountId + ".");
+        Boolean success = true;
+        try {
+            accountFacade.delete(accountId);
+        } catch (Exception e) {
+            success = false;
+        }
+        return success;
     }
 
     @RequestMapping("/account/options")

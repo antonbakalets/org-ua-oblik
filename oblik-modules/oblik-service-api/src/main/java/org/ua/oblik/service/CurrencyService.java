@@ -22,4 +22,6 @@ public interface CurrencyService {
     boolean isDefaultExists();
     
     boolean isSymbolExists(String symbol);
+
+    void remove(Integer currencyId);
 }

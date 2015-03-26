@@ -28,7 +28,7 @@
         </dependency>
     </dependencies>
     
-    <build>
+    <!--<build>
         <plugins>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -68,7 +68,7 @@
                 </executions>
             </plugin>
         </plugins>
-    </build>
+    </build>-->
     
     <properties>
         <db.force.execution>true</db.force.execution>

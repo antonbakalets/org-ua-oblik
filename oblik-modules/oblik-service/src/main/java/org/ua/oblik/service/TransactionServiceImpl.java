@@ -167,8 +167,8 @@ public class TransactionServiceImpl implements TransactionService {
         accountDao.update(newDebetAccount);
     }
 
-    @Transactional
     @Override
+    @Transactional
     public void delete(Integer transactionId) {
         Txaction txaction = txactionDao.select(transactionId);
         final Account credit = txaction.getCredit();
@@ -192,7 +192,7 @@ public class TransactionServiceImpl implements TransactionService {
             LOG.error("Cannot determine transaction type.", re);
             throw re;
         }
-        txactionDao.delete(txaction);
+        txactionDao.delete(transactionId);
     }
 
     @Override

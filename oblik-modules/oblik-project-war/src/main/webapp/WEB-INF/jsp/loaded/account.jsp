@@ -11,6 +11,7 @@
     <form:hidden path="ammount"/>
     <form:hidden path="oldName"/>
     <form:hidden path="kind"/>
+    <form:hidden path="removable"/>
 
     <div class="form-group">
         <label class="sr-only"><spring:message var="labelName" code="jsp.oblik.account.name"/></label>

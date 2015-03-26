@@ -46,8 +46,8 @@ abstract class AbstractDao<I, T extends Identifiable<I>, R extends T> implements
     }
 
     @Override
-    public void delete(T entity) {
-        getEntityManager().remove(getEntityManager().merge(entity));
+    public void delete(I id) {
+        getEntityManager().remove(select(id));
     }
 
     @Override

@@ -14,7 +14,7 @@ public interface DaoFacade<I, T extends Identifiable<I>> {
 
     long count();
 
-    void delete(T entity);
+    void delete(I id);
 
     void insert(T entity);
 

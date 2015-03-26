@@ -93,6 +93,12 @@ public class CurrencyServiceImpl implements CurrencyService {
     }
 
     @Override
+    @Transactional
+    public void remove(Integer currencyId) {
+        currencyDao.delete(currencyId);
+    }
+
+    @Override
     public CurrencyVO createCurrency() {
         CurrencyVO result = new CurrencyVO();
         if (!isDefaultExists()) {

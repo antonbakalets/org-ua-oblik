@@ -114,7 +114,7 @@ public class AccountServiceImpl implements AccountService {
     public Map<CurrencyVO, BigDecimal> totalAssetsByCurrency() {
         List<AccountVO> listAcc = getAssetsAccounts();
         List<CurrencyVO> listCur = currencyService.getCurrencies();
-        HashMap<CurrencyVO, BigDecimal> result = new HashMap<CurrencyVO, BigDecimal>();
+        HashMap<CurrencyVO, BigDecimal> result = new HashMap<>();
 
         for (CurrencyVO cvo : listCur) {
             BigDecimal toRes = BigDecimal.ZERO;
@@ -128,11 +128,10 @@ public class AccountServiceImpl implements AccountService {
         return result;
     }
 
-    @Transactional
     @Override
+    @Transactional
     public void delete(Integer accountId) {
-        Account account = accountDao.select(accountId);
-        accountDao.delete(account);
+        accountDao.delete(accountId);
     }
 
     @Override

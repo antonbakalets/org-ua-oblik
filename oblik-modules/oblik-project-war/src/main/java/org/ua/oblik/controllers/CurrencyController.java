@@ -12,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.ua.oblik.controllers.beans.CurrencyEditBean;
 import org.ua.oblik.controllers.beans.CurrencyListBean;
 import org.ua.oblik.controllers.utils.ValidationErrorLoger;
@@ -83,5 +80,18 @@ public class CurrencyController {
             currencyHelper.save(currencyEditBean);
         }
         return "loaded/currency";
+    }
+
+    @RequestMapping(value = "/currency/edit", method = RequestMethod.DELETE)
+    @ResponseBody
+    public Boolean removeCurrency(@RequestParam(value = "currencyId", required = false) final Integer currencyId) {
+        LOGGER.debug("Removing currency, id: " + currencyId + ".");
+        Boolean success = true;
+        try {
+            currencyHelper.remove(currencyId);
+        } catch (Exception e) {
+            success = false;
+        }
+        return success;
     }
 }
