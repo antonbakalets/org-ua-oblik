@@ -27,6 +27,7 @@
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/bootstrap-confirmation.js"></script>
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/ineditable.js"></script>
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/calculable.js"></script>
+        <script type="text/javascript" src="${pageContext.request.contextPath}/js/uielems.js"></script>
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/main.js"></script>
 
         <link rel="shortcut icon" href="${pageContext.request.contextPath}/img/favicon.ico" />

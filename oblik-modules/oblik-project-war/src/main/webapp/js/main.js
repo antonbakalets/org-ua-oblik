@@ -5,11 +5,19 @@ $.fn.datepicker.defaults.todayBtn = "linked";
 jQuery(function ($) {
     'use strict';
 
+    var synchro = new Synchronizer(function() {
+        $("#main-progress").show();
+    }, function() {
+        $("#main-progress").hide("blind");
+    });
+
     var application = {
         init: function (contextPath) {
             this.contextPath = contextPath;
             this.actionType = '';
             this.page = contextPath + '/transaction/list.html';
+            this.syncCount = 0;
+            synchro.increment(9);
             this.loadTotal();
             this.loadActionsForm();
             this.loadTotalByCurrency();
@@ -19,7 +27,7 @@ jQuery(function ($) {
         },
         loadTotal: function () {
             $("#default-total").load(this.contextPath + '/total/header.html', function () {
-
+                synchro.decrement();
             });
         },
         loadActionsForm: function (href) {
@@ -28,6 +36,7 @@ jQuery(function ($) {
             }
             $("#section-actions").load(href, function () {
                 application.initActionsForm();
+                synchro.decrement();
             });
         },
         initActionsForm: function () {
@@ -91,6 +100,7 @@ jQuery(function ($) {
                         reactor.dispatchEvent('currencyEdit');
                     }
                 });
+                synchro.decrement();
             });
         },
         loadTotalByAccount: function () {
@@ -103,6 +113,7 @@ jQuery(function ($) {
                         reactor.dispatchEvent('accountEdit');
                     }
                 });
+                synchro.decrement();
             });
         },
         loadTransactions: function (href) {
@@ -126,6 +137,7 @@ jQuery(function ($) {
                         reactor.dispatchEvent('transactionEdit', $(this).attr('href'));
                     });
                 });
+                synchro.decrement();
             });
         },
         loadAccounts: function () {
@@ -138,6 +150,7 @@ jQuery(function ($) {
                         reactor.dispatchEvent('accountEdit');
                     }
                 });
+                synchro.decrement();
             });
             $("#section-expenses").load(this.contextPath + '/account/expenses.html', function () {
                 $("#section-expenses .edit-link").ineditable({
@@ -148,6 +161,7 @@ jQuery(function ($) {
                         reactor.dispatchEvent('accountEdit');
                     }
                 });
+                synchro.decrement();
             });
         },
         setActionsType: function (index) {
@@ -176,15 +190,12 @@ jQuery(function ($) {
                     option.val(id);
                     $('#account-from').append(option);
                 }
+                synchro.decrement();
             });
         },
         loadSecondAccountOptions: function () {
             var accountType = this.actionType === "EXPENSE" ? "EXPENSE" : "ASSETS";
             var optionsUrl = this.contextPath + '/account/options.json?type=' + accountType;
-            /*var currency = $('#account-from :selected').attr('currency');
-            if (currency) {
-                optionsUrl = optionsUrl + "&currency=" + currency;
-            }*/
             $.getJSON(optionsUrl, function (data) {
                 $('#account-to option').not('#account-to :first').remove();
                 for (var i in data) {
@@ -196,6 +207,7 @@ jQuery(function ($) {
                     option.val(id);
                     $('#account-to').append(option);
                 }
+                synchro.decrement();
             });
         },
         localizeMonth: function (month) {
@@ -206,16 +218,19 @@ jQuery(function ($) {
 
     application.init($('#contextPath').text());
 
-
     function Event(name) {
         this.name = name;
-        this.callbacks = [];
+        this.listeners = [];
     }
 
-    Event.prototype.registerCallback = function (callback) {
-        this.callbacks.push(callback);
+    Event.prototype.registerListener = function (listener) {
+        this.listeners.push(listener);
     };
 
+    function Listener(syncNumber, callback) {
+        this.syncNumber = syncNumber;
+        this.callback = callback;
+    }
 
     function Reactor() {
         this.events = {};
@@ -228,17 +243,19 @@ jQuery(function ($) {
 
     Reactor.prototype.dispatchEvent = function (eventName, eventArgs) {
         if (eventName) {
-            console.log('Dispathing event: ' + eventName);
-            this.events[eventName].callbacks.forEach(function (callback) {
-                callback(eventArgs);
+            console.log('Start dispatching event: ' + eventName);
+            var event = this.events[eventName];
+            event.listeners.forEach(function (listener) {
+                synchro.increment(listener.syncNumber);
+                listener.callback(eventArgs);
             });
         } else {
             console.error('Unknown event name: ' + eventName);
         }
     };
 
-    Reactor.prototype.addEventListener = function (eventName, callback) {
-        this.events[eventName].registerCallback(callback);
+    Reactor.prototype.addEventListener = function (eventName, listener) {
+        this.events[eventName].registerListener(listener);
     };
 
 
@@ -255,59 +272,59 @@ jQuery(function ($) {
     reactor.registerEvent('firstAccountOptionChange');
     reactor.registerEvent('secondAccountOptionChange');
 
-    reactor.addEventListener('currencyEdit', function () {
+    reactor.addEventListener('currencyEdit', new Listener(3, function () {
         application.loadActionsForm();
-    });
+    }));
 
-    reactor.addEventListener('currencySave', function () {
+    reactor.addEventListener('currencySave', new Listener(6, function () {
         application.loadTotal();
         application.loadAccounts();
         application.loadTransactions();
         application.loadTotalByAccount();
         application.loadTotalByCurrency();
-    });
+    }));
 
-    reactor.addEventListener('accountEdit', function () {
+    reactor.addEventListener('accountEdit', new Listener(3, function () {
         application.loadActionsForm();
-    });
+    }));
 
-    reactor.addEventListener('accountSave', function () {
+    reactor.addEventListener('accountSave', new Listener(7, function () {
         application.loadTotal();
         application.loadAccounts();
         application.loadTransactions();
         application.loadTotalByAccount();
         application.loadFirstAccountOptions();
         application.loadSecondAccountOptions();
-    });
+    }));
 
-    reactor.addEventListener('transactionEdit', function (href) {
+    reactor.addEventListener('transactionEdit', new Listener(1, function (href) {
         $(".ineditable").ineditable("closeInEditing");
         application.loadActionsForm(href);
-    });
+    }));
 
-    reactor.addEventListener('transactionSave', function () {
+    reactor.addEventListener('transactionSave', new Listener(6, function () {
         application.loadActionsForm();
         application.loadTotal();
         application.loadTransactions();
         application.loadAccounts();
         application.loadTotalByAccount();
         application.loadTotalByCurrency();
-    });
+    }));
 
-    reactor.addEventListener('transactionDelete', function () {
+    reactor.addEventListener('transactionDelete', new Listener(6, function () {
         application.loadActionsForm();
         application.loadTotal();
         application.loadTransactions();
         application.loadAccounts();
         application.loadTotalByAccount();
         application.loadTotalByCurrency();
-    });
+    }));
 
-    reactor.addEventListener('firstAccountOptionChange', function () {
+    reactor.addEventListener('firstAccountOptionChange', new Listener(1, function () {
         application.loadSecondAccountOptions();
-    });
+    }));
 
-    reactor.addEventListener('secondAccountOptionChange', function () {
+    reactor.addEventListener('secondAccountOptionChange', new Listener(1, function () {
         application.loadFirstAccountOptions();
-    });
+    }));
 });

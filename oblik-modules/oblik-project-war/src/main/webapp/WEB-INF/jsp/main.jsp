@@ -13,6 +13,15 @@
 <span id="contextPath" class="hide">${pageContext.request.contextPath}</span>
 
 <div class="row">
+    <div id="main-progress" class="progress">
+        <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0"
+             aria-valuemax="100" style="width: 100%">
+            <span class="sr-only">100% Complete</span>
+        </div>
+    </div>
+</div>
+
+<div class="row">
     <div class="col-xs-6 col-sm-3">
         <section id="total-by-currency">
             <c:out value="${imgLoading}" escapeXml="false"/>

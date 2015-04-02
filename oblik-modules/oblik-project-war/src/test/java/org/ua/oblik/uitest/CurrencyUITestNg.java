@@ -47,7 +47,7 @@ public class CurrencyUITestNg extends AbstractUITestNg {
         Assert.assertFalse(liCurrencyAdd.findElement(By.id("rate")).isDisplayed());
         liCurrencyAdd.findElement(By.id("symbol")).sendKeys(CURRENCY_DEFAULT);
         liCurrencyAdd.findElement(By.className("glyphicon-ok")).click();
-        driverWait.until(waitMillis(1500));
+        driverWait.until(progressFinished());
         LOGGER.debug("Finished adding default currency '{}'.", CURRENCY_DEFAULT);
         Assert.assertSame(section.findElements(By.tagName("li")).size(), 3, "Default currency only.");
 
@@ -70,7 +70,7 @@ public class CurrencyUITestNg extends AbstractUITestNg {
         liCurrencyAdd.findElement(By.id("add-currency-btn")).click();
         driverWait.until(elementFinishedResizing(liCurrencyAdd));
         liCurrencyAdd.findElement(By.id("symbol")).sendKeys("долар США");
-        liCurrencyAdd.findElement(By.id("rate")).sendKeys("34");
+        liCurrencyAdd.findElement(By.id("rate")).sendKeys("341");
         liCurrencyAdd.findElement(By.className("glyphicon-remove")).click();
         driverWait.until(elementFinishedResizing(liCurrencyAdd));
         Assert.assertEquals(section.findElements(By.tagName("li")).size(), beforeLi, "List shouldn't change.");
@@ -86,7 +86,7 @@ public class CurrencyUITestNg extends AbstractUITestNg {
         liCurrencyAdd.findElement(By.id("symbol")).sendKeys("долар США");
         liCurrencyAdd.findElement(By.id("rate")).sendKeys("34");
         liCurrencyAdd.findElement(By.className("glyphicon-ok")).click();
-        driverWait.until(waitMillis(1500));
+        driverWait.until(progressFinished());
         Assert.assertEquals(section.findElements(By.tagName("li")).size(), beforeLi + 1, "One more currency in the list.");
 
         liCurrencyAdd = driver.findElement(By.id("li-currency-add"));
@@ -96,7 +96,7 @@ public class CurrencyUITestNg extends AbstractUITestNg {
         liCurrencyAdd.findElement(By.id("symbol")).sendKeys("долар США");
         liCurrencyAdd.findElement(By.id("rate")).sendKeys("34");
         liCurrencyAdd.findElement(By.className("glyphicon-ok")).click();
-        driverWait.until(waitMillis(1500));
+        driverWait.until(progressFinished());
         Assert.assertTrue(liCurrencyAdd.findElement(By.id("symbol.errors")).isDisplayed());
         liCurrencyAdd.findElement(By.className("glyphicon-remove")).click();
 
@@ -111,13 +111,13 @@ public class CurrencyUITestNg extends AbstractUITestNg {
         driverWait.until(elementFinishedResizing(liCurrencyAdd));
         liCurrencyAdd.findElement(By.id("symbol")).sendKeys("morethan10s");
         liCurrencyAdd.findElement(By.className("glyphicon-ok")).click();
-        driverWait.until(waitMillis(1500));
+        driverWait.until(progressFinished());
         Assert.assertTrue(driver.findElement(By.id("symbol.errors")).isDisplayed());
         Assert.assertTrue(driver.findElement(By.id("rate.errors")).isDisplayed());
 
         liCurrencyAdd.findElement(By.id("rate")).sendKeys("rate");
         liCurrencyAdd.findElement(By.className("glyphicon-ok")).click();
-        driverWait.until(waitMillis(1500));
+        driverWait.until(progressFinished());
         Assert.assertTrue(driver.findElement(By.id("rate.errors")).isDisplayed());
 
         liCurrencyAdd.findElement(By.className("glyphicon-remove")).click();
@@ -149,7 +149,7 @@ public class CurrencyUITestNg extends AbstractUITestNg {
         liCurrencyAdd.findElement(By.id("symbol")).sendKeys(symbol);
         liCurrencyAdd.findElement(By.id("rate")).sendKeys(rate);
         liCurrencyAdd.findElement(By.className("glyphicon-ok")).click();
-        driverWait.until(waitMillis(1500));
+        driverWait.until(progressFinished());
         LOGGER.debug("Finished adding currency {}.", symbol);
     }
 
@@ -169,20 +169,12 @@ public class CurrencyUITestNg extends AbstractUITestNg {
         };
     }
 
-    @Deprecated
-    /**
-     * @deprecated it's a bad idea
-     */
-    public static ExpectedCondition<Boolean> waitMillis(final Integer millis) {
+    public static ExpectedCondition<Boolean> progressFinished() {
         return new ExpectedCondition<Boolean>() {
             @Override
             public Boolean apply(WebDriver driver) {
-                try {
-                    Thread.sleep(millis);
-                } catch (InterruptedException e) {
-                    LOGGER.warn(e.getMessage());
-                }
-                return Boolean.TRUE;
+                WebElement progress = driver.findElement(By.id("main-progress"));
+                return !progress.isDisplayed();
             }
         };
     }
