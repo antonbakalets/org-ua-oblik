@@ -8,7 +8,7 @@
         <span>
             <spring:message code="jsp.oblik.default.currency.total"/>:
             <strong>
-                <span id="default-total" class="text-assets strong">
+                <span id="default-total-value" class="text-assets strong">
                     <c:out value="${defaultCurrencyTotal}"/>
                 </span>
             </strong>

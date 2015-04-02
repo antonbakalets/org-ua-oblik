@@ -11,7 +11,7 @@
 		</classes>
 	</test>
 
-    <test name="Transactions UI test" enabled="true">
+    <test name="Currency UI test" enabled="true">
         <parameter name="username" value="paco"/>
         <parameter name="password" value="hola"/>
         <classes>

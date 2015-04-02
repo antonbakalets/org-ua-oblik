@@ -101,13 +101,12 @@ public class CurrencyServiceImpl implements CurrencyService {
     @Override
     public CurrencyVO createCurrency() {
         CurrencyVO result = new CurrencyVO();
-        if (!isDefaultExists()) {
+        if (currencyDao.count() > 0 && isDefaultExists()) {
+            result.setDefaultRate(Boolean.FALSE);
+        } else {
             result.setDefaultRate(Boolean.TRUE);
             result.setRate(BigDecimal.ONE);
-        } else {
-            result.setDefaultRate(Boolean.FALSE);
         }
-        result.setDefaultRate(Boolean.FALSE);
         return result;
     }
 
@@ -122,8 +121,14 @@ public class CurrencyServiceImpl implements CurrencyService {
         result.setRate(model.getRate());
         result.setSymbol(model.getSymbol());
         result.setDefaultRate(model.getByDefault());
-        result.setRemovable(noAccounts(model.getId()));
+        result.setRemovable(isRemovable(model));
         return result;
+    }
+
+    private boolean isRemovable(Currency model) {
+        boolean defaultRate = model.getByDefault();
+        boolean noAccounts = noAccounts(model.getId());
+        return noAccounts && (!defaultRate || (defaultRate && currencyDao.count() == 1));
     }
 
     private boolean noAccounts(Integer currencyId) {
