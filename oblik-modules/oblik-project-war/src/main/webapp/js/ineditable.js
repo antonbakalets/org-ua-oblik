@@ -41,10 +41,12 @@ $.widget("oblik.ineditable", {
             this.saveBtn = $("<button type='button' class='btn btn-link btn-sm pull-right'/>");
             this.saveBtn.append(this.options.save);
             btnContainer.append(this.saveBtn);
+            this._on(this.saveBtn, {click: "_save"});
 
             this.removeBtn = $("<button type='button' class='btn btn-link btn-sm'/>");
             this.removeBtn.append(this.options.remove);
             btnContainer.append(this.removeBtn);
+            this._on(this.removeBtn, {click: "_remove"});
 
             this.container.append(btnContainer);
             this.container.append($("<div class='clearfix'/>"));
@@ -77,10 +79,8 @@ $.widget("oblik.ineditable", {
             if ($.isFunction(reference.options.onEdit)) {
                 reference.options.onEdit.call();
             }
-            reference._on(reference.saveBtn, {click: "_save"});
             if (reference.formDiv.find('input[name="' + reference.options.removable + '"]').val() === "true") {
                 reference.removeBtn.show();
-                reference._on(reference.removeBtn, {click: "_remove"});
             } else {
                 reference.removeBtn.hide();
             }

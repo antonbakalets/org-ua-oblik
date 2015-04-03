@@ -7,8 +7,10 @@ import java.text.ParseException;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,6 +48,32 @@ public class AbstractUITestNg {
         driver.quit();
     }
 
+    public static ExpectedCondition<Boolean> elementFinishedResizing(final WebElement element) {
+        return new ExpectedCondition<Boolean>() {
+            @Override
+            public Boolean apply(WebDriver driver) {
+                Dimension initialSize = element.getSize();
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException e) {
+                    LOGGER.warn(e.getMessage());
+                }
+                Dimension finalSize = element.getSize();
+                return initialSize.equals(finalSize);
+            }
+        };
+    }
+
+    public static ExpectedCondition<Boolean> progressFinished() {
+        return new ExpectedCondition<Boolean>() {
+            @Override
+            public Boolean apply(WebDriver driver) {
+                WebElement progress = driver.findElement(By.id("main-progress"));
+                return !progress.isDisplayed();
+            }
+        };
+    }
+
     protected void fillLoginPage(String username, String password, boolean rememberMe) {
         WebElement usernameElem = driver.findElement(By.id("username"));
         usernameElem.sendKeys(username);
@@ -54,7 +82,7 @@ public class AbstractUITestNg {
         passwordElem.sendKeys(password);
 
         if (rememberMe) {
-            WebElement rememberMeElem = driver.findElement(By.id("rememberme"));
+            WebElement rememberMeElem = driver.findElement(By.id("login-rememberme"));
             rememberMeElem.click();
         }
 
@@ -73,5 +101,14 @@ public class AbstractUITestNg {
             Assert.fail("Could not parse default total.");
         }
         return total;
+    }
+
+    protected void login(String username, String password) {
+        driver.get(baseUrl);
+        Assert.assertTrue(driver.getCurrentUrl().contains("login.html"), "Is redirected to login page.");
+        fillLoginPage(username, password, false);
+        driver.get(baseUrl + "/main.html");
+        Assert.assertEquals(baseUrl + "/main.html", driver.getCurrentUrl(), "Page url.");
+        driverWait.until(AbstractUITestNg.progressFinished());
     }
 }

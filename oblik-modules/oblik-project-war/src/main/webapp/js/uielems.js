@@ -12,7 +12,6 @@ Synchronizer.prototype.increment = function (value) {
 
 Synchronizer.prototype.decrement = function () {
     this.counter--;
-    console.log('sync: ' + this.counter);
     if (this.counter == 0) {
         this.onFinish();
         console.log('sync finished');

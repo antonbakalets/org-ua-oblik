@@ -1,16 +1,14 @@
 package org.ua.oblik.uitest;
 
 import java.math.BigDecimal;
-import java.util.Random;
+import java.util.List;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -27,13 +25,10 @@ public class CurrencyUITestNg extends AbstractUITestNg {
 
     @BeforeClass
     @Parameters({ "username", "password" })
-    public void login(String username, String password) {
-        driver.get(baseUrl);
-        Assert.assertTrue(driver.getCurrentUrl().contains("login.html"), "Is redirected to login page.");
-        fillLoginPage(username, password, false);
-        driver.get(baseUrl + "/main.html");
-        Assert.assertEquals(baseUrl + "/main.html", driver.getCurrentUrl(), "Page url.");
+    public void setUpClass(String username, String password) {
+        login(username, password);
         section = driver.findElement(By.id("total-by-currency"));
+        deleteAllCurrencies();
     }
 
     @Test
@@ -76,7 +71,7 @@ public class CurrencyUITestNg extends AbstractUITestNg {
         Assert.assertEquals(section.findElements(By.tagName("li")).size(), beforeLi, "List shouldn't change.");
     }
 
-    @Test(dependsOnMethods = "testTryToAddCurrency")
+    @Test(dependsOnMethods = "testAddCurrency")
     public void testTryToAddExistingCurrency() {
         WebElement liCurrencyAdd = driver.findElement(By.id("li-currency-add"));
         int beforeLi = section.findElements(By.tagName("li")).size();
@@ -104,7 +99,7 @@ public class CurrencyUITestNg extends AbstractUITestNg {
         // TODO delete
     }
 
-    @Test(dependsOnMethods = "testTryToAddExistingCurrency")
+    @Test(dependsOnMethods = "testAddCurrency")
     public void testAddWrongCurrency() {
         WebElement liCurrencyAdd = driver.findElement(By.id("li-currency-add"));
         liCurrencyAdd.findElement(By.id("add-currency-btn")).click();
@@ -124,21 +119,24 @@ public class CurrencyUITestNg extends AbstractUITestNg {
         driverWait.until(elementFinishedResizing(liCurrencyAdd));
     }
 
-    /*@Test(dependsOnMethods = "testAddWrongCurrency")
+    @AfterClass
     public void testDeleteAllCurrencies() {
-        List<WebElement> currencyLis = section.findElements(By.tagName("li"));
-        for (int i = 1; i < currencyLis.size() - 1; i++) {
-            WebElement li = currencyLis.get(i);
+        deleteAllCurrencies();
+    }
+
+    private void deleteAllCurrencies() {
+        List<WebElement> currencyList = section.findElements(By.tagName("li"));
+        LOGGER.debug("Deleting {} accounts .", currencyList.size()-2);
+        for (int i = currencyList.size() - 2; i > 0; i--) {
+            WebElement li = currencyList.get(i);
+            LOGGER.debug("Deleting currency number {}: {}", i, li.getText());
             li.findElement(By.tagName("a")).click();
             driverWait.until(elementFinishedResizing(li));
             WebElement trashBtn = li.findElement(By.className("glyphicon-trash"));
             Assert.assertTrue(trashBtn.isDisplayed());
+            trashBtn.click();
+            driverWait.until(elementFinishedResizing(li));
         }
-    }*/
-
-    private String getSymbol() {
-        String s = "a" + new Random().nextInt();
-        return s.substring(0, 9);
     }
 
     private void addCurrency(CharSequence symbol, CharSequence rate) {
@@ -151,31 +149,5 @@ public class CurrencyUITestNg extends AbstractUITestNg {
         liCurrencyAdd.findElement(By.className("glyphicon-ok")).click();
         driverWait.until(progressFinished());
         LOGGER.debug("Finished adding currency {}.", symbol);
-    }
-
-    public static ExpectedCondition<Boolean> elementFinishedResizing(final WebElement element) {
-        return new ExpectedCondition<Boolean>() {
-            @Override
-            public Boolean apply(WebDriver driver) {
-                Dimension initialSize = element.getSize();
-                try {
-                    Thread.sleep(50);
-                } catch (InterruptedException e) {
-                    LOGGER.warn(e.getMessage());
-                }
-                Dimension finalSize = element.getSize();
-                return initialSize.equals(finalSize);
-            }
-        };
-    }
-
-    public static ExpectedCondition<Boolean> progressFinished() {
-        return new ExpectedCondition<Boolean>() {
-            @Override
-            public Boolean apply(WebDriver driver) {
-                WebElement progress = driver.findElement(By.id("main-progress"));
-                return !progress.isDisplayed();
-            }
-        };
     }
 }
