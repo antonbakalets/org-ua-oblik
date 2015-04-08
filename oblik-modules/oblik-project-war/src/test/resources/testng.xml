@@ -20,7 +20,7 @@
 
     <test name="Account UI test" enabled="true">
         <classes>
-            <class name="org.ua.oblik.uitest.AssetsUITestNg"/>
+            <class name="org.ua.oblik.uitest.AccountUITestNg"/>
         </classes>
     </test>
 </suite>

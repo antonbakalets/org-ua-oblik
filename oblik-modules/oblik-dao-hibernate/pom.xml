@@ -7,7 +7,6 @@
     </parent>
     
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.ua.oblik</groupId>
     <artifactId>oblik-dao-hibernate</artifactId>
     <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
@@ -28,7 +27,7 @@
         </dependency>
     </dependencies>
     
-    <!--<build>
+    <build>
         <plugins>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -68,7 +67,7 @@
                 </executions>
             </plugin>
         </plugins>
-    </build>-->
+    </build>
     
     <properties>
         <db.force.execution>true</db.force.execution>

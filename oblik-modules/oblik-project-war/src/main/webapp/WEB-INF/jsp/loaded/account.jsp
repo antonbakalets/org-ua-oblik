@@ -15,13 +15,13 @@
 
     <div class="form-group">
         <label class="sr-only"><spring:message var="labelName" code="jsp.oblik.account.name"/></label>
-        <form:input path="name" value="${accountBean.name}" placeholder="${labelName}" cssClass="form-control"/>
-        <form:errors path="name" element="div" cssClass="alert alert-danger"/>
+        <form:input path="newName" value="${accountBean.newName}" placeholder="${labelName}" cssClass="form-control"/>
+        <form:errors path="newName" element="div" cssClass="alert alert-danger"/>
     </div>
 
     <div class="form-group">
         <label class="sr-only"><spring:message var="labelCurrency" code="jsp.oblik.account.currency"/></label>
-        <form:select id="currency-to" path="currencyId" placeholder="labelCurrency" cssClass="form-control">
+        <form:select id="currency" path="currencyId" placeholder="labelCurrency" cssClass="form-control">
             <c:forEach var="currency" items="${currencyList}">
                 <form:option  value="${currency.currencyId}" label="${currency.symbol}"/>
             </c:forEach>

@@ -20,9 +20,9 @@
             </div>
         </li>
     </c:forEach>
-    <li class="list-group-item">
+    <li id="li-income-add" class="list-group-item">
         <div class="edit-link">
-            <a id="add-expense" class="btn btn-link"
+            <a id="add-income" class="btn btn-link"
                href="${pageContext.request.contextPath}/account/edit.html?type=INCOME">
                 <span class="glyphicon glyphicon-plus"/>
                 <spring:message code="jsp.oblik.account.btn.income"/>

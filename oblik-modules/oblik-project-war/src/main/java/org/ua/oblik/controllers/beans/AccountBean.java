@@ -21,7 +21,7 @@ public class AccountBean {
 
     @NotNull
     @Size(min = 1, max = NAME_MAX_SYMBOLS)
-    private String name;
+    private String newName;
 
     private String oldName;
 
@@ -53,12 +53,12 @@ public class AccountBean {
         this.accountId = accountId;
     }
 
-    public String getName() {
-        return name;
+    public String getNewName() {
+        return newName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNewName(String newName) {
+        this.newName = newName;
     }
 
     public AccountVOType getKind() {

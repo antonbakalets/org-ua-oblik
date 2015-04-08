@@ -21,7 +21,7 @@
             </div>
         </li>
     </c:forEach>
-    <li class="list-group-item">
+    <li id="li-assets-add" class="list-group-item">
         <div class="edit-link">
             <a id="add-assets" class="btn btn-link"
                href="${pageContext.request.contextPath}/account/edit.html?type=ASSETS">

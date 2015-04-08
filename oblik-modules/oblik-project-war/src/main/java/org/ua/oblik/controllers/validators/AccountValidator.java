@@ -22,17 +22,17 @@ public class AccountValidator implements Validator {
         final Integer accountId = bean.getAccountId();
 
         if (accountId != null) {
-            if (!bean.getName().equals(bean.getOldName())) {
-                validateName(bean.getName(), errors);
+            if (!bean.getNewName().equals(bean.getOldName())) {
+                validateName(bean.getNewName(), errors);
             }
         } else {
-            validateName(bean.getName(), errors);
+            validateName(bean.getNewName(), errors);
         }
     }
 
     private void validateName(String name, Errors errors) {
         if (accountService.isNameExists(name)) {
-            errors.rejectValue("name", "error.account.name.exists");
+            errors.rejectValue("newName", "error.account.name.exists");
         }
     }
 }

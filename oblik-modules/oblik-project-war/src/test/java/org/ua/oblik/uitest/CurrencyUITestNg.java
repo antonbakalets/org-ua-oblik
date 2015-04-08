@@ -1,7 +1,6 @@
 package org.ua.oblik.uitest;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -21,14 +20,16 @@ public class CurrencyUITestNg extends AbstractUITestNg {
     private static final Logger LOGGER = LoggerFactory.getLogger(CurrencyUITestNg.class);
     private static final String CURRENCY_DEFAULT = "грн.";
 
-    private WebElement section;
+    protected WebElement section;
+    private CurrencyUITestHelper currencyHelper;
 
     @BeforeClass
     @Parameters({ "username", "password" })
     public void setUpClass(String username, String password) {
         login(username, password);
         section = driver.findElement(By.id("total-by-currency"));
-        deleteAllCurrencies();
+        currencyHelper = new CurrencyUITestHelper(this);
+        currencyHelper.deleteAllCurrencies();
     }
 
     @Test
@@ -52,9 +53,9 @@ public class CurrencyUITestNg extends AbstractUITestNg {
     @Test(dependsOnMethods = "testAddDefaultCurrency")
     public void testAddCurrency() {
         int beforeLi = section.findElements(By.tagName("li")).size();
-        addCurrency("USD", "02");
+        currencyHelper.addCurrency("USD", "02");
         Assert.assertEquals(section.findElements(By.tagName("li")).size(), beforeLi + 1, "There should be one more currency in the list.");
-        addCurrency("euro", "3,4");
+        currencyHelper.addCurrency("euro", "3,4");
         Assert.assertEquals(section.findElements(By.tagName("li")).size(), beforeLi + 2, "There should be one more currency in the list.");
     }
 
@@ -96,7 +97,6 @@ public class CurrencyUITestNg extends AbstractUITestNg {
         liCurrencyAdd.findElement(By.className("glyphicon-remove")).click();
 
         Assert.assertEquals(section.findElements(By.tagName("li")).size(), beforeLi + 1, "Only one more currency in the list.");
-        // TODO delete
     }
 
     @Test(dependsOnMethods = "testAddCurrency")
@@ -121,33 +121,6 @@ public class CurrencyUITestNg extends AbstractUITestNg {
 
     @AfterClass
     public void testDeleteAllCurrencies() {
-        deleteAllCurrencies();
-    }
-
-    private void deleteAllCurrencies() {
-        List<WebElement> currencyList = section.findElements(By.tagName("li"));
-        LOGGER.debug("Deleting {} accounts .", currencyList.size()-2);
-        for (int i = currencyList.size() - 2; i > 0; i--) {
-            WebElement li = currencyList.get(i);
-            LOGGER.debug("Deleting currency number {}: {}", i, li.getText());
-            li.findElement(By.tagName("a")).click();
-            driverWait.until(elementFinishedResizing(li));
-            WebElement trashBtn = li.findElement(By.className("glyphicon-trash"));
-            Assert.assertTrue(trashBtn.isDisplayed());
-            trashBtn.click();
-            driverWait.until(elementFinishedResizing(li));
-        }
-    }
-
-    private void addCurrency(CharSequence symbol, CharSequence rate) {
-        LOGGER.debug("Adding new currency {} with rate {}.", symbol, rate);
-        WebElement liCurrencyAdd = section.findElement(By.id("li-currency-add"));
-        liCurrencyAdd.findElement(By.id("add-currency-btn")).click();
-        driverWait.until(elementFinishedResizing(liCurrencyAdd));
-        liCurrencyAdd.findElement(By.id("symbol")).sendKeys(symbol);
-        liCurrencyAdd.findElement(By.id("rate")).sendKeys(rate);
-        liCurrencyAdd.findElement(By.className("glyphicon-ok")).click();
-        driverWait.until(progressFinished());
-        LOGGER.debug("Finished adding currency {}.", symbol);
+        currencyHelper.deleteAllCurrencies();
     }
 }

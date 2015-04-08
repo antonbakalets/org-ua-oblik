@@ -20,7 +20,7 @@
             </div>
         </li>
     </c:forEach>
-    <li class="list-group-item">
+    <li id="li-expense-add" class="list-group-item">
         <div class="edit-link">
             <a id="add-expense" class="btn btn-link"
                href="${pageContext.request.contextPath}/account/edit.html?type=EXPENSE">

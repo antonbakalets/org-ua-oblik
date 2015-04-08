@@ -52,7 +52,7 @@ class AccountFacade extends AbstractHelper {
 
     AccountBean getAccount(final Integer accountId, AccountVOType type) {
         AccountBean accountBean = convert(accountId == null ? new AccountVO() : accountService.getAccount(accountId));
-        accountBean.setOldName(accountBean.getName());
+        accountBean.setOldName(accountBean.getNewName());
         accountBean.setKind(type);
         return accountBean;
     }
@@ -114,7 +114,7 @@ class AccountFacade extends AbstractHelper {
     private AccountBean convert(AccountVO avo) {
         AccountBean result = new AccountBean();
         result.setAccountId(avo.getAccountId());
-        result.setName(avo.getName());
+        result.setNewName(avo.getName());
         result.setCurrencyId(avo.getCurrencyId());
         result.setKind(avo.getType());
         result.setAmmount(avo.getAmmount());
@@ -126,7 +126,7 @@ class AccountFacade extends AbstractHelper {
     private AccountVO convert(AccountBean accountBean) {
         AccountVO result = new AccountVO();
         result.setAccountId(accountBean.getAccountId());
-        result.setName(accountBean.getName());
+        result.setName(accountBean.getNewName());
         result.setType(accountBean.getKind());
         result.setCurrencyId(accountBean.getCurrencyId());
         result.setCurrencySymbol(accountBean.getCurrencySymbol());
