@@ -18,13 +18,13 @@
 
             <div class="form-group">
                 <ul id="actions-type" class="nav nav-pills nav-justified">
-                    <li class="${formActionBean.type == 'EXPENSE' ? 'active' : disableType}">
+                    <li id="action-type-expense" class="${formActionBean.type == 'EXPENSE' ? 'active' : disableType}">
                         <a href="#"><spring:message code="jsp.oblik.expense"/></a>
                     </li>
-                    <li class="${formActionBean.type == 'TRANSFER' ? 'active' : disableType}">
+                    <li id="action-type-transfer" class="${formActionBean.type == 'TRANSFER' ? 'active' : disableType}">
                         <a href="#"><spring:message code="jsp.oblik.transfer"/></a>
                     </li>
-                    <li class="${formActionBean.type == 'INCOME' ? 'active' : disableType}">
+                    <li id="action-type-income" class="${formActionBean.type == 'INCOME' ? 'active' : disableType}">
                         <a href="#"><spring:message code="jsp.oblik.income"/></a>
                     </li>
                 </ul>

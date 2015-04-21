@@ -1,6 +1,7 @@
 package org.ua.oblik.uitest;
 
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,11 +24,14 @@ class AccountUITestHelper {
     private static final Map<AccountVOType, By> accountAddButtons = initAccountButtons();
 
     private final AbstractUITestNg uiTestNg;
-    //private final Map<String, String> available;
+    private final Map<AccountVOType, Map<String, String>> available;
 
     public AccountUITestHelper(AbstractUITestNg uiTestNg) {
         this.uiTestNg = uiTestNg;
-        //this.available = new HashMap<>();
+        this.available = new HashMap<>();
+        for (AccountVOType type : AccountVOType.values()) {
+            available.put(type, new HashMap<String, String>());
+        }
     }
 
     private static Map<AccountVOType, By> initAccountSections() {
@@ -67,6 +71,8 @@ class AccountUITestHelper {
         new Select(liCurrencyAdd.findElement(By.id("currency"))).selectByVisibleText(currency);
         liCurrencyAdd.findElement(By.className("glyphicon-ok")).click();
         uiTestNg.driverWait.until(AbstractUITestNg.progressFinished());
+
+        available.get(type).put(newName, currency);
         LOGGER.debug("Finished adding account {}.", newName);
     }
 
@@ -78,10 +84,10 @@ class AccountUITestHelper {
 
     private void deleteAllAccounts(AccountVOType type) {
         WebElement accountSection = uiTestNg.driver.findElement(sectionByAccountType(type));
-        List<WebElement> currencyList = accountSection.findElements(By.tagName("li"));
-        LOGGER.debug("Deleting {} accounts.", currencyList.size()-2);
-        for (int i = currencyList.size() - 2; i > 0; i--) {
-            WebElement li = currencyList.get(i);
+        List<WebElement> accountList = accountSection.findElements(By.tagName("li"));
+        LOGGER.debug("Deleting {} accounts.", accountList.size()-2);
+        for (int i = accountList.size() - 2; i > 0; i--) {
+            WebElement li = accountList.get(i);
             LOGGER.debug("Deleting account number {}: {}", i, li.getText());
             li.findElement(By.tagName("a")).click();
             uiTestNg.driverWait.until(AbstractUITestNg.elementFinishedResizing(li));
@@ -89,6 +95,12 @@ class AccountUITestHelper {
             Assert.assertTrue(trashBtn.isDisplayed());
             trashBtn.click();
             uiTestNg.driverWait.until(AbstractUITestNg.elementFinishedResizing(li));
+            String accountName = null;
+            available.get(type).remove(accountName);
         }
+    }
+
+    public Map<String, String> getAccounts(AccountVOType type) {
+        return available.get(type);
     }
 }

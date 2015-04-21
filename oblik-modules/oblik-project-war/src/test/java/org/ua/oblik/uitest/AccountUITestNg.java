@@ -3,9 +3,6 @@ package org.ua.oblik.uitest;
 import static org.ua.oblik.uitest.AccountUITestHelper.*;
 
 import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -23,11 +20,6 @@ public class AccountUITestNg extends AbstractUITestNg {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AccountUITestNg.class);
 
-    public static final String ACCOUNT1 = "account1";
-    public static final String ACCOUNT2 = "account2";
-    public static final String CURRENCY1 = "грн";
-    public static final String CURRENCY2 = "usd";
-    public static final String CURRENCY3 = "euro";
     private static final String TOOLONG = "more than 100 123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
 
     private AccountUITestHelper accountHelper;
@@ -46,16 +38,7 @@ public class AccountUITestNg extends AbstractUITestNg {
         currencyHelper.addCurrency(CURRENCY3, "3");
     }
 
-    @DataProvider(name = "typeProvider")
-    public static Iterator<Object[]> typeProvider() {
-        Set<Object[]> result = new HashSet<>();
-        for (AccountVOType type : AccountVOType.values()) {
-            result.add(new Object[]{type});
-        }
-        return result.iterator();
-    }
-
-    @Test(dataProvider = "typeProvider")
+    @Test(dataProvider = "accountTypeProvider")
     public void testTryToAddCurrency(AccountVOType type) {
         WebElement section = driver.findElement(sectionByAccountType(type));
         WebElement liAccountAdd = driver.findElement(getAddLiName(type));
@@ -69,7 +52,7 @@ public class AccountUITestNg extends AbstractUITestNg {
         Assert.assertEquals(section.findElements(By.tagName("li")).size(), beforeLi, "List shouldn't change.");
     }
 
-    @Test(dataProvider = "typeProvider")
+    @Test(dataProvider = "accountTypeProvider")
     public void testAddAccount(AccountVOType type) {
         LOGGER.debug("Test 'Add {} account' started.", type);
         for (String currency : currencyHelper.getCurrencies().keySet()) {
@@ -95,7 +78,7 @@ public class AccountUITestNg extends AbstractUITestNg {
         Assert.assertSame(section.findElements(By.tagName("li")).size(), before + 1, "Only one more " + type + " account.");
     }
 
-    @Test(dataProvider = "typeProvider")
+    @Test(dataProvider = "accountTypeProvider")
     public void testAddExistingAccount(AccountVOType type) {
         String accountName = type + ACCOUNT2;
 
@@ -120,12 +103,15 @@ public class AccountUITestNg extends AbstractUITestNg {
         liAccountAdd.findElement(By.className("glyphicon-ok")).click();
         driverWait.until(progressFinished());
         Assert.assertTrue(liAccountAdd.findElement(By.id("newName.errors")).isDisplayed());
+        liAccountAdd.findElement(By.className("glyphicon-remove")).click();
+        driverWait.until(elementFinishedResizing(liAccountAdd));
 
+        liAccountAdd.findElement(getAddButtonName(type)).click();
+        driverWait.until(elementFinishedResizing(liAccountAdd));
         liAccountAdd.findElement(By.id("newName")).sendKeys(TOOLONG);
         liAccountAdd.findElement(By.className("glyphicon-ok")).click();
         driverWait.until(progressFinished());
         Assert.assertTrue(liAccountAdd.findElement(By.id("newName.errors")).isDisplayed());
-
         liAccountAdd.findElement(By.className("glyphicon-remove")).click();
         driverWait.until(elementFinishedResizing(liAccountAdd));
 

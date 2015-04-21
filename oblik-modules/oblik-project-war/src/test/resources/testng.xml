@@ -12,6 +12,12 @@
 		</classes>
 	</test>
 
+    <test name="Different preconditions UI test" enabled="true">
+        <classes>
+            <class name="org.ua.oblik.uitest.PreconditionUITestNg" />
+        </classes>
+    </test>
+
     <test name="Currency UI test" enabled="true">
         <classes>
             <class name="org.ua.oblik.uitest.CurrencyUITestNg"/>
