@@ -22,6 +22,7 @@ class AccountUITestHelper {
 
     private static final Map<AccountVOType, By> accountSections = initAccountSections();
     private static final Map<AccountVOType, By> accountAddButtons = initAccountButtons();
+    private static final String PLACEHOLDER = "Рахунок";
 
     private final AbstractUITestNg uiTestNg;
     private final Map<AccountVOType, Map<String, String>> available;
@@ -91,16 +92,22 @@ class AccountUITestHelper {
             LOGGER.debug("Deleting account number {}: {}", i, li.getText());
             li.findElement(By.tagName("a")).click();
             uiTestNg.driverWait.until(AbstractUITestNg.elementFinishedResizing(li));
+            String accountName = li.findElement(By.id("newName")).getAttribute("value");
             WebElement trashBtn = li.findElement(By.className("glyphicon-trash"));
             Assert.assertTrue(trashBtn.isDisplayed());
             trashBtn.click();
             uiTestNg.driverWait.until(AbstractUITestNg.elementFinishedResizing(li));
-            String accountName = null;
             available.get(type).remove(accountName);
         }
     }
 
     public Map<String, String> getAccounts(AccountVOType type) {
         return available.get(type);
+    }
+
+    public Map<String, String> getAccountsWithPlaceHolder(AccountVOType type) {
+        HashMap<String, String> result = new HashMap<>(available.get(type));
+        result.put(PLACEHOLDER, "");
+        return result;
     }
 }

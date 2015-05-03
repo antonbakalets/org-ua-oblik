@@ -1,6 +1,6 @@
 package org.ua.oblik.uitest;
 
-import static org.testng.Assert.assertSame;
+import static org.testng.Assert.assertEquals;
 import static org.ua.oblik.uitest.AccountUITestHelper.getAddButtonName;
 import static org.ua.oblik.uitest.AccountUITestHelper.getAddLiName;
 
@@ -36,11 +36,14 @@ public class PreconditionUITestNg extends AbstractUITestNg {
         currencyHelper.addCurrency(CURRENCY2, "2");
         currencyHelper.addCurrency(CURRENCY3, "3");
         accountHelper.addAccount(AccountVOType.ASSETS, ACCOUNT1, CURRENCY1);
+        accountHelper.addAccount(AccountVOType.EXPENSE, ACCOUNT2, CURRENCY1);
+        accountHelper.addAccount(AccountVOType.INCOME, ACCOUNT3, CURRENCY1);
     }
 
     @Test
     public void testNoMoney() {
-        assertSame(getDefaultTotal(), BigDecimal.ZERO, "No money at start.");
+        BigDecimal zeroDecimal = BigDecimal.ZERO.multiply(new BigDecimal("1.00"));
+        assertEquals(getDefaultTotal(), zeroDecimal, "No money at start.");
     }
 
     @Test(dataProvider = "accountTypeProvider")
@@ -50,7 +53,8 @@ public class PreconditionUITestNg extends AbstractUITestNg {
         driverWait.until(elementFinishedResizing(liAccountAdd));
 
         Select currencySelect = new Select(liAccountAdd.findElement(By.id("currency")));
-        assertSame(currencySelect.getFirstSelectedOption(), getDefaultCurrency(), "Default currency is preselected.");
+        WebElement firstSelectedOption = currencySelect.getFirstSelectedOption();
+        assertEquals(firstSelectedOption.getText(), currencyHelper.getDefaultCurrency(), "Default currency is preselected.");
         assertSameOptions(currencySelect, currencyHelper.getCurrencies().keySet());
     }
 
@@ -59,8 +63,8 @@ public class PreconditionUITestNg extends AbstractUITestNg {
         clickTransactionType(type);
         Select firstSelect = new Select(driver.findElement(By.id("account-from")));
         Select secondSelect = new Select(driver.findElement(By.id("account-to")));
-        assertSameOptions(firstSelect, accountHelper.getAccounts(first).keySet());
-        assertSameOptions(secondSelect, accountHelper.getAccounts(second).keySet());
+        assertSameOptions(firstSelect, accountHelper.getAccountsWithPlaceHolder(first).keySet());
+        assertSameOptions(secondSelect, accountHelper.getAccountsWithPlaceHolder(second).keySet());
     }
 
     private void clickTransactionType(TransactionType type) {

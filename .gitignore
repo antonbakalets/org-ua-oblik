@@ -24,3 +24,4 @@
 /oblik-modules/oblik-service-test/.idea
 /oblik-modules/oblik-service/.idea
 /oblik-modules/target/
+*.log

@@ -26,6 +26,8 @@ import org.testng.annotations.Parameters;
 import org.ua.oblik.service.beans.AccountVOType;
 import org.ua.oblik.service.beans.TransactionType;
 
+import static org.testng.Assert.*;
+
 /**
  *
  */
@@ -33,6 +35,7 @@ public class AbstractUITestNg {
 
     public static final String ACCOUNT1 = "account1";
     public static final String ACCOUNT2 = "account2";
+    public static final String ACCOUNT3 = "account3";
     public static final String CURRENCY1 = "грн";
     public static final String CURRENCY2 = "usd";
     public static final String CURRENCY3 = "euro";
@@ -72,9 +75,9 @@ public class AbstractUITestNg {
     }
 
     protected static void assertSameOptions(Select select, Set<String> expected) {
-        Set<String> intersection = new HashSet<>(expected);
-        Assert.assertTrue(intersection.retainAll(optionsText(select)), "Nothing to compare.");
-        Assert.assertTrue(intersection.isEmpty(), "Elements are not the same.");
+        Set<String> selectOptions = optionsText(select);
+        assertFalse(selectOptions.isEmpty(), "Nothing to compare.");
+        assertEquals(expected, selectOptions, "Elements are not the same.");
     }
 
     private static Set<String> optionsText(Select currencySelect) {
@@ -156,13 +159,9 @@ public class AbstractUITestNg {
         return total;
     }
 
-    protected String getDefaultCurrency() {
-        return "TODO";
-    }
-
     protected void login(String username, String password) {
         driver.get(baseUrl);
-        Assert.assertTrue(driver.getCurrentUrl().contains("login.html"), "Is redirected to login page.");
+        assertTrue(driver.getCurrentUrl().contains("login.html"), "Is redirected to login page.");
         fillLoginPage(username, password, false);
         driver.get(baseUrl + "/main.html");
         Assert.assertEquals(baseUrl + "/main.html", driver.getCurrentUrl(), "Page url.");

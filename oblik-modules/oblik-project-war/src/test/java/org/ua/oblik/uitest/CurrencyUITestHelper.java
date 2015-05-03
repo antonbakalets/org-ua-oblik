@@ -20,6 +20,7 @@ class CurrencyUITestHelper {
     private final AbstractUITestNg uiTestNg;
 
     private Map<String, BigDecimal> available;
+    private String availableDefault;
 
     public CurrencyUITestHelper(AbstractUITestNg uiTestNg) {
         this.uiTestNg = uiTestNg;
@@ -37,7 +38,8 @@ class CurrencyUITestHelper {
         liCurrencyAdd.findElement(By.className("glyphicon-ok")).click();
         uiTestNg.driverWait.until(AbstractUITestNg.progressFinished());
 
-        available.put(symbol.toString(), BigDecimal.ONE);
+        availableDefault = symbol.toString();
+        available.put(availableDefault, BigDecimal.ONE);
         LOGGER.debug("Finished adding default currency {}.", symbol);
     }
 
@@ -59,7 +61,7 @@ class CurrencyUITestHelper {
     void deleteAllCurrencies() {
         WebElement section = uiTestNg.driver.findElement(By.id("total-by-currency"));
         List<WebElement> currencyList = section.findElements(By.tagName("li"));
-        LOGGER.debug("Deleting {} accounts .", currencyList.size()-2);
+        LOGGER.debug("Deleting {} currencies.", currencyList.size()-2);
         for (int i = currencyList.size() - 2; i > 0; i--) {
             WebElement li = currencyList.get(i);
             LOGGER.debug("Deleting currency number {}: {}", i, li.getText());
@@ -71,6 +73,15 @@ class CurrencyUITestHelper {
             trashBtn.click();
             uiTestNg.driverWait.until(AbstractUITestNg.elementFinishedResizing(li));
             available.remove(symbol);
+        }
+        availableDefault = null;
+    }
+
+    public String getDefaultCurrency() {
+        if (availableDefault == null) {
+            throw new RuntimeException("Default currency not set.");
+        } else {
+            return availableDefault;
         }
     }
 
