@@ -14,8 +14,16 @@
                     <a><security:authentication property="principal.username" /></a>!
                 </div>
             </div>
-            <div id="default-total" class="col-xs-6 col-sm-9">
+            <div id="default-total" class="col-xs-6 col-sm-6">
                 <div class="well"></div>
+            </div>
+            <div class="col-xs-6 col-sm-3">
+                <div id="main-progress" class="progress">
+                    <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0"
+                         aria-valuemax="100" style="width: 100%">
+                        <span class="sr-only">100% Complete</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
