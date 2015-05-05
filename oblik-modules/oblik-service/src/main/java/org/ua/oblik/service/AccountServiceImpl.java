@@ -69,7 +69,7 @@ public class AccountServiceImpl implements AccountService {
         for (AccountVO avo : list) {
             Integer currencyId = avo.getCurrencyId();
             CurrencyVO cvo = currencyService.getCurrency(currencyId);
-            BigDecimal toAdd = avo.getAmmount().multiply(cvo.getRate());
+            BigDecimal toAdd = avo.getAmount().multiply(cvo.getRate());
             result = result.add(toAdd);
         }
         return result;
@@ -82,7 +82,7 @@ public class AccountServiceImpl implements AccountService {
         account.setCurrency(currency);
         account.setKind(AccountTypeConverter.convert(avo.getType()));
         account.setShortName(avo.getName());
-        // On creation account ammount in zero
+        // On creation account amount in zero
         account.setTotal(BigDecimal.ZERO);
         accountDao.insert(account);
         avo.setAccountId(account.getId());
@@ -95,7 +95,7 @@ public class AccountServiceImpl implements AccountService {
         account.setCurrency(currency);
         account.setKind(AccountTypeConverter.convert(avo.getType()));
         account.setShortName(avo.getName());
-        account.setTotal(avo.getAmmount());
+        account.setTotal(avo.getAmount());
         accountDao.update(account);
     }
 
@@ -120,7 +120,7 @@ public class AccountServiceImpl implements AccountService {
             BigDecimal toRes = BigDecimal.ZERO;
             for (AccountVO avo : listAcc) {
                 if (avo.getCurrencyId().equals(cvo.getCurrencyId())) {
-                    toRes = toRes.add(avo.getAmmount());
+                    toRes = toRes.add(avo.getAmount());
                 }
             }
             result.put(cvo, toRes);
@@ -149,7 +149,7 @@ public class AccountServiceImpl implements AccountService {
         result.setCurrencyId(model.getCurrency().getId());
         result.setCurrencySymbol(model.getCurrency().getSymbol());
         result.setName(model.getShortName());
-        result.setAmmount(model.getTotal());
+        result.setAmount(model.getTotal());
         result.setType(AccountTypeConverter.convert(model.getKind()));
         result.setRemovable(isNoTransactions(model.getId()));
         return result;

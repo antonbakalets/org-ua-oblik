@@ -51,9 +51,9 @@ CREATE TABLE IF NOT EXISTS txaction (
     txac_id         INT UNSIGNED NOT NULL AUTO_INCREMENT,
     tx_date         DATE NOT NULL,
     debet           INT UNSIGNED NULL,
-    debet_ammount   DECIMAL(15, 5) NULL,
+    debet_amount   DECIMAL(15, 5) NULL,
     credit          INT UNSIGNED NULL,
-    credit_ammount  DECIMAL(15, 5) NULL,
+    credit_amount  DECIMAL(15, 5) NULL,
     tx_comment      VARCHAR(250) NULL,
     PRIMARY KEY (txac_id),
     CONSTRAINT fk_tx_debet

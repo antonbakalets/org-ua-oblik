@@ -13,11 +13,11 @@ public class TransactionVO {
     private Integer txId;
     private TransactionType type;
     private Integer firstAccount;
-    private BigDecimal firstAmmount;
+    private BigDecimal firstAmount;
     private Date date;
     private String note;
     private Integer secondAccount;
-    private BigDecimal secondAmmount;
+    private BigDecimal secondAmount;
 
     public Integer getTxId() {
         return txId;
@@ -43,12 +43,12 @@ public class TransactionVO {
         this.firstAccount = firstAccount;
     }
 
-    public BigDecimal getFirstAmmount() {
-        return firstAmmount;
+    public BigDecimal getFirstAmount() {
+        return firstAmount;
     }
 
-    public void setFirstAmmount(BigDecimal firstAmmount) {
-        this.firstAmmount = firstAmmount;
+    public void setFirstAmount(BigDecimal firstAmount) {
+        this.firstAmount = firstAmount;
     }
 
     public Date getDate() {
@@ -75,12 +75,12 @@ public class TransactionVO {
         this.secondAccount = secondAccount;
     }
 
-    public BigDecimal getSecondAmmount() {
-        return secondAmmount;
+    public BigDecimal getSecondAmount() {
+        return secondAmount;
     }
 
-    public void setSecondAmmount(BigDecimal secondAmmount) {
-        this.secondAmmount = secondAmmount;
+    public void setSecondAmount(BigDecimal secondAmount) {
+        this.secondAmount = secondAmount;
     }
 
     @Override

@@ -13,7 +13,7 @@ public class AccountVO {
     private String name;
     private Integer currencyId;
     private String currencySymbol;
-    private BigDecimal ammount;
+    private BigDecimal amount;
     private AccountVOType type;
     private boolean removable;
 
@@ -49,12 +49,12 @@ public class AccountVO {
         this.currencySymbol = currencySymbol;
     }
 
-    public BigDecimal getAmmount() {
-        return ammount;
+    public BigDecimal getAmount() {
+        return amount;
     }
 
-    public void setAmmount(BigDecimal ammount) {
-        this.ammount = ammount;
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
     }
 
     public AccountVOType getType() {
@@ -97,6 +97,6 @@ public class AccountVO {
 
     @Override
     public String toString() {
-        return "AccountVO{" + "accountId=" + accountId + ", name=" + name + ", currencyId=" + currencyId + ", currencySymbol=" + currencySymbol + ", ammount=" + ammount + ", type=" + type + '}';
+        return "AccountVO{" + "accountId=" + accountId + ", name=" + name + ", currencyId=" + currencyId + ", currencySymbol=" + currencySymbol + ", amount=" + amount + ", type=" + type + '}';
     }
 }

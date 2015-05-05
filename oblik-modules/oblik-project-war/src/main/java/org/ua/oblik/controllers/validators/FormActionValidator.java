@@ -40,13 +40,13 @@ public class FormActionValidator implements Validator {
 
     private void validateAsExpense(FormActionBean bean, Errors errors, AccountVO firstAccount, AccountVO secondAccount) {
         if (!firstAccount.getCurrencyId().equals(secondAccount.getCurrencyId())) {
-            errors.rejectValue("secondAmmount", "error.transaction.different.currencies");
+            errors.rejectValue("secondAmount", "error.transaction.different.currencies");
         }
     }
 
     private void validateAsIncome(FormActionBean bean, Errors errors, AccountVO firstAccount, AccountVO secondAccount) {
         if (!firstAccount.getCurrencyId().equals(secondAccount.getCurrencyId())) {
-            errors.rejectValue("secondAmmount", "error.transaction.different.currencies");
+            errors.rejectValue("secondAmount", "error.transaction.different.currencies");
         }
     }
 
@@ -55,8 +55,8 @@ public class FormActionValidator implements Validator {
             errors.rejectValue("secondAccount", "error.transaction.transfer.same.account");
         }
         if (!firstAccount.getCurrencyId().equals(secondAccount.getCurrencyId())
-                && bean.getSecondAmmount() == null) {
-            errors.rejectValue("secondAmmount", "error.transaction.transfer.second.account");
+                && bean.getSecondAmount() == null) {
+            errors.rejectValue("secondAmount", "error.transaction.transfer.second.account");
         }
     }
 }

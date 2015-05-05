@@ -8,7 +8,7 @@
            action="${pageContext.request.contextPath}/account/edit.html">
 
     <form:hidden path="accountId"/>
-    <form:hidden path="ammount"/>
+    <form:hidden path="amount"/>
     <form:hidden path="oldName"/>
     <form:hidden path="kind"/>
     <form:hidden path="removable"/>

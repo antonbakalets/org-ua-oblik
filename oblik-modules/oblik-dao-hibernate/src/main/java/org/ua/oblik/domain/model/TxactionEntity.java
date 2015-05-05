@@ -40,15 +40,15 @@ public class TxactionEntity implements Serializable, Txaction {
     @ManyToOne(targetEntity = AccountEntity.class)
     private Account credit;
 
-    @Column(name = "credit_ammount")
-    private BigDecimal creditAmmount;
+    @Column(name = "credit_amount")
+    private BigDecimal creditAmount;
 
     @JoinColumn(name = "debet", referencedColumnName = "acco_id")
     @ManyToOne(targetEntity = AccountEntity.class)
     private Account debet;
 
-    @Column(name = "debet_ammount")
-    private BigDecimal debetAmmount;
+    @Column(name = "debet_amount")
+    private BigDecimal debetAmount;
 
     @Column(name = "tx_comment")
     private String comment;
@@ -97,23 +97,23 @@ public class TxactionEntity implements Serializable, Txaction {
     }
 
     @Override
-    public BigDecimal getCreditAmmount() {
-        return creditAmmount;
+    public BigDecimal getCreditAmount() {
+        return creditAmount;
     }
 
     @Override
-    public void setCreditAmmount(BigDecimal creditAmmount) {
-        this.creditAmmount = creditAmmount;
+    public void setCreditAmount(BigDecimal creditAmount) {
+        this.creditAmount = creditAmount;
     }
 
     @Override
-    public BigDecimal getDebetAmmount() {
-        return debetAmmount;
+    public BigDecimal getDebetAmount() {
+        return debetAmount;
     }
 
     @Override
-    public void setDebetAmmount(BigDecimal debetAmmount) {
-        this.debetAmmount = debetAmmount;
+    public void setDebetAmount(BigDecimal debetAmount) {
+        this.debetAmount = debetAmount;
     }
 
     @Override

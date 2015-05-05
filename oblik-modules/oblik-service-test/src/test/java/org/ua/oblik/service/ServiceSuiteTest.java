@@ -5,7 +5,7 @@ import org.junit.runners.Suite;
 
 /**
  *
- * @author abakalets
+ * @author Anton Bakalets
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({

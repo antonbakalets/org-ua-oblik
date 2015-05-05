@@ -58,7 +58,7 @@ public class TransactionServiceTest extends BaseServiceTest {
     
     public BigDecimal totalByAccount(DefinedAccount definedAccount) {
         Assert.assertEquals(aH.type(definedAccount), AccountVOType.ASSETS);
-        return aH.getAmmount(definedAccount);
+        return aH.getAmount(definedAccount);
     }
     
     @Test
@@ -72,7 +72,7 @@ public class TransactionServiceTest extends BaseServiceTest {
         incomeTx.setDate(new Date());
         incomeTx.setFirstAccount(aH.accountId(DefinedAccount.INCOME_SALARY));
         final BigDecimal diff = BigDecimal.valueOf(125);
-        incomeTx.setFirstAmmount(diff);
+        incomeTx.setFirstAmount(diff);
         incomeTx.setSecondAccount(aH.accountId(DefinedAccount.UGH_CASH));
         incomeTx.setNote("Зарплата 125 грн. зарахована до готівки.");
         incomeTx.setType(TransactionType.INCOME);
@@ -92,7 +92,7 @@ public class TransactionServiceTest extends BaseServiceTest {
         TransactionVO incomeTx = new TransactionVO();
         incomeTx.setDate(new Date());
         incomeTx.setFirstAccount(accountIds.get(DefinedAccount.INCOME_FOUND_USD));
-        incomeTx.setFirstAmmount(BigDecimal.valueOf(-85));
+        incomeTx.setFirstAmount(BigDecimal.valueOf(-85));
         incomeTx.setSecondAccount(accountIds.get(DefinedAccount.USD_CASH));
         incomeTx.setNote("Нонсенс. Зарплата -85 грн. зарахована до готівки в доларах.");
         incomeTx.setType(TransactionType.INCOME);
@@ -112,7 +112,7 @@ public class TransactionServiceTest extends BaseServiceTest {
         expenseTx.setDate(new Date());
         expenseTx.setFirstAccount(aH.accountId(DefinedAccount.UGH_CASH));
         final BigDecimal diff = BigDecimal.valueOf(65);
-        expenseTx.setFirstAmmount(diff);
+        expenseTx.setFirstAmount(diff);
         expenseTx.setSecondAccount(aH.accountId(DefinedAccount.EXPENSE_MARKET));
         expenseTx.setNote("Витрата 65 грн. із готівки на базар.");
         expenseTx.setType(TransactionType.EXPENSE);
@@ -139,7 +139,7 @@ public class TransactionServiceTest extends BaseServiceTest {
         transferTx.setDate(new Date());
         transferTx.setFirstAccount(aH.accountId(DefinedAccount.UGH_CASH));
         final BigDecimal diff = BigDecimal.valueOf(200);
-        transferTx.setFirstAmmount(diff);
+        transferTx.setFirstAmount(diff);
         transferTx.setSecondAccount(aH.accountId(DefinedAccount.UGH_CARD));
         transferTx.setNote("Переказ 200 гривень з готівки на карточку.");
         transferTx.setType(TransactionType.TRANSFER);
@@ -169,10 +169,10 @@ public class TransactionServiceTest extends BaseServiceTest {
         exchangeTx.setDate(new Date());
         exchangeTx.setFirstAccount(aH.accountId(DefinedAccount.EURO_CARD));
         final BigDecimal firstDiff = BigDecimal.valueOf(10);
-        exchangeTx.setFirstAmmount(firstDiff);
+        exchangeTx.setFirstAmount(firstDiff);
         exchangeTx.setSecondAccount(aH.accountId(DefinedAccount.UGH_DEPOSIT));
         final BigDecimal secondDiff = BigDecimal.valueOf(107);
-        exchangeTx.setSecondAmmount(secondDiff);
+        exchangeTx.setSecondAmount(secondDiff);
         exchangeTx.setNote("Обмін 10 євро з карточки в 107 гривень на депозиті.");
         exchangeTx.setType(TransactionType.TRANSFER);
         transactionService.save(exchangeTx);
@@ -205,10 +205,10 @@ public class TransactionServiceTest extends BaseServiceTest {
         exchangeTx.setDate(new Date());
         exchangeTx.setFirstAccount(aH.accountId(DefinedAccount.UGH_CASH));
         final BigDecimal firstDiff = BigDecimal.valueOf(8140);
-        exchangeTx.setFirstAmmount(firstDiff);
+        exchangeTx.setFirstAmount(firstDiff);
         exchangeTx.setSecondAccount(aH.accountId(DefinedAccount.USD_CASH));
         final BigDecimal secondDiff = BigDecimal.valueOf(1000);
-        exchangeTx.setSecondAmmount(secondDiff);
+        exchangeTx.setSecondAmount(secondDiff);
         exchangeTx.setNote("За 8140 грн. готівкою куплено 1000 дол. готівкою");
         exchangeTx.setType(TransactionType.TRANSFER);
         transactionService.save(exchangeTx);
@@ -241,10 +241,10 @@ public class TransactionServiceTest extends BaseServiceTest {
         exchangeTx.setDate(new Date());
         exchangeTx.setFirstAccount(aH.accountId(DefinedAccount.EURO_CARD));
         final BigDecimal firstDiff = BigDecimal.valueOf(8);
-        exchangeTx.setFirstAmmount(firstDiff);
+        exchangeTx.setFirstAmount(firstDiff);
         exchangeTx.setSecondAccount(aH.accountId(DefinedAccount.USD_CASH));
         final BigDecimal secondDiff = BigDecimal.valueOf(10);
-        exchangeTx.setSecondAmmount(secondDiff);
+        exchangeTx.setSecondAmount(secondDiff);
         exchangeTx.setNote("Переказ з євро в долари.");
         exchangeTx.setType(TransactionType.TRANSFER);
         transactionService.save(exchangeTx);
@@ -275,14 +275,14 @@ public class TransactionServiceTest extends BaseServiceTest {
         incomeTx.setDate(new Date());
         incomeTx.setFirstAccount(aH.accountId(DefinedAccount.INCOME_SALARY));
         final BigDecimal firstDiff = BigDecimal.valueOf(30);
-        incomeTx.setFirstAmmount(firstDiff);
+        incomeTx.setFirstAmount(firstDiff);
         incomeTx.setSecondAccount(aH.accountId(DefinedAccount.UGH_CASH));
         incomeTx.setNote("Зарплата за січень.");
         incomeTx.setType(TransactionType.INCOME);
         transactionService.save(incomeTx);
                 
         final BigDecimal secDiff = BigDecimal.valueOf(100);
-        incomeTx.setFirstAmmount(secDiff);
+        incomeTx.setFirstAmount(secDiff);
         transactionService.save(incomeTx); 
         
         final BigDecimal ughAfter = totalByCurrency(DefinedAccount.UGH_CASH);
@@ -306,14 +306,14 @@ public class TransactionServiceTest extends BaseServiceTest {
         incomeTx.setDate(new Date());
         incomeTx.setFirstAccount(aH.accountId(DefinedAccount.INCOME_SALARY));
         final BigDecimal firstDiff = BigDecimal.valueOf(30);
-        incomeTx.setFirstAmmount(firstDiff);
+        incomeTx.setFirstAmount(firstDiff);
         incomeTx.setSecondAccount(aH.accountId(DefinedAccount.UGH_CASH));
         incomeTx.setNote("Зарплата за січень.");
         incomeTx.setType(TransactionType.INCOME);
         transactionService.save(incomeTx);
                 
         final BigDecimal secDiff = BigDecimal.valueOf(100);
-        incomeTx.setFirstAmmount(secDiff);
+        incomeTx.setFirstAmount(secDiff);
         incomeTx.setSecondAccount(aH.accountId(DefinedAccount.UGH_CARD));
         transactionService.save(incomeTx); 
         
@@ -338,14 +338,14 @@ public class TransactionServiceTest extends BaseServiceTest {
         expenseTx.setDate(new Date());
         expenseTx.setFirstAccount(aH.accountId(DefinedAccount.UGH_CASH));
         final BigDecimal diff = BigDecimal.valueOf(85);
-        expenseTx.setFirstAmmount(diff);
+        expenseTx.setFirstAmount(diff);
         expenseTx.setSecondAccount(aH.accountId(DefinedAccount.EXPENSE_MARKET));
         expenseTx.setNote("Витрата на базарі.");
         expenseTx.setType(TransactionType.EXPENSE);
         transactionService.save(expenseTx);
         
         final BigDecimal secDiff = BigDecimal.valueOf(100);  
-        expenseTx.setFirstAmmount(secDiff);
+        expenseTx.setFirstAmount(secDiff);
         transactionService.save(expenseTx);
         
         final BigDecimal ughAfter = totalByCurrency(DefinedAccount.UGH_CASH);
@@ -368,14 +368,14 @@ public class TransactionServiceTest extends BaseServiceTest {
         expenseTx.setDate(new Date());
         expenseTx.setFirstAccount(aH.accountId(DefinedAccount.UGH_CASH));
         final BigDecimal diff = BigDecimal.valueOf(85);
-        expenseTx.setFirstAmmount(diff);
+        expenseTx.setFirstAmount(diff);
         expenseTx.setSecondAccount(aH.accountId(DefinedAccount.EXPENSE_MARKET));
         expenseTx.setNote("Витрата на базарі.");
         expenseTx.setType(TransactionType.EXPENSE);
         transactionService.save(expenseTx);
         
         final BigDecimal secDiff = BigDecimal.valueOf(22);  
-        expenseTx.setFirstAmmount(secDiff);
+        expenseTx.setFirstAmount(secDiff);
         expenseTx.setFirstAccount(aH.accountId(DefinedAccount.UGH_CARD));
         transactionService.save(expenseTx);
         
@@ -403,10 +403,10 @@ public class TransactionServiceTest extends BaseServiceTest {
         transferTx.setDate(new Date());
         transferTx.setFirstAccount(aH.accountId(DefinedAccount.UGH_CASH));
         final BigDecimal ughDiff = BigDecimal.valueOf(1050);
-        transferTx.setFirstAmmount(ughDiff);
+        transferTx.setFirstAmount(ughDiff);
         transferTx.setSecondAccount(aH.accountId(DefinedAccount.EURO_CARD));
         final BigDecimal euroDiff = BigDecimal.valueOf(99);
-        transferTx.setSecondAmmount(euroDiff);
+        transferTx.setSecondAmount(euroDiff);
         transferTx.setNote("Купуємо за 1050 грн 99 еуро.");
         transferTx.setType(TransactionType.TRANSFER);
         transactionService.save(transferTx);
@@ -414,8 +414,8 @@ public class TransactionServiceTest extends BaseServiceTest {
         transferTx.setNote("передумали - купуємо за 425 грн 49 еуро");
         final BigDecimal secUghDiff = BigDecimal.valueOf(425);
         final BigDecimal secEuroDiff = BigDecimal.valueOf(49);
-        transferTx.setFirstAmmount(secUghDiff);
-        transferTx.setSecondAmmount(secEuroDiff);
+        transferTx.setFirstAmount(secUghDiff);
+        transferTx.setSecondAmount(secEuroDiff);
         transactionService.save(transferTx);
         
         final BigDecimal ughAfter = totalByCurrency(DefinedAccount.UGH_CASH);
@@ -448,10 +448,10 @@ public class TransactionServiceTest extends BaseServiceTest {
         transferTx.setDate(new Date());
         transferTx.setFirstAccount(aH.accountId(DefinedAccount.UGH_DEPOSIT));
         final BigDecimal ughDiff = BigDecimal.valueOf(1050);
-        transferTx.setFirstAmmount(ughDiff);
+        transferTx.setFirstAmount(ughDiff);
         transferTx.setSecondAccount(aH.accountId(DefinedAccount.EURO_CARD));
         final BigDecimal euroDiff = BigDecimal.valueOf(99);
-        transferTx.setSecondAmmount(euroDiff);
+        transferTx.setSecondAmount(euroDiff);
         transferTx.setNote("Купуємо за 1050 грн 99 еуро.");
         transferTx.setType(TransactionType.TRANSFER);
         transactionService.save(transferTx);
@@ -459,8 +459,8 @@ public class TransactionServiceTest extends BaseServiceTest {
         transferTx.setNote("передумали - купуємо за 425 грн 70 доларів, а не євро");
         final BigDecimal secUghDiff = BigDecimal.valueOf(425);
         final BigDecimal secUsdDiff = BigDecimal.valueOf(70);
-        transferTx.setFirstAmmount(secUghDiff);
-        transferTx.setSecondAmmount(secUsdDiff);
+        transferTx.setFirstAmount(secUghDiff);
+        transferTx.setSecondAmount(secUsdDiff);
         transferTx.setSecondAccount(aH.accountId(DefinedAccount.USD_CASH));
         transactionService.save(transferTx);
         
@@ -490,7 +490,7 @@ public class TransactionServiceTest extends BaseServiceTest {
         incomeTx.setDate(new Date());
         incomeTx.setFirstAccount(aH.accountId(DefinedAccount.INCOME_SALARY));
         final BigDecimal diff = BigDecimal.valueOf(150);
-        incomeTx.setFirstAmmount(diff);
+        incomeTx.setFirstAmount(diff);
         incomeTx.setSecondAccount(aH.accountId(DefinedAccount.UGH_CASH));
         incomeTx.setNote("Зарплата за вересень.");
         incomeTx.setType(TransactionType.INCOME);
@@ -519,7 +519,7 @@ public class TransactionServiceTest extends BaseServiceTest {
         expenseTx.setDate(new Date());
         expenseTx.setFirstAccount(aH.accountId(DefinedAccount.UGH_CASH));
         final BigDecimal diff = BigDecimal.valueOf(0.85);
-        expenseTx.setFirstAmmount(diff);
+        expenseTx.setFirstAmount(diff);
         expenseTx.setSecondAccount(aH.accountId(DefinedAccount.EXPENSE_TRANSPORT));
         expenseTx.setNote("Витрата у транспорті.");
         expenseTx.setType(TransactionType.EXPENSE);
@@ -548,7 +548,7 @@ public class TransactionServiceTest extends BaseServiceTest {
         transferTx.setDate(new Date());
         transferTx.setFirstAccount(aH.accountId(DefinedAccount.UGH_CASH));
         final BigDecimal diff = BigDecimal.valueOf(1120);
-        transferTx.setFirstAmmount(diff);
+        transferTx.setFirstAmount(diff);
         transferTx.setSecondAccount(aH.accountId(DefinedAccount.UGH_CARD));
         transferTx.setNote("Переказ гривень з готівки на карточку.");
         transferTx.setType(TransactionType.TRANSFER);

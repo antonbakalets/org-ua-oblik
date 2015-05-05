@@ -33,15 +33,22 @@ import static org.testng.Assert.*;
  */
 public class AbstractUITestNg {
 
-    public static final String ACCOUNT1 = "account1";
-    public static final String ACCOUNT2 = "account2";
-    public static final String ACCOUNT3 = "account3";
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractUITestNg.class);
+
+    protected static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#,##0.00");
+
     public static final String CURRENCY1 = "грн";
     public static final String CURRENCY2 = "usd";
     public static final String CURRENCY3 = "euro";
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractUITestNg.class);
 
-    private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#,##0.00");
+    public static final String ACCOUNT = "Рахунок";
+
+    public static final String ASSETS1 = "Актив-1";
+    public static final String ASSETS2 = "Актив-2";
+    public static final String EXPENSE1 = "Витрати-1";
+    public static final String EXPENSE2 = "Витрати-2";
+    public static final String INCOME1 = "Дохід-1";
+    public static final String INCOME2 = "Дохід-2";
 
     protected WebDriver driver;
     protected String baseUrl;
@@ -165,6 +172,12 @@ public class AbstractUITestNg {
         fillLoginPage(username, password, false);
         driver.get(baseUrl + "/main.html");
         Assert.assertEquals(baseUrl + "/main.html", driver.getCurrentUrl(), "Page url.");
+        driverWait.until(progressFinished());
+    }
+
+    protected void clickTransactionType(TransactionType type) {
+        By byid = By.id("action-type-" + type.name().toLowerCase());
+        driver.findElement(byid).click();
         driverWait.until(progressFinished());
     }
 }

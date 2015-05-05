@@ -94,7 +94,7 @@ class AccountFacade extends AbstractHelper {
         result.setName(avo.getName());
         result.setCurrencyId(avo.getCurrencyId());
         result.setKind(avo.getType());
-        result.setAmount(formatDecimal(avo.getAmmount(), locale));
+        result.setAmount(formatDecimal(avo.getAmount(), locale));
         result.setCurrencySymbol(avo.getCurrencySymbol());
         return result;
     }
@@ -117,7 +117,7 @@ class AccountFacade extends AbstractHelper {
         result.setNewName(avo.getName());
         result.setCurrencyId(avo.getCurrencyId());
         result.setKind(avo.getType());
-        result.setAmmount(avo.getAmmount());
+        result.setAmount(avo.getAmount());
         result.setCurrencySymbol(avo.getCurrencySymbol());
         result.setRemovable(avo.isRemovable());
         return result;
@@ -130,7 +130,7 @@ class AccountFacade extends AbstractHelper {
         result.setType(accountBean.getKind());
         result.setCurrencyId(accountBean.getCurrencyId());
         result.setCurrencySymbol(accountBean.getCurrencySymbol());
-        result.setAmmount(accountBean.getAmmount());
+        result.setAmount(accountBean.getAmount());
         return result;
     }
 }

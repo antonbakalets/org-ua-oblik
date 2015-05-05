@@ -20,13 +20,13 @@ public class FormActionBean {
     private Integer firstAccount;
 
     @NotNull
-    private BigDecimal firstAmmount;
+    private BigDecimal firstAmount;
 
     @NotNull
     private Integer secondAccount;
 
     // is validated depending on type
-    private BigDecimal secondAmmount;
+    private BigDecimal secondAmount;
 
     private String note;
 
@@ -62,12 +62,12 @@ public class FormActionBean {
         this.firstAccount = firstAccount;
     }
 
-    public BigDecimal getFirstAmmount() {
-        return firstAmmount;
+    public BigDecimal getFirstAmount() {
+        return firstAmount;
     }
 
-    public void setFirstAmmount(BigDecimal firstAmmount) {
-        this.firstAmmount = firstAmmount;
+    public void setFirstAmount(BigDecimal firstAmount) {
+        this.firstAmount = firstAmount;
     }
 
     public Integer getSecondAccount() {
@@ -78,12 +78,12 @@ public class FormActionBean {
         this.secondAccount = secondAccount;
     }
 
-    public BigDecimal getSecondAmmount() {
-        return secondAmmount;
+    public BigDecimal getSecondAmount() {
+        return secondAmount;
     }
 
-    public void setSecondAmmount(BigDecimal secondAmmount) {
-        this.secondAmmount = secondAmmount;
+    public void setSecondAmount(BigDecimal secondAmount) {
+        this.secondAmount = secondAmount;
     }
 
     public String getNote() {

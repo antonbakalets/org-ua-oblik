@@ -83,12 +83,12 @@ jQuery(function ($) {
                     });
                 }
             });
-            $('#account-from').change(function () {
+            /*$('#account-from').change(function () {
                 application.loadSecondAccountOptions();
             });
             $('#account-to').change(function () {
                 application.loadFirstAccountOptions();
-            });
+            });*/
         },
         loadTotalByCurrency: function () {
             $("#total-by-currency").load(this.contextPath + '/currency/list.html', function () {
@@ -167,13 +167,13 @@ jQuery(function ($) {
         setActionsType: function (index) {
             if (index === 2) {
                 this.actionType = "INCOME";
-                $('#second-ammount-div').hide('blind');
+                $('#second-amount-div').hide('blind');
             } else if (index === 1) {
                 this.actionType = "TRANSFER";
-                $('#second-ammount-div').show('blind');
+                $('#second-amount-div').show('blind');
             } else {
                 this.actionType = "EXPENSE";
-                $('#second-ammount-div').hide('blind');
+                $('#second-amount-div').hide('blind');
             }
         },
         loadFirstAccountOptions: function () {
@@ -320,11 +320,11 @@ jQuery(function ($) {
         application.loadTotalByCurrency();
     }));
 
-    reactor.addEventListener('firstAccountOptionChange', new Listener(1, function () {
+    /*reactor.addEventListener('firstAccountOptionChange', new Listener(1, function () {
         application.loadSecondAccountOptions();
     }));
 
     reactor.addEventListener('secondAccountOptionChange', new Listener(1, function () {
         application.loadFirstAccountOptions();
-    }));
+    }));*/
 });

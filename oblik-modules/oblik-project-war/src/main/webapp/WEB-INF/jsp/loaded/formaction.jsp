@@ -44,12 +44,12 @@
             </div>
 
             <div class="form-group">
-                <label class="sr-only"><spring:message var="firstAmountLabel" code="jsp.oblik.ammount"/></label>
+                <label class="sr-only"><spring:message var="firstAmountLabel" code="jsp.oblik.amount"/></label>
                 <div class="input-group">
-                    <form:input id="firstAmmount" path="firstAmmount" cssClass="form-control calculable" placeholder="${firstAmountLabel}"/>
+                    <form:input id="firstAmount" path="firstAmount" cssClass="form-control calculable" placeholder="${firstAmountLabel}"/>
                     <span class="input-group-addon"><span class="glyphicon glyphicon-list-alt"/></span>
                 </div>
-                <form:errors path="firstAmmount" element="div" cssClass="alert alert-danger"/>
+                <form:errors path="firstAmount" element="div" cssClass="alert alert-danger"/>
             </div>
 
             <div class="form-group">
@@ -74,14 +74,14 @@
                 <form:errors path="secondAccount" element="div" cssClass="alert alert-danger"/>
             </div>
 
-            <c:set var="secondAmmountStyle"><c:if test="${formActionBean.type != 'TRANSFER'}">style="display: none;"</c:if></c:set>
-            <div id="second-ammount-div" class="form-group" ${secondAmmountStyle}>
-                <label class="sr-only"><spring:message var="secondAmountLabel" code="jsp.oblik.expense.ammount"/></label>
+            <c:set var="secondAmountStyle"><c:if test="${formActionBean.type != 'TRANSFER'}">style="display: none;"</c:if></c:set>
+            <div id="second-amount-div" class="form-group" ${secondAmountStyle}>
+                <label class="sr-only"><spring:message var="secondAmountLabel" code="jsp.oblik.expense.amount"/></label>
                 <div class="input-group">
-                    <form:input id="secondAmmount" path="secondAmmount" cssClass="form-control calculable" placeholder="${secondAmountLabel}"/>
+                    <form:input id="secondAmount" path="secondAmount" cssClass="form-control calculable" placeholder="${secondAmountLabel}"/>
                     <span class="input-group-addon"><span class="glyphicon glyphicon-list-alt"/></span>
                 </div>
-                <form:errors path="secondAmmount" element="div" cssClass="alert alert-danger"/>
+                <form:errors path="secondAmount" element="div" cssClass="alert alert-danger"/>
             </div>
 
             <div class="form-group">

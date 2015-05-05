@@ -61,7 +61,7 @@ public class TotalController {
         return "loaded/total-header";
     }
 
-    @RequestMapping("/total/ammount")
+    @RequestMapping("/total/amount")
     @ResponseBody
     public BigDecimal totalAmount() {
         BigDecimal total = totalService.getDefaultCurrencyTotal();

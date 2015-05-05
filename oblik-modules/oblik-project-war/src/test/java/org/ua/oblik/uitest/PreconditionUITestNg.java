@@ -35,9 +35,9 @@ public class PreconditionUITestNg extends AbstractUITestNg {
         currencyHelper.addDefaultCurrency(CURRENCY1);
         currencyHelper.addCurrency(CURRENCY2, "2");
         currencyHelper.addCurrency(CURRENCY3, "3");
-        accountHelper.addAccount(AccountVOType.ASSETS, ACCOUNT1, CURRENCY1);
-        accountHelper.addAccount(AccountVOType.EXPENSE, ACCOUNT2, CURRENCY1);
-        accountHelper.addAccount(AccountVOType.INCOME, ACCOUNT3, CURRENCY1);
+        accountHelper.addAccount(AccountVOType.ASSETS, ASSETS1, CURRENCY1);
+        accountHelper.addAccount(AccountVOType.EXPENSE, EXPENSE1, CURRENCY1);
+        accountHelper.addAccount(AccountVOType.INCOME, INCOME1, CURRENCY1);
     }
 
     @Test
@@ -65,11 +65,6 @@ public class PreconditionUITestNg extends AbstractUITestNg {
         Select secondSelect = new Select(driver.findElement(By.id("account-to")));
         assertSameOptions(firstSelect, accountHelper.getAccountsWithPlaceHolder(first).keySet());
         assertSameOptions(secondSelect, accountHelper.getAccountsWithPlaceHolder(second).keySet());
-    }
-
-    private void clickTransactionType(TransactionType type) {
-        By byid = By.id("action-type-" + type.name().toLowerCase());
-        driver.findElement(byid).click();
     }
 
     @AfterClass

@@ -42,7 +42,7 @@ public class AccountServiceTestHelper {
     private AccountVO createAccount(DefinedAccount definedAccount) {
         final CurrencyVO currencyVO = currencyServiceTestHelper.getDefinedCurrency(definedAccount.getCurrency());
         final AccountVO result  = new AccountVO();
-        result.setAmmount(BigDecimal.ZERO);
+        result.setAmount(BigDecimal.ZERO);
         result.setCurrencyId(currencyVO.getCurrencyId());
         result.setCurrencySymbol(currencyVO.getSymbol());
         result.setName(definedAccount.getAccountName());
@@ -66,7 +66,7 @@ public class AccountServiceTestHelper {
         return accounts.get(definedAccount).getType();
     }
 
-    public BigDecimal getAmmount(DefinedAccount definedAccount) {
-        return accountService.getAccount(accountId(definedAccount)).getAmmount();
+    public BigDecimal getAmount(DefinedAccount definedAccount) {
+        return accountService.getAccount(accountId(definedAccount)).getAmount();
     }
 }

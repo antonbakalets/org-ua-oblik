@@ -22,13 +22,13 @@ public interface Txaction extends Identifiable<Integer> {
 
     void setDebet(Account debet);
 
-    BigDecimal getCreditAmmount();
+    BigDecimal getCreditAmount();
 
-    void setCreditAmmount(BigDecimal creditAmmount);
+    void setCreditAmount(BigDecimal creditAmount);
 
-    BigDecimal getDebetAmmount();
+    BigDecimal getDebetAmount();
 
-    void setDebetAmmount(BigDecimal debetAmmount);
+    void setDebetAmount(BigDecimal debetAmount);
 
     String getComment();
 

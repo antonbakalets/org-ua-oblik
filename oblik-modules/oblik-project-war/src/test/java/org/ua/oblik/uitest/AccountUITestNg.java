@@ -45,7 +45,7 @@ public class AccountUITestNg extends AbstractUITestNg {
         int beforeLi = section.findElements(By.tagName("li")).size();
         liAccountAdd.findElement(getAddButtonName(type)).click();
         driverWait.until(elementFinishedResizing(liAccountAdd));
-        liAccountAdd.findElement(By.id("newName")).sendKeys(ACCOUNT1);
+        liAccountAdd.findElement(By.id("newName")).sendKeys(ASSETS1);
         new Select(liAccountAdd.findElement(By.id("currency"))).selectByVisibleText(CURRENCY1);
         liAccountAdd.findElement(By.className("glyphicon-remove")).click();
         driverWait.until(elementFinishedResizing(liAccountAdd));
@@ -80,7 +80,7 @@ public class AccountUITestNg extends AbstractUITestNg {
 
     @Test(dataProvider = "accountTypeProvider")
     public void testAddExistingAccount(AccountVOType type) {
-        String accountName = type + ACCOUNT2;
+        String accountName = type + ACCOUNT;
 
         WebElement section = driver.findElement(sectionByAccountType(type));
         int beforeLi = section.findElements(By.tagName("li")).size();

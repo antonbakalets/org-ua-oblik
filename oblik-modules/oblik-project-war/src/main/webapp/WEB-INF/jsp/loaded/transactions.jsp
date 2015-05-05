@@ -4,7 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <spring:message var="title_date" code="jsp.oblik.date"/>
-<spring:message var="title_ammount" code="jsp.oblik.ammount"/>
+<spring:message var="title_amount" code="jsp.oblik.amount"/>
 <spring:message var="title_account" code="jsp.oblik.account"/>
 <spring:message var="title_category" code="jsp.oblik.category"/>
 <spring:message var="title_note" code="jsp.oblik.note"/>

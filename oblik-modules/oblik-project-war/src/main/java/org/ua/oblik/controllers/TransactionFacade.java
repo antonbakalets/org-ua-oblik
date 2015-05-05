@@ -52,13 +52,13 @@ class TransactionFacade extends AbstractHelper {
         final AccountVO firstAccount = accountService.getAccount(tvo.getFirstAccount());
         result.setFirstAccountName(firstAccount.getName());
         result.setFirstSymbol(firstAccount.getCurrencySymbol());
-        result.setFirstAmount(formatDecimal(tvo.getFirstAmmount(), locale));
+        result.setFirstAmount(formatDecimal(tvo.getFirstAmount(), locale));
         result.setTransactionId(tvo.getTxId());
         result.setNote(tvo.getNote());
         final AccountVO secondAccount = accountService.getAccount(tvo.getSecondAccount());
         result.setSecondAccountName(secondAccount.getName());
-        if (tvo.getSecondAmmount() != null) {
-            result.setSecondAmount(formatDecimal(tvo.getSecondAmmount(), locale));
+        if (tvo.getSecondAmount() != null) {
+            result.setSecondAmount(formatDecimal(tvo.getSecondAmount(), locale));
         }
         result.setSecondSymbol(secondAccount.getCurrencySymbol());
         result.setType(tvo.getType());

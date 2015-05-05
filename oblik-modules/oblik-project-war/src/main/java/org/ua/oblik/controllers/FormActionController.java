@@ -100,11 +100,11 @@ public class FormActionController {
         TransactionVO result = new TransactionVO();
         result.setDate(bean.getDate());
         result.setFirstAccount(bean.getFirstAccount());
-        result.setFirstAmmount(bean.getFirstAmmount());
+        result.setFirstAmount(bean.getFirstAmount());
         result.setTxId(bean.getTxId());
         result.setNote(bean.getNote());
         result.setSecondAccount(bean.getSecondAccount());
-        result.setSecondAmmount(bean.getSecondAmmount());
+        result.setSecondAmount(bean.getSecondAmount());
         result.setType(bean.getType());
         return result;
     }
@@ -114,10 +114,10 @@ public class FormActionController {
         result.setTxId(tvo.getTxId());
         result.setDate(tvo.getDate());
         result.setFirstAccount(tvo.getFirstAccount());
-        result.setFirstAmmount(tvo.getFirstAmmount());
+        result.setFirstAmount(tvo.getFirstAmount());
         result.setNote(tvo.getNote());
         result.setSecondAccount(tvo.getSecondAccount());
-        result.setSecondAmmount(tvo.getSecondAmmount());
+        result.setSecondAmount(tvo.getSecondAmount());
         result.setType(tvo.getType());
         return result;
     }
