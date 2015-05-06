@@ -15,6 +15,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import static org.testng.Assert.assertTrue;
+
 /**
  *
  */
@@ -44,7 +46,7 @@ public class TransactionUITestNg extends AbstractUITestNg {
     }
 
     @DataProvider(name = "transactionProvider")
-    public static Iterator<Object[]> accountTypeProvider() {
+    public static Iterator<Object[]> transactionProvider() {
         Set<Object[]> result = new HashSet<>();
         result.add(new Object[]{TransactionType.INCOME, INCOME1, BigDecimal.TEN, new Date(), ASSETS1, null});
         result.add(new Object[]{TransactionType.TRANSFER, ASSETS1, BigDecimal.TEN, new Date(), ASSETS2, BigDecimal.TEN});
@@ -52,25 +54,63 @@ public class TransactionUITestNg extends AbstractUITestNg {
         return result.iterator();
     }
 
-    @Test(dataProvider = "transactionProvider")
-    public void makeTransaction(TransactionType type, String firstAccountName, BigDecimal firstAmount, Date txDate,
-                                                      String secondAccountName, BigDecimal secondAmount) {
+    @DataProvider(name = "incorrectTransactionProvider")
+    public static Iterator<Object[]> incorrectTransactionProvider() {
+        Set<Object[]> result = new HashSet<>();
+        result.add(new Object[]{TransactionType.INCOME, null, null, null, null, null,
+                new String[]{"firstAmount.errors", "firstAmount.errors", "date.errors", "secondAccount.errors"}});
+        result.add(new Object[]{TransactionType.TRANSFER, null, null, null, null, null,
+                new String[]{"firstAmount.errors", "firstAmount.errors", "date.errors", "secondAccount.errors"}});
+        result.add(new Object[]{TransactionType.EXPENSE, null, null, null, null, null,
+                new String[]{"firstAmount.errors", "firstAmount.errors", "date.errors", "secondAccount.errors"}});
+        return result.iterator();
+    }
 
+    @Test(dataProvider = "incorrectTransactionProvider")
+    public void makeIncorrectTransaction(TransactionType type, String firstAccountName, BigDecimal firstAmount, Date txDate,
+                                String secondAccountName, BigDecimal secondAmount, String[] errorIds) {
+        WebElement section = makeTransaction(type, firstAccountName, firstAmount, txDate, secondAccountName, secondAmount);
+        for (String errorId : errorIds) {
+            assertTrue(section.findElement(By.id("firstAmount.errors")).isDisplayed(),
+                    "Can't find elem by id: '" + errorId + "'");
+        }
+        section.findElement(By.id("action-cancel")).click();
+        driverWait.until(progressFinished());
+    }
+
+    @Test(dataProvider = "transactionProvider", enabled = false)
+    public void makeCorrectTransaction(TransactionType type, String firstAccountName, BigDecimal firstAmount, Date txDate,
+                                       String secondAccountName, BigDecimal secondAmount) {
+
+        WebElement section = makeTransaction(type, firstAccountName, firstAmount, txDate, secondAccountName, secondAmount);
+    }
+
+    private WebElement makeTransaction(TransactionType type, String firstAccountName, BigDecimal firstAmount, Date txDate, String secondAccountName, BigDecimal secondAmount) {
         clickTransactionType(type);
 
         WebElement section = driver.findElement(By.id("form-actions"));
 
-        Select firstSelect = new Select(section.findElement(By.id("account-from")));
-        firstSelect.selectByVisibleText(firstAccountName);
+        if (firstAccountName != null) {
+            Select firstSelect = new Select(section.findElement(By.id("account-from")));
+            firstSelect.selectByVisibleText(firstAccountName);
+        }
 
-        WebElement firstAmountElem = section.findElement(By.id("firstAmount"));
-        firstAmountElem.sendKeys(DECIMAL_FORMAT.format(firstAmount));
+        if (firstAmount != null) {
+            WebElement firstAmountElem = section.findElement(By.id("firstAmount"));
+            firstAmountElem.sendKeys(DECIMAL_FORMAT.format(firstAmount));
+        }
 
         WebElement txDateElem = section.findElement(By.id("date"));
-        txDateElem.sendKeys("04.05.2015"); // TODO format txDate
+        if (txDate != null) {
+            txDateElem.sendKeys("04.05.2015"); // TODO format txDate
+        } else {
+            txDateElem.clear();
+        }
 
-        Select secondSelect = new Select(section.findElement(By.id("account-to")));
-        secondSelect.selectByVisibleText(secondAccountName);
+        if (secondAccountName != null) {
+            Select secondSelect = new Select(section.findElement(By.id("account-to")));
+            secondSelect.selectByVisibleText(secondAccountName);
+        }
 
         if (secondAmount != null) {
             WebElement secondAmountElem = section.findElement(By.id("secondAmount"));
@@ -84,6 +124,8 @@ public class TransactionUITestNg extends AbstractUITestNg {
         noteElem.sendKeys(note);
 
         section.findElement(By.id("action-button")).click();
+        driverWait.until(progressFinished());
+        return driver.findElement(By.id("form-actions"));
     }
 
     //@AfterClass

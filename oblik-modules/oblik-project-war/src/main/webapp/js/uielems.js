@@ -14,6 +14,6 @@ Synchronizer.prototype.decrement = function () {
     this.counter--;
     if (this.counter == 0) {
         this.onFinish();
-        console.log('sync finished');
+        console.log('sync finished: ' + this.counter);
     }
 };

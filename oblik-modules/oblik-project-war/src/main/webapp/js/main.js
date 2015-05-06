@@ -58,9 +58,11 @@ jQuery(function ($) {
             $("#form-actions .calculable").calculable();
             $('#action-button').click(function (e) {
                 e.preventDefault();
+                synchro.increment(3);
                 $('#form-actions').ajaxSubmit({
                     success: function (data) {
                         $('#section-actions').html(data);
+                        synchro.decrement();
                         if ($("#section-actions .alert").size() === 0) {
                             var txId = $("#section-actions #txId").val();
                             reactor.dispatchEvent('transactionSave', txId);
@@ -297,7 +299,7 @@ jQuery(function ($) {
         application.loadSecondAccountOptions();
     }));
 
-    reactor.addEventListener('transactionEdit', new Listener(1, function (href) {
+    reactor.addEventListener('transactionEdit', new Listener(3, function (href) {
         $(".ineditable").ineditable("closeInEditing");
         application.loadActionsForm(href);
     }));

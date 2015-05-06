@@ -23,18 +23,20 @@ public class FormActionValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         final FormActionBean bean = (FormActionBean) target;
-        final AccountVO firstAccount = accountService.getAccount(bean.getFirstAccount());
-        final AccountVO secondAccount = accountService.getAccount(bean.getSecondAccount());
-        switch (bean.getType()) {
-            case EXPENSE:
-                validateAsExpense(bean, errors, firstAccount, secondAccount);
-                break;
-            case INCOME:
-                validateAsIncome(bean, errors, firstAccount, secondAccount);
-                break;
-            case TRANSFER:
-                validateAsTransfer(bean, errors, firstAccount, secondAccount);
-                break;
+        if (bean.getFirstAccount() != null && bean.getSecondAccount() != null) {
+            final AccountVO firstAccount = accountService.getAccount(bean.getFirstAccount());
+            final AccountVO secondAccount = accountService.getAccount(bean.getSecondAccount());
+            switch (bean.getType()) {
+                case EXPENSE:
+                    validateAsExpense(bean, errors, firstAccount, secondAccount);
+                    break;
+                case INCOME:
+                    validateAsIncome(bean, errors, firstAccount, secondAccount);
+                    break;
+                case TRANSFER:
+                    validateAsTransfer(bean, errors, firstAccount, secondAccount);
+                    break;
+            }
         }
     }
 
