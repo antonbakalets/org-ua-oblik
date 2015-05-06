@@ -1,5 +1,7 @@
 package org.ua.oblik.uitest;
 
+import static org.testng.Assert.*;
+
 import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -26,8 +28,6 @@ import org.testng.annotations.Parameters;
 import org.ua.oblik.service.beans.AccountVOType;
 import org.ua.oblik.service.beans.TransactionType;
 
-import static org.testng.Assert.*;
-
 /**
  *
  */
@@ -37,18 +37,18 @@ public class AbstractUITestNg {
 
     protected static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#,##0.00");
 
-    public static final String CURRENCY1 = "грн";
+    public static final String CURRENCY1 = "ugh";
     public static final String CURRENCY2 = "usd";
     public static final String CURRENCY3 = "euro";
 
-    public static final String ACCOUNT = "Рахунок";
+    public static final String ACCOUNT = "Account";
 
-    public static final String ASSETS1 = "Актив-1";
-    public static final String ASSETS2 = "Актив-2";
-    public static final String EXPENSE1 = "Витрати-1";
-    public static final String EXPENSE2 = "Витрати-2";
-    public static final String INCOME1 = "Дохід-1";
-    public static final String INCOME2 = "Дохід-2";
+    public static final String ASSETS1 = "Assets-1";
+    public static final String ASSETS2 = "Assets-2";
+    public static final String EXPENSE1 = "Expense-1";
+    public static final String EXPENSE2 = "Expense-2";
+    public static final String INCOME1 = "Income-1";
+    public static final String INCOME2 = "Income-2";
 
     protected WebDriver driver;
     protected String baseUrl;
@@ -93,6 +93,12 @@ public class AbstractUITestNg {
             result.add(element.getText());
         }
         return result;
+    }
+
+    public static void assertDecimalEquals(BigDecimal value1, BigDecimal value2, String message) {
+        assertNotNull(value1, "Can't compare null value.");
+        assertNotNull(value2, "Can't compare null value.");
+        Assert.assertEquals(value1.compareTo(value2), 0, message);
     }
 
     @BeforeTest

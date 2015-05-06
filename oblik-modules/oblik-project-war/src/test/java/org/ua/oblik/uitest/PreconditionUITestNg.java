@@ -42,8 +42,7 @@ public class PreconditionUITestNg extends AbstractUITestNg {
 
     @Test
     public void testNoMoney() {
-        BigDecimal zeroDecimal = BigDecimal.ZERO.multiply(new BigDecimal("1.00"));
-        assertEquals(getDefaultTotal(), zeroDecimal, "No money at start.");
+        assertDecimalEquals(getDefaultTotal(), BigDecimal.ZERO, "No money at start.");
     }
 
     @Test(dataProvider = "accountTypeProvider")
