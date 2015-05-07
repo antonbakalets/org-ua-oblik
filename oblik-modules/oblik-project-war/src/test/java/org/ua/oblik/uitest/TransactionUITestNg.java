@@ -32,8 +32,8 @@ public class TransactionUITestNg extends AbstractUITestNg {
     public void setUpClass(String username, String password) {
         login(username, password);
         accountHelper = new AccountUITestHelper(this);
-        accountHelper.deleteAllAccounts();
         currencyHelper = new CurrencyUITestHelper(this);
+        accountHelper.deleteAllAccounts();
         currencyHelper.deleteAllCurrencies();
         currencyHelper.addDefaultCurrency(CURRENCY1);
         currencyHelper.addCurrency(CURRENCY2, "2");
@@ -63,6 +63,12 @@ public class TransactionUITestNg extends AbstractUITestNg {
                 new String[]{"firstAmount.errors", "firstAmount.errors", "date.errors", "secondAccount.errors"}});
         result.add(new Object[]{TransactionType.EXPENSE, null, null, null, null, null,
                 new String[]{"firstAmount.errors", "firstAmount.errors", "date.errors", "secondAccount.errors"}});
+        result.add(new Object[]{TransactionType.TRANSFER, ASSETS1, BigDecimal.TEN, new Date(), ASSETS1, BigDecimal.TEN,
+                new String[]{"secondAccount.errors"}});
+        result.add(new Object[]{TransactionType.INCOME, INCOME2, BigDecimal.TEN, new Date(), ASSETS1, BigDecimal.TEN,
+                new String[]{"secondAccount.errors"}});
+        result.add(new Object[]{TransactionType.EXPENSE, ASSETS1, BigDecimal.TEN, new Date(), EXPENSE2, BigDecimal.TEN,
+                new String[]{"secondAccount.errors"}});
         return result.iterator();
     }
 
@@ -71,14 +77,19 @@ public class TransactionUITestNg extends AbstractUITestNg {
                                 String secondAccountName, BigDecimal secondAmount, String[] errorIds) {
         WebElement section = makeTransaction(type, firstAccountName, firstAmount, txDate, secondAccountName, secondAmount);
         for (String errorId : errorIds) {
-            assertTrue(section.findElement(By.id("firstAmount.errors")).isDisplayed(),
-                    "Can't find elem by id: '" + errorId + "'");
+            try {
+                assertTrue(section.findElement(By.id("firstAmount.errors")).isDisplayed(),
+                        "Can't find elem by id: '" + errorId + "'");
+            } catch (org.openqa.selenium.StaleElementReferenceException sere) {
+                LOGGER.info("Can't find elem by id: '{}'", errorId);
+                LOGGER.info(sere.getMessage());
+            }
         }
         section.findElement(By.id("action-cancel")).click();
         driverWait.until(progressFinished());
     }
 
-    @Test(dataProvider = "transactionProvider", enabled = false)
+    @Test(dataProvider = "transactionProvider")
     public void makeCorrectTransaction(TransactionType type, String firstAccountName, BigDecimal firstAmount, Date txDate,
                                        String secondAccountName, BigDecimal secondAmount) {
 
@@ -97,7 +108,9 @@ public class TransactionUITestNg extends AbstractUITestNg {
 
         if (firstAmount != null) {
             WebElement firstAmountElem = section.findElement(By.id("firstAmount"));
-            firstAmountElem.sendKeys(DECIMAL_FORMAT.format(firstAmount));
+            String firstAmountFormatted = DECIMAL_FORMAT.format(firstAmount);
+            LOGGER.debug("First account amount: {}", firstAmountFormatted);
+            firstAmountElem.sendKeys(firstAmountFormatted);
         }
 
         WebElement txDateElem = section.findElement(By.id("date"));
@@ -114,7 +127,9 @@ public class TransactionUITestNg extends AbstractUITestNg {
 
         if (secondAmount != null) {
             WebElement secondAmountElem = section.findElement(By.id("secondAmount"));
-            secondAmountElem.sendKeys(DECIMAL_FORMAT.format(secondAmount));
+            String secondAmountFormatted = DECIMAL_FORMAT.format(secondAmount);
+            LOGGER.debug("First account amount: {}", secondAmountFormatted);
+            secondAmountElem.sendKeys(secondAmountFormatted);
         }
 
         String note = txDate + ", " + type + ", " +

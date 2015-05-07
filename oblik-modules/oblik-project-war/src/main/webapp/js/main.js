@@ -17,7 +17,7 @@ jQuery(function ($) {
             this.actionType = '';
             this.page = contextPath + '/transaction/list.html';
             this.syncCount = 0;
-            synchro.increment(9);
+            synchro.increment(7);
             this.loadTotal();
             this.loadActionsForm();
             this.loadTotalByCurrency();
@@ -48,17 +48,18 @@ jQuery(function ($) {
                     });
                 }
                 application.setActionsType($("#actions-type li").index($(this)));
+                synchro.increment(2);
                 application.loadFirstAccountOptions();
                 application.loadSecondAccountOptions();
             });
             application.setActionsType($("#actions-type li").index($(this)));
-            application.loadFirstAccountOptions();
-            application.loadSecondAccountOptions();
+//            application.loadFirstAccountOptions();
+//            application.loadSecondAccountOptions();
             $("#form-actions .datepicker").datepicker();
             $("#form-actions .calculable").calculable();
             $('#action-button').click(function (e) {
                 e.preventDefault();
-                synchro.increment(3);
+                synchro.increment(1);
                 $('#form-actions').ajaxSubmit({
                     success: function (data) {
                         $('#section-actions').html(data);
@@ -73,6 +74,7 @@ jQuery(function ($) {
             });
             $('#action-cancel').click(function (e) {
                 e.preventDefault();
+                synchro.increment(3);
                 application.loadActionsForm();
             });
             $('#action-delete').confirmation({singleton: true,
@@ -181,6 +183,7 @@ jQuery(function ($) {
         loadFirstAccountOptions: function () {
             var accountType = this.actionType === "INCOME" ? "INCOME" : "ASSETS";
             var optionsUrl = this.contextPath + '/account/options.json?type=' + accountType;
+            
             $.getJSON(optionsUrl, function (data) {
                 $('#account-from option').not('#account-from :first').remove();
                 for (var i in data) {
@@ -274,7 +277,7 @@ jQuery(function ($) {
     reactor.registerEvent('firstAccountOptionChange');
     reactor.registerEvent('secondAccountOptionChange');
 
-    reactor.addEventListener('currencyEdit', new Listener(3, function () {
+    reactor.addEventListener('currencyEdit', new Listener(1, function () {
         application.loadActionsForm();
     }));
 
@@ -286,7 +289,7 @@ jQuery(function ($) {
         application.loadTotalByCurrency();
     }));
 
-    reactor.addEventListener('accountEdit', new Listener(3, function () {
+    reactor.addEventListener('accountEdit', new Listener(1, function () {
         application.loadActionsForm();
     }));
 
@@ -299,12 +302,12 @@ jQuery(function ($) {
         application.loadSecondAccountOptions();
     }));
 
-    reactor.addEventListener('transactionEdit', new Listener(3, function (href) {
+    reactor.addEventListener('transactionEdit', new Listener(1, function (href) {
         $(".ineditable").ineditable("closeInEditing");
         application.loadActionsForm(href);
     }));
 
-    reactor.addEventListener('transactionSave', new Listener(6, function () {
+    reactor.addEventListener('transactionSave', new Listener(5, function () {
         application.loadActionsForm();
         application.loadTotal();
         application.loadTransactions();
@@ -313,7 +316,7 @@ jQuery(function ($) {
         application.loadTotalByCurrency();
     }));
 
-    reactor.addEventListener('transactionDelete', new Listener(6, function () {
+    reactor.addEventListener('transactionDelete', new Listener(5, function () {
         application.loadActionsForm();
         application.loadTotal();
         application.loadTransactions();

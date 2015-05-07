@@ -42,7 +42,7 @@ public class FormActionValidator implements Validator {
 
     private void validateAsExpense(FormActionBean bean, Errors errors, AccountVO firstAccount, AccountVO secondAccount) {
         if (!firstAccount.getCurrencyId().equals(secondAccount.getCurrencyId())) {
-            errors.rejectValue("secondAmount", "error.transaction.different.currencies");
+            errors.rejectValue("secondAccount", "error.transaction.different.currencies");
         }
     }
 
