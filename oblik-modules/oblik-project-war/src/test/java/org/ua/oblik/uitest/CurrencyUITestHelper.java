@@ -47,7 +47,7 @@ class CurrencyUITestHelper {
         LOGGER.debug("Adding new currency {} with rate {}.", symbol, rate);
         WebElement section = uiTestNg.driver.findElement(By.id("total-by-currency"));
         WebElement liCurrencyAdd = section.findElement(By.id("li-currency-add"));
-        liCurrencyAdd.findElement(By.id("add-currency-btn")).click();
+        section.findElement(By.id("add-currency-btn")).click();
         uiTestNg.driverWait.until(AbstractUITestNg.elementFinishedResizing(liCurrencyAdd));
         liCurrencyAdd.findElement(By.id("symbol")).sendKeys(symbol);
         liCurrencyAdd.findElement(By.id("rate")).sendKeys(rate);

@@ -9,6 +9,8 @@ import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.ua.oblik.controllers.beans.LoginAction;
+import org.ua.oblik.controllers.utils.LoginActionPropertyEditor;
 import org.ua.oblik.controllers.utils.TransactionTypePropertyEditor;
 import org.ua.oblik.service.beans.TransactionType;
 
@@ -29,11 +31,15 @@ public class CentralControllerHandler {
     
     @Autowired
     private TransactionTypePropertyEditor transactionTypePropertyEditor;
+
+    @Autowired
+    private LoginActionPropertyEditor loginActionPropertyEditor;
     
     @InitBinder
     public void setPropertyEditors(final WebDataBinder binder) {
         binder.registerCustomEditor(TransactionType.class, transactionTypePropertyEditor);
         binder.registerCustomEditor(Date.class, longDateEditor);
         binder.registerCustomEditor(BigDecimal.class, bigDecimalEditor);
+        binder.registerCustomEditor(LoginAction.class, loginActionPropertyEditor);
     }
 }

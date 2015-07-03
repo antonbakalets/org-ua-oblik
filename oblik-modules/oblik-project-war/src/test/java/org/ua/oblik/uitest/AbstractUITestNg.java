@@ -64,7 +64,7 @@ public class AbstractUITestNg {
     }
 
     @DataProvider(name = "transactionTypeProvider")
-    public static Iterator<Object[]> transactionTypeProvider() {
+    public static Iterator<Object []> transactionTypeProvider() {
         Set<Object[]> result = new HashSet<>();
         for (TransactionType type : TransactionType.values()) {
             result.add(new Object[]{type});

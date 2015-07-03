@@ -67,4 +67,5 @@
     </bean>
     
     <bean id="transactionTypePropertyEditor" class="org.ua.oblik.controllers.utils.TransactionTypePropertyEditor"/>
+    <bean id="loginActionPropertyEditor" class="org.ua.oblik.controllers.utils.LoginActionPropertyEditor"/>
 </beans>

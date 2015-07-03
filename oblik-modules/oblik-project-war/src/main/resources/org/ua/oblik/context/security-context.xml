@@ -17,9 +17,10 @@
         
         <intercept-url pattern="/index.html" access="permitAll" />
         <intercept-url pattern="/login.html" access="permitAll" />
+        <intercept-url pattern="/register/**" access="permitAll" />
         <intercept-url pattern="/css/**" access="permitAll" />
-        <intercept-url pattern="/js/**" access="permitAll" /><!-- TODO denie access to not required on login page js's -->
-        <intercept-url pattern="/img/**" access="permitAll" /><!-- TODO denie access to not required on login page imgs -->
+        <intercept-url pattern="/js/**" access="permitAll" /><!-- TODO deny access to not required on login page js's -->
+        <intercept-url pattern="/img/**" access="permitAll" /><!-- TODO deny access to not required on login page imgs -->
         <intercept-url pattern="/**" access="isAuthenticated()"/>
         
         <logout invalidate-session="true" logout-success-url="/login.html?action=logout" />   

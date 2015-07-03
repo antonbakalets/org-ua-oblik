@@ -73,9 +73,8 @@
                                     </label>
                                 </div>
                                 <input id="login-submit" type="submit" value="<spring:message code="login.button.login"/>" class="btn btn-lg btn-success btn-block"/>
-                                <%-- TODO <a href="#"><spring:message code="login.forgot.password"/></a>--%>
-                                <%-- TODO <a href="#"><spring:message code="login.register"/></a>--%>
                             </form>
+                                    <a id="forgot-link" href="${pageContext.request.contextPath}/login.html?action=forgot"><spring:message code="login.forgot.password"/></a>
                         </div>
                     </div>
                 </div>
@@ -85,7 +84,7 @@
         <footer>
             <br/>
             <br/>
-            <%--<a href="${pageContext.request.contextPath}/registration/register.html">Зареєструватися</a>--%>
+            <a id="register-link" href="${pageContext.request.contextPath}/login.html?action=register">Зареєструватися</a>
         </footer>
     </body>
 </html>
