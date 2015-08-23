@@ -12,7 +12,7 @@
 		</classes>
 	</test>
 
-    <test name="Different preconditions UI test" enabled="false">
+    <test name="Different preconditions UI test" enabled="true">
         <classes>
             <class name="org.ua.oblik.uitest.PreconditionUITestNg" />
         </classes>

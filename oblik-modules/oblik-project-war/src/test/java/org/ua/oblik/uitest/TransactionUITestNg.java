@@ -1,13 +1,6 @@
 package org.ua.oblik.uitest;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Select;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.testng.annotations.*;
-import org.ua.oblik.service.beans.AccountVOType;
-import org.ua.oblik.service.beans.TransactionType;
+import static org.testng.Assert.assertTrue;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -15,7 +8,17 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import static org.testng.Assert.assertTrue;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import org.ua.oblik.service.beans.AccountVOType;
+import org.ua.oblik.service.beans.TransactionType;
 
 /**
  *
@@ -94,6 +97,16 @@ public class TransactionUITestNg extends AbstractUITestNg {
                                        String secondAccountName, BigDecimal secondAmount) {
 
         WebElement section = makeTransaction(type, firstAccountName, firstAmount, txDate, secondAccountName, secondAmount);
+    }
+
+    @Test
+    public void updateTransaction() {
+
+    }
+
+    @Test
+    public void deleteTransaction() {
+
     }
 
     private WebElement makeTransaction(TransactionType type, String firstAccountName, BigDecimal firstAmount, Date txDate, String secondAccountName, BigDecimal secondAmount) {

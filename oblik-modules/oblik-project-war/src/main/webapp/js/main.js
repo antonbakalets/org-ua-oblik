@@ -40,6 +40,7 @@ jQuery(function ($) {
             });
         },
         initActionsForm: function () {
+            application.setActionsType($("#actions-type li").index($(this)));
             $("#actions-type li").click(function () {
                 if (!$("#txId").val()) {
                     $(this).addClass('active');
@@ -52,9 +53,6 @@ jQuery(function ($) {
                 application.loadFirstAccountOptions();
                 application.loadSecondAccountOptions();
             });
-            application.setActionsType($("#actions-type li").index($(this)));
-//            application.loadFirstAccountOptions();
-//            application.loadSecondAccountOptions();
             $("#form-actions .datepicker").datepicker();
             $("#form-actions .calculable").calculable();
             $('#action-button').click(function (e) {
@@ -74,7 +72,7 @@ jQuery(function ($) {
             });
             $('#action-cancel').click(function (e) {
                 e.preventDefault();
-                synchro.increment(3);
+                synchro.increment(1);
                 application.loadActionsForm();
             });
             $('#action-delete').confirmation({singleton: true,
@@ -179,6 +177,7 @@ jQuery(function ($) {
                 this.actionType = "EXPENSE";
                 $('#second-amount-div').hide('blind');
             }
+            $("#type").attr("value", this.actionType);
         },
         loadFirstAccountOptions: function () {
             var accountType = this.actionType === "INCOME" ? "INCOME" : "ASSETS";
@@ -278,7 +277,7 @@ jQuery(function ($) {
     reactor.registerEvent('secondAccountOptionChange');
 
     reactor.addEventListener('currencyEdit', new Listener(1, function () {
-        application.loadActionsForm();
+        application.loadActionsForm(); // clear it
     }));
 
     reactor.addEventListener('currencySave', new Listener(6, function () {
@@ -290,16 +289,15 @@ jQuery(function ($) {
     }));
 
     reactor.addEventListener('accountEdit', new Listener(1, function () {
-        application.loadActionsForm();
+        application.loadActionsForm(); // clear it
     }));
 
-    reactor.addEventListener('accountSave', new Listener(7, function () {
+    reactor.addEventListener('accountSave', new Listener(6, function () {
         application.loadTotal();
         application.loadAccounts();
         application.loadTransactions();
         application.loadTotalByAccount();
-        application.loadFirstAccountOptions();
-        application.loadSecondAccountOptions();
+        application.loadActionsForm(); // account list changed
     }));
 
     reactor.addEventListener('transactionEdit', new Listener(1, function (href) {
@@ -307,7 +305,7 @@ jQuery(function ($) {
         application.loadActionsForm(href);
     }));
 
-    reactor.addEventListener('transactionSave', new Listener(5, function () {
+    reactor.addEventListener('transactionSave', new Listener(7, function () {
         application.loadActionsForm();
         application.loadTotal();
         application.loadTransactions();
@@ -316,7 +314,7 @@ jQuery(function ($) {
         application.loadTotalByCurrency();
     }));
 
-    reactor.addEventListener('transactionDelete', new Listener(5, function () {
+    reactor.addEventListener('transactionDelete', new Listener(7, function () {
         application.loadActionsForm();
         application.loadTotal();
         application.loadTransactions();
