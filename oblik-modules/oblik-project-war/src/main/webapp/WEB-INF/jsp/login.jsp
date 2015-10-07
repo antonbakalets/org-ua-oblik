@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false"%>
 
 <%@ taglib prefix="c"       uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring"  uri="http://www.springframework.org/tags" %>
@@ -43,7 +43,10 @@
                             <h2 class="panel-title"><spring:message code="login.title"/></h2>
                         </div>
                         <div class="panel-body">
-                            <form method="POST" action="<c:url value="/j_spring_security_check"/>" role="form">
+                            <form method="POST" action="<c:url value="${pageContext.request.contextPath}/login"/>" role="form">
+                                
+                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> 
+                                
                                 <c:if test="${!empty messageCode}">
                                     <div class="alert alert-success">
                                         <button type="button" class="close" data-dismiss="alert">×</button>
@@ -60,15 +63,15 @@
 
                                 <div class="form-group">
                                     <label class="sr-only"><spring:message var="labelUsername" code="login.username"/></label>
-                                    <input type="text" id="username" name="j_username" placeholder="${labelUsername}" class="form-control" autocomplete="off">
+                                    <input type="text" id="username" name="username" placeholder="${labelUsername}" class="form-control" autocomplete="off">
                                 </div>
                                 <div class="form-group">
                                     <label class="sr-only" ><spring:message var="labelPassword" code="login.password"/></label>
-                                    <input type="password" id="password" name="j_password" class="form-control" placeholder="${labelPassword}" value="">
+                                    <input type="password" id="password" name="password" class="form-control" placeholder="${labelPassword}" value="">
                                 </div>
                                 <div class="checkbox">
                                     <label>
-                                        <input id="login-rememberme" type="checkbox" name="_spring_security_remember_me" />
+                                        <input id="login-rememberme" type="checkbox" name="remember-me" />
                                         <spring:message code="login.remember"/>
                                     </label>
                                 </div>

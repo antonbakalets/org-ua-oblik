@@ -46,6 +46,30 @@
                             <form method="POST" action="<c:url value="/j_spring_security_check"/>" role="form">
 
                                 Please register
+                                
+                                <%
+   java.util.Enumeration e = System.getProperties().propertyNames();
+   while( e.hasMoreElements() ){
+   	String prop = (String)e.nextElement();
+   	out.print(prop);
+   	out.print(" = ");
+   	out.print( System.getProperty(prop) );
+   	out.print("<br>");
+   }
+   %>
+
+   <%
+       out.print(System.getenv("VOLED_BASE_HREF"));
+       java.util.Map map = System.getenv();
+       java.util.Set keySet = map.keySet();
+       for(Object key : keySet){
+          	String value = (String)map.get(key);
+          	out.print(key);
+          	out.print(" = ");
+          	out.print(value);
+          	out.print("<br>");
+          }
+%>
                             </form>
                         </div>
                     </div>

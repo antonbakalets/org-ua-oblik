@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
-import org.codehaus.jackson.map.ObjectMapper;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -22,8 +22,6 @@ import org.ua.oblik.service.test.DefinedCurrency;
 public class CurrencyServiceTest extends BaseServiceTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CurrencyServiceTest.class);
-
-    private static ObjectMapper mapper = new ObjectMapper();
 
     @Autowired
     private CurrencyService currencyService;
@@ -54,7 +52,7 @@ public class CurrencyServiceTest extends BaseServiceTest {
         final List<CurrencyVO> currencies = currencyService.getCurrencies();
         
         for (CurrencyVO currency : currencies) {
-            LOGGER.debug("[TEST] " + mapper.writeValueAsString(currency));
+            LOGGER.debug("[TEST] Currency " + currency);
             final BigDecimal total = totalService.getCurrencyTotal(currency.getCurrencyId());
             LOGGER.debug("[TEST] Currency" + currency + " toatal: " + total);
         }

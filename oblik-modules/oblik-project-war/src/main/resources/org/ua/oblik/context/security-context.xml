@@ -4,13 +4,14 @@
              xmlns:beans="http://www.springframework.org/schema/beans"
              xsi:schemaLocation="
         http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
         http://www.springframework.org/schema/security
-        http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+        http://www.springframework.org/schema/security/spring-security-4.0.xsd">
     
     <beans:import resource="security-beans.xml"/>
     
-    <http auto-config="true" access-denied-page="/login.html?action=denied" use-expressions="true">
+    <http auto-config="true">
+        <access-denied-handler error-page="/login.html?action=denied"/>
         <form-login login-page='/login.html' 
                     default-target-url="/main.html" 
                     authentication-failure-url="/login.html?action=error"/>
@@ -23,7 +24,7 @@
         <intercept-url pattern="/img/**" access="permitAll" /><!-- TODO deny access to not required on login page imgs -->
         <intercept-url pattern="/**" access="isAuthenticated()"/>
         
-        <logout invalidate-session="true" logout-success-url="/login.html?action=logout" />   
+        <logout invalidate-session="true" logout-success-url="/login.html?action=logout" />
         
         <!-- TODO <session-management invalid-session-url="/lodin.html?action=session" />-->
         

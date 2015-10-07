@@ -7,5 +7,6 @@ public enum LoginAction {
     ERROR,
     LOGOUT,
     FORGOT,
-    REGISTER
+    REGISTER,
+    DENIED
 }

@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="security"    uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="c"       uri="http://java.sun.com/jsp/jstl/core" %>
 
 <header class="subhead" id="overview">
     <div class="page-header">
@@ -12,7 +13,9 @@
                 <div class="well">
                     <spring:message code="jsp.oblik.hi"/>,
                     <a><security:authentication property="principal.username" /></a>!
-                    <a id="logout-link" class="pull-right" href="<c:url value="/j_spring_security_logout" />" ><spring:message code="login.button.logout"/></a>
+                    <a id="logout-link" class="pull-right" href="<c:url value="${pageContext.request.contextPath}/logout"/>">
+                        <spring:message code="login.button.logout"/>
+                    </a>
                 </div>
             </div>
             <div id="default-total" class="col-xs-6 col-sm-6">

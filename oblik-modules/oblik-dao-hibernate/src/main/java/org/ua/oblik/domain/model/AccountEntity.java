@@ -1,9 +1,8 @@
 package org.ua.oblik.domain.model;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
-
-import javax.persistence.*;
 
 import org.ua.oblik.domain.beans.AccountKind;
 

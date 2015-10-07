@@ -1,11 +1,10 @@
 package org.ua.oblik.controllers.beans;
 
-import java.math.BigDecimal;
-
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.math.BigDecimal;
 
 import org.ua.oblik.service.beans.AccountVOType;
 

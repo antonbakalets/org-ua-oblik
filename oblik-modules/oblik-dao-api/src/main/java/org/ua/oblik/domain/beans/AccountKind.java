@@ -7,5 +7,5 @@ package org.ua.oblik.domain.beans;
 public enum AccountKind {
     INCOME,
     EXPENSE,
-    ASSETS;
+    ASSETS
 }

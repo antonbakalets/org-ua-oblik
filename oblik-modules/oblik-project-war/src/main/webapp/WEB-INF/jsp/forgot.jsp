@@ -43,7 +43,7 @@
                             <h2 class="panel-title"><spring:message code="login.title"/></h2>
                         </div>
                         <div class="panel-body">
-                            <form method="POST" action="<c:url value="/j_spring_security_check"/>" role="form">
+                            <form method="POST" action="<c:url value="/forgot"/>" role="form">
 
                                 LALALA
                             </form>
