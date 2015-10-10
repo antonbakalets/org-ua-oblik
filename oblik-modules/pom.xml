@@ -148,8 +148,8 @@
             </dependency>
             <dependency>
                 <groupId>org.testng</groupId>
-                <version>6.9.6</version>
                 <artifactId>testng</artifactId>
+                <version>6.9.6</version>
                 <scope>test</scope>
             </dependency>
             <dependency>

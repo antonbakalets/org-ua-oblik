@@ -20,6 +20,6 @@ import org.ua.oblik.context.ServiceTestConfig;
 @TransactionConfiguration(
         transactionManager = ServiceTestConfig.TRANSACTION_MANAGER,
         defaultRollback = ServiceTestConfig.DEFAULT_ROLLBACK)
-public class BaseServiceTest {
+class BaseServiceTest {
     
 }

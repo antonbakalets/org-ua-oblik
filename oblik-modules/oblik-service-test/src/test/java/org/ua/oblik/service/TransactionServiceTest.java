@@ -2,65 +2,23 @@ package org.ua.oblik.service;
 
 import java.math.BigDecimal;
 import java.util.Date;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.ua.oblik.service.beans.AccountVOType;
 import org.ua.oblik.service.beans.TransactionType;
 import org.ua.oblik.service.beans.TransactionVO;
-import org.ua.oblik.service.test.AccountServiceTestHelper;
-import org.ua.oblik.service.test.CurrencyServiceTestHelper;
 import org.ua.oblik.service.test.DefinedAccount;
-import org.ua.oblik.service.test.DefinedCurrency;
 
 /**
  *
  * @author Anton Bakalets
  */
-public class TransactionServiceTest extends BaseServiceTest {
+public class TransactionServiceTest extends BaseTransactionServiceTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TransactionServiceTest.class);
 
-    @Autowired
-    private CurrencyServiceTestHelper cH;
-
-    @Autowired
-    private AccountServiceTestHelper aH;
-
-    @Autowired
-    private TransactionService transactionService;
-
-    @Autowired
-    private TotalService totalService;
-    
-    private BigDecimal defaultCurrencyTotal;
-    
-    public void defaultBefore() {
-        defaultCurrencyTotal = totalService.getDefaultCurrencyTotal();
-    }
-    
-    public void defaultAfter(BigDecimal after) {
-        defaultCurrencyTotal = totalService.getDefaultCurrencyTotal();
-        Assert.assertEquals(defaultCurrencyTotal + " <> " + after,
-                defaultCurrencyTotal.compareTo(after), 0);
-    }
-    
-    public BigDecimal totalByCurrency(DefinedCurrency definedCurrency) {
-        return totalService.getCurrencyTotal(cH.currencyId(definedCurrency));
-    }
-    
-    public BigDecimal totalByCurrency(DefinedAccount definedAccount) {
-        Assert.assertEquals(aH.type(definedAccount), AccountVOType.ASSETS);
-        return totalService.getCurrencyTotal(aH.currencyId(definedAccount));
-    }
-    
-    public BigDecimal totalByAccount(DefinedAccount definedAccount) {
-        Assert.assertEquals(aH.type(definedAccount), AccountVOType.ASSETS);
-        return aH.getAmount(definedAccount);
-    }
-    
     @Test
     public void insertIncome() {
         LOGGER.debug("[TEST] insertIncome");
