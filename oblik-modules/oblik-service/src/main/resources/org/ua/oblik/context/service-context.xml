@@ -7,5 +7,35 @@
     <bean id="accountService" class="org.ua.oblik.service.AccountServiceImpl"/>
     <bean id="currencyService" class="org.ua.oblik.service.CurrencyServiceImpl"/>
     <bean id="totalService" class="org.ua.oblik.service.TotalServiceImpl"/>
-    <bean id="transactionService" class="org.ua.oblik.service.TransactionServiceImpl"/>
+    <bean id="transactionService" class="org.ua.oblik.service.TransactionServiceImpl">
+        <property name="transactionCommandFactory" ref="transactionCommandFactory"/>
+    </bean>
+
+    <bean id="transactionCommandFactory" class="org.ua.oblik.service.command.TransactionCommandFactory" init-method="init">
+        <property name="springFactory" ref="springCommandFactory"/>
+    </bean>
+
+    <bean id="abstractTxCommand" abstract="true" class="org.ua.oblik.service.command.AbstractTxCommand">
+        <!--<property name="entitiesFactory" ref=""/>-->
+        <!--<property name="accountDao" ref=""/>-->
+        <!--<property name="txactionDao" ref=""/>-->
+    </bean>
+
+    <bean id="insertIncomeCommand" class="org.ua.oblik.service.command.InsertIncomeCommand" scope="prototype" parent="abstractTxCommand"/>
+    <bean id="insertExpenseCommand" class="org.ua.oblik.service.command.InsertExpenseCommand" scope="prototype" parent="abstractTxCommand"/>
+    <bean id="insertTransferCommand" class="org.ua.oblik.service.command.InsertTransferCommand" scope="prototype" parent="abstractTxCommand"/>
+    <bean id="updateIncomeCommand" class="org.ua.oblik.service.command.UpdateIncomeCommand" scope="prototype" parent="abstractTxCommand"/>
+    <bean id="updateExpenseCommand" class="org.ua.oblik.service.command.UpdateExpenseCommand" scope="prototype" parent="abstractTxCommand"/>
+    <bean id="updateTransferCommand" class="org.ua.oblik.service.command.UpdateTransferCommand" scope="prototype" parent="abstractTxCommand"/>
+    <bean id="deleteTxCommand" class="org.ua.oblik.service.command.DeleteTxCommand" scope="prototype" parent="abstractTxCommand"/>
+
+    <bean id="springCommandFactory" class="org.ua.oblik.service.command.TransactionCommandSpringFactory">
+        <lookup-method name="createInsertIncomeCommand" bean="insertIncomeCommand"/>
+        <lookup-method name="createInsertExpenseCommand" bean="insertExpenseCommand"/>
+        <lookup-method name="createInsertTransferCommand" bean="insertTransferCommand"/>
+        <lookup-method name="createUpdateIncomeCommand" bean="updateIncomeCommand"/>
+        <lookup-method name="createUpdateExpenseCommand" bean="updateExpenseCommand"/>
+        <lookup-method name="createUpdateTransferCommand" bean="updateTransferCommand"/>
+        <lookup-method name="createDeleteCommand" bean="deleteTxCommand"/>
+    </bean>
 </beans>
