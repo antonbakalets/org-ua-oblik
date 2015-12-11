@@ -4,6 +4,8 @@ import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.ua.oblik.domain.model.UserLogin;
@@ -34,5 +36,14 @@ public class UserLoginDaoImpl extends AbstractDao<Integer, UserLogin, UserLoginE
             LOGGER.error(message);
             throw new UserNotFoundException(message, nre);
         }
+    }
+
+    @Override
+    public List<? extends UserLogin> selectAll() {
+        final CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<UserLoginEntity> cq = cb.createQuery(UserLoginEntity.class);
+        Root<UserLoginEntity> root = cq.from(UserLoginEntity.class);
+        cq.select(root);
+        return getEntityManager().createQuery(cq).getResultList();
     }
 }

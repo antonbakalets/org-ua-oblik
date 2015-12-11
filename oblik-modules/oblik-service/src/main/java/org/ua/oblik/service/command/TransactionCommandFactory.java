@@ -1,6 +1,6 @@
 package org.ua.oblik.service.command;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
@@ -11,9 +11,9 @@ public class TransactionCommandFactory {
 
     private TransactionCommandSpringFactory springFactory;
 
-    private final Map<TransactionType, Supplier<TransactionCommand>> insertCommands = new HashMap<>(3);
+    private final Map<TransactionType, Supplier<TransactionCommand>> insertCommands = new EnumMap<>(TransactionType.class);
 
-    private final Map<TransactionType, Supplier<TransactionCommand>> updateCommands = new HashMap<>(3);
+    private final Map<TransactionType, Supplier<TransactionCommand>> updateCommands = new EnumMap<>(TransactionType.class);
 
     public void init() {
         insertCommands.put(TransactionType.INCOME, springFactory::createInsertIncomeCommand);

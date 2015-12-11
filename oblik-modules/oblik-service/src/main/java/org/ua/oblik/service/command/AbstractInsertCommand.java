@@ -8,7 +8,7 @@ abstract class AbstractInsertCommand extends AbstractTxCommand {
     protected abstract void doInsert(Txaction txaction, Account credit, Account debit);
 
     @Override
-    public void execute() {
+    public synchronized void execute() {
         Txaction txaction = entitiesFactory.createTxactionEntity();
         Account credit = accountDao.select(tvo.getFirstAccount());
         Account debet = accountDao.select(tvo.getSecondAccount());

@@ -1,17 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:task="http://www.springframework.org/schema/task"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-4.2.xsd">
+        http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+        http://www.springframework.org/schema/task
+        http://www.springframework.org/schema/task/spring-task-4.2.xsd">
+
+    <task:scheduled-tasks>
+        <task:scheduled ref="reportService" method="sendWeekReport" cron="0 * * * * ?"/>
+    </task:scheduled-tasks>
 
     <bean id="accountService" class="org.ua.oblik.service.AccountServiceImpl"/>
     <bean id="currencyService" class="org.ua.oblik.service.CurrencyServiceImpl"/>
+    <bean id="messageService" class="org.ua.oblik.service.MessageServiceImpl"/>
+    <bean id="reportService" class="org.ua.oblik.service.ReportServiceImpl"/>
     <bean id="totalService" class="org.ua.oblik.service.TotalServiceImpl"/>
     <bean id="transactionService" class="org.ua.oblik.service.TransactionServiceImpl">
         <property name="transactionCommandFactory" ref="transactionCommandFactory"/>
     </bean>
 
-    <bean id="transactionCommandFactory" class="org.ua.oblik.service.command.TransactionCommandFactory" init-method="init">
+
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="localhost" />
+        <property name="port" value="3025" />
+        <property name="username" value="noreply@localhost" />
+        <property name="password" value="noreply" />
+
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.smtp.auth">false</prop>
+                <prop key="mail.smtp.starttls.enable">false</prop>
+            </props>
+        </property>
+    </bean>
+
+
+    <bean id="transactionCommandFactory" class="org.ua.oblik.service.command.TransactionCommandFactory"
+          init-method="init">
         <property name="springFactory" ref="springCommandFactory"/>
     </bean>
 
@@ -21,13 +47,20 @@
         <!--<property name="txactionDao" ref=""/>-->
     </bean>
 
-    <bean id="insertIncomeCommand" class="org.ua.oblik.service.command.InsertIncomeCommand" scope="prototype" parent="abstractTxCommand"/>
-    <bean id="insertExpenseCommand" class="org.ua.oblik.service.command.InsertExpenseCommand" scope="prototype" parent="abstractTxCommand"/>
-    <bean id="insertTransferCommand" class="org.ua.oblik.service.command.InsertTransferCommand" scope="prototype" parent="abstractTxCommand"/>
-    <bean id="updateIncomeCommand" class="org.ua.oblik.service.command.UpdateIncomeCommand" scope="prototype" parent="abstractTxCommand"/>
-    <bean id="updateExpenseCommand" class="org.ua.oblik.service.command.UpdateExpenseCommand" scope="prototype" parent="abstractTxCommand"/>
-    <bean id="updateTransferCommand" class="org.ua.oblik.service.command.UpdateTransferCommand" scope="prototype" parent="abstractTxCommand"/>
-    <bean id="deleteTxCommand" class="org.ua.oblik.service.command.DeleteTxCommand" scope="prototype" parent="abstractTxCommand"/>
+    <bean id="insertIncomeCommand" class="org.ua.oblik.service.command.InsertIncomeCommand" scope="prototype"
+          parent="abstractTxCommand"/>
+    <bean id="insertExpenseCommand" class="org.ua.oblik.service.command.InsertExpenseCommand" scope="prototype"
+          parent="abstractTxCommand"/>
+    <bean id="insertTransferCommand" class="org.ua.oblik.service.command.InsertTransferCommand" scope="prototype"
+          parent="abstractTxCommand"/>
+    <bean id="updateIncomeCommand" class="org.ua.oblik.service.command.UpdateIncomeCommand" scope="prototype"
+          parent="abstractTxCommand"/>
+    <bean id="updateExpenseCommand" class="org.ua.oblik.service.command.UpdateExpenseCommand" scope="prototype"
+          parent="abstractTxCommand"/>
+    <bean id="updateTransferCommand" class="org.ua.oblik.service.command.UpdateTransferCommand" scope="prototype"
+          parent="abstractTxCommand"/>
+    <bean id="deleteTxCommand" class="org.ua.oblik.service.command.DeleteTxCommand" scope="prototype"
+          parent="abstractTxCommand"/>
 
     <bean id="springCommandFactory" class="org.ua.oblik.service.command.TransactionCommandSpringFactory">
         <lookup-method name="createInsertIncomeCommand" bean="insertIncomeCommand"/>

@@ -9,7 +9,7 @@ abstract class AbstractUpdateCommand extends AbstractTxCommand {
     protected abstract void doUpdate(TransactionVO tvo, Txaction txaction, Account newCreditAccount, Account newDebitAccount);
 
     @Override
-    public void execute() {
+    public synchronized void execute() {
         Txaction txaction = txactionDao.select(tvo.getTxId());
         Account newCreditAccount = accountDao.select(tvo.getFirstAccount());
         Account newDebitAccount = accountDao.select(tvo.getSecondAccount());
