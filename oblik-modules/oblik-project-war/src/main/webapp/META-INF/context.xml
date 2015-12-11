@@ -1,3 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context antiJARLocking="true" path="">
+
+    <Resource auth="Container"
+              driverClassName="com.mysql.jdbc.Driver"
+              factory="org.apache.tomcat.dbcp.dbcp2.BasicDataSourceFactory"
+              maxTotal="50"
+              maxIdle="10"
+              maxWaitMillis="-1"
+              name="jdbc/MySQLDS"
+              type="javax.sql.DataSource"
+              url="jdbc:mysql://localhost:3306/oblik_db"
+              username="oblik_user"
+              password="oblik_pass" />
 </Context>
