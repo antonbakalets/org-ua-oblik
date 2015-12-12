@@ -2,7 +2,8 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="UITest" verbose="1">
     <parameter name="driverClassName" value="org.openqa.selenium.firefox.FirefoxDriver"/>
-    <parameter name="base.url" value="http://localhost:25519"/>
+    <parameter name="host" value="localhost"/>
+    <parameter name="port" value="25519"/>
     <parameter name="username" value="paco"/>
     <parameter name="password" value="hola"/>
 

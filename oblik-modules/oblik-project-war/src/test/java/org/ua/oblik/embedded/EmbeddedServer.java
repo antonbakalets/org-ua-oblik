@@ -1,26 +1,31 @@
 package org.ua.oblik.embedded;
 
+import javax.servlet.ServletException;
 import java.io.File;
 
+import org.apache.catalina.LifecycleException;
 import org.apache.catalina.WebResourceRoot;
 import org.apache.catalina.core.StandardContext;
 import org.apache.catalina.startup.Tomcat;
 import org.apache.catalina.webresources.DirResourceSet;
 import org.apache.catalina.webresources.StandardRoot;
 
-public class Launcher {
+public class EmbeddedServer {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws ServletException, LifecycleException {
+        Tomcat tomcat = EmbeddedServer.getConfiguredTomcat("8080");
+        tomcat.start();
+        tomcat.getServer().await();
+    }
+
+    public static Tomcat getConfiguredTomcat(String webPort) throws ServletException {
+
+        System.out.println("Working Directory = " +
+                System.getProperty("user.dir"));
+
         String webappDirLocation = "src/main/webapp/";
         Tomcat tomcat = new Tomcat();
-        tomcat.enableNaming(); // !!!!
-
-        //The port that we should run on can be set into an environment variable
-        //Look for that variable and default to 8080 if it isn't there.
-        String webPort = System.getenv("PORT");
-        if(webPort == null || webPort.isEmpty()) {
-            webPort = "8080";
-        }
+        tomcat.enableNaming();
 
         tomcat.setPort(Integer.valueOf(webPort));
 
@@ -35,7 +40,6 @@ public class Launcher {
                 additionWebInfClasses.getAbsolutePath(), "/"));
         ctx.setResources(resources);
 
-        tomcat.start();
-        tomcat.getServer().await();
+        return tomcat;
     }
 }
