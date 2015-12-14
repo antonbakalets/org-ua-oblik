@@ -6,6 +6,7 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,13 +83,24 @@ public class CurrencyController {
         return "loaded/currency";
     }
 
-    @RequestMapping(value = "/currency/edit", method = RequestMethod.DELETE)
+//    @RequestMapping(value = "/currency/delete", method = RequestMethod.GET)
+//    @ResponseBody
+//    public String confirmRemoveCurrency(@RequestParam(value = "currencyId", required = false) final Integer currencyId,
+//                                        HttpSession session) {
+//        LOGGER.debug("Generating confirmation to remove currency, id: " + currencyId + ".");
+//        String confirmation = UUID.randomUUID().toString();
+//        session.setAttribute(confirmation, currencyId);
+//        return confirmation;
+//    }
+
+    @RequestMapping(value = "/currency/delete", method = RequestMethod.GET)
     @ResponseBody
     public Boolean removeCurrency(@RequestParam(value = "currencyId", required = false) final Integer currencyId) {
         LOGGER.debug("Removing currency, id: " + currencyId + ".");
-        Boolean success = true;
+        Boolean success;
         try {
             currencyHelper.remove(currencyId);
+            success = true;
         } catch (Exception e) {
             success = false;
         }
