@@ -1,7 +1,8 @@
 package org.ua.oblik.embedded;
 
-import javax.servlet.ServletException;
 import java.io.File;
+
+import javax.servlet.ServletException;
 
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.WebResourceRoot;
@@ -13,7 +14,7 @@ import org.apache.catalina.webresources.StandardRoot;
 public class EmbeddedServer {
 
     public static void main(String[] args) throws ServletException, LifecycleException {
-        Tomcat tomcat = EmbeddedServer.getConfiguredTomcat("8080");
+        Tomcat tomcat = EmbeddedServer.getConfiguredTomcat("25519");
         tomcat.start();
         tomcat.getServer().await();
     }
@@ -25,8 +26,8 @@ public class EmbeddedServer {
 
         String webappDirLocation = "src/main/webapp/";
         Tomcat tomcat = new Tomcat();
+        tomcat.setBaseDir("target/tomcat." + webPort);
         tomcat.enableNaming();
-
         tomcat.setPort(Integer.valueOf(webPort));
 
         StandardContext ctx = (StandardContext) tomcat.addWebapp("/", new File(webappDirLocation).getAbsolutePath());

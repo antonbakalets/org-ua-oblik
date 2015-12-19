@@ -226,17 +226,17 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-failsafe-plugin</artifactId>
-                    <version>${plugin.failsafe.version}</version>
+                    <version>2.19</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>${plugin.surefire.version}</version>
+                    <version>2.19</version>
                 </plugin>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>sql-maven-plugin</artifactId>
-                    <version>${plugin.sql.version}</version>
+                    <version>1.5</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -244,17 +244,13 @@
 
     <properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.source>1.7</maven.compiler.source>
+		<maven.compiler.target>1.7</maven.compiler.target>
 
         <hibernate.version>4.2.1.Final</hibernate.version>
         <mysql.connector.version>5.1.25</mysql.connector.version>
         <springframework.version>4.2.0.RELEASE</springframework.version>
         <springframework.security.version>4.0.2.RELEASE</springframework.security.version>
         <tomcat.embedded.version>8.0.28</tomcat.embedded.version>
-
-        <plugin.failsafe.version>2.18.1</plugin.failsafe.version>
-        <plugin.sql.version>1.5</plugin.sql.version>
-        <plugin.surefire.version>2.18.1</plugin.surefire.version>
 	</properties>
 </project>

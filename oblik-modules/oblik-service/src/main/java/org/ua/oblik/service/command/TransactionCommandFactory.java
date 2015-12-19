@@ -2,7 +2,6 @@ package org.ua.oblik.service.command;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Supplier;
 
 import org.ua.oblik.service.beans.TransactionType;
 import org.ua.oblik.service.beans.TransactionVO;
@@ -16,13 +15,43 @@ public class TransactionCommandFactory {
     private final Map<TransactionType, Supplier<TransactionCommand>> updateCommands = new HashMap<>(3);
 
     public void init() {
-        insertCommands.put(TransactionType.INCOME, springFactory::createInsertIncomeCommand);
-        insertCommands.put(TransactionType.EXPENSE, springFactory::createInsertExpenseCommand);
-        insertCommands.put(TransactionType.TRANSFER, springFactory::createInsertTransferCommand);
+        insertCommands.put(TransactionType.INCOME, new Supplier<TransactionCommand>() {
+            @Override
+            public TransactionCommand get() {
+                return springFactory.createInsertIncomeCommand();
+            }
+        });
+        insertCommands.put(TransactionType.EXPENSE, new Supplier<TransactionCommand>() {
+            @Override
+            public TransactionCommand get() {
+                return springFactory.createInsertExpenseCommand();
+            }
+        });
+        insertCommands.put(TransactionType.TRANSFER, new Supplier<TransactionCommand>() {
+            @Override
+            public TransactionCommand get() {
+                return springFactory.createInsertTransferCommand();
+            }
+        });
 
-        updateCommands.put(TransactionType.INCOME, springFactory::createUpdateIncomeCommand);
-        updateCommands.put(TransactionType.EXPENSE, springFactory::createUpdateExpenseCommand);
-        updateCommands.put(TransactionType.TRANSFER, springFactory::createUpdateTransferCommand);
+        updateCommands.put(TransactionType.INCOME, new Supplier<TransactionCommand>() {
+            @Override
+            public TransactionCommand get() {
+                return springFactory.createUpdateIncomeCommand();
+            }
+        });
+        updateCommands.put(TransactionType.EXPENSE, new Supplier<TransactionCommand>() {
+            @Override
+            public TransactionCommand get() {
+                return springFactory.createUpdateExpenseCommand();
+            }
+        });
+        updateCommands.put(TransactionType.TRANSFER, new Supplier<TransactionCommand>() {
+            @Override
+            public TransactionCommand get() {
+                return springFactory.createUpdateTransferCommand();
+            }
+        });
     }
 
     public TransactionCommand createSaveCommand(TransactionVO tvo) {
@@ -42,6 +71,10 @@ public class TransactionCommandFactory {
 
     public void setSpringFactory(TransactionCommandSpringFactory springFactory) {
         this.springFactory = springFactory;
+    }
+
+    private abstract class Supplier<T> {
+        public abstract T get();
     }
 }
 
