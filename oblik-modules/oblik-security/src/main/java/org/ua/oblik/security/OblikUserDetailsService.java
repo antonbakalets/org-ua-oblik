@@ -1,6 +1,7 @@
 package org.ua.oblik.security;
 
 import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
@@ -10,11 +11,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.ua.oblik.domain.dao.UserLoginDao;
-import org.ua.oblik.domain.dao.UserNotFoundException;
 import org.ua.oblik.domain.model.UserLogin;
 
 /**
- *
  * @author Anton Bakalets
  */
 public class OblikUserDetailsService implements UserDetailsService {
@@ -26,13 +25,9 @@ public class OblikUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) {
         final UserLogin userLogin;
-        try {
-            LOGGER.debug("Loading user by username: {}", username);
-            userLogin = userLoginDao.loadUserLogin(username);
-        } catch (UserNotFoundException unfe) {
-            LOGGER.warn("Cannot find user by name.", unfe);
-            throw new UsernameNotFoundException("No user with name: " + username, unfe);
-        }
+        LOGGER.debug("Loading user by username: {}", username);
+        userLogin = userLoginDao.loadUserLogin(username)
+                .orElseThrow(() -> new UsernameNotFoundException("No user with name: " + username));
         final String permissions = userLogin.getPermissions();
         LOGGER.debug("Loaded user {} with permissions: ", userLogin, permissions);
         final List<GrantedAuthority> grantedAuthorities =

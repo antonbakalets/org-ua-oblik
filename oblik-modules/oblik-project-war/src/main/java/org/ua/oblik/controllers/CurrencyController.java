@@ -3,6 +3,7 @@ package org.ua.oblik.controllers;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -55,7 +56,7 @@ public class CurrencyController {
 
     @RequestMapping(value = "/currency/edit", method = RequestMethod.GET)
     public String editCurrency(final HttpSession session, final Model model,
-            @RequestParam(value = "currencyId", required = false) final Integer currencyId) {
+            @RequestParam(value = "currencyId") final Optional<Integer> currencyId) {
         LOGGER.debug("Editing currency, id: " + currencyId + ".");
         CurrencyEditBean currencyEditBean = currencyHelper.createCurrencyBean(currencyId);
         currencyEditBean.setOldSymbol(currencyEditBean.getSymbol());

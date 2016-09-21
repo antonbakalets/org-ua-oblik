@@ -1,5 +1,7 @@
 package org.ua.oblik.domain.dao;
 
+import java.util.Optional;
+
 import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -22,17 +24,18 @@ public class UserLoginDaoImpl extends AbstractDao<Integer, UserLogin, UserLoginE
     }
 
     @Override
-    public UserLogin loadUserLogin(String username) throws UserNotFoundException {
+    public Optional<UserLogin> loadUserLogin(String username) {
         final CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<UserLoginEntity> cq = cb.createQuery(UserLoginEntity.class);
         Root<UserLoginEntity> root = cq.from(UserLoginEntity.class);
         cq.select(root).where(cb.equal(cb.lower(root.<String>get("username")), username.toLowerCase()));
+        UserLoginEntity loginEntity = null;
         try {
-            return getEntityManager().createQuery(cq).getSingleResult();
+            loginEntity = getEntityManager().createQuery(cq).getSingleResult();
         } catch (NoResultException nre) {
             final String message = "Cannot find user " + username + ".";
             LOGGER.error(message);
-            throw new UserNotFoundException(message, nre);
         }
+        return Optional.ofNullable(loginEntity);
     }
 }
