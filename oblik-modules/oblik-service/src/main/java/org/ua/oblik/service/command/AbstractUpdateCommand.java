@@ -18,6 +18,5 @@ abstract class AbstractUpdateCommand extends AbstractTxCommand {
         txaction.setDebet(newDebitAccount);
         txaction.setTxDate(tvo.getDate());
         txaction.setComment(tvo.getNote());
-        txactionDao.update(txaction);
     }
 }

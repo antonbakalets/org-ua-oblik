@@ -28,16 +28,9 @@ public class AccountServiceImpl implements AccountService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AccountServiceImpl.class);
 
-    @Autowired
     private AccountDao accountDao;
-
-    @Autowired
     private CurrencyDao currencyDao;
-
-    @Autowired
     private CurrencyService currencyService;
-
-    @Autowired
     private EntitiesFactory entitiesFactory;
 
     @Override
@@ -96,7 +89,6 @@ public class AccountServiceImpl implements AccountService {
         account.setKind(AccountTypeConverter.convert(avo.getType()));
         account.setShortName(avo.getName());
         account.setTotal(avo.getAmount());
-        accountDao.update(account);
     }
 
     private List<AccountVO> getAssetsAccounts() {
@@ -161,5 +153,25 @@ public class AccountServiceImpl implements AccountService {
             result.add(convert(model));
         }
         return result;
+    }
+
+    @Autowired
+    public void setAccountDao(AccountDao accountDao) {
+        this.accountDao = accountDao;
+    }
+
+    @Autowired
+    public void setCurrencyDao(CurrencyDao currencyDao) {
+        this.currencyDao = currencyDao;
+    }
+
+    @Autowired
+    public void setCurrencyService(CurrencyService currencyService) {
+        this.currencyService = currencyService;
+    }
+
+    @Autowired
+    public void setEntitiesFactory(EntitiesFactory entitiesFactory) {
+        this.entitiesFactory = entitiesFactory;
     }
 }

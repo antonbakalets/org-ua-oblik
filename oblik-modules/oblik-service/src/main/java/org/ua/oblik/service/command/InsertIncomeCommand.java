@@ -9,6 +9,5 @@ public class InsertIncomeCommand extends AbstractInsertCommand {
     protected void doInsert(Txaction txaction, Account credit, Account debit) {
         txaction.setDebetAmount(tvo.getFirstAmount());
         debit.setTotal(debit.getTotal().add(tvo.getFirstAmount()));
-        accountDao.update(debit);
     }
 }

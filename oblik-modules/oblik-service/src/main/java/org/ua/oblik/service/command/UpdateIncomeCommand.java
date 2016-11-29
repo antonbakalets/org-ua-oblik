@@ -17,9 +17,7 @@ public class UpdateIncomeCommand extends AbstractUpdateCommand {
         } else {
             oldDebetAccount.setTotal(oldDebetAccount.getTotal().subtract(txaction.getDebetAmount()));
             newDebitAccount.setTotal(newDebitAccount.getTotal().add(tvo.getFirstAmount()));
-            accountDao.update(oldDebetAccount);
         }
         txaction.setDebetAmount(tvo.getFirstAmount());
-        accountDao.update(newDebitAccount);
     }
 }

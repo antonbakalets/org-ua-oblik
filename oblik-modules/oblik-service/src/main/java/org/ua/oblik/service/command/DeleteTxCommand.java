@@ -21,17 +21,13 @@ public class DeleteTxCommand extends AbstractTxCommand {
 
         if (debet.getKind() == AccountKind.ASSETS && credit.getKind() == AccountKind.INCOME) {
             debet.setTotal(debet.getTotal().subtract(txaction.getDebetAmount()));
-            accountDao.update(debet);
         } else if (credit.getKind() == AccountKind.ASSETS && debet.getKind() == AccountKind.EXPENSE) {
             credit.setTotal(credit.getTotal().add(txaction.getCreditAmount()));
-            accountDao.update(credit);
         } else if (debet.getKind() == AccountKind.ASSETS && credit.getKind() == AccountKind.ASSETS) {
             final BigDecimal debetDiff = debet.getTotal().subtract(txaction.getCreditAmount());
             final BigDecimal creditDiff = credit.getTotal().add(txaction.getDebetAmount());
             debet.setTotal(debetDiff);
             credit.setTotal(creditDiff);
-            accountDao.update(debet);
-            accountDao.update(credit);
         } else {
             RuntimeException re = new IllegalArgumentException("Cannot determine transaction type, id :" + transactionId);
             LOGGER.error("Cannot determine transaction type.", re);

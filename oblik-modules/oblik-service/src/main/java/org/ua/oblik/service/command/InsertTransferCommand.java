@@ -19,7 +19,5 @@ public class InsertTransferCommand extends AbstractInsertCommand {
         credit.setTotal(firstTotal);
         BigDecimal secondTotal = debit.getTotal().add(tvo.getSecondAmount());
         debit.setTotal(secondTotal);
-        accountDao.update(credit);
-        accountDao.update(debit);
     }
 }
