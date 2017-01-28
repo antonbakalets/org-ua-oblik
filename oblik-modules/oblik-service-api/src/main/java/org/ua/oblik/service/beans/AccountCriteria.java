@@ -36,13 +36,13 @@ public class AccountCriteria {
         this.excludeAccountId = excludeAccountId;
     }
 
-    public static AccountCriteria EMPTY_CRITERIA = new Builder().build();
+    public static final AccountCriteria EMPTY_CRITERIA = new Builder().build();
     
-    public static AccountCriteria ASSETS_CRITERIA = new Builder().setType(AccountVOType.ASSETS).build();
+    public static final AccountCriteria ASSETS_CRITERIA = new Builder().setType(AccountVOType.ASSETS).build();
     
-    public static AccountCriteria EXPENSE_CRITERIA = new Builder().setType(AccountVOType.EXPENSE).build();
+    public static final AccountCriteria EXPENSE_CRITERIA = new Builder().setType(AccountVOType.EXPENSE).build();
     
-    public static AccountCriteria INCOME_CRITERIA = new Builder().setType(AccountVOType.INCOME).build();
+    public static final AccountCriteria INCOME_CRITERIA = new Builder().setType(AccountVOType.INCOME).build();
     
     public static class Builder {
         

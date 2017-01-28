@@ -15,7 +15,7 @@ public enum DefinedCurrency {
     private final String symbol;
     private final BigDecimal rate;
 
-    private DefinedCurrency(String symbol, BigDecimal rate) {
+    DefinedCurrency(String symbol, BigDecimal rate) {
         this.symbol = symbol;
         this.rate = rate;
     }

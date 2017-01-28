@@ -88,7 +88,8 @@ public class AccountServiceTest extends BaseServiceTest {
         try {
             accountService.getAccount(accountId);
             Assert.fail("[TEST] Account should be deleted.");
-        } catch (EntityNotFoundException enfe) {
+        } catch (EntityNotFoundException e) {
+            LOGGER.error(e.getMessage());
         }
     }
 }

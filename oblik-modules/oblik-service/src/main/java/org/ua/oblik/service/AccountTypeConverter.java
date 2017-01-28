@@ -19,7 +19,7 @@ public class AccountTypeConverter {
     }
 
     private static Map<AccountVOType, AccountKind> createTypeToKindMap() {
-        Map<AccountVOType, AccountKind> result = new EnumMap<AccountVOType, AccountKind>(AccountVOType.class);
+        Map<AccountVOType, AccountKind> result = new EnumMap<>(AccountVOType.class);
         result.put(AccountVOType.INCOME, AccountKind.INCOME);
         result.put(AccountVOType.EXPENSE, AccountKind.EXPENSE);
         result.put(AccountVOType.ASSETS, AccountKind.ASSETS);
@@ -27,7 +27,7 @@ public class AccountTypeConverter {
     }
 
     private static Map<AccountKind, AccountVOType> createKindToTypeMap() {
-        Map<AccountKind, AccountVOType> result = new EnumMap<AccountKind, AccountVOType>(AccountKind.class);
+        Map<AccountKind, AccountVOType> result = new EnumMap<>(AccountKind.class);
         result.put(AccountKind.INCOME, AccountVOType.INCOME);
         result.put(AccountKind.EXPENSE, AccountVOType.EXPENSE);
         result.put(AccountKind.ASSETS, AccountVOType.ASSETS);

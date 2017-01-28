@@ -28,14 +28,12 @@ class TransactionFacade extends AbstractHelper {
 
     TransactionBean getTransaction(Integer transactionId, Locale locale) {
         TransactionVO tvo = transactionService.getTransaction(transactionId);
-        TransactionBean transactionBean = convert(tvo, locale);
-        return transactionBean;
+        return convert(tvo, locale);
     }
     
     List<TransactionBean> getTransactions(Date now, Locale locale) {
         List<TransactionVO> tempList = transactionService.getTransactions(now);
-        List<TransactionBean> list = convertList(tempList, locale);
-        return list;
+        return convertList(tempList, locale);
     }
     
     private List<TransactionBean> convertList(List<TransactionVO> list, Locale locale) {
