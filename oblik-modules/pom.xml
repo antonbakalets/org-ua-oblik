@@ -15,6 +15,7 @@
         <module>oblik-service</module>
         <module>oblik-service-api</module>
         <module>oblik-service-test</module>
+        <module>oblik-rest</module>
     </modules>
 
     <dependencyManagement>
@@ -249,7 +250,7 @@
 
         <hibernate.version>4.2.1.Final</hibernate.version>
         <mysql.connector.version>5.1.25</mysql.connector.version>
-        <springframework.version>4.2.0.RELEASE</springframework.version>
+        <springframework.version>4.3.7.RELEASE</springframework.version>
         <springframework.security.version>4.0.2.RELEASE</springframework.security.version>
         <tomcat.embedded.version>8.0.28</tomcat.embedded.version>
 	</properties>
