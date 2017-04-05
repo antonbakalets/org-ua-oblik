@@ -1,13 +1,13 @@
 package org.ua.oblik.controllers;
 
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.Locale;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.format.datetime.DateFormatter;
-import org.springframework.format.number.NumberFormatter;
+import org.springframework.format.number.NumberStyleFormatter;
+
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  *
@@ -16,7 +16,7 @@ abstract class AbstractHelper {
 
     @Autowired
     @Qualifier(value = "decimalNumberFormatter")
-    private NumberFormatter decimalFormatter;
+    private NumberStyleFormatter decimalFormatter;
 
     @Autowired
     @Qualifier(value = "longDateFormatter")

@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 
 /**
  *

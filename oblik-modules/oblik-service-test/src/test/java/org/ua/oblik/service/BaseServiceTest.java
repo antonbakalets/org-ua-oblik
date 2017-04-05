@@ -1,9 +1,10 @@
 package org.ua.oblik.service;
 
 import org.junit.runner.RunWith;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 import org.ua.oblik.context.ServiceTestConfig;
 
 /**
@@ -17,9 +18,8 @@ import org.ua.oblik.context.ServiceTestConfig;
     ServiceTestConfig.DAO_CONTEXT,
     ServiceTestConfig.SERVICE_CONTEXT
 })
-@TransactionConfiguration(
-        transactionManager = ServiceTestConfig.TRANSACTION_MANAGER,
-        defaultRollback = ServiceTestConfig.DEFAULT_ROLLBACK)
-class BaseServiceTest {
+@Transactional(transactionManager = ServiceTestConfig.TRANSACTION_MANAGER)
+@Rollback
+abstract class BaseServiceTest {
     
 }

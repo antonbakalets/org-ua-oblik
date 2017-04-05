@@ -50,7 +50,7 @@
         <constructor-arg name="emptyAsNull" value="true"/>
     </bean>
     
-    <bean id="decimalNumberFormatter" class="org.springframework.format.number.NumberFormatter">
+    <bean id="decimalNumberFormatter" class="org.springframework.format.number.NumberStyleFormatter">
         <property name="pattern" value="${decimal.format}"/>
     </bean>
     
