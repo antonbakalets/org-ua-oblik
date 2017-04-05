@@ -1,11 +1,11 @@
 package org.ua.oblik.service.command;
 
+import org.ua.oblik.service.beans.TransactionType;
+import org.ua.oblik.service.beans.TransactionVO;
+
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.function.Supplier;
-
-import org.ua.oblik.service.beans.TransactionType;
-import org.ua.oblik.service.beans.TransactionVO;
 
 public class TransactionCommandFactory {
 
@@ -16,13 +16,13 @@ public class TransactionCommandFactory {
     private final Map<TransactionType, Supplier<TransactionCommand>> updateCommands = new EnumMap<>(TransactionType.class);
 
     public void init() {
-        insertCommands.put(TransactionType.INCOME, springFactory::createInsertIncomeCommand);
-        insertCommands.put(TransactionType.EXPENSE, springFactory::createInsertExpenseCommand);
-        insertCommands.put(TransactionType.TRANSFER, springFactory::createInsertTransferCommand);
+        insertCommands.put(TransactionType.INCOME, () -> springFactory.createInsertIncomeCommand());
+        insertCommands.put(TransactionType.EXPENSE, () -> springFactory.createInsertExpenseCommand());
+        insertCommands.put(TransactionType.TRANSFER, () -> springFactory.createInsertTransferCommand());
 
-        updateCommands.put(TransactionType.INCOME, springFactory::createUpdateIncomeCommand);
-        updateCommands.put(TransactionType.EXPENSE, springFactory::createUpdateExpenseCommand);
-        updateCommands.put(TransactionType.TRANSFER, springFactory::createUpdateTransferCommand);
+        updateCommands.put(TransactionType.INCOME, () -> springFactory.createUpdateIncomeCommand());
+        updateCommands.put(TransactionType.EXPENSE, () -> springFactory.createUpdateExpenseCommand());
+        updateCommands.put(TransactionType.TRANSFER, () -> springFactory.createUpdateTransferCommand());
     }
 
     public TransactionCommand createSaveCommand(TransactionVO tvo) {

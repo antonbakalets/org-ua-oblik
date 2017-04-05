@@ -103,7 +103,8 @@ $.widget("oblik.ineditable", {
     },
     _remove: function () {
         var reference = this;
-        $.ajax({ method: "DELETE", url: reference.ahref.replace(".html", ".json") })
+        var urlValue = reference.ahref.replace("edit.html", "delete.json");
+        $.ajax({ method: "GET", url: urlValue })
             .done(function (data) {
                 if (data) {
                     if ($.isFunction(reference.options.onRemove())) {

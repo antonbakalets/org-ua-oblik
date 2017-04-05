@@ -22,13 +22,8 @@ public class CurrencyServiceImpl implements CurrencyService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CurrencyServiceImpl.class);
 
-    @Autowired
     private CurrencyDao currencyDao;
-
-    @Autowired
     private TotalService totalService;
-
-    @Autowired
     private EntitiesFactory entitiesFactory;
 
     @Override
@@ -62,7 +57,6 @@ public class CurrencyServiceImpl implements CurrencyService {
         Currency currency = currencyDao.select(cvo.getCurrencyId());
         currency.setRate(cvo.getRate());
         currency.setSymbol(cvo.getSymbol());
-        currencyDao.update(currency);
     }
 
     @Override
@@ -139,5 +133,20 @@ public class CurrencyServiceImpl implements CurrencyService {
         CurrencyVO result = convert(model);
         result.setTotal(total);
         return result;
+    }
+
+    @Autowired
+    public void setCurrencyDao(CurrencyDao currencyDao) {
+        this.currencyDao = currencyDao;
+    }
+
+    @Autowired
+    public void setTotalService(TotalService totalService) {
+        this.totalService = totalService;
+    }
+
+    @Autowired
+    public void setEntitiesFactory(EntitiesFactory entitiesFactory) {
+        this.entitiesFactory = entitiesFactory;
     }
 }

@@ -21,7 +21,6 @@ public class UpdateTransferCommand extends AbstractUpdateCommand {
         } else {
             oldDebetAccount.setTotal(oldDebetAccount.getTotal().subtract(txaction.getDebetAmount()));
             newDebitAccount.setTotal(newDebitAccount.getTotal().add(tvo.getSecondAmount()));
-            accountDao.update(oldDebetAccount);
         }
         final Account oldCreditAccount = txaction.getCredit();
         if (oldCreditAccount.equals(newCreditAccount)) {
@@ -30,11 +29,8 @@ public class UpdateTransferCommand extends AbstractUpdateCommand {
         } else {
             oldCreditAccount.setTotal(oldCreditAccount.getTotal().add(txaction.getCreditAmount()));
             newCreditAccount.setTotal(newCreditAccount.getTotal().subtract(tvo.getFirstAmount()));
-            accountDao.update(oldCreditAccount);
         }
         txaction.setCreditAmount(tvo.getFirstAmount());
         txaction.setDebetAmount(tvo.getSecondAmount());
-        accountDao.update(newCreditAccount);
-        accountDao.update(newDebitAccount);
     }
 }

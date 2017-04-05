@@ -35,7 +35,7 @@ public class AccountDaoImpl extends AbstractDao<Integer, Account, AccountEntity>
         final CriteriaBuilder cbuilder = getEntityManager().getCriteriaBuilder();
         final CriteriaQuery<BigDecimal> cquery = cbuilder.createQuery(BigDecimal.class);
         final Root<AccountEntity> root = cquery.from(AccountEntity.class);
-        Path<BigDecimal> path = root.<BigDecimal>get("total");
+        Path<BigDecimal> path = root.get("total");
         cquery.select(cbuilder.sum(path)).where(
                 cbuilder.equal(root.<CurrencyEntity>get("currency"), currency),
                 cbuilder.equal(root.<AccountKind>get("kind"), AccountKind.ASSETS));

@@ -1,10 +1,5 @@
 package org.ua.oblik.controllers;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +8,16 @@ import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  *
@@ -22,7 +26,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class TransactionController {
 
-    private static final Logger LOG = LoggerFactory.getLogger(TransactionController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TransactionController.class);
     
     private static final String TRANSACTION_MAP = "transaction_map";
 
@@ -44,7 +48,7 @@ public class TransactionController {
     @RequestMapping("/transaction/list")
     public String transactions(final Locale locale, final Model model,
             @RequestParam(value = "month", required = false) final Date month) {
-        LOG.debug("Listing transactions on: " + month);
+        LOGGER.debug("Listing transactions on: {}", month);
         final Date now = month == null ? new Date() : month;
         model.addAttribute(TRANSACTION_MAP, transactionFacade.getTransactionMap(now, locale));
         model.addAttribute(MONTH_ARRAY, threeMonths(now));
@@ -53,7 +57,7 @@ public class TransactionController {
 
     @RequestMapping(value = "/transaction/delete", method = RequestMethod.GET)
     public @ResponseBody String deleteTransaction(@RequestParam(value = "transactionId", required = false) final Integer transactionId) {
-        LOG.debug("Delete transaction, id: " + transactionId + ".");
+        LOGGER.debug("Delete transaction, id: {}.", transactionId);
         transactionFacade.delete(transactionId);
         return "deleted";
     }

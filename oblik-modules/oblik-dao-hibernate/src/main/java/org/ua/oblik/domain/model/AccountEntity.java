@@ -1,10 +1,21 @@
 package org.ua.oblik.domain.model;
 
-import javax.persistence.*;
+import org.ua.oblik.domain.beans.AccountKind;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-import org.ua.oblik.domain.beans.AccountKind;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  *
@@ -38,9 +49,6 @@ public class AccountEntity implements Serializable, Account {
     @JoinColumn(name = "currency", referencedColumnName = "curr_id")
     @ManyToOne(optional = false, targetEntity = CurrencyEntity.class)
     private Currency currency;
-
-    public AccountEntity() {
-    }
 
     @Override
     public Integer getId() {

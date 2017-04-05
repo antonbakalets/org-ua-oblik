@@ -1,7 +1,5 @@
 package org.ua.oblik.service;
 
-import java.math.BigDecimal;
-
 import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.ua.oblik.service.beans.AccountVOType;
@@ -10,7 +8,9 @@ import org.ua.oblik.service.test.CurrencyServiceTestHelper;
 import org.ua.oblik.service.test.DefinedAccount;
 import org.ua.oblik.service.test.DefinedCurrency;
 
-class BaseTransactionServiceTest extends BaseServiceTest {
+import java.math.BigDecimal;
+
+abstract class BaseTransactionServiceTest extends BaseServiceTest {
 
     @Autowired
     protected CurrencyServiceTestHelper cH;

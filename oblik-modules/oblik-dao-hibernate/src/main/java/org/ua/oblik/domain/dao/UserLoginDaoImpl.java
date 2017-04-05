@@ -11,6 +11,8 @@ import org.slf4j.LoggerFactory;
 import org.ua.oblik.domain.model.UserLogin;
 import org.ua.oblik.domain.model.UserLoginEntity;
 
+import java.util.Optional;
+
 /**
  *
  * @author Anton Bakalets
@@ -24,18 +26,19 @@ public class UserLoginDaoImpl extends AbstractDao<Integer, UserLogin, UserLoginE
     }
 
     @Override
-    public UserLogin loadUserLogin(String username) throws UserNotFoundException {
+    public Optional<UserLogin> loadUserLogin(String username) {
         final CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<UserLoginEntity> cq = cb.createQuery(UserLoginEntity.class);
         Root<UserLoginEntity> root = cq.from(UserLoginEntity.class);
         cq.select(root).where(cb.equal(cb.lower(root.<String>get("username")), username.toLowerCase()));
+        UserLoginEntity loginEntity = null;
         try {
-            return getEntityManager().createQuery(cq).getSingleResult();
+            loginEntity = getEntityManager().createQuery(cq).getSingleResult();
         } catch (NoResultException nre) {
-            final String message = "Cannot find user " + username + ".";
-            LOGGER.error(message);
-            throw new UserNotFoundException(message, nre);
+            LOGGER.trace("Could not find user by username.", nre);
+            LOGGER.warn("Could not find user by username '{}'.", username);
         }
+        return Optional.ofNullable(loginEntity);
     }
 
     @Override

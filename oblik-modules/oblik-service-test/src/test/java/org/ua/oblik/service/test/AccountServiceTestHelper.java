@@ -21,7 +21,7 @@ public class AccountServiceTestHelper {
     @Autowired
     private CurrencyServiceTestHelper currencyServiceTestHelper;
     
-    private Map<DefinedAccount, AccountVO> accounts = new EnumMap<DefinedAccount, AccountVO>(DefinedAccount.class);
+    private Map<DefinedAccount, AccountVO> accounts = new EnumMap<>(DefinedAccount.class);
     
     public AccountVO getDefinedAccount(DefinedAccount da) {
         return accounts.get(da);

@@ -3,6 +3,7 @@ package org.ua.oblik.domain.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -52,9 +53,6 @@ public class TxactionEntity implements Serializable, Txaction {
 
     @Column(name = "tx_comment")
     private String comment;
-
-    public TxactionEntity() {
-    }
 
     @Override
     public Integer getId() {

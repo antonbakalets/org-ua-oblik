@@ -8,6 +8,5 @@ public class InsertExpenseCommand extends AbstractInsertCommand {
     protected void doInsert(Txaction txaction, Account credit, Account debit) {
         txaction.setCreditAmount(tvo.getFirstAmount());
         credit.setTotal(credit.getTotal().subtract(tvo.getFirstAmount()));
-        accountDao.update(credit);
     }
 }

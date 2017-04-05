@@ -1,6 +1,6 @@
 package org.ua.oblik.domain.dao;
 
-import java.util.List;
+import java.util.Optional;
 
 import org.ua.oblik.domain.model.UserLogin;
 
@@ -10,7 +10,6 @@ import org.ua.oblik.domain.model.UserLogin;
  */
 public interface UserLoginDao {
 
-    UserLogin loadUserLogin(String username) throws UserNotFoundException;
-
-    List<? extends UserLogin> selectAll();
+    Optional<UserLogin> loadUserLogin(String username);
+    
 }

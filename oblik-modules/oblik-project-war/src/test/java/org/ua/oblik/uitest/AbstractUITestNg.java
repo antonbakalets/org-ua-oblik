@@ -2,6 +2,7 @@ package org.ua.oblik.uitest;
 
 import static org.testng.Assert.*;
 
+import javax.servlet.ServletException;
 import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -11,6 +12,8 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.catalina.LifecycleException;
+import org.apache.catalina.startup.Tomcat;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
@@ -21,10 +24,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Parameters;
+import org.testng.annotations.*;
+import org.ua.oblik.embedded.EmbeddedServer;
 import org.ua.oblik.service.beans.AccountVOType;
 import org.ua.oblik.service.beans.TransactionType;
 
@@ -53,6 +54,7 @@ public class AbstractUITestNg {
     protected WebDriver driver;
     protected String baseUrl;
     protected WebDriverWait driverWait;
+    private Tomcat tomcat;
 
     @DataProvider(name = "accountTypeProvider")
     public static Iterator<Object[]> accountTypeProvider() {
@@ -101,13 +103,21 @@ public class AbstractUITestNg {
         Assert.assertEquals(value1.compareTo(value2), 0, message);
     }
 
+    @BeforeSuite
+    @Parameters({"port"})
+    public void startEmbeddedServer(String port) throws ServletException, LifecycleException {
+        tomcat = EmbeddedServer.getConfiguredTomcat(port);
+        tomcat.start();
+    }
+
     @BeforeTest
-    @Parameters({"driverClassName", "base.url"})
-    public void setUp(String driverClassName, String baseUrl) throws Exception {
+    @Parameters({"driverClassName", "host", "port"})
+    @SuppressWarnings("unchecked")
+    public void setUp(String driverClassName, String host, String port) throws Exception {
         Class<?> clazz = Class.forName(driverClassName);
-        Constructor<WebDriver> ctor = (Constructor<WebDriver>) clazz.getConstructor();
-        driver = ctor.newInstance();
-        this.baseUrl = baseUrl;
+        Constructor<WebDriver> constructor = (Constructor<WebDriver>) clazz.getConstructor();
+        driver = constructor.newInstance();
+        this.baseUrl = "http://" + host + ":" + port;
         driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
         driverWait = new WebDriverWait(driver, 10);
     }
@@ -115,6 +125,11 @@ public class AbstractUITestNg {
     @AfterTest
     public void tearDown() {
         driver.quit();
+    }
+
+    @AfterSuite
+    public void stopEmbeddedServer() throws LifecycleException {
+        tomcat.stop();
     }
 
     public static ExpectedCondition<Boolean> elementFinishedResizing(final WebElement element) {

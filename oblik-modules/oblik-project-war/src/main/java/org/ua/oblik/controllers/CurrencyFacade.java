@@ -3,6 +3,7 @@ package org.ua.oblik.controllers;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.ua.oblik.controllers.beans.CurrencyEditBean;
@@ -27,12 +28,12 @@ class CurrencyFacade extends AbstractHelper {
         return currencyService.getDefaultCurrency().getSymbol();
     }
 
-    public CurrencyEditBean createCurrencyBean(final Integer currencyId) {
+    public CurrencyEditBean createCurrencyBean(final Optional<Integer> currencyId) {
         CurrencyVO result;
-        if (currencyId == null) {
-            result = currencyService.createCurrency();
+        if (currencyId.isPresent()) {
+            result = currencyService.getCurrency(currencyId.get());
         } else {
-            result = currencyService.getCurrency(currencyId);
+            result = currencyService.createCurrency();
         }
         return convert(result);
     }

@@ -29,7 +29,7 @@ public enum DefinedAccount {
     private final String accountName;
     private final AccountVOType accountType;
 
-    private DefinedAccount(DefinedCurrency currency, String accountName, AccountVOType accountType) {
+    DefinedAccount(DefinedCurrency currency, String accountName, AccountVOType accountType) {
         this.currency = currency;
         this.accountName = accountName;
         this.accountType = accountType;

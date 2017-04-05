@@ -2,11 +2,12 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="UITest" verbose="1">
     <parameter name="driverClassName" value="org.openqa.selenium.firefox.FirefoxDriver"/>
-    <parameter name="base.url" value="http://localhost:25519"/>
+    <parameter name="host" value="localhost"/>
+    <parameter name="port" value="25519"/>
     <parameter name="username" value="paco"/>
     <parameter name="password" value="hola"/>
 
-	<test name="Login and registration UI test" enabled="false">
+	<test name="Login and registration UI test" enabled="true">
 		<classes>
 			<class name="org.ua.oblik.uitest.LoginUITestNg" />
 		</classes>
@@ -18,13 +19,13 @@
         </classes>
     </test>
 
-    <test name="Currency UI test" enabled="false">
+    <test name="Currency UI test" enabled="true">
         <classes>
             <class name="org.ua.oblik.uitest.CurrencyUITestNg"/>
         </classes>
     </test>
 
-    <test name="Account UI test" enabled="false">
+    <test name="Account UI test" enabled="true">
         <classes>
             <class name="org.ua.oblik.uitest.AccountUITestNg"/>
         </classes>
