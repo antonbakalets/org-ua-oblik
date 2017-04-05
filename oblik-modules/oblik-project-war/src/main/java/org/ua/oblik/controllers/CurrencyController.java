@@ -1,5 +1,21 @@
 package org.ua.oblik.controllers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.ua.oblik.controllers.beans.CurrencyEditBean;
+import org.ua.oblik.controllers.beans.CurrencyListBean;
+import org.ua.oblik.controllers.utils.ValidationErrorLoger;
+import org.ua.oblik.controllers.validators.CurrencyValidator;
+
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Locale;
@@ -7,18 +23,6 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-import org.ua.oblik.controllers.beans.CurrencyEditBean;
-import org.ua.oblik.controllers.beans.CurrencyListBean;
-import org.ua.oblik.controllers.utils.ValidationErrorLoger;
-import org.ua.oblik.controllers.validators.CurrencyValidator;
 
 /**
  *
@@ -57,7 +61,7 @@ public class CurrencyController {
     @RequestMapping(value = "/currency/edit", method = RequestMethod.GET)
     public String editCurrency(final HttpSession session, final Model model,
             @RequestParam(value = "currencyId") final Optional<Integer> currencyId) {
-        LOGGER.debug("Editing currency, id: " + currencyId + ".");
+        LOGGER.debug("Editing currency, id: {}.", currencyId);
         CurrencyEditBean currencyEditBean = currencyHelper.createCurrencyBean(currencyId);
         currencyEditBean.setOldSymbol(currencyEditBean.getSymbol());
         // TODO convert to annotations?
@@ -84,25 +88,16 @@ public class CurrencyController {
         return "loaded/currency";
     }
 
-//    @RequestMapping(value = "/currency/delete", method = RequestMethod.GET)
-//    @ResponseBody
-//    public String confirmRemoveCurrency(@RequestParam(value = "currencyId", required = false) final Integer currencyId,
-//                                        HttpSession session) {
-//        LOGGER.debug("Generating confirmation to remove currency, id: " + currencyId + ".");
-//        String confirmation = UUID.randomUUID().toString();
-//        session.setAttribute(confirmation, currencyId);
-//        return confirmation;
-//    }
-
     @RequestMapping(value = "/currency/delete", method = RequestMethod.GET)
     @ResponseBody
     public Boolean removeCurrency(@RequestParam(value = "currencyId", required = false) final Integer currencyId) {
-        LOGGER.debug("Removing currency, id: " + currencyId + ".");
+        LOGGER.debug("Removing currency, id: {}.", currencyId);
         Boolean success;
         try {
             currencyHelper.remove(currencyId);
             success = true;
         } catch (Exception e) {
+            LOGGER.trace("Currency was not removed", e);
             success = false;
         }
         return success;
