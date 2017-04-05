@@ -28,10 +28,10 @@ public class FormActionValidator implements Validator {
             final AccountVO secondAccount = accountService.getAccount(bean.getSecondAccount());
             switch (bean.getType()) {
                 case EXPENSE:
-                    validateAsExpense(bean, errors, firstAccount, secondAccount);
+                    validateAsExpense(errors, firstAccount, secondAccount);
                     break;
                 case INCOME:
-                    validateAsIncome(bean, errors, firstAccount, secondAccount);
+                    validateAsIncome(errors, firstAccount, secondAccount);
                     break;
                 case TRANSFER:
                     validateAsTransfer(bean, errors, firstAccount, secondAccount);
@@ -40,13 +40,13 @@ public class FormActionValidator implements Validator {
         }
     }
 
-    private void validateAsExpense(FormActionBean bean, Errors errors, AccountVO firstAccount, AccountVO secondAccount) {
+    private void validateAsExpense(Errors errors, AccountVO firstAccount, AccountVO secondAccount) {
         if (!firstAccount.getCurrencyId().equals(secondAccount.getCurrencyId())) {
             errors.rejectValue("secondAccount", "error.transaction.different.currencies");
         }
     }
 
-    private void validateAsIncome(FormActionBean bean, Errors errors, AccountVO firstAccount, AccountVO secondAccount) {
+    private void validateAsIncome(Errors errors, AccountVO firstAccount, AccountVO secondAccount) {
         if (!firstAccount.getCurrencyId().equals(secondAccount.getCurrencyId())) {
             errors.rejectValue("secondAmount", "error.transaction.different.currencies");
         }

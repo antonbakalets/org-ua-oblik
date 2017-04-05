@@ -1,15 +1,16 @@
 package org.ua.oblik.domain.dao;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.ua.oblik.domain.model.UserLogin;
+import org.ua.oblik.domain.model.UserLoginEntity;
+
 import java.util.Optional;
 
 import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.ua.oblik.domain.model.UserLogin;
-import org.ua.oblik.domain.model.UserLoginEntity;
 
 /**
  *
@@ -33,8 +34,8 @@ public class UserLoginDaoImpl extends AbstractDao<Integer, UserLogin, UserLoginE
         try {
             loginEntity = getEntityManager().createQuery(cq).getSingleResult();
         } catch (NoResultException nre) {
-            final String message = "Cannot find user " + username + ".";
-            LOGGER.error(message);
+            LOGGER.trace("Could not find user by username.", nre);
+            LOGGER.warn("Could not find user by username '{}'.", username);
         }
         return Optional.ofNullable(loginEntity);
     }

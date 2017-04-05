@@ -1,13 +1,14 @@
 package org.ua.oblik.service;
 
-import java.math.BigDecimal;
-import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.ua.oblik.domain.dao.AccountDao;
 import org.ua.oblik.domain.dao.CurrencyDao;
 import org.ua.oblik.domain.model.Currency;
+
+import java.math.BigDecimal;
+import java.util.Map;
 
 /**
  *
@@ -26,7 +27,7 @@ public class TotalServiceImpl implements TotalService {
     @Override
     public BigDecimal getDefaultCurrencyTotal() {
         final BigDecimal defaultTotal = accountDao.calculateDefaultTotal();
-        LOGGER.debug("[TOTAL] Default currency total: " + defaultTotal);
+        LOGGER.debug("[TOTAL] Default currency total: {}", defaultTotal);
         return defaultTotal;
     }
 

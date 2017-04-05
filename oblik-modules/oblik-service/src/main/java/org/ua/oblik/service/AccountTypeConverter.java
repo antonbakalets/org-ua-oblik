@@ -1,9 +1,10 @@
 package org.ua.oblik.service;
 
-import java.util.EnumMap;
-import java.util.Map;
 import org.ua.oblik.domain.beans.AccountKind;
 import org.ua.oblik.service.beans.AccountVOType;
+
+import java.util.EnumMap;
+import java.util.Map;
 
 /**
  *

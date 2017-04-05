@@ -1,9 +1,5 @@
 package org.ua.oblik.controllers;
 
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Locale;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.ua.oblik.controllers.beans.AccountListBean;
 import org.ua.oblik.service.TotalService;
+
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Locale;
 
 /**
  *
@@ -65,7 +65,7 @@ public class TotalController {
     @ResponseBody
     public BigDecimal totalAmount() {
         BigDecimal total = totalService.getDefaultCurrencyTotal();
-        LOG.debug("Loading total amount in default currency: " + total);
+        LOG.debug("Loading total amount in default currency: {}", total);
         return total;
     }
 }
