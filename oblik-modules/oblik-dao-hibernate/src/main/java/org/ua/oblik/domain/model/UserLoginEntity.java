@@ -1,6 +1,7 @@
 package org.ua.oblik.domain.model;
 
 import java.io.Serializable;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -43,9 +44,6 @@ public class UserLoginEntity implements Serializable, UserLogin {
 
     @Column(name = "activation_uuid")
     private String activationUuid;
-
-    public UserLoginEntity() {
-    }
 
     @Override
     public Integer getId() {

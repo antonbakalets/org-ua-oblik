@@ -1,18 +1,18 @@
 package org.ua.oblik.controllers;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.ua.oblik.controllers.beans.TransactionBean;
 import org.ua.oblik.service.AccountService;
 import org.ua.oblik.service.TransactionService;
 import org.ua.oblik.service.beans.AccountVO;
 import org.ua.oblik.service.beans.TransactionVO;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 /**
  *
@@ -28,14 +28,12 @@ class TransactionFacade extends AbstractHelper {
 
     TransactionBean getTransaction(Integer transactionId, Locale locale) {
         TransactionVO tvo = transactionService.getTransaction(transactionId);
-        TransactionBean transactionBean = convert(tvo, locale);
-        return transactionBean;
+        return convert(tvo, locale);
     }
     
     List<TransactionBean> getTransactions(Date now, Locale locale) {
         List<TransactionVO> tempList = transactionService.getTransactions(now);
-        List<TransactionBean> list = convertList(tempList, locale);
-        return list;
+        return convertList(tempList, locale);
     }
     
     private List<TransactionBean> convertList(List<TransactionVO> list, Locale locale) {

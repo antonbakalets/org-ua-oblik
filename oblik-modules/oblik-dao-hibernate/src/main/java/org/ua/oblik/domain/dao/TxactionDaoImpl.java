@@ -1,14 +1,16 @@
 package org.ua.oblik.domain.dao;
 
-import java.util.Date;
-import java.util.List;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.ua.oblik.domain.model.Txaction;
 import org.ua.oblik.domain.model.TxactionEntity;
+
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 /**
  *
@@ -29,7 +31,7 @@ public class TxactionDaoImpl extends AbstractDao<Integer, Txaction, TxactionEnti
 
     @Override
     public List<? extends Txaction> selectByDateRange(Date start, Date end) {
-        LOGGER.debug("Selecting Txactions in date range [" + start + ", " + end + "]");
+        LOGGER.debug("Selecting Txactions in date range [{}, {}].", start, end);
         final CriteriaBuilder cbuilder = getEntityManager().getCriteriaBuilder();
         final CriteriaQuery<TxactionEntity> cquery = cbuilder.createQuery(TxactionEntity.class);
         final Root<TxactionEntity> root = cquery.from(TxactionEntity.class);

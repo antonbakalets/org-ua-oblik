@@ -13,7 +13,7 @@ import org.ua.oblik.service.beans.CurrencyVO;
  */
 public class CurrencyServiceTestHelper {
 
-    private Map<DefinedCurrency, CurrencyVO> currencies = new EnumMap<DefinedCurrency, CurrencyVO>(DefinedCurrency.class);
+    private Map<DefinedCurrency, CurrencyVO> currencies = new EnumMap<>(DefinedCurrency.class);
     
     @Autowired
     private CurrencyService currencyService;
