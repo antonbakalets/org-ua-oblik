@@ -22,7 +22,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration(classes = {org.ua.oblik.config.AppConfig.class, org.ua.oblik.config.WebMvcConfig.class})
+@ContextConfiguration(classes = {org.ua.oblik.config.AppConfig.class})
 public class BudgetControllerTest {
 
     protected MockMvc mockMvc;
