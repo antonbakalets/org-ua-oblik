@@ -1,17 +1,17 @@
 package org.ua.oblik.domain.dao;
 
-import javax.persistence.NoResultException;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.ua.oblik.domain.model.UserLogin;
 import org.ua.oblik.domain.model.UserLoginEntity;
 
+import java.util.List;
 import java.util.Optional;
+
+import javax.persistence.NoResultException;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 /**
  *

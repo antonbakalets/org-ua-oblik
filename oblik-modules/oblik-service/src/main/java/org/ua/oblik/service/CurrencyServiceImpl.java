@@ -1,10 +1,5 @@
 package org.ua.oblik.service;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +8,11 @@ import org.ua.oblik.domain.dao.CurrencyDao;
 import org.ua.oblik.domain.model.Currency;
 import org.ua.oblik.domain.model.EntitiesFactory;
 import org.ua.oblik.service.beans.CurrencyVO;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  *

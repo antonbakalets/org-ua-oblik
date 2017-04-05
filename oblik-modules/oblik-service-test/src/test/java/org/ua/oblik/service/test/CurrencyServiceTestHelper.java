@@ -1,11 +1,12 @@
 package org.ua.oblik.service.test;
 
-import java.math.BigDecimal;
-import java.util.EnumMap;
-import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.ua.oblik.service.CurrencyService;
 import org.ua.oblik.service.beans.CurrencyVO;
+
+import java.math.BigDecimal;
+import java.util.EnumMap;
+import java.util.Map;
 
 /**
  *

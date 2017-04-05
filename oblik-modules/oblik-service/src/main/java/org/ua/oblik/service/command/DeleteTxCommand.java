@@ -1,12 +1,12 @@
 package org.ua.oblik.service.command;
 
-import java.math.BigDecimal;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.ua.oblik.domain.beans.AccountKind;
 import org.ua.oblik.domain.model.Account;
 import org.ua.oblik.domain.model.Txaction;
+
+import java.math.BigDecimal;
 
 public class DeleteTxCommand extends AbstractTxCommand {
 

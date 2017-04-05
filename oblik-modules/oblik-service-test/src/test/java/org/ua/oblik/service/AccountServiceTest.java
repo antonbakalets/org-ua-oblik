@@ -1,7 +1,5 @@
 package org.ua.oblik.service;
 
-import java.util.List;
-import java.util.UUID;
 import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -12,6 +10,9 @@ import org.ua.oblik.service.beans.AccountVO;
 import org.ua.oblik.service.beans.AccountVOType;
 import org.ua.oblik.service.test.AccountServiceTestHelper;
 import org.ua.oblik.service.test.DefinedAccount;
+
+import java.util.List;
+import java.util.UUID;
 
 /**
  *

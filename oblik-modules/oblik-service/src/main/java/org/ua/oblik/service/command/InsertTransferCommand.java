@@ -1,9 +1,9 @@
 package org.ua.oblik.service.command;
 
-import java.math.BigDecimal;
-
 import org.ua.oblik.domain.model.Account;
 import org.ua.oblik.domain.model.Txaction;
+
+import java.math.BigDecimal;
 
 public class InsertTransferCommand extends AbstractInsertCommand {
 

@@ -1,5 +1,8 @@
 package org.ua.oblik.domain.dao;
 
+import org.ua.oblik.domain.beans.Identifiable;
+import org.ua.oblik.domain.beans.PaginationBean;
+
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -8,9 +11,6 @@ import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-
-import org.ua.oblik.domain.beans.Identifiable;
-import org.ua.oblik.domain.beans.PaginationBean;
 
 /**
  *

@@ -1,8 +1,9 @@
 package org.ua.oblik.domain.dao;
 
-import java.util.Optional;
-
 import org.ua.oblik.domain.model.UserLogin;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  *
@@ -11,5 +12,6 @@ import org.ua.oblik.domain.model.UserLogin;
 public interface UserLoginDao {
 
     Optional<UserLogin> loadUserLogin(String username);
-    
+
+    List<? extends UserLogin> selectAll();
 }

@@ -1,15 +1,15 @@
 package org.ua.oblik.embedded;
 
-import java.io.File;
-
-import javax.servlet.ServletException;
-
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.WebResourceRoot;
 import org.apache.catalina.core.StandardContext;
 import org.apache.catalina.startup.Tomcat;
 import org.apache.catalina.webresources.DirResourceSet;
 import org.apache.catalina.webresources.StandardRoot;
+
+import java.io.File;
+
+import javax.servlet.ServletException;
 
 public class EmbeddedServer {
 
