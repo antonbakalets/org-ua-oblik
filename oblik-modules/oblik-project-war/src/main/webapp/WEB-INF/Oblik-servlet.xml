@@ -32,7 +32,6 @@
     <!--<mvc:resources mapping="/js/**" location="/js"/>-->
     
     <context:component-scan base-package="org.ua.oblik.controllers" />
-    <context:component-scan base-package="org.ua.oblik.rest.v1" />
 
     <!-- enabling annotation driven configuration / -->
     <context:annotation-config />
