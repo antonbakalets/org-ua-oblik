@@ -1,0 +1,29 @@
+<div class="container">
+    <header class="subhead" id="overview">
+        <div class="page-header">
+            <div class="row">
+                <div class="col-xs-6 col-sm-3">
+                    Total: <strong>{{total}}</strong> $
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="row">
+        <div class="col-xs-6 col-sm-4">
+            <oblik-currencies></oblik-currencies>
+            Accounts
+            <oblik-accounts kind="ASSETS"></oblik-accounts>
+            <oblik-accounts kind="EXPENSE"></oblik-accounts>
+            <oblik-accounts kind="INCOME"></oblik-accounts>
+        </div>
+
+        <div class="col-xs-6 col-sm-8">
+            <div class="panel panel-primary">
+                <oblik-transactions></oblik-transactions>
+            </div>
+        </div>
+    </div>
+
+</div>
+
