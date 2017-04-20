@@ -1,9 +1,10 @@
-import { NgModule }      from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import ApplicationComponent from './components/application/application';
-import TransactionsComponent from './components/transactions/transactions';
+import {NgModule} from "@angular/core";
+import {BrowserModule} from "@angular/platform-browser";
+import ApplicationComponent from "./components/application/application";
+import TransactionsComponent from "./components/transactions/transactions";
 import {ProductService} from "./services/product-service";
 import CurrenciesComponent from "./components/currencies/currencies";
+import CurrencyItemComponent from "./components/currencies/currency";
 import AccountsComponent from "./components/accounts/accounts";
 
 @NgModule({
@@ -11,6 +12,7 @@ import AccountsComponent from "./components/accounts/accounts";
     declarations: [ ApplicationComponent,
                     AccountsComponent,
                     CurrenciesComponent,
+                    CurrencyItemComponent,
                     TransactionsComponent ],
     providers:    [ ProductService ],
     bootstrap:    [ ApplicationComponent ]

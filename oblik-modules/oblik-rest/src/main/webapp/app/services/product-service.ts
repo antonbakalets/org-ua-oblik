@@ -9,6 +9,14 @@ export class Product {
   }
 }
 
+export class Currency {
+    constructor(
+        public id: number,
+        public amount: number,
+        public symbol: String) {
+    }
+}
+
 export class ProductService {
   getProducts(): Array<Product> {
     return products.map(p => new Product(p.id, p.title, p.price, p.rating, p.description, p.categories));
@@ -16,6 +24,13 @@ export class ProductService {
 
     getTotal(): number {
         return 54.7;
+    }
+
+    getCurrencies(): Array<Currency> {
+      let currencies: Array<Currency>;
+      currencies = new Array<Currency>();
+      currencies.push(new Currency(1, 90, "grn"));
+        return currencies;
     }
 }
 

@@ -1,6 +1,6 @@
 {
-  "name": "auction_ch2",
-  "description": "Sample Online Auction from Chapter 2 from the book Angular 2 Development with TypeScript",
+  "name": "org-ua-oblik",
+  "description": "Oblik Web Application",
   "homepage": "https://www.manning.com/books/angular-2-development-with-typescript",
   "private": true,
   "scripts": {
