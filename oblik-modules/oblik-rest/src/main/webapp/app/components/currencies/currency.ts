@@ -1,5 +1,5 @@
 import {Component, Input} from "@angular/core";
-import {Currency} from "../../services/product-service";
+import {Currency} from "../../services/currency-service";
 
 @Component({
     selector: 'oblik-currency-item',

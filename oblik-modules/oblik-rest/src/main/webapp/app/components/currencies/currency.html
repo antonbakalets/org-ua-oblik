@@ -1,5 +1,44 @@
-<div>
-      {{currency.id}}
-      {{currency.amount}}
-      {{currency.symbol}}
+<div *ngIf="!currency.editing">
+    <span class="hidden">{{currency.id}}</span>
+    <a id="currency_{{currency.id}}" class="info" (click)="currency.toggleEditing()">
+        {{currency.total}}
+        {{currency.symbol}}
+    </a>
+    <span *ngIf="currency.defaultRate">
+        ({{currency.rate}} {{currency.defaultSymbol}}/{{currency.symbol}})
+    </span>
+    <span class="pull-right">{{currency.total * currency.rate}} {{currency.defaultSymbol}}</span>
+</div>
+
+<div *ngIf="currency.editing">
+    <!--<form:form id="form-currency" modelAttribute="currencyBean" method="POST"-->
+               <!--action="${pageContext.request.contextPath}/currency/edit.html">-->
+
+        <!--<form:hidden path="currencyId"/>-->
+        <!--<form:hidden path="defaultRate"/>-->
+        <!--<form:hidden path="oldSymbol"/>-->
+        <!--<form:hidden path="removable"/>-->
+
+        <!--<div class="form-group">-->
+            <!--<label class="sr-only"><spring:message var="labelSymbol" code="jsp.oblik.currency.symbol"/></label>-->
+            <!--<form:input path="symbol" placeholder="${labelSymbol}" cssClass="form-control"/>-->
+            <!--<form:errors path="symbol" element="div" cssClass="alert alert-danger"/>-->
+        <!--</div>-->
+
+        <!--<div class="form-group">-->
+            <!--<label class="sr-only"><spring:message var="labelRate" code="jsp.oblik.currency.rate"/></label>-->
+            <!--<c:choose>-->
+                <!--<c:when test="${currencyBean.defaultRate}">-->
+                    <!--<p class="form-control-static">${currencyBean.rate}</p>-->
+                    <!--<form:hidden path="rate"/>-->
+                <!--</c:when>-->
+                <!--<c:otherwise>-->
+                    <!--<form:input path="rate" placeholder="${labelRate}" cssClass="form-control"/>-->
+                    <!--<form:errors path="rate" element="div" cssClass="alert alert-danger"/>-->
+                <!--</c:otherwise>-->
+            <!--</c:choose>-->
+        <!--</div>-->
+    <!--</form:form>-->
+    <a class="info"
+       (click)="currency.toggleEditing()">EDITING</a>
 </div>
