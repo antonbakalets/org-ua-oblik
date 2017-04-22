@@ -1,6 +1,4 @@
 export class Currency {
-    public editing: boolean = false;
-
     constructor(public id: number,
                 public rate: number,
                 public symbol: String,
@@ -8,11 +6,7 @@ export class Currency {
                 public total: number,
                 public removable: boolean,
                 public defaultSymbol: String) {
-        this.rate = this.defaultRate ? 1 : rate;
-        this.editing = (id == null);
     }
-
-
 }
 
 export class CurrencyService {
@@ -30,7 +24,7 @@ export class CurrencyService {
             this.update(currency);
         }
     }
-    
+
     private insert(currency: Currency) {
         console.log("Inserting " + currency.symbol);
     }

@@ -10,9 +10,6 @@ export default class CurrenciesComponent {
 
     constructor(private currencyService: CurrencyService) {
         this.currencies = currencyService.list();
-    }
-
-    public add() {
-        this.currencies.push(new Currency(null, null, null, false, null, true, "DDD"));
+        this.currencies.push(null);
     }
 }
