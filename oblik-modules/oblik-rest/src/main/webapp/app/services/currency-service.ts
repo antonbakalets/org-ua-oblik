@@ -12,9 +12,7 @@ export class Currency {
         this.editing = (id == null);
     }
 
-    public toggleEditing() {
-        this.editing = !this.editing;
-    }
+
 }
 
 export class CurrencyService {
