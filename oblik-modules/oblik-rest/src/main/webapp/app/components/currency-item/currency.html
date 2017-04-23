@@ -6,12 +6,12 @@
             {{currency.symbol}}
         </a>
         <span *ngIf="!currency.defaultRate">
-        ({{currency.rate}} {{currency.defaultSymbol}}/{{currency.symbol}})
-    `   </span>
+        ({{currency.rate}} {{currency.symbol}}/{{currency.defaultSymbol}})
+        </span>
         <span class="pull-right">{{currency.total * currency.rate}} {{currency.defaultSymbol}}</span>
     </div>
     <div *ngIf="currency == null">
-        <a id="add-currency-btn" class="btn btn-link pull-right"
+        <a id="add-currency-btn" class="btn btn-link"
            (click)="toggleEditing()">
             <i class="fa fa-plus-circle fa-2x"></i>
         </a>
@@ -49,12 +49,20 @@
         </div>
         <a class="btn btn-link" *ngIf="currency != null && currency.removable"
            (click)="remove()">
-            <i class="fa fa-trash fa-2x"></i>
+            <i class="fa fa-trash-o fa-2x"></i>
+        </a>
+        <a class="btn btn-link" *ngIf="currency != null && !currency.removable">
+            <span class="fa-stack fa-lg">
+                <i class="fa fa-trash fa-stack-1x"></i>
+                <i class="fa fa-ban fa-stack-2x text-danger"></i>
+            </span>
         </a>
         <a class="btn btn-link"
            (click)="toggleEditing()">
             <i class="fa fa-close fa-2x"></i>
         </a>
-        <button type="submit" class="btn btn-primary pull-right"><i class="fa fa-check-circle fa-2x"></i></button>
+        <a href="#" class="btn btn-link btn-primary pull-right"
+           (click)="onSubmit()">
+            <i class="fa fa-check-circle fa-2x"></i></a>
     </form>
 </div>

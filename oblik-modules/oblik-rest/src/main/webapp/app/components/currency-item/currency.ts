@@ -1,5 +1,5 @@
 import {Component, Input} from "@angular/core";
-import {Currency} from "../../services/currency-service";
+import {Currency, CurrencyService} from "../../services/currency-service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
@@ -11,12 +11,14 @@ export default class CurrencyItemComponent {
 
     private editing: boolean = false;
     private currencyModel: FormGroup;
+    private currencyService: CurrencyService;
 
-    constructor() {
+    constructor(private currencyService: CurrencyService) {
         this.currencyModel = new FormGroup({
             'symbol': new FormControl('', [Validators.required, Validators.maxLength(10)]),
             'rate': new FormControl('', [Validators.required, Validators.pattern(/^\d+\.?\d*$/)])
         });
+        this.currencyService = currencyService;
     }
 
     public toggleEditing() {
@@ -30,12 +32,12 @@ export default class CurrencyItemComponent {
     }
 
     public onSubmit() {
-        console.log(this.currencyModel.value);
-        console.log(this.currencyModel.valid);
-        console.log(this.currency)
+        console.log(this.currencyModel);
+        console.log(this.currency);
+
     }
 
     public remove() {
-
+        this.currencyService.remove(this.currency.id);
     }
 }
