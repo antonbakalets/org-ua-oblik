@@ -11,9 +11,9 @@
         <span class="pull-right">{{currency.total * currency.rate}} {{currency.defaultSymbol}}</span>
     </div>
     <div *ngIf="currency == null">
-        <a id="add-currency-btn" class="btn btn-link"
+        <a id="add-currency-btn" class="btn btn-link pull-right"
            (click)="toggleEditing()">
-            <span class="glyphicon glyphicon-plus"></span>
+            <i class="fa fa-plus-circle fa-2x"></i>
         </a>
     </div>
 </div>
@@ -26,9 +26,11 @@
                    formControlName="symbol"
                    placeholder="Symbol" cssClass="form-control"/>
             <div [hidden]="!currencyModel.hasError('required', 'symbol')"
-                 class="alert alert-danger">Required message.</div>
+                 class="alert alert-danger">Required message.
+            </div>
             <div [hidden]="!currencyModel.hasError('maxLength', 'symbol')"
-                 class="alert alert-danger">Too long.</div>
+                 class="alert alert-danger">Too long.
+            </div>
         </div>
 
         <div class="form-group">
@@ -39,14 +41,20 @@
                    formControlName="rate"
                    placeholder="Rate" cssClass="form-control"/>
             <div [hidden]="!currencyModel.hasError('required', 'rate')"
-                 class="alert alert-danger">Required message.</div>
+                 class="alert alert-danger">Required message.
+            </div>
             <div [hidden]="!currencyModel.hasError('pattern', 'rate')"
-                 class="alert alert-danger">Decimal only.</div>
+                 class="alert alert-danger">Decimal only.
+            </div>
         </div>
-        <button type="submit">Save</button>
+        <a class="btn btn-link" *ngIf="currency != null && currency.removable"
+           (click)="remove()">
+            <i class="fa fa-trash fa-2x"></i>
+        </a>
+        <a class="btn btn-link"
+           (click)="toggleEditing()">
+            <i class="fa fa-close fa-2x"></i>
+        </a>
+        <button type="submit" class="btn btn-primary pull-right"><i class="fa fa-check-circle fa-2x"></i></button>
     </form>
-    <a id="confirm-currency-btn" class="btn btn-link"
-       (click)="toggleEditing()">
-        <span class="glyphicon glyphicon-plus"></span>
-    </a>
 </div>

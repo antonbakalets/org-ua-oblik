@@ -35,4 +35,7 @@ export default class CurrencyItemComponent {
         console.log(this.currency)
     }
 
+    public remove() {
+
+    }
 }

@@ -12,7 +12,7 @@ export class Currency {
 export class CurrencyService {
     list(): Array<Currency> {
         let currencies: Array<Currency> = new Array<Currency>();
-        currencies.push(new Currency(1, 90, "grn", false, 91, false, "DDD"));
+        currencies.push(new Currency(1, 90, "grn", false, 91, true, "DDD"));
         currencies.push(new Currency(1, 80, "pln", true, 81, false, "DDD"));
         return currencies;
     }
