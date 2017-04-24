@@ -35,9 +35,9 @@
 
         <div class="form-group">
             <label class="sr-only">Rate:</label>
-            <p *ngIf="currency == null || currency.defaultRate" class="form-control-static">1</p>
+            <p *ngIf="currency != null && currency.defaultRate" class="form-control-static">1</p>
             <input type="text"
-                   *ngIf="currency != null && !currency.defaultRate"
+                   *ngIf="currency == null || !currency.defaultRate"
                    formControlName="rate"
                    placeholder="Rate" cssClass="form-control"/>
             <div [hidden]="!currencyModel.hasError('required', 'rate')"

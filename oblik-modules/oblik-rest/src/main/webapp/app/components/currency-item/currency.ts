@@ -16,7 +16,7 @@ export default class CurrencyItemComponent {
     constructor(private currencyService: CurrencyService) {
         this.currencyModel = new FormGroup({
             'symbol': new FormControl('', [Validators.required, Validators.maxLength(10)]),
-            'rate': new FormControl('', [Validators.required, Validators.pattern(/^\d+\.?\d*$/)])
+            'rate': new FormControl('1', [Validators.required, Validators.pattern("^[0-9]+\.?[0-9]*$")])
         });
         this.currencyService = currencyService;
     }
@@ -34,7 +34,19 @@ export default class CurrencyItemComponent {
     public onSubmit() {
         console.log(this.currencyModel);
         console.log(this.currency);
-
+        if (this.currencyModel.valid) {
+            if (this.currency == null) {
+                this.currencyService.insert(
+                    this.currencyModel.get('symbol').value,
+                    this.currencyModel.get('rate').value);
+            } else {
+                this.currencyService.update(
+                    this.currency.id,
+                    this.currencyModel.get('symbol').value,
+                    this.currencyModel.get('rate').value);
+            }
+            this.toggleEditing();
+        }
     }
 
     public remove() {
