@@ -11,14 +11,13 @@ export default class CurrencyItemComponent {
 
     private editing: boolean = false;
     private currencyModel: FormGroup;
-    private currencyService: CurrencyService;
 
     constructor(private currencyService: CurrencyService) {
         this.currencyModel = new FormGroup({
             'symbol': new FormControl('', [Validators.required, Validators.maxLength(10)]),
+            // TODO add symbol already exist validation
             'rate': new FormControl('1', [Validators.required, Validators.pattern("^[0-9]+\.?[0-9]*$")])
         });
-        this.currencyService = currencyService;
     }
 
     public toggleEditing() {

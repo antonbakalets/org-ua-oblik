@@ -10,26 +10,25 @@
     "npm": ">=2.14.x"
   },
   "dependencies": {
-    "@angular/common": "2.0.0",
-    "@angular/compiler": "2.0.0",
-    "@angular/core": "2.0.0",
-    "@angular/forms": "2.0.0",
-    "@angular/http": "2.0.0",
-    "@angular/platform-browser": "2.0.0",
+    "@angular/common": "2.4.10",
+    "@angular/compiler": "2.4.10",
+    "@angular/core": "2.4.10",
+    "@angular/forms": "2.4.10",
+    "@angular/http": "2.4.10",
+    "@angular/platform-browser": "2.4.10",
     "@angular/platform-browser-dynamic": "2.0.0",
     "@angular/router": "^3.0.0",
-
     "core-js": "^2.4.0",
-    "rxjs": "5.0.0-beta.12",
+    "rxjs": "5.0.1",
     "systemjs": "0.19.37",
-    "zone.js": "0.6.21",
-
+    "zone.js": "0.7.2",
     "bootstrap": "^3.3.6",
     "jquery": "^2.2.2",
-
     "font-awesome": "^4.7.0"
   },
   "devDependencies": {
+    "@types/jasmine": "^2.5.47",
+    "jasmine-core": "^2.5.2",
     "live-server": "0.8.2",
     "typescript": "^2.2.2"
   }
