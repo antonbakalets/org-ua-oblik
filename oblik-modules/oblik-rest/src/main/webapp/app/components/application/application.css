@@ -1,35 +1,17 @@
 body {
     padding-top: 70px
 }
-.slide-image {
-    width: 100%;
+
+#budget-container {
+    box-shadow: 0 10px 20px 0 rgba(57,62,74,0.1), 0 -10px 40px 0 rgba(57,62,74,0.3);
 }
-.carousel-holder {
-    margin-bottom: 30px;
+
+#right-container {
+    background-color: #f3f4f8;
+    padding: 50px 50px;
+    min-height: 797px;
 }
-.carousel-control,.item {
-    border-radius: 4px;
-}
-.caption {
-    height: 130px;
-    overflow: hidden;
-}
-.caption h4 {
-    white-space: nowrap;
-}
-.thumbnail img {
-    width: 100%;
-}
-.thumbnail {
-    padding: 0;
-}
-.thumbnail .caption-full {
-    padding: 9px;
-    color: #333;
-}
+
 footer {
     margin: 50px 0;
-}
-.starrating.glyphicon-star {
-    margin-right: 4px;
 }
