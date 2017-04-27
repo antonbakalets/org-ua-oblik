@@ -6,10 +6,15 @@ body {
     box-shadow: 0 10px 20px 0 rgba(57,62,74,0.1), 0 -10px 40px 0 rgba(57,62,74,0.3);
 }
 
-#right-container {
+#budget-right-container {
     background-color: #f3f4f8;
     padding: 50px 50px;
     min-height: 797px;
+}
+
+#budget-left-container {
+    padding: 50px 50px;
+    min-height: 450px;
 }
 
 footer {

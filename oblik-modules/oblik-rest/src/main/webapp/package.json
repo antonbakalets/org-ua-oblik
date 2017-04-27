@@ -4,7 +4,9 @@
   "homepage": "https://www.manning.com/books/angular-2-development-with-typescript",
   "private": true,
   "scripts": {
-    "start": "live-server"
+    "start": "live-server",
+    "test": "karma start karma.conf.js"
+
   },
   "engines": {
     "npm": ">=2.14.x"
@@ -29,6 +31,10 @@
   "devDependencies": {
     "@types/jasmine": "^2.5.47",
     "jasmine-core": "^2.5.2",
+    "karma": "^1.6.0",
+    "karma-chrome-launcher": "^2.0.0",
+    "karma-firefox-launcher": "^1.0.1",
+    "karma-jasmine": "^1.1.0",
     "live-server": "0.8.2",
     "typescript": "^2.2.2"
   }

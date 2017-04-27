@@ -6,7 +6,7 @@
             {{currency.symbol}}
         </a>
         <span *ngIf="!currency.defaultRate">
-        ({{currency.rate}} {{currency.symbol}}/{{currency.defaultSymbol}})
+        ({{currency.rate}} {{currency.defaultSymbol}}/{{currency.symbol}})
         </span>
         <span class="pull-right">{{currency.total * currency.rate}} {{currency.defaultSymbol}}</span>
     </div>
@@ -30,6 +30,9 @@
             </div>
             <div [hidden]="!currencyModel.hasError('maxLength', 'symbol')"
                  class="alert alert-danger">Too long.
+            </div>
+            <div [hidden]="!currencyModel.hasError('exist', 'symbol')"
+                 class="alert alert-danger">The symbol ___ already exist.
             </div>
         </div>
 
