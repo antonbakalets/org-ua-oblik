@@ -17,9 +17,7 @@ public class UpdateExpenseCommand extends AbstractUpdateCommand {
         } else {
             oldCreditAccount.setTotal(oldCreditAccount.getTotal().add(txaction.getCreditAmount()));
             newCreditAccount.setTotal(newCreditAccount.getTotal().subtract(tvo.getFirstAmount()));
-            accountDao.update(oldCreditAccount);
         }
         txaction.setCreditAmount(tvo.getFirstAmount());
-        accountDao.update(newCreditAccount);
     }
 }
