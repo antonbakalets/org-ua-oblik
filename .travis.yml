@@ -1,3 +1,2 @@
 language: java
-before_script: cd oblik-modules
-before_install: cd oblik-modules
+script: build.sh
