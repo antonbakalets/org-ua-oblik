@@ -25,14 +25,8 @@
             <input type="text"
                    formControlName="symbol"
                    placeholder="Symbol" cssClass="form-control"/>
-            <div [hidden]="!currencyModel.hasError('required', 'symbol')"
-                 class="alert alert-danger">Required message.
-            </div>
-            <div [hidden]="!currencyModel.hasError('maxLength', 'symbol')"
-                 class="alert alert-danger">Too long.
-            </div>
-            <div [hidden]="!currencyModel.hasError('exist', 'symbol')"
-                 class="alert alert-danger">The symbol ___ already exist.
+            <div *ngIf="formErrors.symbol" class="alert alert-danger">
+                {{ formErrors.symbol }}
             </div>
         </div>
 
@@ -43,11 +37,8 @@
                    *ngIf="currency == null || !currency.defaultRate"
                    formControlName="rate"
                    placeholder="Rate" cssClass="form-control"/>
-            <div [hidden]="!currencyModel.hasError('required', 'rate')"
-                 class="alert alert-danger">Required message.
-            </div>
-            <div [hidden]="!currencyModel.hasError('pattern', 'rate')"
-                 class="alert alert-danger">Decimal only.
+            <div *ngIf="formErrors.rate" class="alert alert-danger">
+                {{ formErrors.rate }}
             </div>
         </div>
         <a class="btn btn-link" *ngIf="currency != null && currency.removable"
