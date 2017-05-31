@@ -6,7 +6,6 @@
   "scripts": {
     "start": "live-server",
     "test": "karma start karma.conf.js"
-
   },
   "engines": {
     "npm": ">=2.14.x"
@@ -30,8 +29,9 @@
   },
   "devDependencies": {
     "@types/jasmine": "^2.5.47",
+    "jasmine": "^2.6.0",
     "jasmine-core": "^2.5.2",
-    "karma": "^1.6.0",
+    "karma": "^1.7.0",
     "karma-chrome-launcher": "^2.0.0",
     "karma-firefox-launcher": "^1.0.1",
     "karma-jasmine": "^1.1.0",
