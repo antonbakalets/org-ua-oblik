@@ -1,14 +1,16 @@
+import {Currency, CurrencyService} from "../../services/currency-service";
 import CurrencyItemComponent from "./currency";
 
 describe('Currency item', () => {
 
+    it('should be initialized', () => {
+        let s: CurrencyService = new CurrencyService();
+        let c: CurrencyItemComponent = new CurrencyItemComponent(s);
+        expect(c).toBeDefined();
+    });
 
-
-    /*it('should be initialized', () => {
-        expect(new CurrencyItemComponent(null)).toBeDefined()// The code that tests multiplication goes here
-    });*/
     it('should not divide by zero', () => {
+        console.warn("MESSAGE");
         expect(1 + 1).toBe(2);
-        // The code that tests division by zero goes here
     });
 });

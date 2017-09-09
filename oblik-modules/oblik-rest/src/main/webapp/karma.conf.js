@@ -7,8 +7,8 @@ module.exports = function (config) {
     singleRun: true,
     files: [
         // Paths loaded by Karma.
-                'node_modules/typescript/lib/typescript.js',
-        'node_modules/reflect-metadata/Reflect.js',
+                    'node_modules/typescript/lib/typescript.js',
+                    'node_modules/reflect-metadata/Reflect.js',
                     'node_modules/systemjs/dist/system.src.js',
                     'node_modules/zone.js/dist/zone.js',
                     'node_modules/zone.js/dist/async-test.js',
