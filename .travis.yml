@@ -1,4 +1,13 @@
 language: java
+
+addons:
+  sonarcloud:
+    organization: "antonbakalets"
+
+script:
+  - sonar-scanner
+
 jdk:
   - oraclejdk8
+
 before_install: cd oblik-modules
