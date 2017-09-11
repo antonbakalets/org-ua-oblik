@@ -2,7 +2,7 @@ language: java
 
 addons:
   sonarcloud:
-    organization: "antonbakalets"
+    organization: "antonbakalets-github"
 
 script:
   # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
