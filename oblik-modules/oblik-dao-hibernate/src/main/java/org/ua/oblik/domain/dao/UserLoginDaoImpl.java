@@ -1,16 +1,17 @@
 package org.ua.oblik.domain.dao;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.ua.oblik.domain.model.UserLogin;
-import org.ua.oblik.domain.model.UserLoginEntity;
-import org.ua.oblik.domain.model.UserLoginEntity_;
+import java.util.Optional;
 
 import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import java.util.Optional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.ua.oblik.domain.model.UserLogin;
+import org.ua.oblik.domain.model.UserLoginEntity;
+import org.ua.oblik.domain.model.UserLoginEntity_;
 
 /**
  * User Login DAO.

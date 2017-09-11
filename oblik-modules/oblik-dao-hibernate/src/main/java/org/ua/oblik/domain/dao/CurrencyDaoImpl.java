@@ -1,14 +1,19 @@
 package org.ua.oblik.domain.dao;
 
-import org.ua.oblik.domain.model.*;
-
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+
+import org.ua.oblik.domain.model.AccountEntity;
+import org.ua.oblik.domain.model.AccountEntity_;
+import org.ua.oblik.domain.model.Currency;
+import org.ua.oblik.domain.model.CurrencyEntity;
+import org.ua.oblik.domain.model.CurrencyEntity_;
 
 /**
  * Currency DAO.
