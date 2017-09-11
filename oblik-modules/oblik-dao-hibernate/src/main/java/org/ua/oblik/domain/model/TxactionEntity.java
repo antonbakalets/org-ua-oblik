@@ -1,20 +1,10 @@
 package org.ua.oblik.domain.model;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import java.util.Objects;
 
 /**
  *
@@ -137,10 +127,7 @@ public class TxactionEntity implements Serializable, Txaction {
             return false;
         }
         TxactionEntity other = (TxactionEntity) object;
-        if ((this.txacId == null && other.txacId != null) || (this.txacId != null && !this.txacId.equals(other.txacId))) {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.txacId, other.txacId);
     }
 
     @Override

@@ -89,10 +89,7 @@ public class AccountVO {
             return false;
         }
         final AccountVO other = (AccountVO) obj;
-        if (!Objects.equals(this.accountId, other.accountId)) {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.accountId, other.accountId);
     }
 
     @Override
