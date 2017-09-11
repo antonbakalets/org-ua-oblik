@@ -6,23 +6,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.ua.oblik.controllers.beans.CurrencyEditBean;
 import org.ua.oblik.controllers.beans.CurrencyListBean;
 import org.ua.oblik.controllers.utils.ValidationErrorLoger;
 import org.ua.oblik.controllers.validators.CurrencyValidator;
 
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
-
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 
 /**
  *
@@ -74,7 +69,7 @@ public class CurrencyController {
     public String saveCurrency(final HttpSession session,
             @ModelAttribute(CURRENCY_BEAN) @Valid final CurrencyEditBean currencyEditBean,
             final BindingResult bindingResult) {
-        LOGGER.debug("Saving currency, id: " + currencyEditBean.getCurrencyId() + ".");
+        LOGGER.debug("Saving currency, id: {}.", currencyEditBean.getCurrencyId());
         if ((Boolean) session.getAttribute(SAVING_DEFAULT_CURRENCY)) {
             currencyEditBean.setDefaultRate(Boolean.TRUE);
             currencyEditBean.setRate(BigDecimal.ONE);

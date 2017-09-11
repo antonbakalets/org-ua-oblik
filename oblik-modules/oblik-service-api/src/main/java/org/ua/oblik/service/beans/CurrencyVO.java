@@ -70,9 +70,7 @@ public class CurrencyVO {
 
         CurrencyVO that = (CurrencyVO) o;
 
-        if (currencyId != null ? !currencyId.equals(that.currencyId) : that.currencyId != null) return false;
-
-        return true;
+        return !(currencyId != null ? !currencyId.equals(that.currencyId) : that.currencyId != null);
     }
 
     @Override

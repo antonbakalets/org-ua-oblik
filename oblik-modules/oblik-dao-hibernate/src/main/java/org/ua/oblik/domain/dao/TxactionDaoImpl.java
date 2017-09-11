@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.ua.oblik.domain.model.Txaction;
 import org.ua.oblik.domain.model.TxactionEntity;
+import org.ua.oblik.domain.model.TxactionEntity_;
 
 import java.util.Date;
 import java.util.List;
@@ -13,6 +14,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 /**
+ * Transactions DAO.
  *
  * @author Anton Bakalets
  */
@@ -36,8 +38,8 @@ public class TxactionDaoImpl extends AbstractDao<Integer, Txaction, TxactionEnti
         final CriteriaQuery<TxactionEntity> cquery = cbuilder.createQuery(TxactionEntity.class);
         final Root<TxactionEntity> root = cquery.from(TxactionEntity.class);
         cquery.select(root).where(
-                cbuilder.greaterThanOrEqualTo(root.<Date>get("txDate"), start),
-                cbuilder.lessThanOrEqualTo(root.<Date>get("txDate"), end));
+                cbuilder.greaterThanOrEqualTo(root.get(TxactionEntity_.txDate), start),
+                cbuilder.lessThanOrEqualTo(root.get(TxactionEntity_.txDate), end));
         return getEntityManager().createQuery(cquery).getResultList();
     }
 
@@ -46,7 +48,7 @@ public class TxactionDaoImpl extends AbstractDao<Integer, Txaction, TxactionEnti
         final CriteriaBuilder cbuilder = getEntityManager().getCriteriaBuilder();
         final CriteriaQuery<TxactionEntity> cquery = cbuilder.createQuery(TxactionEntity.class);
         final Root<TxactionEntity> root = cquery.from(TxactionEntity.class);
-        cquery.select(root).orderBy(cbuilder.desc(root.get("txDate")));
+        cquery.select(root).orderBy(cbuilder.desc(root.get(TxactionEntity_.txDate)));
         return getEntityManager().createQuery(cquery).getResultList();
     }
 }

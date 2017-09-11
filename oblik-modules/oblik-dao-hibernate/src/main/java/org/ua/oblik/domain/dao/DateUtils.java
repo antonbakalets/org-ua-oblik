@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
+ * Date Utils.
  *
  * @author Anton Bakalets
  */
@@ -16,6 +17,7 @@ public final class DateUtils {
     private static final int LAST_MILLISECOND = 999;
     
     private DateUtils() {
+        // utility class
     }
 
     private static Calendar toCalendar(Date date) {

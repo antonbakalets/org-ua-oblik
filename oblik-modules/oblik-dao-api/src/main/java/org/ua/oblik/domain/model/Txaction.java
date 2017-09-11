@@ -1,14 +1,15 @@
 package org.ua.oblik.domain.model;
 
+import org.ua.oblik.domain.beans.Identifiable;
+
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-
-import org.ua.oblik.domain.beans.Identifiable;
 
 /**
  *
  */
-public interface Txaction extends Identifiable<Integer> {
+public interface Txaction extends Identifiable<Integer>, Serializable {
 
     Date getTxDate();
 

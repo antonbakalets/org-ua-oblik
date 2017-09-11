@@ -80,7 +80,7 @@ public class FormActionController {
             @ModelAttribute("formActionBean") @Valid final FormActionBean bean,
             final BindingResult bindingResult) {
         actionValidator.validate(bean, bindingResult);
-        LOGGER.debug("Saving action: " + bean.getType());
+        LOGGER.debug("Saving action: {}.", bean.getType());
         if (bindingResult.hasErrors()) {
             ValidationErrorLoger.debug(bindingResult);
         } else {

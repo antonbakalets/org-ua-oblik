@@ -1,6 +1,7 @@
 package org.ua.oblik.domain.dao;
 
-import java.util.List;
+import org.ua.oblik.domain.beans.Identifiable;
+import org.ua.oblik.domain.beans.PaginationBean;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -8,11 +9,10 @@ import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-
-import org.ua.oblik.domain.beans.Identifiable;
-import org.ua.oblik.domain.beans.PaginationBean;
+import java.util.List;
 
 /**
+ * Base DAO.
  *
  * @author Anton Bakalets
  */
@@ -21,7 +21,7 @@ abstract class AbstractDao<I, T extends Identifiable<I>, R extends T> implements
     @PersistenceContext
     private EntityManager entityManager;
     
-    private final Class<R> entityClass;
+    protected final Class<R> entityClass;
         
     public AbstractDao(Class<R> entityClass) {
         this.entityClass = entityClass;
@@ -31,10 +31,6 @@ abstract class AbstractDao<I, T extends Identifiable<I>, R extends T> implements
         return entityManager;
     }
 
-    public Class<R> getEntityClass() {
-        return entityClass;
-    }
-    
     @Override
     public void insert(T entity) {
         getEntityManager().persist(entity);

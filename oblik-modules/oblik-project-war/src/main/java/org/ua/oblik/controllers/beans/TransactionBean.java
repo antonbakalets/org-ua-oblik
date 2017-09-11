@@ -1,7 +1,5 @@
 package org.ua.oblik.controllers.beans;
 
-import java.util.Date;
-import org.ua.oblik.service.beans.AccountVO;
 import org.ua.oblik.service.beans.TransactionType;
 
 public class TransactionBean {

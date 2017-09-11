@@ -99,9 +99,6 @@ public class TransactionVO {
             return false;
         }
         final TransactionVO other = (TransactionVO) obj;
-        if (!Objects.equals(this.txId, other.txId)) {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.txId, other.txId);
     }
 }

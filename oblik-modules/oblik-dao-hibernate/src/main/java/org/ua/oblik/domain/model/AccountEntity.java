@@ -2,20 +2,10 @@ package org.ua.oblik.domain.model;
 
 import org.ua.oblik.domain.beans.AccountKind;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
-
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import java.util.Objects;
 
 /**
  *
@@ -113,10 +103,7 @@ public class AccountEntity implements Serializable, Account {
             return false;
         }
         AccountEntity other = (AccountEntity) object;
-        if ((this.accoId == null && other.accoId != null) || (this.accoId != null && !this.accoId.equals(other.accoId))) {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.accoId, other.accoId);
     }
 
     @Override

@@ -75,7 +75,7 @@ public class AccountController {
     public String saveAccount(final Model model,
             @ModelAttribute(ACCOUNT_BEAN) @Valid final AccountBean accountBean,
             final BindingResult bindingResult) {
-        LOGGER.debug("Saving account, id: " + accountBean.getAccountId() + ".");
+        LOGGER.debug("Saving account, id: {}.", accountBean.getAccountId());
         accountValidator.validate(accountBean, bindingResult);
         if (bindingResult.hasErrors()) {
             ValidationErrorLoger.debug(bindingResult);

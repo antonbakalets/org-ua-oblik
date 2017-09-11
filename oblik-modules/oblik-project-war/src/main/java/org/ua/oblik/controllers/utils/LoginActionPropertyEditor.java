@@ -1,8 +1,8 @@
 package org.ua.oblik.controllers.utils;
 
-import java.beans.PropertyEditorSupport;
-
 import org.ua.oblik.controllers.beans.LoginAction;
+
+import java.beans.PropertyEditorSupport;
 
 /**
  *
@@ -16,7 +16,7 @@ public class LoginActionPropertyEditor extends PropertyEditorSupport {
     }
 
     @Override
-    public void setAsText(String text) throws IllegalArgumentException {
+    public void setAsText(String text) {
         setValue(LoginAction.valueOf(text.toUpperCase()));
     }
 }
