@@ -73,7 +73,7 @@ public class AccountServiceTest extends BaseServiceCheckConfig {
     @Test
     public void isNameExists() {
         LOGGER.debug("[TEST] Checking is account name exists.");
-        final AccountVO usdCard = accountServiceTestHelper.getDefinedAccount(DefinedAccount.USD_CARD);
+        final AccountVO usdCard = accountServiceTestHelper.getDefinedAccount(DefinedAccount.UGH_CARD);
         final String name = usdCard.getName();
         Assert.assertTrue(accountService.isNameExists(name));
         Assert.assertFalse(accountService.isNameExists(UUID.randomUUID().toString()));
