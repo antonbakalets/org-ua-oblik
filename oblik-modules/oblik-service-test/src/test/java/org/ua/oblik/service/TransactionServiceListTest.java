@@ -11,7 +11,7 @@ import org.ua.oblik.service.test.CurrencyServiceTestHelper;
  *
  * @author Anton Bakalets
  */
-public class TransactionServiceListTest extends BaseServiceTest {
+public class TransactionServiceListTest extends BaseServiceCheckConfig {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TransactionServiceListTest.class);
 

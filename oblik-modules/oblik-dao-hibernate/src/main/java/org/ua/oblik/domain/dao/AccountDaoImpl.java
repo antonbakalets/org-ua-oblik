@@ -32,9 +32,9 @@ public class AccountDaoImpl extends AbstractDao<Integer, Account, AccountEntity>
     }
 
     @Override
-    public List<? extends Account> selectByKind(AccountKind accountKind) {
+    public List<Account> selectByKind(AccountKind accountKind) {
         CriteriaBuilder cbuilder = getEntityManager().getCriteriaBuilder();
-        CriteriaQuery<AccountEntity> cquery = cbuilder.createQuery(AccountEntity.class);
+        CriteriaQuery<Account> cquery = cbuilder.createQuery(Account.class);
         Root<AccountEntity> root = cquery.from(AccountEntity.class);
         cquery.select(root).where(cbuilder.equal(root.get(AccountEntity_.kind), accountKind));
         return getEntityManager().createQuery(cquery).getResultList();

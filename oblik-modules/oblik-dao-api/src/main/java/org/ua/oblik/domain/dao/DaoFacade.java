@@ -24,11 +24,11 @@ public interface DaoFacade<I, T extends Identifiable<I>> {
     
     T select(I id);
 
-    List<? extends T> selectAll();
+    List<T> selectAll();
 
-    List<? extends T> selectRange(int[] range);
+    List<T> selectRange(int[] range);
 
-    List<? extends T> selectRange(int skipResults, int maxResults);
+    List<T> selectRange(int skipResults, int maxResults);
     
-    List<? extends T> selectRange(PaginationBean paginationBean);
+    List<T> selectRange(PaginationBean paginationBean);
 }

@@ -17,7 +17,7 @@ import org.ua.oblik.service.test.DefinedAccount;
  *
  * @author Anton Bakalets
  */
-public class AccountServiceTest extends BaseServiceTest {
+public class AccountServiceTest extends BaseServiceCheckConfig {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(AccountServiceTest.class);
     

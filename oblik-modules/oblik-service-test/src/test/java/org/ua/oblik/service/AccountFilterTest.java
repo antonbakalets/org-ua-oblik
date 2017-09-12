@@ -18,7 +18,7 @@ import org.ua.oblik.service.test.DefinedCurrency;
  *
  * @author Anton Bakalets
  */
-public class AccountFilterTest extends BaseServiceTest {
+public class AccountFilterTest extends BaseServiceCheckConfig {
     
     private final List<AccountVO> accounts = new ArrayList<>();
     

@@ -10,7 +10,7 @@ import org.ua.oblik.service.test.DefinedCurrency;
 
 import java.math.BigDecimal;
 
-abstract class BaseTransactionServiceTest extends BaseServiceTest {
+abstract class BaseTransactionServiceTest extends BaseServiceCheckConfig {
 
     @Autowired
     protected CurrencyServiceTestHelper cH;

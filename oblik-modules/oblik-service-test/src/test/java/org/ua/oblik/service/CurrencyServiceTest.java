@@ -19,7 +19,7 @@ import org.ua.oblik.service.test.DefinedCurrency;
  *
  * @author Anton Bakalets
  */
-public class CurrencyServiceTest extends BaseServiceTest {
+public class CurrencyServiceTest extends BaseServiceCheckConfig {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CurrencyServiceTest.class);
 

@@ -27,15 +27,15 @@ public class TxactionDaoImpl extends AbstractDao<Integer, Txaction, TxactionEnti
     }
 
     @Override
-    public List<? extends Txaction> selectByMonth(Date date) {
+    public List<Txaction> selectByMonth(Date date) {
         return selectByDateRange(DateUtils.getMonthBegining(date), DateUtils.getMonthEnd(date));
     }
 
     @Override
-    public List<? extends Txaction> selectByDateRange(Date start, Date end) {
+    public List<Txaction> selectByDateRange(Date start, Date end) {
         LOGGER.debug("Selecting Txactions in date range [{}, {}].", start, end);
         final CriteriaBuilder cbuilder = getEntityManager().getCriteriaBuilder();
-        final CriteriaQuery<TxactionEntity> cquery = cbuilder.createQuery(TxactionEntity.class);
+        final CriteriaQuery<Txaction> cquery = cbuilder.createQuery(Txaction.class);
         final Root<TxactionEntity> root = cquery.from(TxactionEntity.class);
         cquery.select(root).where(
                 cbuilder.greaterThanOrEqualTo(root.get(TxactionEntity_.txDate), start),
@@ -44,9 +44,9 @@ public class TxactionDaoImpl extends AbstractDao<Integer, Txaction, TxactionEnti
     }
 
     @Override
-    public List<? extends Txaction> selectAll() {
+    public List<Txaction> selectAll() {
         final CriteriaBuilder cbuilder = getEntityManager().getCriteriaBuilder();
-        final CriteriaQuery<TxactionEntity> cquery = cbuilder.createQuery(TxactionEntity.class);
+        final CriteriaQuery<Txaction> cquery = cbuilder.createQuery(Txaction.class);
         final Root<TxactionEntity> root = cquery.from(TxactionEntity.class);
         cquery.select(root).orderBy(cbuilder.desc(root.get(TxactionEntity_.txDate)));
         return getEntityManager().createQuery(cquery).getResultList();
