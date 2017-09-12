@@ -4,10 +4,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
 
-/**
- *
- * @author Anton Bakalets
- */
 public class TransactionVO {
     
     private Integer txId;
@@ -85,17 +81,15 @@ public class TransactionVO {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (txId != null ? txId.hashCode() : 0);
-        return hash;
+        return Objects.hash(this.txId);
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
+        if (this == obj) {
+            return true;
         }
-        if (getClass() != obj.getClass()) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
         final TransactionVO other = (TransactionVO) obj;

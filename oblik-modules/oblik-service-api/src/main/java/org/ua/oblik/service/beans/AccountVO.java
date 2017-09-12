@@ -3,10 +3,6 @@ package org.ua.oblik.service.beans;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-/**
- *
- * @author Anton Bakalets
- */
 public class AccountVO {
 
     private Integer accountId;
@@ -75,17 +71,15 @@ public class AccountVO {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 29 * hash + Objects.hashCode(this.accountId);
-        return hash;
+        return Objects.hashCode(this.accountId);
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
+        if (this == obj) {
+            return true;
         }
-        if (getClass() != obj.getClass()) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
         final AccountVO other = (AccountVO) obj;

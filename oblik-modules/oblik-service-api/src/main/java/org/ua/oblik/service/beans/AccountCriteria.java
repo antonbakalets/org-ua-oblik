@@ -1,8 +1,5 @@
 package org.ua.oblik.service.beans;
 
-/**
- * @author Anton Bakalets
- */
 public class AccountCriteria {
 
     public static final AccountCriteria EMPTY_CRITERIA = new Builder().build();
