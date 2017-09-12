@@ -1,7 +1,6 @@
 package org.ua.oblik.service.beans;
 
 /**
- *
  * @author Anton Bakalets
  */
 public class AccountCriteria {
@@ -15,7 +14,7 @@ public class AccountCriteria {
     public static final AccountCriteria INCOME_CRITERIA = new Builder().setType(AccountVOType.INCOME).build();
 
     private AccountVOType type;
-    
+
     private Integer currencyId;
 
     private Integer excludeAccountId;
@@ -24,30 +23,18 @@ public class AccountCriteria {
         return type;
     }
 
-    public void setType(AccountVOType type) {
-        this.type = type;
-    }
-
     public Integer getCurrencyId() {
         return currencyId;
-    }
-
-    public void setCurrencyId(Integer currencyId) {
-        this.currencyId = currencyId;
     }
 
     public Integer getExcludeAccountId() {
         return excludeAccountId;
     }
 
-    public void setExcludeAccountId(Integer excludeAccountId) {
-        this.excludeAccountId = excludeAccountId;
-    }
-
     public static class Builder {
-        
+
         private AccountVOType type;
-    
+
         private Integer currencyId;
 
         private Integer excludeAccountId;
@@ -69,11 +56,10 @@ public class AccountCriteria {
 
         public AccountCriteria build() {
             AccountCriteria criteria = new AccountCriteria();
-            criteria.setType(this.type);
-            criteria.setCurrencyId(this.currencyId);
-            criteria.setExcludeAccountId(this.excludeAccountId);
+            criteria.type = this.type;
+            criteria.currencyId = this.currencyId;
+            criteria.excludeAccountId = this.excludeAccountId;
             return criteria;
         }
-
     }
 }

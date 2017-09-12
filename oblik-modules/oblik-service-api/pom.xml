@@ -12,4 +12,11 @@
     <version>1.0</version>
     <name>Oblik - Service Layer API</name>
 
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+    </dependencies>
+
 </project>
