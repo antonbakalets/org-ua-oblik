@@ -1,7 +1,7 @@
 package org.ua.oblik.domain.model;
 
 /**
- *
+ * Entities factory implementation.
  */
 public class EntitiesFactoryImpl implements EntitiesFactory {
 

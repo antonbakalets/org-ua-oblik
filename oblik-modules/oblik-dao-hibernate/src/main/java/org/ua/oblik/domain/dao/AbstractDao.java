@@ -13,6 +13,7 @@ import org.ua.oblik.domain.beans.Identifiable;
 import org.ua.oblik.domain.beans.PaginationBean;
 
 /**
+ * Base DAO.
  *
  * @author Anton Bakalets
  */
@@ -21,7 +22,7 @@ abstract class AbstractDao<I, T extends Identifiable<I>, R extends T> implements
     @PersistenceContext
     private EntityManager entityManager;
     
-    private final Class<R> entityClass;
+    protected final Class<R> entityClass;
         
     public AbstractDao(Class<R> entityClass) {
         this.entityClass = entityClass;
@@ -31,10 +32,6 @@ abstract class AbstractDao<I, T extends Identifiable<I>, R extends T> implements
         return entityManager;
     }
 
-    public Class<R> getEntityClass() {
-        return entityClass;
-    }
-    
     @Override
     public void insert(T entity) {
         getEntityManager().persist(entity);
@@ -61,19 +58,19 @@ abstract class AbstractDao<I, T extends Identifiable<I>, R extends T> implements
     }
 
     @Override
-    public List<? extends T> selectAll() {
+    public List<T> selectAll() {
         CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
         cq.select(cq.from(entityClass));
         return getEntityManager().createQuery(cq).getResultList();
     }
 
     @Override
-    public List<? extends T> selectRange(int[] range) {
+    public List<T> selectRange(int[] range) {
         return selectRange(range[0], range[1] - range[0]);
     }
     
     @Override
-    public List<? extends T> selectRange(int skipResults, int maxResults) {
+    public List<T> selectRange(int skipResults, int maxResults) {
         CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
         cq.select(cq.from(entityClass));
         return getEntityManager().createQuery(cq)
@@ -83,7 +80,7 @@ abstract class AbstractDao<I, T extends Identifiable<I>, R extends T> implements
     }
 
     @Override
-    public List<? extends T> selectRange(PaginationBean paginationBean) {
+    public List<T> selectRange(PaginationBean paginationBean) {
         final CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         final CriteriaQuery cq = cb.createQuery();
         final Root<T> from = cq.from(entityClass);

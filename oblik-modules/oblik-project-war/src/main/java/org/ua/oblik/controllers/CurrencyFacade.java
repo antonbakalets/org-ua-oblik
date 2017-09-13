@@ -1,15 +1,15 @@
 package org.ua.oblik.controllers;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.ua.oblik.controllers.beans.CurrencyEditBean;
 import org.ua.oblik.controllers.beans.CurrencyListBean;
 import org.ua.oblik.service.CurrencyService;
 import org.ua.oblik.service.beans.CurrencyVO;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
 
 /**
  *
@@ -80,7 +80,7 @@ class CurrencyFacade extends AbstractHelper {
         result.setRate(cvo.getRate());
         result.setSymbol(cvo.getSymbol());
         result.setDefaultRate(cvo.getDefaultRate());
-        result.setRemovable(cvo.getRemovable());
+        result.setRemovable(cvo.isRemovable());
         return result;
     }
 }

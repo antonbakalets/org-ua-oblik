@@ -32,9 +32,6 @@
 		});
 
 		$(element).on('shown.bs.confirmation', function(e) {
-			var options = that.options;
-			var all = options.all_selector;
-
 			that.$element.on('click.dismiss.bs.confirmation', '[data-dismiss="confirmation"]', $.proxy(that.hide, that));
 
 			if(that.isPopout()) {

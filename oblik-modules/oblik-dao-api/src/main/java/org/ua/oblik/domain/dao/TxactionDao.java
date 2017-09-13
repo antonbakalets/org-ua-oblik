@@ -11,8 +11,8 @@ import org.ua.oblik.domain.model.Txaction;
  */
 public interface TxactionDao extends DaoFacade<Integer, Txaction> {
     
-    List<? extends Txaction> selectByMonth(Date date);
+    List<Txaction> selectByMonth(Date date);
     
-    List<? extends Txaction> selectByDateRange(Date start, Date end);
+    List<Txaction> selectByDateRange(Date start, Date end);
     
 }
