@@ -8,13 +8,10 @@ import org.ua.oblik.service.beans.TransactionVO;
 
 abstract class AbstractTxCommand implements TransactionCommand {
 
-    @Autowired
     protected EntitiesFactory entitiesFactory;
 
-    @Autowired
     protected AccountDao accountDao;
 
-    @Autowired
     protected TxactionDao txactionDao;
 
     protected TransactionVO tvo;
@@ -24,14 +21,17 @@ abstract class AbstractTxCommand implements TransactionCommand {
         this.tvo = tvo;
     }
 
+    @Autowired
     public void setEntitiesFactory(EntitiesFactory entitiesFactory) {
         this.entitiesFactory = entitiesFactory;
     }
 
+    @Autowired
     public void setAccountDao(AccountDao accountDao) {
         this.accountDao = accountDao;
     }
 
+    @Autowired
     public void setTxactionDao(TxactionDao txactionDao) {
         this.txactionDao = txactionDao;
     }

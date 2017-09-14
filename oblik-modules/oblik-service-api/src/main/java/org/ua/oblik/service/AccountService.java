@@ -18,7 +18,7 @@ public interface AccountService {
 
     void save(AccountVO account);
 
-    void delete(Integer accountId);
+    void delete(Integer accountId) throws NotFoundException, BusinessConstraintException;
 
     List<AccountVO> getAccounts(AccountCriteria criteria);
 

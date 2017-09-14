@@ -6,8 +6,8 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -38,39 +38,41 @@ public class CurrencyControllerTest {
 
     @Before
     public void setUp() {
-        mockMvc = MockMvcBuilders
-                .standaloneSetup(currencyController)
+        mockMvc = MockMvcBuilders.standaloneSetup(currencyController)
                 .alwaysDo(print())
                 .build();
     }
 
     @Test
     public void testCurrencyPost() throws Exception {
-        mockMvc.perform(post("/currency")
+        mockMvc.perform(post("/v1/currencies")
                 .content("{}")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
+
         verify(currencyService, times(1)).save(any(CurrencyVO.class));
     }
 
     @Test
     public void testCurrencyPut() throws Exception {
-        mockMvc.perform(put("/currency/{id}", 1)
+        mockMvc.perform(patch("/v1/currencies/{id}", 1)
                 .content("{}")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
+
         verify(currencyService, times(1)).getCurrency(eq(1));
         verify(currencyService, times(1)).save(any(CurrencyVO.class));
     }
 
     @Test
     public void testDeleteCurrencyNoContent() throws Exception {
-        mockMvc.perform(delete("/currency/{id}", 1)
+        mockMvc.perform(delete("/v1/currencies/{id}", 1)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
+
         verify(currencyService, times(1)).remove(eq(1));
     }
 
@@ -78,7 +80,7 @@ public class CurrencyControllerTest {
     public void testDeleteCurrencyBadRequest() throws Exception {
         doThrow(new BusinessConstraintException("Invocation from test.")).when(currencyService).remove(any());
 
-        mockMvc.perform(delete("/currency/{id}", 1)
+        mockMvc.perform(delete("/v1/currencies/{id}", 1)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
     }
@@ -87,7 +89,7 @@ public class CurrencyControllerTest {
     public void testDeleteCurrencyGone() throws Exception {
         doThrow(new NotFoundException("Invocation from test.")).when(currencyService).remove(any());
 
-        mockMvc.perform(delete("/currency/{id}", 1)
+        mockMvc.perform(delete("/v1/currencies/{id}", 1)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isGone());

@@ -122,8 +122,16 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     @Transactional
-    public void delete(Integer accountId) {
-        accountDao.delete(accountId);
+    public void delete(Integer accountId) throws NotFoundException, BusinessConstraintException {
+        if (accountDao.exists(accountId)) {
+            if (accountDao.isUsed(accountId)) {
+                throw new BusinessConstraintException("Account is used by transactions.");
+            }   else {
+                accountDao.delete(accountId);
+            }
+        } else {
+            throw new NotFoundException("Could not find account.");
+        }
     }
 
     @Override

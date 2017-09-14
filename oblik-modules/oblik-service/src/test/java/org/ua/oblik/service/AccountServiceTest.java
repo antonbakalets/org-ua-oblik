@@ -84,11 +84,11 @@ public class AccountServiceTest extends BaseServiceCheckConfig {
         LOGGER.debug("[TEST] Deleting account.");
         final AccountVO toBeDeleted = accountServiceTestHelper.getDefinedAccount(DefinedAccount.TO_BE_DELETED);
         final Integer accountId = toBeDeleted.getAccountId();
-        accountService.delete(accountId);
         try {
+            accountService.delete(accountId);
             accountService.getAccount(accountId);
             Assert.fail("[TEST] Account should be deleted.");
-        } catch (RuntimeException e) {
+        } catch (Exception e) {
             LOGGER.error(e.getMessage());
         }
     }
