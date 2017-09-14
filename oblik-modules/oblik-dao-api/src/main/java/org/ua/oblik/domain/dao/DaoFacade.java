@@ -14,6 +14,11 @@ public interface DaoFacade<I, T extends Identifiable<I>> {
 
     long count();
 
+    /**
+     * Remove entity.
+     * @param id entity id
+     * @throws IllegalArgumentException if wrong entity id
+     */
     void delete(I id);
 
     void insert(T entity);

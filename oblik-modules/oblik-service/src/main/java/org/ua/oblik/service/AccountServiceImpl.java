@@ -39,7 +39,7 @@ public class AccountServiceImpl implements AccountService {
         if (selected == null) {
             final String message = "No account found with id " + accountId;
             LOGGER.error(message);
-            throw new EntityNotFoundException(message);
+            throw new UnsupportedOperationException("Exception handling not implemented yet: throw new NotFoundException(message).");
         } else {
             return convert(selected);
         }

@@ -1,15 +1,17 @@
 package org.ua.oblik.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.ua.oblik.controllers.beans.CurrencyEditBean;
-import org.ua.oblik.controllers.beans.CurrencyListBean;
-import org.ua.oblik.service.CurrencyService;
-import org.ua.oblik.service.beans.CurrencyVO;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.ua.oblik.controllers.beans.CurrencyEditBean;
+import org.ua.oblik.controllers.beans.CurrencyListBean;
+import org.ua.oblik.service.BusinessConstraintException;
+import org.ua.oblik.service.CurrencyService;
+import org.ua.oblik.service.NotFoundException;
+import org.ua.oblik.service.beans.CurrencyVO;
 
 /**
  *
@@ -43,7 +45,7 @@ class CurrencyFacade extends AbstractHelper {
         currencyService.save(cvo);
     }
 
-    public void remove(Integer currencyId) {
+    public void remove(Integer currencyId) throws NotFoundException, BusinessConstraintException {
         currencyService.remove(currencyId);
     }
 

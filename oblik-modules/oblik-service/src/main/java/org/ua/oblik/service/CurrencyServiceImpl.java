@@ -15,7 +15,6 @@ import org.ua.oblik.domain.model.EntitiesFactory;
 import org.ua.oblik.service.beans.CurrencyVO;
 
 /**
- *
  * @author Anton Bakalets
  */
 public class CurrencyServiceImpl implements CurrencyService {
@@ -40,7 +39,7 @@ public class CurrencyServiceImpl implements CurrencyService {
         Currency currency = entitiesFactory.createCurrencyEntity();
         currency.setSymbol(cvo.getSymbol());
         if (isDefaultExists()) {
-            LOGGER.debug("Saving new currency, symbol: {}.",cvo.getSymbol());
+            LOGGER.debug("Saving new currency, symbol: {}.", cvo.getSymbol());
             currency.setByDefault(false);
             currency.setRate(cvo.getRate());
         } else {
@@ -87,9 +86,18 @@ public class CurrencyServiceImpl implements CurrencyService {
     }
 
     @Override
-    @Transactional
-    public void remove(Integer currencyId) {
-        currencyDao.delete(currencyId);
+    @Transactional(rollbackFor = {NotFoundException.class, BusinessConstraintException.class})
+    public void remove(Integer currencyId) throws NotFoundException, BusinessConstraintException {
+        Currency currency = currencyDao.select(currencyId);
+        if (currency != null) {
+            if (isRemovable(currency)) {
+                currencyDao.delete(currencyId);
+            } else {
+                throw new BusinessConstraintException("Cannot remove");
+            }
+        } else {
+            throw new NotFoundException("Currency not found.");
+        }
     }
 
     @Override

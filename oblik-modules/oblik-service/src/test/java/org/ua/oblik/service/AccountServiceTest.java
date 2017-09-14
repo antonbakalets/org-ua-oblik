@@ -88,7 +88,7 @@ public class AccountServiceTest extends BaseServiceCheckConfig {
         try {
             accountService.getAccount(accountId);
             Assert.fail("[TEST] Account should be deleted.");
-        } catch (EntityNotFoundException e) {
+        } catch (RuntimeException e) {
             LOGGER.error(e.getMessage());
         }
     }
