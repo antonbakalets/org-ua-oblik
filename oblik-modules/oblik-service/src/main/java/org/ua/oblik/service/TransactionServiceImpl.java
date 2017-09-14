@@ -46,11 +46,15 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     @Transactional
-    public void delete(Integer transactionId) {
+    public void delete(Integer transactionId) throws NotFoundException {
         LOG.debug("Deleting transaction by id: {}.", transactionId);
-        TransactionVO tvo = new TransactionVO();
-        tvo.setTxId(transactionId);
-        transactionCommandFactory.createDeleteCommand(tvo).execute();
+        if (txactionDao.exists(transactionId)) {
+            TransactionVO tvo = new TransactionVO();
+            tvo.setTxId(transactionId);
+            transactionCommandFactory.createDeleteCommand(tvo).execute();
+        } else {
+            throw new NotFoundException("Could not find transaction.");
+        }
     }
 
     @Override

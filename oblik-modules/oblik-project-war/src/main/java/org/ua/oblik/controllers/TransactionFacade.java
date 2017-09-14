@@ -3,6 +3,7 @@ package org.ua.oblik.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.ua.oblik.controllers.beans.TransactionBean;
 import org.ua.oblik.service.AccountService;
+import org.ua.oblik.service.NotFoundException;
 import org.ua.oblik.service.TransactionService;
 import org.ua.oblik.service.beans.AccountVO;
 import org.ua.oblik.service.beans.TransactionVO;
@@ -79,7 +80,12 @@ class TransactionFacade extends AbstractHelper {
         return result;
     }
 
-    public void delete(Integer transactionId) {
-        transactionService.delete(transactionId);
+    public boolean delete(Integer transactionId) {
+        try {
+            transactionService.delete(transactionId);
+            return true;
+        } catch (NotFoundException e) {
+            return false;
+        }
     }
 }

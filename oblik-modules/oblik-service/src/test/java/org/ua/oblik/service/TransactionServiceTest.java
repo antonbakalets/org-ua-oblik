@@ -441,7 +441,7 @@ public class TransactionServiceTest extends BaseTransactionServiceTest {
     }
     
     @Test
-    public void deleteIncome() {
+    public void deleteIncome() throws NotFoundException {
         LOGGER.debug("[TEST] deleteIncome");
         
         TransactionVO incomeTx = new TransactionVO();
@@ -470,7 +470,7 @@ public class TransactionServiceTest extends BaseTransactionServiceTest {
     }
     
     @Test
-    public void deleteExpense() {
+    public void deleteExpense() throws NotFoundException {
         LOGGER.debug("[TEST] deleteExpense");
                 
         TransactionVO expenseTx = new TransactionVO();
@@ -499,7 +499,7 @@ public class TransactionServiceTest extends BaseTransactionServiceTest {
     }
     
     @Test
-    public void deleteTransfer() {
+    public void deleteTransfer() throws NotFoundException {
         LOGGER.debug("[TEST] deleteTransfer");
 
         TransactionVO transferTx = new TransactionVO();

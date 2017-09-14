@@ -1,27 +1,7 @@
-/oblik-modules/oblik-dao-api/target/
-/oblik-modules/oblik-dao-hibernate/target/
-/oblik-modules/oblik-project-war/target/
-/oblik-modules/oblik-security/target/
-/oblik-modules/oblik-service-api/target/
-/oblik-modules/oblik-service-test/target/
-/oblik-modules/oblik-service/target/
+target/
 
-/oblik-modules/*.iml
-/oblik-modules/oblik-dao-api/*.iml
-/oblik-modules/oblik-dao-hibernate/*.iml
-/oblik-modules/oblik-project-war/*.iml
-/oblik-modules/oblik-security/*.iml
-/oblik-modules/oblik-service-api/*.iml
-/oblik-modules/oblik-service-test/*.iml
-/oblik-modules/oblik-service/*.iml
+*.iml
 
-/oblik-modules/.idea
-/oblik-modules/oblik-dao-api/.idea
-/oblik-modules/oblik-dao-hibernate/.idea
-/oblik-modules/oblik-project-war/.idea
-/oblik-modules/oblik-security/.idea
-/oblik-modules/oblik-service-api/.idea
-/oblik-modules/oblik-service-test/.idea
-/oblik-modules/oblik-service/.idea
-/oblik-modules/target/
+.idea/
+
 *.log
