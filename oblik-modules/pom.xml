@@ -270,7 +270,7 @@
 
         <hibernate.version>5.2.5.Final</hibernate.version>
         <mysql.connector.version>5.1.25</mysql.connector.version>
-        <springframework.version>4.3.7.RELEASE</springframework.version>
+        <springframework.version>4.3.9.RELEASE</springframework.version>
         <springframework.security.version>4.2.3.RELEASE</springframework.security.version>
         <tomcat.embedded.version>8.0.28</tomcat.embedded.version>
 	</properties>

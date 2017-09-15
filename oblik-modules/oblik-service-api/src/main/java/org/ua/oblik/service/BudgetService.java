@@ -4,5 +4,5 @@ import org.ua.oblik.service.beans.BudgetVO;
 
 public interface BudgetService {
 
-    BudgetVO getBudget();
+    BudgetVO getBudget() throws NotFoundException;
 }

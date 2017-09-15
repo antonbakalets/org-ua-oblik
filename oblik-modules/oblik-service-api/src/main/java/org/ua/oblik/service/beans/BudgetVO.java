@@ -1,14 +1,21 @@
 package org.ua.oblik.service.beans;
 
 import java.math.BigDecimal;
-import java.util.Map;
+import java.util.UUID;
 
 public class BudgetVO {
 
+    private UUID budgetId;
     private BigDecimal total;
-    private Map<Integer, CurrencyVO> currencies;
-    private Map<Integer, AccountVO> accounts;
-    private Map<Integer, TransactionVO> transactions;
+    private String name;
+
+    public UUID getBudgetId() {
+        return budgetId;
+    }
+
+    public void setBudgetId(UUID budgetId) {
+        this.budgetId = budgetId;
+    }
 
     public BigDecimal getTotal() {
         return total;
@@ -18,27 +25,11 @@ public class BudgetVO {
         this.total = total;
     }
 
-    public Map<Integer, CurrencyVO> getCurrencies() {
-        return currencies;
+    public String getName() {
+        return name;
     }
 
-    public void setCurrencies(Map<Integer, CurrencyVO> currencies) {
-        this.currencies = currencies;
-    }
-
-    public Map<Integer, AccountVO> getAccounts() {
-        return accounts;
-    }
-
-    public void setAccounts(Map<Integer, AccountVO> accounts) {
-        this.accounts = accounts;
-    }
-
-    public Map<Integer, TransactionVO> getTransactions() {
-        return transactions;
-    }
-
-    public void setTransactions(Map<Integer, TransactionVO> transactions) {
-        this.transactions = transactions;
+    public void setName(String name) {
+        this.name = name;
     }
 }
