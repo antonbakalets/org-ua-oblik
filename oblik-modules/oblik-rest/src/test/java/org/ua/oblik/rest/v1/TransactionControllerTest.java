@@ -1,18 +1,5 @@
 package org.ua.oblik.rest.v1;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.ua.oblik.service.TransactionService;
-import org.ua.oblik.service.BusinessConstraintException;
-import org.ua.oblik.service.NotFoundException;
-
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.doThrow;
@@ -22,10 +9,25 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.UUID;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.ua.oblik.service.NotFoundException;
+import org.ua.oblik.service.TransactionService;
+
 @RunWith(MockitoJUnitRunner.class)
 public class TransactionControllerTest {
 
     private MockMvc mockMvc;
+    private String v1BaseUrl = "/v1/budgets/" + UUID.randomUUID().toString();
 
     @InjectMocks
     private TransactionController transactionController;
@@ -42,7 +44,7 @@ public class TransactionControllerTest {
 
     @Test
     public void testDeleteTransactionNoContent() throws Exception {
-        mockMvc.perform(delete("/v1/transactions/{id}", 1)
+        mockMvc.perform(delete(v1BaseUrl + "/transactions/{id}", 1)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
@@ -54,7 +56,7 @@ public class TransactionControllerTest {
     public void testDeleteTransactionGone() throws Exception {
         doThrow(new NotFoundException("Invocation from test.")).when(transactionService).delete(any());
 
-        mockMvc.perform(delete("/v1/transactions/{id}", 1)
+        mockMvc.perform(delete(v1BaseUrl + "/transactions/{id}", 1)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isGone());

@@ -16,7 +16,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
-@RequestMapping("/v1/transactions")
+@RequestMapping("/v1/budgets/{budgetId}/transactions")
 public class TransactionController {
 
     private TransactionService transactionService;

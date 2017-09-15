@@ -1,5 +1,7 @@
 package org.ua.oblik.rest.v1;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +19,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
-@RequestMapping("v1/accounts")
+@RequestMapping("v1/budgets/{budgetId}/accounts")
 public class AccountController {
 
     private AccountService accountService;
@@ -29,7 +31,7 @@ public class AccountController {
             @ApiResponse(code = 410, message = "Cannot find account by id.", response = Integer.class)})
     @DeleteMapping("/{id}")
     @ResponseBody
-    public ResponseEntity<Integer> deleteAccount(@PathVariable Integer id) {
+    public ResponseEntity<Integer> deleteAccount(@PathVariable UUID budgetId, @PathVariable Integer id) {
         ResponseEntity<Integer> responseEntity;
         try {
             accountService.delete(id);

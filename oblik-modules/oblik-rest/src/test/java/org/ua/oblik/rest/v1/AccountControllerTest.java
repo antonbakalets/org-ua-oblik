@@ -9,6 +9,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.UUID;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,6 +28,7 @@ import org.ua.oblik.service.NotFoundException;
 public class AccountControllerTest {
 
     private MockMvc mockMvc;
+    private String v1BaseUrl = "/v1/budgets/" + UUID.randomUUID().toString();
 
     @InjectMocks
     private AccountController accountController;
@@ -42,7 +45,7 @@ public class AccountControllerTest {
 
     @Test
     public void testDeleteAccountNoContent() throws Exception {
-        mockMvc.perform(delete("/v1/accounts/{id}", 1)
+        mockMvc.perform(delete(v1BaseUrl + "/accounts/{id}", 1)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
@@ -54,7 +57,7 @@ public class AccountControllerTest {
     public void testDeleteAccountBadRequest() throws Exception {
         doThrow(new BusinessConstraintException("Invocation from test.")).when(accountService).delete(any());
 
-        mockMvc.perform(delete("/v1/accounts/{id}", 1)
+        mockMvc.perform(delete(v1BaseUrl + "/accounts/{id}", 1)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
     }
@@ -63,7 +66,7 @@ public class AccountControllerTest {
     public void testDeleteAccountGone() throws Exception {
         doThrow(new NotFoundException("Invocation from test.")).when(accountService).delete(any());
 
-        mockMvc.perform(delete("/v1/accounts/{id}", 1)
+        mockMvc.perform(delete(v1BaseUrl + "/accounts/{id}", 1)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isGone());

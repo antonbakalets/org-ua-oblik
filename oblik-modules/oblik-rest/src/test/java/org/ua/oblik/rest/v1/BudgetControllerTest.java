@@ -1,5 +1,15 @@
 package org.ua.oblik.rest.v1;
 
+import static org.hamcrest.Matchers.is;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.math.BigDecimal;
+import java.util.UUID;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,16 +23,6 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.ua.oblik.service.BudgetService;
 import org.ua.oblik.service.beans.BudgetVO;
-
-import java.math.BigDecimal;
-import java.util.UUID;
-
-import static org.hamcrest.Matchers.is;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BudgetControllerTest {
@@ -46,7 +46,7 @@ public class BudgetControllerTest {
 
     @Test
     public void testList() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(get("/budget")
+        MvcResult mvcResult = mockMvc.perform(get("/budgets")
                 .accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
                 .andReturn();
         String contentAsString = mvcResult.getResponse().getContentAsString();
@@ -59,7 +59,7 @@ public class BudgetControllerTest {
         t.setTotal(BigDecimal.TEN);
         when(budgetService.getBudget()).thenReturn(t);
 
-        mockMvc.perform(get("/budget/{id}", UUID.randomUUID().toString())
+        mockMvc.perform(get("/budgets/{id}", UUID.randomUUID().toString())
                 .accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
                 .andExpect(jsonPath("$.total", is(10)));
     }

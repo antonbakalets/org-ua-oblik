@@ -1,5 +1,9 @@
 package org.ua.oblik.rest.v1;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,12 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.ua.oblik.service.BudgetService;
 import org.ua.oblik.service.beans.BudgetVO;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-
 @Controller
-@RequestMapping("/budget")
+@RequestMapping("/budgets")
 public class BudgetController {
 
     public static final UUID KEY = UUID.randomUUID();

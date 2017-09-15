@@ -11,6 +11,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.UUID;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,12 +31,14 @@ import org.ua.oblik.service.beans.CurrencyVO;
 public class CurrencyControllerTest {
 
     private MockMvc mockMvc;
+    private String v1BaseUrl = "/v1/budgets/" + UUID.randomUUID().toString();
 
     @InjectMocks
     private CurrencyController currencyController;
 
     @Mock
     private CurrencyService currencyService;
+
 
     @Before
     public void setUp() {
@@ -45,7 +49,7 @@ public class CurrencyControllerTest {
 
     @Test
     public void testCurrencyPost() throws Exception {
-        mockMvc.perform(post("/v1/currencies")
+        mockMvc.perform(post(v1BaseUrl + "/currencies")
                 .content("{}")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON))
@@ -56,7 +60,7 @@ public class CurrencyControllerTest {
 
     @Test
     public void testCurrencyPut() throws Exception {
-        mockMvc.perform(patch("/v1/currencies/{id}", 1)
+        mockMvc.perform(patch(v1BaseUrl + "/currencies/{id}", 1)
                 .content("{}")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON))
@@ -68,7 +72,7 @@ public class CurrencyControllerTest {
 
     @Test
     public void testDeleteCurrencyNoContent() throws Exception {
-        mockMvc.perform(delete("/v1/currencies/{id}", 1)
+        mockMvc.perform(delete(v1BaseUrl + "/currencies/{id}", 1)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
@@ -80,7 +84,7 @@ public class CurrencyControllerTest {
     public void testDeleteCurrencyBadRequest() throws Exception {
         doThrow(new BusinessConstraintException("Invocation from test.")).when(currencyService).remove(any());
 
-        mockMvc.perform(delete("/v1/currencies/{id}", 1)
+        mockMvc.perform(delete(v1BaseUrl + "/currencies/{id}", 1)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
     }
@@ -89,7 +93,7 @@ public class CurrencyControllerTest {
     public void testDeleteCurrencyGone() throws Exception {
         doThrow(new NotFoundException("Invocation from test.")).when(currencyService).remove(any());
 
-        mockMvc.perform(delete("/v1/currencies/{id}", 1)
+        mockMvc.perform(delete(v1BaseUrl + "/currencies/{id}", 1)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isGone());
