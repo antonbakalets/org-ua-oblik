@@ -3,9 +3,11 @@ package org.ua.oblik.rest.v1.dto;
 import org.springframework.hateoas.ResourceSupport;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 public class BudgetDto extends ResourceSupport {
 
+    private UUID budgetId;
     private String name;
     private BigDecimal total;
 
@@ -23,5 +25,13 @@ public class BudgetDto extends ResourceSupport {
 
     public BigDecimal getTotal() {
         return total;
+    }
+
+    public void setBudgetId(UUID budgetId) {
+        this.budgetId = budgetId;
+    }
+
+    public UUID getBudgetId() {
+        return budgetId;
     }
 }

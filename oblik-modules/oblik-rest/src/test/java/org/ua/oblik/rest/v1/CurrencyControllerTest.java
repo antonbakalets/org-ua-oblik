@@ -1,18 +1,5 @@
 package org.ua.oblik.rest.v1;
 
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.util.UUID;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,6 +13,16 @@ import org.ua.oblik.service.BusinessConstraintException;
 import org.ua.oblik.service.CurrencyService;
 import org.ua.oblik.service.NotFoundException;
 import org.ua.oblik.service.beans.CurrencyVO;
+
+import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.UUID;
+
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CurrencyControllerTest {
@@ -48,6 +45,27 @@ public class CurrencyControllerTest {
     }
 
     @Test
+    public void testCurrencyGet() throws Exception {
+        when(currencyService.getCurrencies()).thenReturn(Arrays.asList(
+                createVO(0), createVO(1)
+        ));
+        mockMvc.perform(get(v1BaseUrl + "/currencies")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    private CurrencyVO createVO(Integer id) {
+        CurrencyVO currencyVO = new CurrencyVO();
+        currencyVO.setCurrencyId(id);
+        currencyVO.setSymbol("S" + id);
+        currencyVO.setRate(new BigDecimal(5 * id + 1));
+        currencyVO.setDefaultRate(id == 0);
+        currencyVO.setTotal(new BigDecimal(2000 * id));
+        return currencyVO;
+    }
+
+    @Test
     public void testCurrencyPost() throws Exception {
         mockMvc.perform(post(v1BaseUrl + "/currencies")
                 .content("{}")
@@ -59,7 +77,7 @@ public class CurrencyControllerTest {
     }
 
     @Test
-    public void testCurrencyPut() throws Exception {
+    public void testCurrencyPatch() throws Exception {
         mockMvc.perform(patch(v1BaseUrl + "/currencies/{id}", 1)
                 .content("{}")
                 .accept(MediaType.APPLICATION_JSON)

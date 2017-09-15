@@ -23,10 +23,6 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 @RequestMapping("/v1/budgets")
 public class BudgetController {
 
-    public static final String CURRENCIES = "currencies";
-    public static final String ACCOUNTS = "accounts";
-    public static final String TRANSACTIONS = "transactions";
-
     private BudgetService budgetService;
 
     @GetMapping
@@ -43,19 +39,29 @@ public class BudgetController {
         try {
             BudgetVO budgetVO = budgetService.getBudget();
 
-            BudgetDto budgetDto = new BudgetDto();
-            budgetDto.setName(budgetVO.getName());
-            budgetDto.setTotal(budgetVO.getTotal());
-            budgetDto.add(linkTo(BudgetController.class).slash(id).withSelfRel());
-            budgetDto.add(linkTo(CurrencyController.class, id).withRel("currencies"));
-            budgetDto.add(linkTo(AccountController.class, id).withRel("assets"));
-            budgetDto.add(linkTo(AccountController.class, id).withRel("expenses"));
-            budgetDto.add(linkTo(AccountController.class, id).withRel("incomes"));
-            budgetDto.add(linkTo(TransactionController.class, id).withRel("transactions"));
+            BudgetDto budgetDto = convertToDto(budgetVO);
             return ResponseEntity.ok().body(budgetDto);
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    private BudgetDto convertToDto(BudgetVO budgetVO) {
+        UUID id = budgetVO.getBudgetId();
+
+        BudgetDto budgetDto = new BudgetDto();
+        budgetDto.setBudgetId(id);
+        budgetDto.setName(budgetVO.getName());
+        budgetDto.setTotal(budgetVO.getTotal());
+
+        budgetDto.add(linkTo(BudgetController.class).slash(id).withSelfRel());
+        budgetDto.add(linkTo(CurrencyController.class, id).withRel("currencies"));
+        budgetDto.add(linkTo(AccountController.class, id).withRel("assets"));
+        budgetDto.add(linkTo(AccountController.class, id).withRel("expenses"));
+        budgetDto.add(linkTo(AccountController.class, id).withRel("incomes"));
+        budgetDto.add(linkTo(TransactionController.class, id).withRel("transactions"));
+
+        return budgetDto;
     }
 
     @Autowired

@@ -1,29 +1,24 @@
 package org.ua.oblik.rest.v1;
 
-import java.util.List;
-import java.util.UUID;
-
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.ua.oblik.rest.v1.dto.CurrencyDto;
 import org.ua.oblik.service.BusinessConstraintException;
 import org.ua.oblik.service.CurrencyService;
 import org.ua.oblik.service.NotFoundException;
 import org.ua.oblik.service.beans.BudgetChange;
 import org.ua.oblik.service.beans.CurrencyVO;
 
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
 @RestController
 @RequestMapping("/v1/budgets/{budgetId}/currencies")
@@ -37,8 +32,18 @@ public class CurrencyController {
     })
     @GetMapping
     @ResponseBody
-    public ResponseEntity<List<CurrencyVO>> getCurrencies(@PathVariable UUID budgetId) {
-        return ResponseEntity.ok().build();
+    public ResponseEntity<List<CurrencyDto>> getCurrencies(@PathVariable UUID budgetId) {
+        List<CurrencyDto> list = currencyService.getCurrencies().stream().map(vo -> {
+            CurrencyDto dto = new CurrencyDto();
+            dto.setCurrencyId(vo.getCurrencyId());
+            dto.setDefaultRate(vo.getDefaultRate());
+            dto.setSymbol(vo.getSymbol());
+            dto.setRate(vo.getRate());
+            dto.setTotal(vo.getTotal());
+            dto.add(linkTo(CurrencyController.class, budgetId).slash(vo.getCurrencyId()).withSelfRel());
+            return dto;
+        }).collect(Collectors.toList());
+        return ResponseEntity.ok().body(list);
     }
 
     @PostMapping
