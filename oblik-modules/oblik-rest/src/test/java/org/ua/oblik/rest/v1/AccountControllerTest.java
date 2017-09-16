@@ -67,6 +67,6 @@ public class AccountControllerTest {
         mockMvc.perform(delete(v1BaseUrl + "/accounts/{id}", 1)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isGone());
+                .andExpect(status().isNotFound());
     }
 }

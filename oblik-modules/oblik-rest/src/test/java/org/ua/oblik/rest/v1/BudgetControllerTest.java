@@ -41,8 +41,8 @@ public class BudgetControllerTest {
 
     @Before
     public void setUp() {
-        mockMvc = MockMvcBuilders
-                .standaloneSetup(budgetController)
+        mockMvc = MockMvcBuilders.standaloneSetup(budgetController)
+                .setControllerAdvice(new ExceptionHandlingControllerAdvice())
                 .alwaysDo(print())
                 .build();
     }

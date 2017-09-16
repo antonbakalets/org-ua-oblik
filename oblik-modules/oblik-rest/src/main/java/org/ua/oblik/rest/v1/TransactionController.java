@@ -20,7 +20,7 @@ public class TransactionController {
     @ApiOperation(value = "Delete transaction", notes = "Delete transaction if exists and is not used.")
     @ApiResponses(value = {
             @ApiResponse(code = 204, message = "Transaction successfully deleted."),
-            @ApiResponse(code = 410, message = "Cannot find transaction by id.", response = Integer.class)})
+            @ApiResponse(code = 404, message = "Cannot find transaction by id.")})
     @DeleteMapping("/{id}")
     @ResponseBody
     public ResponseEntity<Integer> deleteTxaction(@PathVariable UUID budgetId,

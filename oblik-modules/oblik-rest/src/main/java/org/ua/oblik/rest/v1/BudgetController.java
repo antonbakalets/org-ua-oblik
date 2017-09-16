@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.util.UriComponentsBuilder;
 import org.ua.oblik.rest.v1.dto.BudgetDto;
 import org.ua.oblik.service.BudgetService;
 import org.ua.oblik.service.NotFoundException;
@@ -35,22 +34,17 @@ public class BudgetController {
 
     @GetMapping("/{id}")
     @ResponseBody
-    public ResponseEntity<BudgetDto> budget(@PathVariable UUID id, UriComponentsBuilder builder) {
-        try {
+    public ResponseEntity<BudgetDto> budget(@PathVariable UUID id) throws NotFoundException {
             BudgetVO budgetVO = budgetService.getBudget();
 
             BudgetDto budgetDto = convertToDto(budgetVO);
             return ResponseEntity.ok().body(budgetDto);
-        } catch (NotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
     }
 
     private BudgetDto convertToDto(BudgetVO budgetVO) {
         UUID id = budgetVO.getBudgetId();
 
         BudgetDto budgetDto = new BudgetDto();
-        budgetDto.setBudgetId(id);
         budgetDto.setName(budgetVO.getName());
         budgetDto.setTotal(budgetVO.getTotal());
 

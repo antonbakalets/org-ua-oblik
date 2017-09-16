@@ -63,8 +63,8 @@ public class CurrencyController {
     @ApiOperation(value = "Delete currency", notes = "Delete currency if exists and is not used.")
     @ApiResponses(value = {
             @ApiResponse(code = 204, message = "Currency successfully deleted."),
-            @ApiResponse(code = 400, message = "Cannot delete currency due to constraint violation.", response = Integer.class),
-            @ApiResponse(code = 410, message = "Cannot find currency by id.", response = Integer.class)})
+            @ApiResponse(code = 400, message = "Cannot delete currency due to constraint violation.", response = String.class),
+            @ApiResponse(code = 404, message = "Cannot find currency by id.")})
     @DeleteMapping("/{id}")
     @ResponseBody
     public ResponseEntity<Integer> deleteCurrency(@PathVariable UUID budgetId,

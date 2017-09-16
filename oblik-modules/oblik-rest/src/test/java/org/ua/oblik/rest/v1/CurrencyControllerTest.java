@@ -115,6 +115,6 @@ public class CurrencyControllerTest {
         mockMvc.perform(delete(v1BaseUrl + "/currencies/{id}", 1)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isGone());
+                .andExpect(status().isNotFound());
     }
 }
