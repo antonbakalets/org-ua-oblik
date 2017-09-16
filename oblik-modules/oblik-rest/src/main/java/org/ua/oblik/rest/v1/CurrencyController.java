@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.ua.oblik.rest.v1.convert.CurrencyConverter;
 import org.ua.oblik.rest.v1.convert.CurrencyResourceAssembler;
 import org.ua.oblik.rest.v1.dto.CurrencyResource;
 import org.ua.oblik.service.BusinessConstraintException;
@@ -29,6 +30,8 @@ public class CurrencyController {
 
     private CurrencyResourceAssembler currencyResourceAssembler;
 
+    private CurrencyConverter currencyConverter;
+
     @ApiOperation(value = "List currencies", notes = "List all currencies.")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Currencies.", response = List.class)
@@ -41,13 +44,6 @@ public class CurrencyController {
         return ResponseEntity.ok().body(list);
     }
 
-    private CurrencyVO toCurrencyVO(CurrencyResource dto) {
-        CurrencyVO vo = new CurrencyVO();
-        vo.setSymbol(dto.getSymbol());
-        vo.setRate(dto.getRate());
-        return vo;
-    }
-
     @ApiOperation(value = "Create currency", notes = "Create a new currency.")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Currency created.", response = CurrencyResource.class)
@@ -55,7 +51,8 @@ public class CurrencyController {
     @PostMapping
     public ResponseEntity<CurrencyResource> postCurrency(@PathVariable UUID budgetId,
                                                          @RequestBody CurrencyResource currency) throws NotFoundException, BusinessConstraintException {
-        CurrencyVO saved = currencyService.save(toCurrencyVO(currency));
+        CurrencyVO saved = currencyService.save(
+                currencyConverter.convert(currency));
         ControllerLinkBuilder uriBuilder = linkTo(CurrencyController.class, budgetId).slash(saved.getCurrencyId());
         return ResponseEntity.created(uriBuilder.toUri())
                 .body(currencyResourceAssembler.toResource(saved));
@@ -68,7 +65,7 @@ public class CurrencyController {
     @PatchMapping("/{id}")
     public ResponseEntity<CurrencyResource> patchCurrency(@PathVariable UUID budgetId, @PathVariable Integer id,
                                                           @RequestBody CurrencyResource dto) throws NotFoundException, BusinessConstraintException {
-        CurrencyVO currencyVO = toCurrencyVO(dto);
+        CurrencyVO currencyVO = currencyConverter.convert(dto);
         currencyVO.setCurrencyId(id);
         CurrencyVO saved = currencyService.save(currencyVO);
         return ResponseEntity.ok(currencyResourceAssembler.toResource(saved));
@@ -94,5 +91,10 @@ public class CurrencyController {
     @Autowired
     public void setCurrencyResourceAssembler(CurrencyResourceAssembler currencyResourceAssembler) {
         this.currencyResourceAssembler = currencyResourceAssembler;
+    }
+
+    @Autowired
+    public void setCurrencyConverter(CurrencyConverter currencyConverter) {
+        this.currencyConverter = currencyConverter;
     }
 }

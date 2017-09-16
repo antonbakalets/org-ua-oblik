@@ -9,6 +9,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.ua.oblik.rest.v1.convert.CurrencyConverter;
 import org.ua.oblik.rest.v1.convert.CurrencyResourceAssembler;
 import org.ua.oblik.service.BusinessConstraintException;
 import org.ua.oblik.service.CurrencyService;
@@ -41,6 +42,7 @@ public class CurrencyControllerTest {
     @Before
     public void setUp() {
         currencyController.setCurrencyResourceAssembler(new CurrencyResourceAssembler());
+        currencyController.setCurrencyConverter(new CurrencyConverter());
 
         mockMvc = MockMvcBuilders.standaloneSetup(currencyController)
                 .setControllerAdvice(new ExceptionHandlingControllerAdvice())

@@ -3,6 +3,7 @@ package org.ua.oblik.service.beans;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
+import java.util.UUID;
 
 public class TransactionVO {
     
@@ -94,5 +95,9 @@ public class TransactionVO {
         }
         final TransactionVO other = (TransactionVO) obj;
         return Objects.equals(this.txId, other.txId);
+    }
+
+    public UUID getBudgetId() {
+        return UUID.randomUUID();
     }
 }

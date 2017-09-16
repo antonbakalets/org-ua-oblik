@@ -4,12 +4,13 @@ import org.springframework.hateoas.ResourceSupport;
 
 import java.math.BigDecimal;
 
-public class AccountDto extends ResourceSupport {
+public class AccountResource extends ResourceSupport {
 
     private String name;
     private String type;
     private String symbol;
     private BigDecimal amount;
+    private Integer currencyId;
 
     public void setName(String name) {
         this.name = name;
@@ -41,5 +42,13 @@ public class AccountDto extends ResourceSupport {
 
     public BigDecimal getAmount() {
         return amount;
+    }
+
+    public Integer getCurrencyId() {
+        return currencyId;
+    }
+
+    public void setCurrencyId(Integer currencyId) {
+        this.currencyId = currencyId;
     }
 }

@@ -9,12 +9,13 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.ua.oblik.rest.v1.dto.AccountDto;
+import org.ua.oblik.rest.v1.convert.AccountConverter;
+import org.ua.oblik.rest.v1.convert.AccountResourceAssembler;
+import org.ua.oblik.rest.v1.dto.AccountResource;
 import org.ua.oblik.service.AccountService;
 import org.ua.oblik.service.BusinessConstraintException;
 import org.ua.oblik.service.NotFoundException;
 import org.ua.oblik.service.beans.AccountCriteria;
-import org.ua.oblik.service.beans.AccountVO;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -26,12 +27,16 @@ public class AccountController {
 
     private AccountService accountService;
 
+    private AccountResourceAssembler accountResourceAssembler;
+
+    private AccountConverter accountConverter;
+
     @ApiOperation(value = "List assets.", notes = "List all assets.")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Assets.", response = List.class)
     })
     @GetMapping("/assets")
-    public ResponseEntity<List<AccountDto>> getAssets(@PathVariable UUID budgetId) {
+    public ResponseEntity<List<AccountResource>> getAssets(@PathVariable UUID budgetId) {
         return ResponseEntity.ok(getAccounts(AccountCriteria.ASSETS_CRITERIA));
     }
 
@@ -40,7 +45,7 @@ public class AccountController {
             @ApiResponse(code = 200, message = "Expenses.", response = List.class)
     })
     @GetMapping("/expenses")
-    public ResponseEntity<List<AccountDto>> getExpenses(@PathVariable UUID budgetId) {
+    public ResponseEntity<List<AccountResource>> getExpenses(@PathVariable UUID budgetId) {
         return ResponseEntity.ok(getAccounts(AccountCriteria.EXPENSE_CRITERIA));
     }
 
@@ -49,27 +54,14 @@ public class AccountController {
             @ApiResponse(code = 200, message = "Incomes.", response = List.class)
     })
     @GetMapping("/incomes")
-    public ResponseEntity<List<AccountDto>> getIncomes(@PathVariable UUID budgetId) {
+    public ResponseEntity<List<AccountResource>> getIncomes(@PathVariable UUID budgetId) {
         return ResponseEntity.ok(getAccounts(AccountCriteria.INCOME_CRITERIA));
     }
 
-    private List<AccountDto> getAccounts(AccountCriteria accountCriteria) {
+    private List<AccountResource> getAccounts(AccountCriteria accountCriteria) {
         return accountService.getAccounts(accountCriteria).stream()
-                .map(this::toAccountDto)
+                .map(accountResourceAssembler::toResource)
                 .collect(Collectors.toList());
-    }
-
-    private AccountDto toAccountDto(AccountVO vo) {
-        UUID budgetId = vo.getBudgetId();
-        AccountDto dto = new AccountDto();
-
-        dto.setName(vo.getName());
-        dto.setType(vo.getType().toString());
-        dto.setSymbol(vo.getCurrencySymbol());
-        dto.setAmount(vo.getAmount());
-
-        dto.add(linkTo(AccountController.class, budgetId).slash(vo.getAccountId()).withSelfRel());
-        return dto;
     }
 
     @ApiOperation(value = "Delete account", notes = "Delete account if exists and is not used.")
@@ -87,5 +79,15 @@ public class AccountController {
     @Autowired
     public void setAccountService(AccountService accountService) {
         this.accountService = accountService;
+    }
+
+    @Autowired
+    public void setAccountResourceAssembler(AccountResourceAssembler accountResourceAssembler) {
+        this.accountResourceAssembler = accountResourceAssembler;
+    }
+
+    @Autowired
+    public void setAccountConverter(AccountConverter accountConverter) {
+        this.accountConverter = accountConverter;
     }
 }

@@ -9,6 +9,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.ua.oblik.rest.v1.convert.AccountConverter;
+import org.ua.oblik.rest.v1.convert.AccountResourceAssembler;
 import org.ua.oblik.service.AccountService;
 import org.ua.oblik.service.BusinessConstraintException;
 import org.ua.oblik.service.NotFoundException;
@@ -35,6 +37,9 @@ public class AccountControllerTest {
 
     @Before
     public void setUp() {
+        accountController.setAccountResourceAssembler(new AccountResourceAssembler());
+        accountController.setAccountConverter(new AccountConverter());
+
         mockMvc = MockMvcBuilders.standaloneSetup(accountController)
                 .setControllerAdvice(new ExceptionHandlingControllerAdvice())
                 .alwaysDo(print())
