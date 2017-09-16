@@ -1,31 +1,29 @@
 package org.ua.oblik.rest.v1;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.ua.oblik.rest.v1.dto.BudgetDto;
-import org.ua.oblik.service.BudgetService;
-import org.ua.oblik.service.NotFoundException;
-import org.ua.oblik.service.beans.BudgetVO;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.ua.oblik.rest.v1.dto.BudgetDto;
+import org.ua.oblik.service.BudgetService;
+import org.ua.oblik.service.NotFoundException;
+import org.ua.oblik.service.beans.BudgetVO;
 
-@Controller
+@RestController
 @RequestMapping("/v1/budgets")
 public class BudgetController {
 
     private BudgetService budgetService;
 
     @GetMapping
-    @ResponseBody
     public Map<UUID, String> budgets() {
         HashMap<UUID, String> map = new HashMap<>();
         map.put(UUID.randomUUID(), "Budget name");
@@ -33,7 +31,6 @@ public class BudgetController {
     }
 
     @GetMapping("/{id}")
-    @ResponseBody
     public ResponseEntity<BudgetDto> budget(@PathVariable UUID id) throws NotFoundException {
             BudgetVO budgetVO = budgetService.getBudget();
 

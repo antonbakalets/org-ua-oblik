@@ -1,8 +1,11 @@
 package org.ua.oblik.rest.v1;
 
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,11 +16,9 @@ import org.ua.oblik.service.NotFoundException;
 import org.ua.oblik.service.beans.BudgetChange;
 import org.ua.oblik.service.beans.CurrencyVO;
 
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
-
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping("/v1/budgets/{budgetId}/currencies")
@@ -30,7 +31,6 @@ public class CurrencyController {
             @ApiResponse(code = 200, message = "Currencies.", response = List.class)
     })
     @GetMapping
-    @ResponseBody
     public ResponseEntity<List<CurrencyDto>> getCurrencies(@PathVariable UUID budgetId) {
         List<CurrencyDto> list = currencyService.getCurrencies().stream().map(vo -> {
             CurrencyDto dto = new CurrencyDto();
@@ -46,14 +46,12 @@ public class CurrencyController {
     }
 
     @PostMapping
-    @ResponseBody
     public BudgetChange postCurrency(@PathVariable UUID budgetId, @RequestBody CurrencyVO currency) {
         currencyService.save(currency);
         return new BudgetChange();
     }
 
     @PatchMapping("/{id}")
-    @ResponseBody
     public BudgetChange patchCurrency(@PathVariable UUID budgetId, @PathVariable Integer id) {
         CurrencyVO currency = currencyService.getCurrency(id);
         currencyService.save(currency);
@@ -66,7 +64,6 @@ public class CurrencyController {
             @ApiResponse(code = 400, message = "Cannot delete currency due to constraint violation.", response = String.class),
             @ApiResponse(code = 404, message = "Cannot find currency by id.")})
     @DeleteMapping("/{id}")
-    @ResponseBody
     public ResponseEntity<Integer> deleteCurrency(@PathVariable UUID budgetId,
                                                   @PathVariable Integer id) throws NotFoundException, BusinessConstraintException {
         currencyService.remove(id);

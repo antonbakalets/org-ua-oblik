@@ -2,6 +2,7 @@ package org.ua.oblik.service.beans;
 
 import java.math.BigDecimal;
 import java.util.Objects;
+import java.util.UUID;
 
 public class AccountVO {
 
@@ -89,5 +90,9 @@ public class AccountVO {
     @Override
     public String toString() {
         return "AccountVO{" + "accountId=" + accountId + ", name=" + name + ", currencyId=" + currencyId + ", currencySymbol=" + currencySymbol + ", amount=" + amount + ", type=" + type + '}';
+    }
+
+    public UUID getBudgetId() {
+        return UUID.randomUUID();
     }
 }
