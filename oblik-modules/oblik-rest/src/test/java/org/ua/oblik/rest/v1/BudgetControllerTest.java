@@ -24,6 +24,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.ua.oblik.rest.v1.convert.BudgetResourceAssembler;
 import org.ua.oblik.service.BudgetService;
 import org.ua.oblik.service.NotFoundException;
 import org.ua.oblik.service.beans.BudgetVO;
@@ -31,7 +32,7 @@ import org.ua.oblik.service.beans.BudgetVO;
 @RunWith(MockitoJUnitRunner.class)
 public class BudgetControllerTest {
 
-    protected MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @InjectMocks
     private BudgetController budgetController;
@@ -41,6 +42,8 @@ public class BudgetControllerTest {
 
     @Before
     public void setUp() {
+        budgetController.setBudgetResourceAssembler(new BudgetResourceAssembler());
+
         mockMvc = MockMvcBuilders.standaloneSetup(budgetController)
                 .setControllerAdvice(new ExceptionHandlingControllerAdvice())
                 .alwaysDo(print())
@@ -55,8 +58,9 @@ public class BudgetControllerTest {
     }
 
     @Test
-    public void testGet() throws Exception {
+    public void testBudgetGet() throws Exception {
         BudgetVO t = new BudgetVO();
+        t.setBudgetId(UUID.randomUUID());
         t.setTotal(BigDecimal.TEN);
         t.setName("Budget Name");
         when(budgetService.getBudget()).thenReturn(t);
@@ -70,7 +74,7 @@ public class BudgetControllerTest {
     }
 
     @Test
-    public void testNotFound() throws Exception {
+    public void testBudgetNotFound() throws Exception {
         when(budgetService.getBudget()).thenThrow(NotFoundException.class);
 
         mockMvc.perform(get("/v1/budgets/{id}", UUID.randomUUID().toString())

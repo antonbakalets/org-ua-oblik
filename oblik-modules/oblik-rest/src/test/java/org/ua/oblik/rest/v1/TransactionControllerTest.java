@@ -9,6 +9,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.ua.oblik.rest.v1.convert.TransactionConverter;
+import org.ua.oblik.rest.v1.convert.TransactionResourceAssembler;
 import org.ua.oblik.service.NotFoundException;
 import org.ua.oblik.service.TransactionService;
 
@@ -34,6 +36,9 @@ public class TransactionControllerTest {
 
     @Before
     public void setUp() {
+        transactionController.setTransactionResourceAssembler(new TransactionResourceAssembler());
+        transactionController.setTransactionConverter(new TransactionConverter());
+
         mockMvc = MockMvcBuilders.standaloneSetup(transactionController)
                 .setControllerAdvice(new ExceptionHandlingControllerAdvice())
                 .alwaysDo(print())
@@ -41,7 +46,7 @@ public class TransactionControllerTest {
     }
 
     @Test
-    public void testDeleteTransactionNoContent() throws Exception {
+    public void testTransactionDeleteNoContent() throws Exception {
         mockMvc.perform(delete(v1BaseUrl + "/transactions/{id}", 1)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON))
@@ -51,7 +56,7 @@ public class TransactionControllerTest {
     }
 
     @Test
-    public void testDeleteTransactionGone() throws Exception {
+    public void testTransactionDeleteNotFound() throws Exception {
         doThrow(new NotFoundException("Invocation from test.")).when(transactionService).delete(any());
 
         mockMvc.perform(delete(v1BaseUrl + "/transactions/{id}", 1)

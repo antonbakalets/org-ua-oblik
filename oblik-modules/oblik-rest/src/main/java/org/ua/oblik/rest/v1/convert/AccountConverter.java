@@ -15,6 +15,7 @@ public class AccountConverter implements Converter<AccountResource, AccountVO> {
         vo.setCurrencyId(resource.getCurrencyId());
         vo.setName(resource.getName());
         vo.setType(AccountVOType.valueOf(resource.getType()));
+        vo.setCurrencyId(resource.getCurrencyId());
         return vo;
     }
 }

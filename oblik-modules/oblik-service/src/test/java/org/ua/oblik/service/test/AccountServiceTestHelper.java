@@ -3,8 +3,14 @@ package org.ua.oblik.service.test;
 import java.math.BigDecimal;
 import java.util.EnumMap;
 import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.ua.oblik.service.AccountService;
+import org.ua.oblik.service.AccountServiceTest;
+import org.ua.oblik.service.BusinessConstraintException;
+import org.ua.oblik.service.NotFoundException;
 import org.ua.oblik.service.beans.AccountVO;
 import org.ua.oblik.service.beans.AccountVOType;
 import org.ua.oblik.service.beans.CurrencyVO;
@@ -14,6 +20,8 @@ import org.ua.oblik.service.beans.CurrencyVO;
  * @author Anton Bakalets
  */
 public class AccountServiceTestHelper {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AccountServiceTestHelper.class);
 
     @Autowired
     private AccountService accountService;
@@ -35,7 +43,11 @@ public class AccountServiceTestHelper {
     
     private AccountVO createAndSaveAccount(DefinedAccount definedAccount) {
         AccountVO account = createAccount(definedAccount);
-        accountService.save(account);
+        try {
+            accountService.save(account);
+        } catch (Exception e) {
+            LOGGER.debug("Ignoring.", e);
+        }
         return account;
     }
 

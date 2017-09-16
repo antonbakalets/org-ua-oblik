@@ -7,6 +7,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.ua.oblik.rest.v1.convert.AccountConverter;
@@ -16,6 +17,7 @@ import org.ua.oblik.service.AccountService;
 import org.ua.oblik.service.BusinessConstraintException;
 import org.ua.oblik.service.NotFoundException;
 import org.ua.oblik.service.beans.AccountCriteria;
+import org.ua.oblik.service.beans.AccountVO;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -62,6 +64,33 @@ public class AccountController {
         return accountService.getAccounts(accountCriteria).stream()
                 .map(accountResourceAssembler::toResource)
                 .collect(Collectors.toList());
+    }
+
+    @ApiOperation(value = "Create account", notes = "Create a new account of defined type.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Account created.", response = AccountResource.class)
+    })
+    @PostMapping("/accounts")
+    public ResponseEntity<AccountResource> postAccount(@PathVariable UUID budgetId,
+                @RequestBody AccountResource account) throws NotFoundException, BusinessConstraintException {
+        AccountVO saved = accountConverter.convert(account);
+        accountService.save(saved);
+        ControllerLinkBuilder uriBuilder = linkTo(AccountController.class, budgetId).slash(saved.getAccountId());
+        return ResponseEntity.created(uriBuilder.toUri())
+                .body(accountResourceAssembler.toResource(saved));
+    }
+
+    @ApiOperation(value = "Update account", notes = "Update an existing account.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Account updated.", response = AccountResource.class)
+    })
+    @PatchMapping("/accounts/{id}")
+    public ResponseEntity<AccountResource> patchAccount(@PathVariable UUID budgetId, @PathVariable Integer id,
+                @RequestBody AccountResource dto) throws NotFoundException, BusinessConstraintException {
+        AccountVO accountVO = accountConverter.convert(dto);
+        accountVO.setAccountId(id);
+        accountService.save(accountVO);
+        return ResponseEntity.ok(accountResourceAssembler.toResource(accountVO));
     }
 
     @ApiOperation(value = "Delete account", notes = "Delete account if exists and is not used.")

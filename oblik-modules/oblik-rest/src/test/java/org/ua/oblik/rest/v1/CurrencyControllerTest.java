@@ -9,11 +9,13 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.ua.oblik.domain.model.Currency;
 import org.ua.oblik.rest.v1.convert.CurrencyConverter;
 import org.ua.oblik.rest.v1.convert.CurrencyResourceAssembler;
 import org.ua.oblik.service.BusinessConstraintException;
 import org.ua.oblik.service.CurrencyService;
 import org.ua.oblik.service.NotFoundException;
+import org.ua.oblik.service.beans.AccountVO;
 import org.ua.oblik.service.beans.CurrencyVO;
 
 import java.math.BigDecimal;
@@ -73,9 +75,10 @@ public class CurrencyControllerTest {
 
     @Test
     public void testCurrencyPost() throws Exception {
-        CurrencyVO currencyVO = new CurrencyVO();
-        currencyVO.setCurrencyId(55);
-        when(currencyService.save(any(CurrencyVO.class))).thenReturn(currencyVO);
+        doAnswer(invocation -> {
+            invocation.getArgumentAt(0, CurrencyVO.class).setCurrencyId(165);
+            return null;
+        }).when(currencyService).save(any(CurrencyVO.class));
 
         mockMvc.perform(post(v1BaseUrl + "/currencies")
                 .content("{}")
@@ -87,11 +90,20 @@ public class CurrencyControllerTest {
     }
 
     @Test
-    public void testCurrencyPatch() throws Exception {
-        CurrencyVO currencyVO = new CurrencyVO();
-        currencyVO.setCurrencyId(55);
-        when(currencyService.save(any(CurrencyVO.class))).thenReturn(currencyVO);
+    public void testCurrencyPostInvalid() throws Exception {
+        doThrow(BusinessConstraintException.class).when(currencyService).save(any(CurrencyVO.class));
 
+        mockMvc.perform(post(v1BaseUrl + "/currencies")
+                .content("{}")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+
+        verify(currencyService, times(1)).save(any(CurrencyVO.class));
+    }
+
+    @Test
+    public void testCurrencyPatch() throws Exception {
         mockMvc.perform(patch(v1BaseUrl + "/currencies/{id}", 1)
                 .content("{}")
                 .accept(MediaType.APPLICATION_JSON)
@@ -102,7 +114,33 @@ public class CurrencyControllerTest {
     }
 
     @Test
-    public void testDeleteCurrencyNoContent() throws Exception {
+    public void testCurrencyPatchInvalid() throws Exception {
+        doThrow(BusinessConstraintException.class).when(currencyService).save(any(CurrencyVO.class));
+
+        mockMvc.perform(patch(v1BaseUrl + "/currencies/{id}", 1)
+                .content("{}")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+
+        verify(currencyService, times(1)).save(any(CurrencyVO.class));
+    }
+
+    @Test
+    public void testCurrencyPatchNotFound() throws Exception {
+        doThrow(NotFoundException.class).when(currencyService).save(any(CurrencyVO.class));
+
+        mockMvc.perform(patch(v1BaseUrl + "/currencies/{id}", 1)
+                .content("{}")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+
+        verify(currencyService, times(1)).save(any(CurrencyVO.class));
+    }
+
+    @Test
+    public void testCurrencyDeleteNoContent() throws Exception {
         mockMvc.perform(delete(v1BaseUrl + "/currencies/{id}", 55)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON))
@@ -112,7 +150,7 @@ public class CurrencyControllerTest {
     }
 
     @Test
-    public void testDeleteCurrencyBadRequest() throws Exception {
+    public void testCurrencyDeleteBadRequest() throws Exception {
         doThrow(new BusinessConstraintException("Invocation from test.")).when(currencyService).remove(any());
 
         mockMvc.perform(delete(v1BaseUrl + "/currencies/{id}", 1)
@@ -121,7 +159,7 @@ public class CurrencyControllerTest {
     }
 
     @Test
-    public void testDeleteCurrencyGone() throws Exception {
+    public void testCurrencyDeleteNotFound() throws Exception {
         doThrow(new NotFoundException("Invocation from test.")).when(currencyService).remove(any());
 
         mockMvc.perform(delete(v1BaseUrl + "/currencies/{id}", 1)

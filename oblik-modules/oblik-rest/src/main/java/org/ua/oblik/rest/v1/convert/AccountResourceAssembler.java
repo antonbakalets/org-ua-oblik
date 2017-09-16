@@ -20,6 +20,7 @@ public class AccountResourceAssembler extends ResourceAssemblerSupport<AccountVO
         resource.setType(entity.getType().toString());
         resource.setSymbol(entity.getCurrencySymbol());
         resource.setAmount(entity.getAmount());
+        resource.setCurrencyId(entity.getCurrencyId());
         return resource;
     }
 

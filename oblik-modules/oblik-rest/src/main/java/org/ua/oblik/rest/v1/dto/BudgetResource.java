@@ -4,7 +4,7 @@ import org.springframework.hateoas.ResourceSupport;
 
 import java.math.BigDecimal;
 
-public class BudgetDto extends ResourceSupport {
+public class BudgetResource extends ResourceSupport {
 
     private String name;
     private BigDecimal total;

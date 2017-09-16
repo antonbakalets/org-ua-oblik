@@ -51,8 +51,8 @@ public class CurrencyController {
     @PostMapping
     public ResponseEntity<CurrencyResource> postCurrency(@PathVariable UUID budgetId,
                                                          @RequestBody CurrencyResource currency) throws NotFoundException, BusinessConstraintException {
-        CurrencyVO saved = currencyService.save(
-                currencyConverter.convert(currency));
+        CurrencyVO saved = currencyConverter.convert(currency);
+        currencyService.save(saved);
         ControllerLinkBuilder uriBuilder = linkTo(CurrencyController.class, budgetId).slash(saved.getCurrencyId());
         return ResponseEntity.created(uriBuilder.toUri())
                 .body(currencyResourceAssembler.toResource(saved));
@@ -67,8 +67,8 @@ public class CurrencyController {
                                                           @RequestBody CurrencyResource dto) throws NotFoundException, BusinessConstraintException {
         CurrencyVO currencyVO = currencyConverter.convert(dto);
         currencyVO.setCurrencyId(id);
-        CurrencyVO saved = currencyService.save(currencyVO);
-        return ResponseEntity.ok(currencyResourceAssembler.toResource(saved));
+        currencyService.save(currencyVO);
+        return ResponseEntity.ok(currencyResourceAssembler.toResource(currencyVO));
     }
 
     @ApiOperation(value = "Delete currency", notes = "Delete currency if exists and is not used.")

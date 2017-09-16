@@ -15,6 +15,8 @@ import org.ua.oblik.controllers.beans.AccountBean;
 import org.ua.oblik.controllers.beans.AccountOption;
 import org.ua.oblik.controllers.utils.ValidationErrorLoger;
 import org.ua.oblik.controllers.validators.AccountValidator;
+import org.ua.oblik.service.BusinessConstraintException;
+import org.ua.oblik.service.NotFoundException;
 import org.ua.oblik.service.beans.AccountVOType;
 
 import java.util.List;
@@ -74,7 +76,7 @@ public class AccountController {
     @RequestMapping(value = "/account/edit", method = RequestMethod.POST)
     public String saveAccount(final Model model,
             @ModelAttribute(ACCOUNT_BEAN) @Valid final AccountBean accountBean,
-            final BindingResult bindingResult) {
+            final BindingResult bindingResult) throws NotFoundException, BusinessConstraintException {
         LOGGER.debug("Saving account, id: {}.", accountBean.getAccountId());
         accountValidator.validate(accountBean, bindingResult);
         if (bindingResult.hasErrors()) {
@@ -104,7 +106,7 @@ public class AccountController {
     @RequestMapping("/account/options")
     @ResponseBody
     public List<AccountOption> list(
-            @RequestParam(value = "type", required = true) final AccountVOType type,
+            @RequestParam(value = "type") final AccountVOType type,
             @RequestParam(value = "currency", required = false) final Integer currency) {
         return accountFacade.getAccountOptions(type, currency);
     }

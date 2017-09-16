@@ -59,7 +59,7 @@ class AccountFacade extends AbstractHelper {
         return accountBean;
     }
 
-    void save(AccountBean accountBean) {
+    void save(AccountBean accountBean) throws NotFoundException, BusinessConstraintException {
         AccountVO avo = convert(accountBean);
         if (avo.getType() == null) {
             avo.setType(AccountVOType.ASSETS);
