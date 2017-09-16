@@ -4,7 +4,8 @@ import org.springframework.hateoas.ResourceSupport;
 
 import java.math.BigDecimal;
 
-public class CurrencyDto extends ResourceSupport {
+public class CurrencyResource extends ResourceSupport {
+
     private Integer currencyId;
     private boolean defaultRate;
     private String symbol;

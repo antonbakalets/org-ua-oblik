@@ -40,7 +40,7 @@ class CurrencyFacade extends AbstractHelper {
         return convert(result);
     }
 
-    public void save(CurrencyEditBean currencyEditBean) {
+    public void save(CurrencyEditBean currencyEditBean) throws NotFoundException, BusinessConstraintException {
         CurrencyVO cvo = convert(currencyEditBean);
         currencyService.save(cvo);
     }

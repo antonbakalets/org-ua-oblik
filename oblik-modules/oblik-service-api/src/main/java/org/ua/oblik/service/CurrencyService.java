@@ -12,7 +12,7 @@ public interface CurrencyService {
 
     CurrencyVO getDefaultCurrency();
 
-    void save(CurrencyVO cvo);
+    CurrencyVO save(CurrencyVO cvo) throws NotFoundException, BusinessConstraintException;
 
     List<CurrencyVO> getCurrencies();
 

@@ -2,6 +2,7 @@ package org.ua.oblik.service.beans;
 
 import java.math.BigDecimal;
 import java.util.Objects;
+import java.util.UUID;
 
 public class CurrencyVO {
 
@@ -80,5 +81,9 @@ public class CurrencyVO {
     @Override
     public String toString() {
         return "CurrencyVO{" + "currencyId=" + currencyId + ", rate=" + rate + ", symbol=" + symbol + '}';
+    }
+
+    public UUID getBudgetId() {
+        return UUID.randomUUID();
     }
 }

@@ -23,6 +23,8 @@ import org.ua.oblik.controllers.beans.CurrencyEditBean;
 import org.ua.oblik.controllers.beans.CurrencyListBean;
 import org.ua.oblik.controllers.utils.ValidationErrorLoger;
 import org.ua.oblik.controllers.validators.CurrencyValidator;
+import org.ua.oblik.service.BusinessConstraintException;
+import org.ua.oblik.service.NotFoundException;
 
 /**
  *
@@ -72,7 +74,7 @@ public class CurrencyController {
     @RequestMapping(value = "/currency/edit", method = RequestMethod.POST)
     public String saveCurrency(final HttpSession session,
             @ModelAttribute(CURRENCY_BEAN) @Valid final CurrencyEditBean currencyEditBean,
-            final BindingResult bindingResult) {
+            final BindingResult bindingResult) throws NotFoundException, BusinessConstraintException {
         LOGGER.debug("Saving currency, id: {}.", currencyEditBean.getCurrencyId());
         if ((Boolean) session.getAttribute(SAVING_DEFAULT_CURRENCY)) {
             currencyEditBean.setDefaultRate(Boolean.TRUE);

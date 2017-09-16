@@ -27,15 +27,15 @@ public class CurrencyServiceImpl implements CurrencyService {
 
     @Override
     @Transactional
-    public void save(CurrencyVO cvo) {
+    public CurrencyVO save(CurrencyVO cvo) {
         if (cvo.getCurrencyId() == null) {
-            insert(cvo);
+            return insert(cvo);
         } else {
-            update(cvo);
+            return update(cvo);
         }
     }
 
-    private void insert(CurrencyVO cvo) {
+    private CurrencyVO insert(CurrencyVO cvo) {
         Currency currency = entitiesFactory.createCurrencyEntity();
         currency.setSymbol(cvo.getSymbol());
         if (isDefaultExists()) {
@@ -49,13 +49,16 @@ public class CurrencyServiceImpl implements CurrencyService {
         }
         currencyDao.insert(currency);
         cvo.setCurrencyId(currency.getId());
+        cvo.setDefaultRate(currency.getByDefault());
+        return cvo;
     }
 
-    private void update(CurrencyVO cvo) {
+    private CurrencyVO update(CurrencyVO cvo) {
         LOGGER.debug("Updating currency, symbol: {}.", cvo.getSymbol());
         Currency currency = currencyDao.select(cvo.getCurrencyId());
         currency.setRate(cvo.getRate());
         currency.setSymbol(cvo.getSymbol());
+        return cvo;
     }
 
     @Override

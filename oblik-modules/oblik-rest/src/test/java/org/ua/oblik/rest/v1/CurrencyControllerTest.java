@@ -9,6 +9,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.ua.oblik.rest.v1.convert.CurrencyResourceAssembler;
 import org.ua.oblik.service.BusinessConstraintException;
 import org.ua.oblik.service.CurrencyService;
 import org.ua.oblik.service.NotFoundException;
@@ -39,6 +40,8 @@ public class CurrencyControllerTest {
 
     @Before
     public void setUp() {
+        currencyController.setCurrencyResourceAssembler(new CurrencyResourceAssembler());
+
         mockMvc = MockMvcBuilders.standaloneSetup(currencyController)
                 .setControllerAdvice(new ExceptionHandlingControllerAdvice())
                 .alwaysDo(print())
@@ -68,35 +71,42 @@ public class CurrencyControllerTest {
 
     @Test
     public void testCurrencyPost() throws Exception {
+        CurrencyVO currencyVO = new CurrencyVO();
+        currencyVO.setCurrencyId(55);
+        when(currencyService.save(any(CurrencyVO.class))).thenReturn(currencyVO);
+
         mockMvc.perform(post(v1BaseUrl + "/currencies")
                 .content("{}")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
 
         verify(currencyService, times(1)).save(any(CurrencyVO.class));
     }
 
     @Test
     public void testCurrencyPatch() throws Exception {
+        CurrencyVO currencyVO = new CurrencyVO();
+        currencyVO.setCurrencyId(55);
+        when(currencyService.save(any(CurrencyVO.class))).thenReturn(currencyVO);
+
         mockMvc.perform(patch(v1BaseUrl + "/currencies/{id}", 1)
                 .content("{}")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
-        verify(currencyService, times(1)).getCurrency(eq(1));
         verify(currencyService, times(1)).save(any(CurrencyVO.class));
     }
 
     @Test
     public void testDeleteCurrencyNoContent() throws Exception {
-        mockMvc.perform(delete(v1BaseUrl + "/currencies/{id}", 1)
+        mockMvc.perform(delete(v1BaseUrl + "/currencies/{id}", 55)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
 
-        verify(currencyService, times(1)).remove(eq(1));
+        verify(currencyService, times(1)).remove(eq(55));
     }
 
     @Test
