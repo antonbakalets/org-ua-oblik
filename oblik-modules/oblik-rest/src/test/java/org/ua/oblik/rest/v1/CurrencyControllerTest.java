@@ -40,6 +40,7 @@ public class CurrencyControllerTest {
     @Before
     public void setUp() {
         mockMvc = MockMvcBuilders.standaloneSetup(currencyController)
+                .setControllerAdvice(new ExceptionHandlingControllerAdvice())
                 .alwaysDo(print())
                 .build();
     }

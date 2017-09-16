@@ -4,7 +4,6 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.ua.oblik.rest.v1.dto.CurrencyDto;
@@ -68,17 +67,10 @@ public class CurrencyController {
             @ApiResponse(code = 410, message = "Cannot find currency by id.", response = Integer.class)})
     @DeleteMapping("/{id}")
     @ResponseBody
-    public ResponseEntity<Integer> deleteCurrency(@PathVariable UUID budgetId, @PathVariable Integer id) {
-        ResponseEntity<Integer> responseEntity;
-        try {
-            currencyService.remove(id);
-            responseEntity = ResponseEntity.noContent().build(); // 204
-        } catch (BusinessConstraintException e) {
-            responseEntity = ResponseEntity.badRequest().body(id); // 400
-        } catch (NotFoundException e) {
-            responseEntity = ResponseEntity.status(HttpStatus.GONE).body(id); // 410
-        }
-        return responseEntity;
+    public ResponseEntity<Integer> deleteCurrency(@PathVariable UUID budgetId,
+                                                  @PathVariable Integer id) throws NotFoundException, BusinessConstraintException {
+        currencyService.remove(id);
+        return ResponseEntity.noContent().build();
     }
 
     @Autowired

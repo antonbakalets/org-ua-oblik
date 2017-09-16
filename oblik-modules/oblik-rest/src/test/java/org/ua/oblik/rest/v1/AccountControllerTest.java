@@ -1,16 +1,5 @@
 package org.ua.oblik.rest.v1;
 
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.util.UUID;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,6 +12,14 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.ua.oblik.service.AccountService;
 import org.ua.oblik.service.BusinessConstraintException;
 import org.ua.oblik.service.NotFoundException;
+
+import java.util.UUID;
+
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AccountControllerTest {
@@ -39,6 +36,7 @@ public class AccountControllerTest {
     @Before
     public void setUp() {
         mockMvc = MockMvcBuilders.standaloneSetup(accountController)
+                .setControllerAdvice(new ExceptionHandlingControllerAdvice())
                 .alwaysDo(print())
                 .build();
     }
