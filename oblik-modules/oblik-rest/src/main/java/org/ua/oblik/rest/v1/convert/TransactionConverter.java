@@ -1,8 +1,5 @@
 package org.ua.oblik.rest.v1.convert;
 
-import java.time.ZoneId;
-import java.util.Date;
-
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import org.ua.oblik.rest.v1.dto.TransactionResource;
@@ -16,7 +13,7 @@ public class TransactionConverter implements Converter<TransactionResource, Tran
     public TransactionVO convert(TransactionResource resource) {
         TransactionVO vo = new TransactionVO();
         vo.setType(TransactionType.valueOf(resource.getType()));
-        vo.setDate(Date.from(resource.getDate().atZone(ZoneId.systemDefault()).toInstant()));
+        vo.setDate(resource.getDate());
         vo.setFirstAccount(resource.getFirstAccount());
         vo.setFirstAmount(resource.getFirstAmount());
         vo.setSecondAccount(resource.getSecondAccount());

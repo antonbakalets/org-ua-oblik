@@ -1,14 +1,14 @@
 package org.ua.oblik.rest.v1.dto;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-
 import org.springframework.hateoas.ResourceSupport;
+
+import java.math.BigDecimal;
+import java.util.Date;
 
 public class TransactionResource extends ResourceSupport {
 
     private String type;
-    private LocalDateTime date;
+    private Date date;
     private Integer firstAccount;
     private BigDecimal firstAmount;
     private Integer secondAccount;
@@ -23,11 +23,11 @@ public class TransactionResource extends ResourceSupport {
         this.type = type;
     }
 
-    public LocalDateTime getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(LocalDateTime date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 

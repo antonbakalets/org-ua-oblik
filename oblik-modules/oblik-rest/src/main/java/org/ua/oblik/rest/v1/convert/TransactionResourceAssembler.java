@@ -1,8 +1,5 @@
 package org.ua.oblik.rest.v1.convert;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-
 import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
 import org.springframework.stereotype.Component;
 import org.ua.oblik.rest.v1.TransactionController;
@@ -20,7 +17,7 @@ public class TransactionResourceAssembler extends ResourceAssemblerSupport<Trans
     protected TransactionResource instantiateResource(TransactionVO entity) {
         TransactionResource resource = new TransactionResource();
         resource.setType(entity.getType().toString());
-        resource.setDate(LocalDateTime.ofInstant(entity.getDate().toInstant(), ZoneId.systemDefault()));
+        resource.setDate(entity.getDate());
         resource.setFirstAccount(entity.getFirstAccount());
         resource.setFirstAmount(entity.getFirstAmount());
         resource.setSecondAccount(entity.getSecondAccount());

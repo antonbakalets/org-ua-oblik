@@ -1,21 +1,27 @@
 package org.ua.oblik.rest.v1;
 
-import java.util.UUID;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.ua.oblik.rest.v1.convert.TransactionConverter;
-import org.ua.oblik.rest.v1.convert.TransactionResourceAssembler;
-import org.ua.oblik.service.NotFoundException;
-import org.ua.oblik.service.TransactionService;
-
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.mvc.ControllerLinkBuilder;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.ua.oblik.rest.v1.convert.TransactionConverter;
+import org.ua.oblik.rest.v1.convert.TransactionResourceAssembler;
+import org.ua.oblik.rest.v1.dto.TransactionResource;
+import org.ua.oblik.service.BusinessConstraintException;
+import org.ua.oblik.service.NotFoundException;
+import org.ua.oblik.service.TransactionService;
+import org.ua.oblik.service.beans.TransactionVO;
+
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
 @RestController
 @RequestMapping("/v1/budgets/{budgetId}/transactions")
@@ -26,6 +32,48 @@ public class TransactionController {
     private TransactionResourceAssembler transactionResourceAssembler;
 
     private TransactionConverter transactionConverter;
+
+    @ApiOperation(value = "List transactions", notes = "List all transactions.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Currencies.", response = List.class)
+    })
+    @GetMapping
+    public ResponseEntity<List<TransactionResource>> getTransactions(@PathVariable UUID budgetId,
+                                                                     @RequestParam Optional<Date> date) {
+        Date month = date.orElseGet(Date::new);
+        List<TransactionResource> list = transactionService.getTransactions(month).stream()
+                .map(transactionResourceAssembler::toResource)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok().body(list);
+    }
+
+    @ApiOperation(value = "Create transaction", notes = "Create a new transaction.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Transaction created.", response = TransactionResource.class)
+    })
+    @PostMapping
+    public ResponseEntity<TransactionResource> postTransaction(@PathVariable UUID budgetId,
+                @RequestBody TransactionResource transaction) throws NotFoundException, BusinessConstraintException {
+        TransactionVO saved = transactionConverter.convert(transaction);
+        transactionService.save(saved);
+        ControllerLinkBuilder uriBuilder = linkTo(TransactionController.class, budgetId).slash(saved.getTxId());
+        return ResponseEntity.created(uriBuilder.toUri())
+                .body(transactionResourceAssembler.toResource(saved));
+    }
+
+    @ApiOperation(value = "Update transaction", notes = "Update an existing transaction.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Transaction updated.", response = TransactionResource.class)
+    })
+    @PatchMapping("/{id}")
+    public ResponseEntity<TransactionResource> patchTransaction(@PathVariable UUID budgetId, @PathVariable Integer id,
+                                                          @RequestBody TransactionResource dto) throws NotFoundException, BusinessConstraintException {
+        TransactionVO transactionVO = transactionConverter.convert(dto);
+        transactionVO.setTxId(id);
+        transactionService.save(transactionVO);
+        return ResponseEntity.ok(transactionResourceAssembler.toResource(transactionVO));
+    }
+
 
     @ApiOperation(value = "Delete transaction", notes = "Delete transaction if exists and is not used.")
     @ApiResponses(value = {
