@@ -1,8 +1,5 @@
 package org.ua.oblik.service;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -10,6 +7,9 @@ import org.slf4j.LoggerFactory;
 import org.ua.oblik.service.beans.TransactionType;
 import org.ua.oblik.service.beans.TransactionVO;
 import org.ua.oblik.service.test.DefinedAccount;
+
+import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  *
@@ -459,7 +459,7 @@ public class TransactionServiceTest extends BaseTransactionServiceTest {
         final BigDecimal cashBefore = totalByAccount(DefinedAccount.UGH_CASH);
                 
         transactionService.delete(incomeTx.getTxId());
-        Assert.assertTrue(!transactionService.getTransactions().contains(incomeTx));
+        Assert.assertTrue(!transactionService.getTransactions(incomeTx.getDate()).contains(incomeTx));
         
         final BigDecimal ughAfter = totalByCurrency(DefinedAccount.UGH_CASH);
         Assert.assertEquals("Невідповідність у кількості гривні.", ughAfter, ughBefore.subtract(diff));
@@ -488,7 +488,7 @@ public class TransactionServiceTest extends BaseTransactionServiceTest {
         final BigDecimal cashBefore = totalByAccount(DefinedAccount.UGH_CASH);
         
         transactionService.delete(expenseTx.getTxId());
-        Assert.assertTrue(!transactionService.getTransactions().contains(expenseTx));
+        Assert.assertTrue(!transactionService.getTransactions(expenseTx.getDate()).contains(expenseTx));
         
         final BigDecimal ughAfter = totalByCurrency(DefinedAccount.UGH_CASH);
         Assert.assertEquals("Невідповідність у кількості гривні.", ughAfter.compareTo(ughBefore.add(diff)), 0);
@@ -518,7 +518,7 @@ public class TransactionServiceTest extends BaseTransactionServiceTest {
         final BigDecimal cardBefore = totalByAccount(DefinedAccount.UGH_CARD);
         
         transactionService.delete(transferTx.getTxId());
-        Assert.assertTrue(!transactionService.getTransactions().contains(transferTx));
+        Assert.assertTrue(!transactionService.getTransactions(transferTx.getDate()).contains(transferTx));
 
         final BigDecimal ughAfter = totalByCurrency(DefinedAccount.UGH_CASH);
         Assert.assertEquals("Невідповідність у кількості гривні.", ughAfter, ughBefore); // transfer in same currency

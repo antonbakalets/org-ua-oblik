@@ -46,6 +46,11 @@ public class TransactionControllerTest {
     }
 
     @Test
+    public void testTransactionsGet() throws Exception {
+//        when(transactionService.getTransactions())
+    }
+
+    @Test
     public void testTransactionDeleteNoContent() throws Exception {
         mockMvc.perform(delete(v1BaseUrl + "/transactions/{id}", 1)
                 .accept(MediaType.APPLICATION_JSON)

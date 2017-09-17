@@ -1,8 +1,9 @@
 package org.ua.oblik.service;
 
+import org.ua.oblik.service.beans.TransactionVO;
+
 import java.util.Date;
 import java.util.List;
-import org.ua.oblik.service.beans.TransactionVO;
 
 /**
  *
@@ -15,8 +16,6 @@ public interface TransactionService {
     void delete(Integer transactionId) throws NotFoundException;
 
     TransactionVO getTransaction(Integer transactionId);
-
-    List<TransactionVO> getTransactions();
 
     List<TransactionVO> getTransactions(Date date);
 }

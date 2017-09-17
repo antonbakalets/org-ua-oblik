@@ -1,9 +1,5 @@
 package org.ua.oblik.service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +13,10 @@ import org.ua.oblik.domain.model.Txaction;
 import org.ua.oblik.service.beans.TransactionType;
 import org.ua.oblik.service.beans.TransactionVO;
 import org.ua.oblik.service.command.TransactionCommandFactory;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -60,11 +60,6 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public TransactionVO getTransaction(Integer transactionId) {
         return convert(txactionDao.select(transactionId));
-    }
-
-    @Override
-    public List<TransactionVO> getTransactions() {
-        return convert(txactionDao.selectAll());
     }
 
     @Override
