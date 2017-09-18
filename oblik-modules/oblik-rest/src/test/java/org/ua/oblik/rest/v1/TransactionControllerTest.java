@@ -1,7 +1,24 @@
 package org.ua.oblik.rest.v1;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.UUID;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,16 +36,8 @@ import org.ua.oblik.service.TransactionService;
 import org.ua.oblik.service.beans.TransactionType;
 import org.ua.oblik.service.beans.TransactionVO;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.UUID;
-
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TransactionControllerTest {
@@ -65,14 +74,14 @@ public class TransactionControllerTest {
                 .andExpect(status().isOk());
     }
 
-//  TODO   @Test
+    @Test
     public void testTransactionsGet() throws Exception {
         doReturn(Arrays.asList(
                 createTransaction(1), createTransaction(1)
         )).when(transactionService).getTransactions(any(Date.class));
 
         mockMvc.perform(get(v1BaseUrl + "/transactions")
-                .param("date", "1505677811096")
+                .param("date", "092017")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());

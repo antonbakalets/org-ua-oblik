@@ -1,12 +1,25 @@
 package org.ua.oblik.rest.v1;
 
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.ua.oblik.rest.v1.convert.TransactionConverter;
 import org.ua.oblik.rest.v1.convert.TransactionResourceAssembler;
 import org.ua.oblik.rest.v1.dto.TransactionResource;
@@ -15,13 +28,9 @@ import org.ua.oblik.service.NotFoundException;
 import org.ua.oblik.service.TransactionService;
 import org.ua.oblik.service.beans.TransactionVO;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.stream.Collectors;
-
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping("/v1/budgets/{budgetId}/transactions")
@@ -39,8 +48,8 @@ public class TransactionController {
     })
     @GetMapping
     public ResponseEntity<List<TransactionResource>> getTransactions(@PathVariable UUID budgetId,
-                                                                     @RequestParam Optional<Date> date) {
-        Date month = date.orElseGet(Date::new);
+                @RequestParam(required = false) @DateTimeFormat(pattern = "MMyyyy") Date date) {
+        Date month = date == null ? new Date() : date;
         List<TransactionResource> list = transactionService.getTransactions(month).stream()
                 .map(transactionResourceAssembler::toResource)
                 .collect(Collectors.toList());

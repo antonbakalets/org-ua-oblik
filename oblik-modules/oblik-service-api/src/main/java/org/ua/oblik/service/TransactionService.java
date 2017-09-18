@@ -1,9 +1,9 @@
 package org.ua.oblik.service;
 
-import org.ua.oblik.service.beans.TransactionVO;
-
 import java.util.Date;
 import java.util.List;
+
+import org.ua.oblik.service.beans.TransactionVO;
 
 /**
  *
@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface TransactionService {
 
-    void save(TransactionVO tvo);
+    void save(TransactionVO tvo) throws NotFoundException, BusinessConstraintException;
 
     void delete(Integer transactionId) throws NotFoundException;
 

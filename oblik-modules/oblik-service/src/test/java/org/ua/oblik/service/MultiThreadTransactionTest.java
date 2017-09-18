@@ -48,7 +48,11 @@ public class MultiThreadTransactionTest extends BaseTransactionServiceTest {
             incomeTx.setSecondAccount(aH.accountId(DefinedAccount.UGH_CASH));
             incomeTx.setNote("Зарплата 125 грн. зарахована до готівки.");
             incomeTx.setType(TransactionType.INCOME);
-            transactionService.save(incomeTx);
+            try {
+                transactionService.save(incomeTx);
+            } catch (Exception e) {
+                LOGGER.debug("Ignored.", e);
+            }
 
             TransactionVO exchangeTx = new TransactionVO();
             exchangeTx.setDate(new Date());
@@ -60,7 +64,11 @@ public class MultiThreadTransactionTest extends BaseTransactionServiceTest {
             exchangeTx.setSecondAmount(secondDiff);
             exchangeTx.setNote("За 125 грн. готівкою куплено 2 дол. готівкою");
             exchangeTx.setType(TransactionType.TRANSFER);
-            transactionService.save(exchangeTx);
+            try {
+                transactionService.save(exchangeTx);
+            } catch (Exception e) {
+                LOGGER.debug("Ignored.", e);
+            }
 
             TransactionVO expenseTx = new TransactionVO();
             expenseTx.setDate(new Date());
@@ -70,7 +78,11 @@ public class MultiThreadTransactionTest extends BaseTransactionServiceTest {
             expenseTx.setSecondAccount(aH.accountId(DefinedAccount.EXPENSE_IN_DOLLAR));
             expenseTx.setNote("Витрата 2 долара на базарі.");
             expenseTx.setType(TransactionType.EXPENSE);
-            transactionService.save(expenseTx);
+            try {
+                transactionService.save(expenseTx);
+            } catch (Exception e) {
+                LOGGER.debug("Ignored.", e);
+            }
         }
     }
 }

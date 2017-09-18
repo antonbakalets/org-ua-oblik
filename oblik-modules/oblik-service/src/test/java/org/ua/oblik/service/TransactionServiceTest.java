@@ -1,5 +1,8 @@
 package org.ua.oblik.service;
 
+import java.math.BigDecimal;
+import java.util.Date;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -7,9 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.ua.oblik.service.beans.TransactionType;
 import org.ua.oblik.service.beans.TransactionVO;
 import org.ua.oblik.service.test.DefinedAccount;
-
-import java.math.BigDecimal;
-import java.util.Date;
 
 /**
  *
@@ -20,7 +20,7 @@ public class TransactionServiceTest extends BaseTransactionServiceTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(TransactionServiceTest.class);
 
     @Test
-    public void insertIncome() {
+    public void insertIncome() throws NotFoundException, BusinessConstraintException {
         LOGGER.debug("[TEST] insertIncome");
         defaultBefore();
         final BigDecimal ughBefore = totalByCurrency(DefinedAccount.UGH_CASH);
@@ -59,7 +59,7 @@ public class TransactionServiceTest extends BaseTransactionServiceTest {
     }*/
 
     @Test
-    public void insertExpense() {
+    public void insertExpense() throws NotFoundException, BusinessConstraintException {
         LOGGER.debug("[TEST] insertExpense");
         defaultBefore();
         
@@ -85,7 +85,7 @@ public class TransactionServiceTest extends BaseTransactionServiceTest {
     }
 
     @Test
-    public void insertTransfer() {
+    public void insertTransfer() throws NotFoundException, BusinessConstraintException {
         LOGGER.debug("[TEST] insertTransfer");
         defaultBefore();
         
@@ -114,7 +114,7 @@ public class TransactionServiceTest extends BaseTransactionServiceTest {
     }
 
     @Test
-    public void exchangeToDefault() {
+    public void exchangeToDefault() throws NotFoundException, BusinessConstraintException {
         LOGGER.debug("[TEST] exchangeToDefault");
         defaultBefore();
         
@@ -150,7 +150,7 @@ public class TransactionServiceTest extends BaseTransactionServiceTest {
     }
 
     @Test
-    public void exchangeFromDefault() {
+    public void exchangeFromDefault() throws NotFoundException, BusinessConstraintException {
         LOGGER.debug("[TEST] exchangeFromDefault");
         defaultBefore();
         
@@ -186,7 +186,7 @@ public class TransactionServiceTest extends BaseTransactionServiceTest {
     }
 
     @Test
-    public void crossExchange() {
+    public void crossExchange() throws NotFoundException, BusinessConstraintException {
         LOGGER.debug("[TEST] crossExchange");
         defaultBefore();
         
@@ -222,7 +222,7 @@ public class TransactionServiceTest extends BaseTransactionServiceTest {
     }
     
     @Test
-    public void editIncome() {
+    public void editIncome() throws NotFoundException, BusinessConstraintException {
         LOGGER.debug("[TEST] editIncome");
         
         defaultBefore();
@@ -252,7 +252,7 @@ public class TransactionServiceTest extends BaseTransactionServiceTest {
     }
     
     @Test
-    public void editIncomeAccountChange() {
+    public void editIncomeAccountChange() throws NotFoundException, BusinessConstraintException {
         LOGGER.debug("[TEST] editIncomeAccountChange");
         
         defaultBefore();
@@ -286,7 +286,7 @@ public class TransactionServiceTest extends BaseTransactionServiceTest {
     }
     
     @Test
-    public void editExpense() {
+    public void editExpense() throws NotFoundException, BusinessConstraintException {
         LOGGER.debug("[TEST] editExpense");
         defaultBefore();
         final BigDecimal ughBefore = totalByCurrency(DefinedAccount.UGH_CASH);
@@ -315,7 +315,7 @@ public class TransactionServiceTest extends BaseTransactionServiceTest {
     }
     
     @Test
-    public void editExpenseAccountChange() {
+    public void editExpenseAccountChange() throws NotFoundException, BusinessConstraintException {
         LOGGER.debug("[TEST] editExpenseAccountChange");
         defaultBefore();
         final BigDecimal ughBefore = totalByCurrency(DefinedAccount.UGH_CASH);
@@ -348,7 +348,7 @@ public class TransactionServiceTest extends BaseTransactionServiceTest {
     }
     
     @Test
-    public void editTransfer() {
+    public void editTransfer() throws NotFoundException, BusinessConstraintException {
         LOGGER.debug("[TEST] editTransfer");
         defaultBefore();
         
@@ -391,7 +391,7 @@ public class TransactionServiceTest extends BaseTransactionServiceTest {
     }
     
     @Test
-    public void editTransferAccountChange() {
+    public void editTransferAccountChange() throws NotFoundException, BusinessConstraintException {
         LOGGER.debug("[TEST] editTransferAccountChange");
         defaultBefore();
         
@@ -441,7 +441,7 @@ public class TransactionServiceTest extends BaseTransactionServiceTest {
     }
     
     @Test
-    public void deleteIncome() throws NotFoundException {
+    public void deleteIncome() throws NotFoundException, BusinessConstraintException {
         LOGGER.debug("[TEST] deleteIncome");
         
         TransactionVO incomeTx = new TransactionVO();
@@ -470,7 +470,7 @@ public class TransactionServiceTest extends BaseTransactionServiceTest {
     }
     
     @Test
-    public void deleteExpense() throws NotFoundException {
+    public void deleteExpense() throws NotFoundException, BusinessConstraintException {
         LOGGER.debug("[TEST] deleteExpense");
                 
         TransactionVO expenseTx = new TransactionVO();
@@ -499,7 +499,7 @@ public class TransactionServiceTest extends BaseTransactionServiceTest {
     }
     
     @Test
-    public void deleteTransfer() throws NotFoundException {
+    public void deleteTransfer() throws NotFoundException, BusinessConstraintException {
         LOGGER.debug("[TEST] deleteTransfer");
 
         TransactionVO transferTx = new TransactionVO();
