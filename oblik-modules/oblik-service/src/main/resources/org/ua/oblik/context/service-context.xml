@@ -8,7 +8,7 @@
         http://www.springframework.org/schema/task/spring-task-4.2.xsd">
 
     <task:scheduled-tasks>
-        <task:scheduled ref="reportService" method="sendWeekReport" cron="0 * * * * ?"/>
+        <task:scheduled ref="reportService" method="sendWeekReport" cron="0 1 8 * * MON"/>
     </task:scheduled-tasks>
 
     <bean id="accountService" class="org.ua.oblik.service.AccountServiceImpl"/>
@@ -23,15 +23,15 @@
 
 
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-        <property name="host" value="localhost" />
-        <property name="port" value="3025" />
-        <property name="username" value="noreply@localhost" />
-        <property name="password" value="noreply" />
+        <property name="host" value="host" />
+        <!--<property name="port" value="3025" />-->
+        <property name="username" value="username" />
+        <property name="password" value="password" />
 
         <property name="javaMailProperties">
             <props>
                 <prop key="mail.smtp.auth">false</prop>
-                <prop key="mail.smtp.starttls.enable">false</prop>
+                <!--<prop key="mail.smtp.starttls.enable">false</prop>-->
             </props>
         </property>
     </bean>

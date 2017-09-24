@@ -13,5 +13,5 @@ public interface UserLoginDao {
 
     Optional<UserLogin> loadUserLogin(String username);
 
-    List<? extends UserLogin> selectAll();
+    List<UserLogin> selectAll();
 }

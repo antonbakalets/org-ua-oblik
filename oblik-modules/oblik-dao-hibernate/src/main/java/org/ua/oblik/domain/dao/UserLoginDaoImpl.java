@@ -28,26 +28,18 @@ public class UserLoginDaoImpl extends AbstractDao<Integer, UserLogin, UserLoginE
 
     @Override
     public Optional<UserLogin> loadUserLogin(String username) {
-        final CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<UserLoginEntity> cq = cb.createQuery(UserLoginEntity.class);
         Root<UserLoginEntity> root = cq.from(UserLoginEntity.class);
         cq.select(root).where(cb.equal(cb.lower(root.get(UserLoginEntity_.username)), username.toLowerCase()));
-        UserLoginEntity loginEntity = null;
+        Optional<UserLogin> userLoginOptional;
         try {
-            loginEntity = getEntityManager().createQuery(cq).getSingleResult();
+            userLoginOptional = Optional.of(getEntityManager().createQuery(cq).getSingleResult());
         } catch (NoResultException nre) {
+            userLoginOptional = Optional.empty();
             LOGGER.trace("Could not find user by username.", nre);
             LOGGER.warn("Could not find user by username '{}'.", username);
         }
-        return Optional.ofNullable(loginEntity);
-    }
-
-    @Override
-    public List<? extends UserLogin> selectAll() {
-        final CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-        CriteriaQuery<UserLoginEntity> cq = cb.createQuery(UserLoginEntity.class);
-        Root<UserLoginEntity> root = cq.from(UserLoginEntity.class);
-        cq.select(root);
-        return getEntityManager().createQuery(cq).getResultList();
+        return userLoginOptional;
     }
 }
