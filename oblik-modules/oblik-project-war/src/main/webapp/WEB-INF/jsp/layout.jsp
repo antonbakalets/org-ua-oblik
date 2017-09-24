@@ -13,18 +13,22 @@
 
         <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,400,600&subset=latin,cyrillic-ext,cyrillic'/>
 
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/datepicker3.css" />
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/bootstrap.css" />
+        <link rel="stylesheet" type="text/css" href="https://unpkg.com/bootstrap-datepicker@1.7.1/dist/css/bootstrap-datepicker3.min.css" />
+        <link rel="stylesheet" type="text/css" href="https://unpkg.com/bootstrap@3.3.7/dist/css/bootstrap.min.css" />
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/default.css" />
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/normalize.css" />
 
-        <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-2.1.1.js"></script>
-        <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-ui-1.11.1.js"></script>
-        <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.form.js"></script>
-        <script type="text/javascript" src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
-        <script type="text/javascript" src="${pageContext.request.contextPath}/js/bootstrap-datepicker.js"></script>
+        <script type="text/javascript" src="https://unpkg.com/jquery@2.1.1/dist/jquery.min.js"></script>
+        <script type="text/javascript" src="https://unpkg.com/jquery-form@4.2.1/dist/jquery.form.min.js"></script>
+        <script type="text/javascript" src="https://unpkg.com/jquery-ui@1.12.1/ui/core.js"></script>
+        <script type="text/javascript" src="https://unpkg.com/jquery-ui@1.12.1/ui/effects.js"></script>
+        <script type="text/javascript" src="https://unpkg.com/jquery-ui@1.12.1/ui/form.js"></script>
+        <script type="text/javascript" src="https://unpkg.com/jquery-ui@1.12.1/ui/widget.js"></script>
+        <script type="text/javascript" src="https://unpkg.com/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="https://unpkg.com/bootstrap-datepicker@1.7.1/dist/js/bootstrap-datepicker.min.js"></script>
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/locales/bootstrap-datepicker.ua.js"></script>
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/bootstrap-confirmation.js"></script>
+
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/ineditable.js"></script>
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/calculable.js"></script>
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/uielems.js"></script>

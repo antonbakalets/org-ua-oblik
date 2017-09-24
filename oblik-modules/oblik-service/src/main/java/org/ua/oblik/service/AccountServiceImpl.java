@@ -39,7 +39,7 @@ public class AccountServiceImpl implements AccountService {
         if (selected == null) {
             final String message = "No account found with id " + accountId;
             LOGGER.error(message);
-            throw new EntityNotFoundException(message);
+            throw new UnsupportedOperationException("Exception handling not implemented yet: throw new NotFoundException(message).");
         } else {
             return convert(selected);
         }
@@ -69,7 +69,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     private void insert(AccountVO avo) {
-        LOGGER.debug("Saving new acoount, name: " + avo.getName());
+        LOGGER.debug("Saving new acoount, name: {}.", avo.getName());
         final Currency currency = currencyDao.select(avo.getCurrencyId());
         final Account account = entitiesFactory.createAccountEntity();
         account.setCurrency(currency);
@@ -82,7 +82,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     private void update(AccountVO avo) {
-        LOGGER.debug("Updating acoount, name: " + avo.getName());
+        LOGGER.debug("Updating acoount, name: {}", avo.getName());
         final Currency currency = currencyDao.select(avo.getCurrencyId());
         final Account account = accountDao.select(avo.getAccountId());
         account.setCurrency(currency);
@@ -122,8 +122,16 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     @Transactional
-    public void delete(Integer accountId) {
-        accountDao.delete(accountId);
+    public void delete(Integer accountId) throws NotFoundException, BusinessConstraintException {
+        if (accountDao.exists(accountId)) {
+            if (accountDao.isUsed(accountId)) {
+                throw new BusinessConstraintException("Account is used by transactions.");
+            }   else {
+                accountDao.delete(accountId);
+            }
+        } else {
+            throw new NotFoundException("Could not find account.");
+        }
     }
 
     @Override

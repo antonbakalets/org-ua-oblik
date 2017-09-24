@@ -3,6 +3,7 @@ package org.ua.oblik.domain.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -110,10 +111,7 @@ public class CurrencyEntity implements Serializable, Currency {
             return false;
         }
         CurrencyEntity other = (CurrencyEntity) object;
-        if ((this.currId == null && other.currId != null) || (this.currId != null && !this.currId.equals(other.currId))) {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.currId, other.currId);
     }
 
     @Override

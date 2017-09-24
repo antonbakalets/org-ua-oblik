@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *
  * @author Anton Bakalets
  */
 public class CurrencyServiceImpl implements CurrencyService {
@@ -40,20 +39,21 @@ public class CurrencyServiceImpl implements CurrencyService {
         Currency currency = entitiesFactory.createCurrencyEntity();
         currency.setSymbol(cvo.getSymbol());
         if (isDefaultExists()) {
-            LOGGER.debug("Saving new currency, symbol: " + cvo.getSymbol());
+            LOGGER.debug("Saving new currency, symbol: {}.", cvo.getSymbol());
             currency.setByDefault(false);
             currency.setRate(cvo.getRate());
         } else {
-            LOGGER.debug("Saving default currency, symbol: " + cvo.getSymbol());
+            LOGGER.debug("Saving default currency, symbol: {}.", cvo.getSymbol());
             currency.setByDefault(true);
             currency.setRate(BigDecimal.ONE);
         }
         currencyDao.insert(currency);
         cvo.setCurrencyId(currency.getId());
+        cvo.setDefaultRate(currency.getByDefault());
     }
 
     private void update(CurrencyVO cvo) {
-        LOGGER.debug("Updating currency, symbol: " + cvo.getSymbol());
+        LOGGER.debug("Updating currency, symbol: {}.", cvo.getSymbol());
         Currency currency = currencyDao.select(cvo.getCurrencyId());
         currency.setRate(cvo.getRate());
         currency.setSymbol(cvo.getSymbol());
@@ -87,9 +87,18 @@ public class CurrencyServiceImpl implements CurrencyService {
     }
 
     @Override
-    @Transactional
-    public void remove(Integer currencyId) {
-        currencyDao.delete(currencyId);
+    @Transactional(rollbackFor = {NotFoundException.class, BusinessConstraintException.class})
+    public void remove(Integer currencyId) throws NotFoundException, BusinessConstraintException {
+        Currency currency = currencyDao.select(currencyId);
+        if (currency != null) {
+            if (isRemovable(currency)) {
+                currencyDao.delete(currencyId);
+            } else {
+                throw new BusinessConstraintException("Cannot remove");
+            }
+        } else {
+            throw new NotFoundException("Currency not found.");
+        }
     }
 
     @Override
@@ -122,7 +131,7 @@ public class CurrencyServiceImpl implements CurrencyService {
     private boolean isRemovable(Currency model) {
         boolean defaultRate = model.getByDefault();
         boolean noAccounts = noAccounts(model.getId());
-        return noAccounts && (!defaultRate || (defaultRate && currencyDao.count() == 1));
+        return noAccounts && (!defaultRate || currencyDao.count() == 1);
     }
 
     private boolean noAccounts(Integer currencyId) {

@@ -1,6 +1,7 @@
 package org.ua.oblik.domain.model;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -118,10 +119,7 @@ public class UserLoginEntity implements Serializable, UserLogin {
             return false;
         }
         UserLoginEntity other = (UserLoginEntity) object;
-        if ((this.loginId == null && other.loginId != null) || (this.loginId != null && !this.loginId.equals(other.loginId))) {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.loginId, other.loginId);
     }
 
     @Override

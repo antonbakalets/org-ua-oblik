@@ -10,7 +10,9 @@ import org.ua.oblik.controllers.beans.AccountListBean;
 import org.ua.oblik.controllers.beans.AccountOption;
 import org.ua.oblik.controllers.beans.CurrencyOption;
 import org.ua.oblik.service.AccountService;
+import org.ua.oblik.service.BusinessConstraintException;
 import org.ua.oblik.service.CurrencyService;
+import org.ua.oblik.service.NotFoundException;
 import org.ua.oblik.service.beans.*;
 
 /**
@@ -57,7 +59,7 @@ class AccountFacade extends AbstractHelper {
         return accountBean;
     }
 
-    void save(AccountBean accountBean) {
+    void save(AccountBean accountBean) throws NotFoundException, BusinessConstraintException {
         AccountVO avo = convert(accountBean);
         if (avo.getType() == null) {
             avo.setType(AccountVOType.ASSETS);
@@ -65,7 +67,7 @@ class AccountFacade extends AbstractHelper {
         accountService.save(avo);
     }
 
-    void delete(Integer accountId) {
+    void delete(Integer accountId) throws NotFoundException, BusinessConstraintException {
         accountService.delete(accountId);
     }
 

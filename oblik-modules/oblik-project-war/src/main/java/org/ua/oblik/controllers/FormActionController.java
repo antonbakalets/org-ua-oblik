@@ -1,8 +1,9 @@
 package org.ua.oblik.controllers;
 
-import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
+
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,8 +19,14 @@ import org.ua.oblik.controllers.beans.FormActionBean;
 import org.ua.oblik.controllers.utils.ValidationErrorLoger;
 import org.ua.oblik.controllers.validators.FormActionValidator;
 import org.ua.oblik.service.AccountService;
+import org.ua.oblik.service.BusinessConstraintException;
+import org.ua.oblik.service.NotFoundException;
 import org.ua.oblik.service.TransactionService;
-import org.ua.oblik.service.beans.*;
+import org.ua.oblik.service.beans.AccountCriteria;
+import org.ua.oblik.service.beans.AccountVO;
+import org.ua.oblik.service.beans.TransactionFactory;
+import org.ua.oblik.service.beans.TransactionType;
+import org.ua.oblik.service.beans.TransactionVO;
 
 /**
  *
@@ -78,9 +85,9 @@ public class FormActionController {
     @RequestMapping(value = "/formaction", method = RequestMethod.POST)
     public String submitExpense(final Model model,
             @ModelAttribute("formActionBean") @Valid final FormActionBean bean,
-            final BindingResult bindingResult) {
+            final BindingResult bindingResult) throws NotFoundException, BusinessConstraintException {
         actionValidator.validate(bean, bindingResult);
-        LOGGER.debug("Saving action: " + bean.getType());
+        LOGGER.debug("Saving action: {}.", bean.getType());
         if (bindingResult.hasErrors()) {
             ValidationErrorLoger.debug(bindingResult);
         } else {

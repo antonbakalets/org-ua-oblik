@@ -1,14 +1,15 @@
 package org.ua.oblik.domain.model;
 
-import java.math.BigDecimal;
-
 import org.ua.oblik.domain.beans.AccountKind;
 import org.ua.oblik.domain.beans.Identifiable;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  *
  */
-public interface Account extends Identifiable<Integer> {
+public interface Account extends Identifiable<Integer>, Serializable {
 
     String getShortName();
 

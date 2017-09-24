@@ -2,10 +2,12 @@ package org.ua.oblik.domain.model;
 
 import org.ua.oblik.domain.beans.Identifiable;
 
+import java.io.Serializable;
+
 /**
  *
  */
-public interface UserLogin extends Identifiable<Integer> {
+public interface UserLogin extends Identifiable<Integer>, Serializable {
 
     String getUsername();
 

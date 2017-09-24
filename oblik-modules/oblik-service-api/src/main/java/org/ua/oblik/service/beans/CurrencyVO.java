@@ -1,11 +1,9 @@
 package org.ua.oblik.service.beans;
 
 import java.math.BigDecimal;
+import java.util.Objects;
+import java.util.UUID;
 
-/**
- *
- * @author Anton Bakalets
- */
 public class CurrencyVO {
 
     private Integer currencyId;
@@ -55,7 +53,7 @@ public class CurrencyVO {
         this.total = total;
     }
 
-    public boolean getRemovable() {
+    public boolean isRemovable() {
         return removable;
     }
 
@@ -65,23 +63,27 @@ public class CurrencyVO {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         CurrencyVO that = (CurrencyVO) o;
-
-        if (currencyId != null ? !currencyId.equals(that.currencyId) : that.currencyId != null) return false;
-
-        return true;
+        return Objects.equals(this.currencyId, that.currencyId);
     }
 
     @Override
     public int hashCode() {
-        return currencyId != null ? currencyId.hashCode() : 0;
+        return Objects.hash(this.currencyId);
     }
 
     @Override
     public String toString() {
         return "CurrencyVO{" + "currencyId=" + currencyId + ", rate=" + rate + ", symbol=" + symbol + '}';
+    }
+
+    public UUID getBudgetId() {
+        return UUID.randomUUID();
     }
 }

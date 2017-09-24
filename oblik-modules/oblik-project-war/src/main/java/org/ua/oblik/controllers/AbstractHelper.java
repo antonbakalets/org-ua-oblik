@@ -7,7 +7,7 @@ import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.format.datetime.DateFormatter;
-import org.springframework.format.number.NumberFormatter;
+import org.springframework.format.number.NumberStyleFormatter;
 
 /**
  *
@@ -16,7 +16,7 @@ abstract class AbstractHelper {
 
     @Autowired
     @Qualifier(value = "decimalNumberFormatter")
-    private NumberFormatter decimalFormatter;
+    private NumberStyleFormatter decimalFormatter;
 
     @Autowired
     @Qualifier(value = "longDateFormatter")

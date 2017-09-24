@@ -13,9 +13,6 @@ import org.ua.oblik.domain.model.UserLogin;
 
 import java.util.List;
 
-/**
- * @author Anton Bakalets
- */
 public class OblikUserDetailsService implements UserDetailsService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(OblikUserDetailsService.class);
@@ -24,19 +21,14 @@ public class OblikUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) {
-        final UserLogin userLogin;
         LOGGER.debug("Loading user by username: {}", username);
-        userLogin = userLoginDao.loadUserLogin(username)
+        UserLogin userLogin = userLoginDao.loadUserLogin(username)
                 .orElseThrow(() -> new UsernameNotFoundException("No user with name: " + username));
-        final String permissions = userLogin.getPermissions();
+        String permissions = userLogin.getPermissions();
         LOGGER.debug("Loaded user {} with permissions: ", userLogin, permissions);
         final List<GrantedAuthority> grantedAuthorities =
                 AuthorityUtils.commaSeparatedStringToAuthorityList(permissions);
         return new User(userLogin.getUsername(), userLogin.getPassword(), grantedAuthorities);
-    }
-
-    public UserLoginDao getUserLoginDao() {
-        return userLoginDao;
     }
 
     public void setUserLoginDao(UserLoginDao userLoginDao) {

@@ -1,0 +1,44 @@
+<div *ngIf="!account.editing">
+    <span class="hidden">{{account.id}}</span>
+    <a id="account_{{account.id}}" class="info" (click)="account.toggleEditing()">
+        {{account.total}}
+        {{account.symbol}}
+    </a>
+    <span *ngIf="account.defaultRate">
+        ({{account.rate}} {{account.defaultSymbol}}/{{account.symbol}})
+    </span>
+    <span class="pull-right">{{account.total * account.rate}} {{account.defaultSymbol}}</span>
+</div>
+
+<div *ngIf="account.editing">
+    <!--<form:form id="form-account" modelAttribute="accountBean" method="POST"-->
+               <!--action="${pageContext.request.contextPath}/account/edit.html">-->
+
+        <!--<form:hidden path="accountId"/>-->
+        <!--<form:hidden path="defaultRate"/>-->
+        <!--<form:hidden path="oldSymbol"/>-->
+        <!--<form:hidden path="removable"/>-->
+
+        <!--<div class="form-group">-->
+            <!--<label class="sr-only"><spring:message var="labelSymbol" code="jsp.oblik.account.symbol"/></label>-->
+            <!--<form:input path="symbol" placeholder="${labelSymbol}" cssClass="form-control"/>-->
+            <!--<form:errors path="symbol" element="div" cssClass="alert alert-danger"/>-->
+        <!--</div>-->
+
+        <!--<div class="form-group">-->
+            <!--<label class="sr-only"><spring:message var="labelRate" code="jsp.oblik.account.rate"/></label>-->
+            <!--<c:choose>-->
+                <!--<c:when test="${accountBean.defaultRate}">-->
+                    <!--<p class="form-control-static">${accountBean.rate}</p>-->
+                    <!--<form:hidden path="rate"/>-->
+                <!--</c:when>-->
+                <!--<c:otherwise>-->
+                    <!--<form:input path="rate" placeholder="${labelRate}" cssClass="form-control"/>-->
+                    <!--<form:errors path="rate" element="div" cssClass="alert alert-danger"/>-->
+                <!--</c:otherwise>-->
+            <!--</c:choose>-->
+        <!--</div>-->
+    <!--</form:form>-->
+    <a class="info"
+       (click)="account.toggleEditing()">EDITING</a>
+</div>

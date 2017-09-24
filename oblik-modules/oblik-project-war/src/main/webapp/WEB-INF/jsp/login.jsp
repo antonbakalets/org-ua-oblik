@@ -10,7 +10,7 @@
     <head> 
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/bootstrap.css" />
+        <link rel="stylesheet" type="text/css" href="https://unpkg.com/bootstrap@3.3.7/dist/css/bootstrap.min.css" />
 
         <link rel="shortcut icon" href="${pageContext.request.contextPath}/img/favicon.ico" />
 

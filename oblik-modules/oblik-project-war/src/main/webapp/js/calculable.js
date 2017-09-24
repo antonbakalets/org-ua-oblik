@@ -26,9 +26,9 @@ $.widget("oblik.calculable", {
     calculate: function (expression) {
         var result = expression;
         try {
-            var valid = this.options.pattern.test(expression);
+            var valid = this.options.pattern.exec(expression);
             if (valid) {
-                result = eval(expression);
+                result = eval(valid);
             }
         } catch (e) {
             // do nothing

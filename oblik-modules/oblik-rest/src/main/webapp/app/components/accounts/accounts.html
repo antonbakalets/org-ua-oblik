@@ -1,0 +1,14 @@
+<section id="accounts-{{kind}}">
+    <ul class="list-group">
+        <li class="list-group-item active">
+            <h4 class="panel-title">{{ kind }} Accounts</h4>
+        </li>
+        <li *ngFor="let account of accounts"
+            class="list-group-item">
+            <oblik-account-item [account]="account"></oblik-account-item>
+        </li>
+        <li id="li-account-add" class="list-group-item">
+            <a (click)="add()">Add</a>
+        </li>
+    </ul>
+</section>

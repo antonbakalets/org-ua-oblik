@@ -1,5 +1,10 @@
 package org.ua.oblik.controllers;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +19,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-
 /**
  *
  * @author Anton Bakalets
@@ -30,8 +30,6 @@ public class TransactionController {
     
     private static final String TRANSACTION_MAP = "transaction_map";
 
-    private static final String TRANSACTION_BEAN = "transaction";
-    
     private static final String MONTH_ARRAY = "monthArray";
     
     @Autowired
@@ -75,7 +73,6 @@ public class TransactionController {
         return result;
     }
 
-    // TODO move to utility class
     public static Date addMonth(Date date, int months) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);

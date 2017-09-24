@@ -3,6 +3,7 @@ package org.ua.oblik.domain.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Objects;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -137,10 +138,7 @@ public class TxactionEntity implements Serializable, Txaction {
             return false;
         }
         TxactionEntity other = (TxactionEntity) object;
-        if ((this.txacId == null && other.txacId != null) || (this.txacId != null && !this.txacId.equals(other.txacId))) {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.txacId, other.txacId);
     }
 
     @Override
