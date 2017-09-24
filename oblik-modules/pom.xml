@@ -10,11 +10,12 @@
     <modules>
         <module>oblik-dao-api</module>
         <module>oblik-dao-hibernate</module>
+        <module>oblik-mail</module>
         <module>oblik-project-war</module>
+        <module>oblik-rest</module>
         <module>oblik-security</module>
         <module>oblik-service</module>
         <module>oblik-service-api</module>
-        <module>oblik-rest</module>
     </modules>
 
     <dependencyManagement>
