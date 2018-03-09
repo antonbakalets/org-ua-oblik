@@ -1,0 +1,11 @@
+
+logging:
+  file: oblik.log
+  level:
+    org.ua.oblik: DEBUG
+    org.springframework: INFO
+    org.glassfish.jersey: DEBUG
+
+server:
+  context-path: "/oblik-rs"
+  port: 8090

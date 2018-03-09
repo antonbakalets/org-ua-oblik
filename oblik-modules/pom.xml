@@ -15,6 +15,8 @@
         <module>oblik-service</module>
         <module>oblik-service-api</module>
         <module>oblik-rest</module>
+        <module>oblik-soap</module>
+        <module>oblik-jax-rs</module>
     </modules>
 
     <dependencyManagement>
