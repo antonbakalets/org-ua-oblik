@@ -12,10 +12,8 @@ import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import org.ua.oblik.service.BusinessConstraintException;
-import org.ua.oblik.service.CurrencyService;
-import org.ua.oblik.service.NotFoundException;
-import org.ua.oblik.service.beans.CurrencyVO;
+import org.ua.oblik.soap.client.Currency;
+import org.ua.oblik.soap.client.RedirectService;
 
 @Component
 @Path("/budgets/{budgetId}/currencies")
@@ -24,7 +22,7 @@ public class CurrencyResource {
     private static final Logger LOGGER = LoggerFactory.getLogger(CurrencyResource.class);
 
     @Inject
-    private CurrencyService currencyService;
+    private RedirectService redirectService;
 
     @Inject
     private CurrencyStateAssembler currencyStateAssembler;
@@ -33,40 +31,42 @@ public class CurrencyResource {
     @Produces(MediaType.APPLICATION_JSON)
     public List<CurrencyResourceState> getCurrencies(@PathParam("budgetId") UUID budgetId) {
         LOGGER.info("Listing currencies from budget {}.", budgetId);
-        return currencyService.getCurrencies().stream()
+        List<Currency> currencies = redirectService.listCurrencies(budgetId.toString()).getItem();
+        return currencies.stream()
                 .map(currencyStateAssembler::toState)
                 .collect(Collectors.toList());
     }
+
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public CurrencyResourceState postCurrency(@PathParam("budgetId") UUID budgetId,
-                                              CurrencyResourceState currency) throws NotFoundException, BusinessConstraintException {
-        CurrencyVO saved = currencyStateAssembler.convert(currency);
-        currencyService.save(saved);
+                                              CurrencyResourceState currency) { // TODO exception
+        Currency toSave = currencyStateAssembler.convert(currency);
+        Currency saved = redirectService.saveCurrency(budgetId.toString(), toSave);
         return currencyStateAssembler.toState(saved);
     }
 
-    @PUT
+    @PATCH
     @Path(("/{currencyId}"))
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public CurrencyResourceState putCurrency(@PathParam("budgetId") UUID budgetId,
                                              @PathParam("currencyId") Integer currencyId,
-                                             CurrencyResourceState state) throws NotFoundException, BusinessConstraintException {
-        CurrencyVO currencyVO = currencyStateAssembler.convert(state);
-        currencyVO.setCurrencyId(currencyId);
-        currencyService.save(currencyVO);
-        return currencyStateAssembler.toState(currencyVO);
+                                             CurrencyResourceState state) {
+        Currency toSave = currencyStateAssembler.convert(state);
+        toSave.setCurrencyId(currencyId);
+        Currency saved = redirectService.saveCurrency(budgetId.toString(), toSave);
+        return currencyStateAssembler.toState(saved);
     }
 
     @DELETE
     @Path("/{currencyId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteCurrency(@PathParam("budgetId") UUID budgetId,
-                                   @PathParam("currencyId") Integer currencyId) throws NotFoundException, BusinessConstraintException {
-        currencyService.remove(currencyId);
+                                   @PathParam("currencyId") Integer currencyId) {
+        redirectService.deleteCurrency(budgetId.toString(), currencyId);
         return Response.noContent().build();
     }
 }

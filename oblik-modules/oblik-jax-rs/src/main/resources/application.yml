@@ -8,4 +8,4 @@ logging:
 
 server:
   context-path: "/oblik-rs"
-  port: 8090
+  port: 8080
