@@ -3,6 +3,7 @@ package org.ua.oblik.soap;
 import java.util.List;
 
 import javax.jws.WebService;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -52,22 +53,27 @@ public class RedirectServiceImpl implements RedirectService {
     }
 
     @Override
-    public Currency saveCurrency(String budgetId, Currency currency) {
-        if (currency.getCurrencyId() == null) {
-            return client
-                    .target(REST_URI)
-                    .path(budgetId)
-                    .path(CURRENCIES1)
-                    .request(MediaType.APPLICATION_JSON_TYPE)
-                    .post(Entity.entity(currency, MediaType.APPLICATION_JSON_TYPE), Currency.class);
-        } else {
-            return client
-                    .target(REST_URI)
-                    .path(budgetId)
-                    .path(CURRENCIES1)
-                    .path(currency.getCurrencyId().toString())
-                    .request(MediaType.APPLICATION_JSON_TYPE)
-                    .method("PATCH", Entity.entity(currency, MediaType.APPLICATION_JSON_TYPE), Currency.class);
+    public Currency saveCurrency(String budgetId, Currency currency) throws RedirectException {
+        try {
+            if (currency.getCurrencyId() == null) {
+                return client
+                        .target(REST_URI)
+                        .path(budgetId)
+                        .path(CURRENCIES1)
+                        .request(MediaType.APPLICATION_JSON_TYPE)
+                        .post(Entity.entity(currency, MediaType.APPLICATION_JSON_TYPE), Currency.class);
+            } else {
+                return client
+                        .target(REST_URI)
+                        .path(budgetId)
+                        .path(CURRENCIES1)
+                        .path(currency.getCurrencyId().toString())
+                        .request(MediaType.APPLICATION_JSON_TYPE)
+                        .method("PATCH", Entity.entity(currency, MediaType.APPLICATION_JSON_TYPE), Currency.class);
+            }
+        } catch (WebApplicationException e) {
+            int status = e.getResponse().getStatus();
+            throw new RedirectException(status);
         }
     }
 

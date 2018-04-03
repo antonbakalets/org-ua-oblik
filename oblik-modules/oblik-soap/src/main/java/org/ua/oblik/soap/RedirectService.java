@@ -16,7 +16,7 @@ public interface RedirectService {
     Currency[] listCurrencies(String budgetId);
 
     @WebMethod
-    Currency saveCurrency(String budgetid, Currency currency);
+    Currency saveCurrency(String budgetid, Currency currency) throws RedirectException;
 
     @WebMethod
     @Oneway

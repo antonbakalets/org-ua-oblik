@@ -22,7 +22,7 @@ public class ApplicationConfig extends ResourceConfig {
     public ApplicationConfig() {
         register(BudgetResource.class);
         register(CurrencyResource.class);
-//        register(NotFoundMapper.class);
+        register(RedirectExceptionMapper.class);
     }
 
     public static void main(String[] args) {

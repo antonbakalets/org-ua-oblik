@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.ua.oblik.soap.client.Currency;
+import org.ua.oblik.soap.client.RedirectException_Exception;
 import org.ua.oblik.soap.client.RedirectService;
 
 @Component
@@ -42,7 +43,7 @@ public class CurrencyResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public CurrencyResourceState postCurrency(@PathParam("budgetId") UUID budgetId,
-                                              CurrencyResourceState currency) { // TODO exception
+                                              CurrencyResourceState currency) throws RedirectException_Exception {
         Currency toSave = currencyStateAssembler.convert(currency);
         Currency saved = redirectService.saveCurrency(budgetId.toString(), toSave);
         return currencyStateAssembler.toState(saved);
@@ -54,7 +55,7 @@ public class CurrencyResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public CurrencyResourceState putCurrency(@PathParam("budgetId") UUID budgetId,
                                              @PathParam("currencyId") Integer currencyId,
-                                             CurrencyResourceState state) {
+                                             CurrencyResourceState state) throws RedirectException_Exception {
         Currency toSave = currencyStateAssembler.convert(state);
         toSave.setCurrencyId(currencyId);
         Currency saved = redirectService.saveCurrency(budgetId.toString(), toSave);
