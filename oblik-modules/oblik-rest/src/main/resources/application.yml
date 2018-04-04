@@ -1,3 +1,6 @@
+oblik.security:
+  secret: abcdes # secret to sign the token
+  expiration: 86400
 
 logging:
   file: oblik.log
