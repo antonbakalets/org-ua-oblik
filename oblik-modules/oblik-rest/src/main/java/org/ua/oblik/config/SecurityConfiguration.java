@@ -1,106 +1,50 @@
 package org.ua.oblik.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.ua.oblik.rest.security.JwtAuthenticationEntryPoint;
+import org.ua.oblik.rest.security.JwtAuthenticationTokenFilter;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-//    private final JwtAuthenticationEntryPoint unauthorizedHandler;
-//    private final UserDetailsService userDetailsService;
-//    private final int MAX_AGE = 3600;
+    private final JwtAuthenticationEntryPoint unauthorizedHandler;
 
-//    @Autowired
-//    public SecurityConfiguration(JwtAuthenticationEntryPoint unauthorizedHandler, UserDetailsService userDetailsService) {
-//        this.unauthorizedHandler = unauthorizedHandler;
-//        this.userDetailsService = userDetailsService;
-//    }
-
-//    @Autowired
-//    public void configureAuthentication(AuthenticationManagerBuilder builder) throws Exception {
-//        builder.userDetailsService(this.userDetailsService)
-//                .passwordEncoder(passwordEncoder());
-//    }
-//
-//    @Value("${app.origin.url}")
-//    private String url;
-//
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
-//
-//    @Bean
-//    public JwtAuthenticationFilter jwtAuthenticationFilter() throws Exception {
-//        return new JwtAuthenticationFilter();
-//    }
+    @Autowired
+    public SecurityConfiguration(JwtAuthenticationEntryPoint unauthorizedHandler) {
+        this.unauthorizedHandler = unauthorizedHandler;
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-//                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .authorizeRequests()
-//                .antMatchers(HttpMethod.OPTIONS).permitAll()
-//                .antMatchers("/api/private/**").hasRole("USER")
-//                .antMatchers("/api/admin/**").hasRole("ADMIN")
+                .antMatchers("/v1/**").authenticated()
+                .antMatchers("/auth/**").permitAll()
                 .anyRequest().permitAll();
-//        http
-//                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-//        http
-//                .headers().cacheControl();
+        http
+                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
-//    @Bean
-//    public WebMvcConfigurer CORSConfig() {
-//        return new WebMvcConfigurerAdapter() {
-//            @Override
-//            public void addCorsMappings(CorsRegistry registry) {
-//                registry.addMapping("/**")
-//                        .allowedOrigins(url)
-//                        .allowCredentials(true)
-//                        .allowedHeaders("Access-Control-Allow-Credentials", "Content-Type", "Access-Control-Allow-Headers", "X-Requested-With", "Origin", "Accept")
-//                        .allowedMethods("PUT", "DELETE", "GET", "POST")
-//                        .maxAge(MAX_AGE);
-//            }
-//        };
-//    }
+    @Bean
+    public JwtAuthenticationTokenFilter jwtAuthenticationFilter() throws Exception {
+        JwtAuthenticationTokenFilter authenticationTokenFilter = new JwtAuthenticationTokenFilter();
+        authenticationTokenFilter.setAuthenticationManager(authenticationManagerBean());
+        return authenticationTokenFilter;
+    }
 
-
-//    @Bean
-//    public CorsFilter corsFilter() {
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        CorsConfiguration config = new CorsConfiguration();
-//        config.setAllowCredentials(true);
-//        config.addAllowedOrigin("*");
-//        config.addAllowedHeader("*");
-//        config.addAllowedMethod("OPTIONS");
-//        config.addAllowedMethod("GET");
-//        config.addAllowedMethod("POST");
-//        config.addAllowedMethod("PUT");
-//        config.addAllowedMethod("DELETE");
-//        source.registerCorsConfiguration("/**", config);
-//        return new CorsFilter(source);
-//    }
-
-//    @Bean
-//    public ErrorAttributes errorAttributes() {
-//        return new DefaultErrorAttributes() {
-//            @Override
-//            public Map<String, Object> getErrorAttributes(RequestAttributes requestAttributes, boolean includeStackTrace) {
-//                Map<String, Object> errorAttributes = super.getErrorAttributes(requestAttributes, includeStackTrace);
-//                Throwable error = getError(requestAttributes);
-//                if (error instanceof BadCredentialsException) {
-//                    errorAttributes.remove("timestamp");
-//                    errorAttributes.remove("exception");
-//                    errorAttributes.remove("path");
-//                }
-//                return errorAttributes;
-//            }
-//        };
-//    }
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
 }

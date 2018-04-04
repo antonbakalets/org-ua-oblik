@@ -1,9 +1,10 @@
-package org.ua.oblik.rest.v1.security;
+package org.ua.oblik.rest.security;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,47 +31,26 @@ public class JwtTokenUtil implements Serializable {
     @Value("${oblik.security.expiration}")
     private Long expiration;
 
-    public String getUsernameFromToken(String token) {
-        String username;
-        try {
-            final Claims claims = getClaimsFromToken(token);
-            username = claims.getSubject();
-        } catch (Exception e) {
-            username = null;
-        }
-        return username;
+    public Optional<String> getUsernameFromToken(String token) {
+        return getClaimsFromToken(token).map(Claims::getSubject);
     }
 
-    public Date getCreatedDateFromToken(String token) {
-        Date created;
-        try {
-            final Claims claims = getClaimsFromToken(token);
-            created = new Date((Long) claims.get(CLAIM_KEY_CREATED));
-        } catch (Exception e) {
-            created = null;
-        }
-        return created;
+    public Optional<Date> getCreatedDateFromToken(String token) {
+        return getClaimsFromToken(token).map(claims -> new Date((Long) claims.get(CLAIM_KEY_CREATED)));
     }
 
-    public Date getExpirationDateFromToken(String token) {
-        Date expiration;
-        try {
-            final Claims claims = getClaimsFromToken(token);
-            expiration = claims.getExpiration();
-        } catch (Exception e) {
-            expiration = null;
-        }
-        return expiration;
+    public Optional<Date> getExpirationDateFromToken(String token) {
+        return getClaimsFromToken(token).map(Claims::getExpiration);
     }
 
-    private Claims getClaimsFromToken(String token) {
+    private Optional<Claims> getClaimsFromToken(String token) {
         Claims claims;
         try {
             claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
         } catch (Exception e) {
             claims = null;
         }
-        return claims;
+        return Optional.ofNullable(claims);
     }
 
     private Date generateExpirationDate() {
@@ -78,8 +58,9 @@ public class JwtTokenUtil implements Serializable {
     }
 
     public Boolean isTokenExpired(String token) {
-        final Date expiration = getExpirationDateFromToken(token);
-        return expiration.before(new Date());
+        return getExpirationDateFromToken(token)
+                .map(date -> date.before(new Date()))
+                .orElse(false);
     }
 
     public String generateToken(UserDetails userDetails) {
@@ -93,15 +74,16 @@ public class JwtTokenUtil implements Serializable {
         return Jwts.builder().setClaims(claims).setExpiration(generateExpirationDate()).signWith(SignatureAlgorithm.HS512, secret).compact();
     }
 
-    public String refreshToken(String token) {
-        String refreshedToken;
-        try {
-            final Claims claims = getClaimsFromToken(token);
+    public Optional<String> refreshToken(String token) {
+        return getClaimsFromToken(token).map(claims -> {
             claims.put(CLAIM_KEY_CREATED, new Date());
-            refreshedToken = generateToken(claims);
-        } catch (Exception e) {
-            refreshedToken = null;
-        }
-        return refreshedToken;
+            return generateToken(claims);
+        });
+    }
+
+    public boolean validateToken(String token, UserDetails userDetails) {
+        return getUsernameFromToken(token)
+                .map(username -> username.equals(userDetails.getUsername()) && !isTokenExpired(token))
+                .orElse(false);
     }
 }

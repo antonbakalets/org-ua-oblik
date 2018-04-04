@@ -1,4 +1,4 @@
-package org.ua.oblik.rest.v1.security;
+package org.ua.oblik.rest.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -23,6 +23,8 @@ public class AuthenticationService {
         final UserDetails userDetails = userDetailsService.loadUserByUsername(username); // throws UsernameNotFoundException
         final String token = jwtTokenUtil.generateToken(userDetails);
 
-        return new AuthenticationResponse(token, jwtTokenUtil.getExpirationDateFromToken(token));
+        return new AuthenticationResponse(token,
+                jwtTokenUtil.getExpirationDateFromToken(token)
+                .orElseThrow(() -> new IllegalArgumentException("Generated token cannot be empty.")));
     }
 }

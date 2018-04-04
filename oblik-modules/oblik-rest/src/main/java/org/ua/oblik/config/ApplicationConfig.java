@@ -22,7 +22,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = "org.ua.oblik.rest.v1")
+@ComponentScan(basePackages = "org.ua.oblik.rest")
 @ImportResource({
         "classpath:/org/ua/oblik/context/dao-context.xml",
         "classpath:/org/ua/oblik/context/jpa-context.xml",

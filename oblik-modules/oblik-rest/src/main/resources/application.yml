@@ -1,4 +1,5 @@
 oblik.security:
+  tokenHeader: Bearer
   secret: abcdes # secret to sign the token
   expiration: 86400
 
