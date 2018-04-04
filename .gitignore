@@ -1,7 +1,6 @@
-target/
+.idea/
+/target/
+org-ua-oblik/oblik-modules/oblik-rest/src/main/webapp/node_modules/
 
 *.iml
-
-.idea/
-
 *.log

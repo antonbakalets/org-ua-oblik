@@ -8,3 +8,7 @@ logging:
 server:
   context-path: "/oblik-api"
   port: 8090
+
+flyway:
+  locations: "classpath:db/mysql"
+  baseline-on-migrate: true
