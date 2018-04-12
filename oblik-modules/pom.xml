@@ -10,7 +10,7 @@
     <modules>
         <module>oblik-dao-api</module>
         <module>oblik-dao-hibernate</module>
-        <module>oblik-project-war</module>
+        <module>oblik-frontend</module>
         <module>oblik-security</module>
         <module>oblik-service</module>
         <module>oblik-service-api</module>

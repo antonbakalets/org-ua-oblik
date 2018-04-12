@@ -6,11 +6,11 @@ oblik.security:
 logging:
   file: oblik.log
   level:
-    org.ua.oblik: DEBUG
+    org.ua.oblik: WARN
     org.springframework: INFO
 
 server:
-  context-path: "/oblik-api"
+#  context-path: "/oblik-api"
   port: 8090
 
 flyway:
