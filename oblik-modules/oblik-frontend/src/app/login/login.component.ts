@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {LoginService} from './login.service';
+import {AuthService} from '../auth/auth.service';
 import {LoginAccount} from './login-account';
 
 @Component({
@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
 
   constructor(private router: Router,
               private route: ActivatedRoute,
-              private loginService: LoginService) {
+              private loginService: AuthService) {
   }
 
   ngOnInit() {

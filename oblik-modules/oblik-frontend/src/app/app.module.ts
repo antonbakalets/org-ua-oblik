@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule} from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 
 import {routing} from './app.routing';
 
@@ -9,7 +9,9 @@ import {AppComponent} from './app.component';
 import {AuthGuard} from './guards/auth.guard';
 import {BudgetComponent} from './budget/budget.component';
 import {LoginComponent} from './login/login.component';
-import {LoginService} from './login/login.service';
+import {AuthService} from './auth/auth.service';
+import {TokenInterceptor} from './auth/token.interceptor';
+import {BudgetService} from './budget/budget.service';
 
 
 @NgModule({
@@ -25,8 +27,10 @@ import {LoginService} from './login/login.service';
     routing
   ],
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
     AuthGuard,
-    LoginService
+    AuthService,
+    BudgetService
   ],
   bootstrap: [
     AppComponent
