@@ -3,3 +3,8 @@ export class LoginAccount {
   password: string;
   captcha: string;
 }
+
+export class TokenAccount {
+  expiration: Date;
+  token: string;
+}
