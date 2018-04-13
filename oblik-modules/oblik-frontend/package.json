@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve -o",
     "build": "ng build -prod --output-path ui-src/META-INF/resources",
     "test": "ng test --watch false",
     "test-watch": "ng test",
