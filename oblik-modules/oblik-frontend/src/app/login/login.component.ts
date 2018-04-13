@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
+import {LoginService} from './login.service';
+import {LoginAccount} from './login-account';
 
 @Component({
   selector: 'app-login',
@@ -9,9 +11,11 @@ import {ActivatedRoute, Router} from '@angular/router';
 export class LoginComponent implements OnInit {
 
   targetUrl = '';
+  loginAccount: LoginAccount;
 
   constructor(private router: Router,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private loginService: LoginService) {
   }
 
   ngOnInit() {
@@ -20,6 +24,12 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
+    this.loginAccount = new LoginAccount();
+    this.loginAccount.username = 'paco';
+    this.loginAccount.password = 'hola';
+
+    this.loginService.signIn(this.loginAccount);
+
     this.router.navigate([this.targetUrl]);
   }
 }
