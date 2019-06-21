@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-       http://www.springframework.org/schema/beans/spring-beans-4.2.xsd">
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+                           http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.11.xsd">
 
     <!-- Login data access objects -->
     <bean id="userLoginDao" class="org.ua.oblik.domain.dao.UserLoginDaoImpl"/>
     
     <!-- Oblik data access objects -->
-    <bean id="apartmentDao" class="org.ua.oblik.domain.dao.AccountDaoImpl"/>
     <bean id="buildingDao" class="org.ua.oblik.domain.dao.CurrencyDaoImpl"/>
     <bean id="entranceDao" class="org.ua.oblik.domain.dao.TxactionDaoImpl"/>
 
     <!-- Data layer entities factory -->
     <bean id="entitiesFactory" class="org.ua.oblik.domain.model.EntitiesFactoryImpl"/>
+
+<!--    <bean id="" class="org.ua.oblik.dao.InterfaceBasedJpaRepositoryFactoryBean"-->
+
+    <jpa:repositories base-package="org.ua.oblik.domain.dao" factory-class="org.ua.oblik.dao.InterfaceBasedJpaRepositoryFactoryBean"/>
 
 </beans>

@@ -77,7 +77,7 @@ public class AccountServiceImpl implements AccountService {
         account.setShortName(avo.getName());
         // On creation account amount in zero
         account.setTotal(BigDecimal.ZERO);
-        accountDao.insert(account);
+        accountDao.save(account);
         avo.setAccountId(account.getId());
     }
 
@@ -92,7 +92,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     private List<AccountVO> getAssetsAccounts() {
-        return convert(accountDao.selectByKind(AccountKind.ASSETS));
+        return convert(accountDao.findByKind(AccountKind.ASSETS));
     }
     
     @Override
@@ -127,7 +127,7 @@ public class AccountServiceImpl implements AccountService {
             if (accountDao.isUsed(accountId)) {
                 throw new BusinessConstraintException("Account is used by transactions.");
             }   else {
-                accountDao.delete(accountId);
+                accountDao.deleteById(accountId);
             }
         } else {
             throw new NotFoundException("Could not find account.");
