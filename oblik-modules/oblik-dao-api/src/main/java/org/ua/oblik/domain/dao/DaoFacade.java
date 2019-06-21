@@ -1,8 +1,10 @@
 package org.ua.oblik.domain.dao;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.ua.oblik.domain.model.Identifiable;
+
 import java.util.List;
-import org.ua.oblik.domain.beans.Identifiable;
-import org.ua.oblik.domain.beans.PaginationBean;
 
 /**
  * Common data access object methods.
@@ -12,28 +14,17 @@ import org.ua.oblik.domain.beans.PaginationBean;
  */
 public interface DaoFacade<I, T extends Identifiable<I>> {
 
-    long count();
-
-    /**
-     * Remove entity.
-     * @param id entity id
-     * @throws IllegalArgumentException if wrong entity id
-     */
     void delete(I id);
 
     void insert(T entity);
 
     void update(T entity);
     
-    boolean exists(I id);
+    boolean existsById(I id);
     
-    T select(I id);
+    T getOne(I id);
 
-    List<T> selectAll();
+    List<T> findAll();
 
-    List<T> selectRange(int[] range);
-
-    List<T> selectRange(int skipResults, int maxResults);
-    
-    List<T> selectRange(PaginationBean paginationBean);
+    Page<T> findAll(Pageable pageable);
 }

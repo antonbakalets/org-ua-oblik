@@ -10,7 +10,7 @@ import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Root;
 
-import org.ua.oblik.domain.beans.AccountKind;
+import org.ua.oblik.domain.model.AccountKind;
 import org.ua.oblik.domain.model.Account;
 import org.ua.oblik.domain.model.AccountEntity;
 import org.ua.oblik.domain.model.AccountEntity_;

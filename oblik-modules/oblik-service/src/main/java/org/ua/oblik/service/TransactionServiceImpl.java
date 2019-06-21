@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import org.ua.oblik.domain.beans.AccountKind;
+import org.ua.oblik.domain.model.AccountKind;
 import org.ua.oblik.domain.dao.AccountDao;
 import org.ua.oblik.domain.dao.TxactionDao;
 import org.ua.oblik.domain.model.Account;
@@ -48,7 +48,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Transactional
     public void delete(Integer transactionId) throws NotFoundException {
         LOG.debug("Deleting transaction by id: {}.", transactionId);
-        if (txactionDao.exists(transactionId)) {
+        if (txactionDao.existsById(transactionId)) {
             TransactionVO tvo = new TransactionVO();
             tvo.setTxId(transactionId);
             transactionCommandFactory.createDeleteCommand(tvo).execute();
@@ -59,7 +59,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public TransactionVO getTransaction(Integer transactionId) {
-        return convert(txactionDao.select(transactionId));
+        return convert(txactionDao.getOne(transactionId));
     }
 
     @Override

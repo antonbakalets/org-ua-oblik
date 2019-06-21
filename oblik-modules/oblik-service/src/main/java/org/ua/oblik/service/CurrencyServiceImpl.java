@@ -54,14 +54,14 @@ public class CurrencyServiceImpl implements CurrencyService {
 
     private void update(CurrencyVO cvo) {
         LOGGER.debug("Updating currency, symbol: {}.", cvo.getSymbol());
-        Currency currency = currencyDao.select(cvo.getCurrencyId());
+        Currency currency = currencyDao.getOne(cvo.getCurrencyId());
         currency.setRate(cvo.getRate());
         currency.setSymbol(cvo.getSymbol());
     }
 
     @Override
     public List<CurrencyVO> getCurrencies() {
-        final List<? extends Currency> currencies = currencyDao.selectAll();
+        final List<? extends Currency> currencies = currencyDao.findAll();
         final Map<Integer, BigDecimal> assetsByCurrency = totalService.getCurrenciesTotal();
         List<CurrencyVO> result = new ArrayList<>(currencies.size());
         for (Currency model : currencies) {
@@ -72,7 +72,7 @@ public class CurrencyServiceImpl implements CurrencyService {
 
     @Override
     public CurrencyVO getCurrency(Integer currencyId) {
-        return convert(currencyDao.select(currencyId));
+        return convert(currencyDao.getOne(currencyId));
     }
 
     @Override
@@ -89,7 +89,7 @@ public class CurrencyServiceImpl implements CurrencyService {
     @Override
     @Transactional(rollbackFor = {NotFoundException.class, BusinessConstraintException.class})
     public void remove(Integer currencyId) throws NotFoundException, BusinessConstraintException {
-        Currency currency = currencyDao.select(currencyId);
+        Currency currency = currencyDao.getOne(currencyId);
         if (currency != null) {
             if (isRemovable(currency)) {
                 currencyDao.delete(currencyId);

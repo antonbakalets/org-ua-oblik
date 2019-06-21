@@ -20,4 +20,6 @@ public interface CurrencyDao extends DaoFacade<Integer, Currency> {
     Map<Integer, BigDecimal> assetsByCurrencyId();
 
     boolean isUsed(Integer currencyId);
+
+    long count();
 }

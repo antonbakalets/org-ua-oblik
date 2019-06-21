@@ -16,8 +16,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.ua.oblik.domain.beans.AccountKind;
-
 /**
  *
  * @author Anton Bakalets

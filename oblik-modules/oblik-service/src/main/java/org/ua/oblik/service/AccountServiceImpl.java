@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import org.ua.oblik.domain.beans.AccountKind;
+import org.ua.oblik.domain.model.AccountKind;
 import org.ua.oblik.domain.dao.AccountDao;
 import org.ua.oblik.domain.dao.CurrencyDao;
 import org.ua.oblik.domain.model.Account;
@@ -35,7 +35,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public AccountVO getAccount(Integer accountId) {
-        final Account selected = accountDao.select(accountId);
+        final Account selected = accountDao.getOne(accountId);
         if (selected == null) {
             final String message = "No account found with id " + accountId;
             LOGGER.error(message);
@@ -70,7 +70,7 @@ public class AccountServiceImpl implements AccountService {
 
     private void insert(AccountVO avo) {
         LOGGER.debug("Saving new acoount, name: {}.", avo.getName());
-        final Currency currency = currencyDao.select(avo.getCurrencyId());
+        final Currency currency = currencyDao.getOne(avo.getCurrencyId());
         final Account account = entitiesFactory.createAccountEntity();
         account.setCurrency(currency);
         account.setKind(AccountTypeConverter.convert(avo.getType()));
@@ -83,8 +83,8 @@ public class AccountServiceImpl implements AccountService {
 
     private void update(AccountVO avo) {
         LOGGER.debug("Updating acoount, name: {}", avo.getName());
-        final Currency currency = currencyDao.select(avo.getCurrencyId());
-        final Account account = accountDao.select(avo.getAccountId());
+        final Currency currency = currencyDao.getOne(avo.getCurrencyId());
+        final Account account = accountDao.getOne(avo.getAccountId());
         account.setCurrency(currency);
         account.setKind(AccountTypeConverter.convert(avo.getType()));
         account.setShortName(avo.getName());
@@ -99,7 +99,7 @@ public class AccountServiceImpl implements AccountService {
     public List<AccountVO> getAccounts(AccountCriteria criteria) {
         AccountFilter filter = new AccountFilter();
         filter.setCriteria(criteria);
-        return filter.filter(convert(accountDao.selectAll()));
+        return filter.filter(convert(accountDao.findAll()));
     }
 
     @Override
@@ -123,7 +123,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     @Transactional
     public void delete(Integer accountId) throws NotFoundException, BusinessConstraintException {
-        if (accountDao.exists(accountId)) {
+        if (accountDao.existsById(accountId)) {
             if (accountDao.isUsed(accountId)) {
                 throw new BusinessConstraintException("Account is used by transactions.");
             }   else {

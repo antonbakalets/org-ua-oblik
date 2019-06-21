@@ -44,7 +44,7 @@ public class TxactionDaoImpl extends AbstractDao<Integer, Txaction, TxactionEnti
     }
 
     @Override
-    public List<Txaction> selectAll() {
+    public List<Txaction> findAll() {
         final CriteriaBuilder cbuilder = getEntityManager().getCriteriaBuilder();
         final CriteriaQuery<Txaction> cquery = cbuilder.createQuery(Txaction.class);
         final Root<TxactionEntity> root = cquery.from(TxactionEntity.class);

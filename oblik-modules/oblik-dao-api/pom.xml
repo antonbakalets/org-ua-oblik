@@ -11,4 +11,11 @@
     <packaging>jar</packaging>
     <version>1.0</version>
     <name>Oblik - DAO API</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-commons</artifactId>
+        </dependency>
+    </dependencies>
 </project>

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -77,5 +78,15 @@ public class CurrencyDaoImpl extends AbstractDao<Integer, Currency, CurrencyEnti
         cquery.select(cbuilder.count(root)).where(
                 cbuilder.equal(root.get(AccountEntity_.currency), currencyId));
         return getEntityManager().createQuery(cquery).getSingleResult() > 0;
+    }
+
+    @Override
+    public long count() {
+        final CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        final CriteriaQuery cq = cb.createQuery();
+        final Root<Currency> rt = cq.from(CurrencyEntity.class);
+        cq.select(cb.count(rt));
+        Query q = getEntityManager().createQuery(cq);
+        return (Long) q.getSingleResult();
     }
 }

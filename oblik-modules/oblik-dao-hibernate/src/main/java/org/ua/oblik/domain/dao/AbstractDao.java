@@ -1,16 +1,17 @@
 package org.ua.oblik.domain.dao;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.ua.oblik.domain.model.Identifiable;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-
-import org.ua.oblik.domain.beans.Identifiable;
-import org.ua.oblik.domain.beans.PaginationBean;
+import java.util.List;
 
 /**
  * Base DAO.
@@ -18,12 +19,12 @@ import org.ua.oblik.domain.beans.PaginationBean;
  * @author Anton Bakalets
  */
 abstract class AbstractDao<I, T extends Identifiable<I>, R extends T> implements DaoFacade<I, T> {
-    
+
     @PersistenceContext
     private EntityManager entityManager;
-    
+
     protected final Class<R> entityClass;
-        
+
     public AbstractDao(Class<R> entityClass) {
         this.entityClass = entityClass;
     }
@@ -44,75 +45,58 @@ abstract class AbstractDao<I, T extends Identifiable<I>, R extends T> implements
 
     @Override
     public void delete(I id) {
-        getEntityManager().remove(select(id));
+        getEntityManager().remove(getOne(id));
     }
 
     @Override
-    public T select(I id) {
+    public T getOne(I id) {
         return getEntityManager().find(entityClass, id);
     }
 
     @Override
-    public boolean exists(I id) {
-        return select(id) != null;
+    public boolean existsById(I id) {
+        return getOne(id) != null;
     }
 
     @Override
-    public List<T> selectAll() {
+    public List<T> findAll() {
         CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
         cq.select(cq.from(entityClass));
         return getEntityManager().createQuery(cq).getResultList();
     }
 
     @Override
-    public List<T> selectRange(int[] range) {
-        return selectRange(range[0], range[1] - range[0]);
-    }
-    
-    @Override
-    public List<T> selectRange(int skipResults, int maxResults) {
-        CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        cq.select(cq.from(entityClass));
-        return getEntityManager().createQuery(cq)
-                .setFirstResult(skipResults)
-                .setMaxResults(maxResults)
-                .getResultList();
-    }
-
-    @Override
-    public List<T> selectRange(PaginationBean paginationBean) {
+    public Page<T> findAll(Pageable pageable) {
         final CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         final CriteriaQuery cq = cb.createQuery();
         final Root<T> from = cq.from(entityClass);
         cq.select(from);
-        addSorting(cb, cq, from, paginationBean);
-        return getEntityManager().createQuery(cq)
-                .setFirstResult(paginationBean.getSkipResults())
-                .setMaxResults(paginationBean.getMaxResults())
+        addSorting(cb, cq, from, pageable);
+        List resultList = getEntityManager().createQuery(cq)
+                .setFirstResult((int) pageable.getOffset())
+                .setMaxResults((int) pageable.getOffset() + pageable.getPageSize())
                 .getResultList();
+        return new PageImpl<T>(resultList, pageable, count());
     }
 
-    @Override
-    public long count() {
-        final CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-        final CriteriaQuery cq = cb.createQuery();
-        final Root<T> rt = cq.from(entityClass);
-        cq.select(cb.count(rt));
-        Query q = getEntityManager().createQuery(cq);
-        return (Long) q.getSingleResult();
+    protected long count() {
+        return 0;
     }
 
-    protected boolean isAscendingSortingDirection(PaginationBean paginationBean) {
-        return paginationBean.getDir() == null || PaginationBean.ASC.equalsIgnoreCase(paginationBean.getDir());
+    protected boolean isAscendingSortingDirection(Sort.Order order) {
+        return Sort.Direction.ASC == order.getDirection();
     }
 
     protected void addSorting(final CriteriaBuilder cb, final CriteriaQuery cq,
-            final Root<T> rt, final PaginationBean paginationBean) {
-        if (paginationBean.getSort() != null) {
-            if (isAscendingSortingDirection(paginationBean)) {
-                cq.orderBy(cb.asc(rt.get(paginationBean.getSort())));
-            } else {
-                cq.orderBy(cb.desc(rt.get(paginationBean.getSort())));
+                              final Root<T> rt, final Pageable pageable) {
+        Sort sort = pageable.getSort();
+        if (sort != null) {
+            for (Sort.Order order : sort) {
+                if (isAscendingSortingDirection(order)) {
+                    cq.orderBy(cb.asc(rt.get(order.getProperty())));
+                } else {
+                    cq.orderBy(cb.desc(rt.get(order.getProperty())));
+                }
             }
         }
     }

@@ -1,8 +1,5 @@
 package org.ua.oblik.domain.model;
 
-import org.ua.oblik.domain.beans.AccountKind;
-import org.ua.oblik.domain.beans.Identifiable;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 

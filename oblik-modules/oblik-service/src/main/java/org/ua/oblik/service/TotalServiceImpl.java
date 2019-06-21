@@ -38,7 +38,7 @@ public class TotalServiceImpl implements TotalService {
 
     @Override
     public BigDecimal getCurrencyTotal(Integer currencyId) {
-        final Currency currency = currencyDao.select(currencyId);
+        final Currency currency = currencyDao.getOne(currencyId);
         return accountDao.calculateTotal(currency);
     }
 }

@@ -10,8 +10,8 @@ abstract class AbstractInsertCommand extends AbstractTxCommand {
     @Override
     public void execute() {
         Txaction txaction = entitiesFactory.createTxactionEntity();
-        Account credit = accountDao.select(tvo.getFirstAccount());
-        Account debet = accountDao.select(tvo.getSecondAccount());
+        Account credit = accountDao.getOne(tvo.getFirstAccount());
+        Account debet = accountDao.getOne(tvo.getSecondAccount());
         doInsert(txaction, credit, debet);
         txaction.setCredit(credit);
         txaction.setDebet(debet);
