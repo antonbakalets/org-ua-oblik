@@ -64,7 +64,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public List<TransactionVO> getTransactions(Date date) {
-        return convert(txactionDao.selectByMonth(date));
+        return convert(txactionDao.findByTxDateBetween(DateUtils.getMonthBegining(date), DateUtils.getMonthEnd(date)));
     }
 
     private static TransactionVO convert(Txaction model) {

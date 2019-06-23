@@ -38,13 +38,13 @@ public class OblikUserDetailsServiceTest {
         when(testUser.getUsername()).thenReturn(TEST_USER);
         when(testUser.getPassword()).thenReturn(TEST_USER);
         when(testUser.getPermissions()).thenReturn("");
-        when(userLoginDao.loadUserLogin(Matchers.eq(TEST_USER))).thenReturn(Optional.of(testUser));
+        when(userLoginDao.findByUsernameIgnoreCase(Matchers.eq(TEST_USER))).thenReturn(Optional.of(testUser));
 
         UserLogin testUserPermissions = mock(UserLogin.class);
         when(testUserPermissions.getUsername()).thenReturn(TEST_USER_WITH_PERMISSIONS);
         when(testUserPermissions.getPassword()).thenReturn(TEST_USER_WITH_PERMISSIONS);
         when(testUserPermissions.getPermissions()).thenReturn(PERMISSIONS);
-        when(userLoginDao.loadUserLogin(Matchers.eq(TEST_USER_WITH_PERMISSIONS)))
+        when(userLoginDao.findByUsernameIgnoreCase(Matchers.eq(TEST_USER_WITH_PERMISSIONS)))
                 .thenReturn(Optional.of(testUserPermissions));
     }
 
@@ -60,13 +60,13 @@ public class OblikUserDetailsServiceTest {
 
     @Test(expected = UsernameNotFoundException.class)
     public void testUserLoadNegative() {
-        when(userLoginDao.loadUserLogin(Matchers.isNull(String.class))).thenReturn(Optional.empty());
+        when(userLoginDao.findByUsernameIgnoreCase(Matchers.isNull(String.class))).thenReturn(Optional.empty());
         oblikUserDetailsService.loadUserByUsername(null);
     }
 
     @Test(expected = UsernameNotFoundException.class)
     public void testUserLoadUnknown() {
-        when(userLoginDao.loadUserLogin(Matchers.eq("unknown"))).thenReturn(Optional.empty());
+        when(userLoginDao.findByUsernameIgnoreCase(Matchers.eq("unknown"))).thenReturn(Optional.empty());
         oblikUserDetailsService.loadUserByUsername("unknown");
     }
 }

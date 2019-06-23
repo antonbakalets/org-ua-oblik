@@ -17,7 +17,7 @@ abstract class AbstractInsertCommand extends AbstractTxCommand {
         txaction.setDebet(debet);
         txaction.setTxDate(tvo.getDate());
         txaction.setComment(tvo.getNote());
-        txactionDao.insert(txaction);
+        txactionDao.save(txaction);
         tvo.setTxId(txaction.getId());
     }
 }

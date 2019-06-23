@@ -33,6 +33,6 @@ public class DeleteTxCommand extends AbstractTxCommand {
             LOGGER.error("Cannot determine transaction type.", re);
             throw re;
         }
-        txactionDao.delete(transactionId);
+        txactionDao.delete(txaction);
     }
 }

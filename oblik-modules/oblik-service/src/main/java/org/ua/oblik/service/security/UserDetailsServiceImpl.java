@@ -24,10 +24,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) {
         LOGGER.debug("Loading user by username: {}", username);
-        UserLogin userLogin = userLoginDao.loadUserLogin(username)
+        UserLogin userLogin = userLoginDao.findByUsernameIgnoreCase(username)
                 .orElseThrow(() -> new UsernameNotFoundException("No user with name: " + username));
         String permissions = userLogin.getPermissions();
-        LOGGER.debug("Loaded user {} with permissions: ", userLogin, permissions);
+        LOGGER.debug("Loaded user {} with permissions: {}", userLogin, permissions);
         final List<GrantedAuthority> grantedAuthorities =
                 AuthorityUtils.commaSeparatedStringToAuthorityList(permissions);
         return new User(userLogin.getUsername(), userLogin.getPassword(), grantedAuthorities);
