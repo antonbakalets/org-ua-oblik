@@ -77,13 +77,13 @@ public class CurrencyServiceImpl implements CurrencyService {
 
     @Override
     public CurrencyVO getDefaultCurrency() {
-        return convert(currencyDao.selectDefault());
+        return convert(currencyDao.findByByDefaultTrue());
 
     }
 
     @Override
     public boolean isSymbolExists(String symbol) {
-        return currencyDao.isSymbolExists(symbol);
+        return currencyDao.existsBySymbol(symbol);
     }
 
     @Override
@@ -115,7 +115,7 @@ public class CurrencyServiceImpl implements CurrencyService {
 
     @Override
     public boolean isDefaultExists() {
-        return currencyDao.isDefaultExists();
+        return currencyDao.existsByByDefaultTrue();
     }
 
     private CurrencyVO convert(Currency model) {

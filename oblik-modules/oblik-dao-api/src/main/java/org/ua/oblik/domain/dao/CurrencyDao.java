@@ -1,8 +1,5 @@
 package org.ua.oblik.domain.dao;
 
-import java.math.BigDecimal;
-import java.util.Map;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.ua.oblik.domain.model.Currency;
 
@@ -12,15 +9,11 @@ import org.ua.oblik.domain.model.Currency;
  */
 public interface CurrencyDao extends JpaRepository<Currency, Integer>, CurrencyRepositoryFragment {
 
-    Currency selectDefault();
-    
-    boolean isSymbolExists(String symbol);
+    Currency findByByDefaultTrue();
 
-    boolean isDefaultExists();
-    
-    Map<Integer, BigDecimal> assetsByCurrencyId();
+    boolean existsByByDefaultTrue();
 
-    boolean isUsed(Integer currencyId);
+    boolean existsBySymbol(String symbol);
 
     long count();
 }
