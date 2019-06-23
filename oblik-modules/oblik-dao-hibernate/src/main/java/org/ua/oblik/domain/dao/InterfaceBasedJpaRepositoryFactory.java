@@ -1,4 +1,4 @@
-package org.ua.oblik.dao;
+package org.ua.oblik.domain.dao;
 
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.JpaEntityInformationSupport;

@@ -14,8 +14,8 @@
     <!-- Data layer entities factory -->
     <bean id="entitiesFactory" class="org.ua.oblik.domain.model.EntitiesFactoryImpl"/>
 
-<!--    <bean id="" class="org.ua.oblik.dao.InterfaceBasedJpaRepositoryFactoryBean"-->
+<!--    <bean id="" class="org.ua.oblik.domain.dao.InterfaceBasedJpaRepositoryFactoryBean"-->
 
-    <jpa:repositories base-package="org.ua.oblik.domain.dao" factory-class="org.ua.oblik.dao.InterfaceBasedJpaRepositoryFactoryBean"/>
+    <jpa:repositories base-package="org.ua.oblik.domain.dao" factory-class="org.ua.oblik.domain.dao.InterfaceBasedJpaRepositoryFactoryBean"/>
 
 </beans>
