@@ -5,39 +5,34 @@ import org.ua.oblik.service.beans.TransactionVO;
 
 import java.util.EnumMap;
 import java.util.Map;
-import java.util.function.Supplier;
+import java.util.function.Function;
 
 public class TransactionCommandFactory {
 
     private TransactionCommandSpringFactory springFactory;
 
-    private final Map<TransactionType, Supplier<TransactionCommand>> insertCommands = new EnumMap<>(TransactionType.class);
+    private final Map<TransactionType, Function<TransactionVO, TransactionCommand>> insertCommands = new EnumMap<>(TransactionType.class);
 
-    private final Map<TransactionType, Supplier<TransactionCommand>> updateCommands = new EnumMap<>(TransactionType.class);
+    private final Map<TransactionType, Function<TransactionVO, TransactionCommand>> updateCommands = new EnumMap<>(TransactionType.class);
 
     public void init() {
-        insertCommands.put(TransactionType.INCOME, () -> springFactory.createInsertIncomeCommand());
-        insertCommands.put(TransactionType.EXPENSE, () -> springFactory.createInsertExpenseCommand());
-        insertCommands.put(TransactionType.TRANSFER, () -> springFactory.createInsertTransferCommand());
+        insertCommands.put(TransactionType.INCOME, tvo -> springFactory.createInsertIncomeCommand(tvo));
+        insertCommands.put(TransactionType.EXPENSE, tvo -> springFactory.createInsertExpenseCommand(tvo));
+        insertCommands.put(TransactionType.TRANSFER, tvo -> springFactory.createInsertTransferCommand(tvo));
 
-        updateCommands.put(TransactionType.INCOME, () -> springFactory.createUpdateIncomeCommand());
-        updateCommands.put(TransactionType.EXPENSE, () -> springFactory.createUpdateExpenseCommand());
-        updateCommands.put(TransactionType.TRANSFER, () -> springFactory.createUpdateTransferCommand());
+        updateCommands.put(TransactionType.INCOME, tvo -> springFactory.createUpdateIncomeCommand(tvo));
+        updateCommands.put(TransactionType.EXPENSE, tvo -> springFactory.createUpdateExpenseCommand(tvo));
+        updateCommands.put(TransactionType.TRANSFER, tvo -> springFactory.createUpdateTransferCommand(tvo));
     }
 
     public TransactionCommand createSaveCommand(TransactionVO tvo) {
-        TransactionCommand command =
-                tvo.getTxId() == null
-                ? insertCommands.get(tvo.getType()).get()
-                : updateCommands.get(tvo.getType()).get();
-        command.setTransactionVO(tvo);
-        return command;
+        return tvo.getTxId() == null
+                ? insertCommands.get(tvo.getType()).apply(tvo)
+                : updateCommands.get(tvo.getType()).apply(tvo);
     }
 
     public TransactionCommand createDeleteCommand(TransactionVO tvo) {
-        TransactionCommand deleteCommand = springFactory.createDeleteCommand();
-        deleteCommand.setTransactionVO(tvo);
-        return deleteCommand;
+        return springFactory.createDeleteCommand(tvo);
     }
 
     public void setSpringFactory(TransactionCommandSpringFactory springFactory) {

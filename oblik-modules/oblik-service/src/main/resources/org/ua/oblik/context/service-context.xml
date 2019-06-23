@@ -18,19 +18,22 @@
         <property name="springFactory" ref="springCommandFactory"/>
     </bean>
 
-    <bean id="abstractTxCommand" abstract="true" class="org.ua.oblik.service.command.AbstractTxCommand">
-        <!--<property name="entitiesFactory" ref=""/>-->
-        <!--<property name="accountDao" ref=""/>-->
-        <!--<property name="txactionDao" ref=""/>-->
-    </bean>
+    <bean id="abstractTxCommand" abstract="true" class="org.ua.oblik.service.command.AbstractTxCommand"/>
 
-    <bean id="insertIncomeCommand" class="org.ua.oblik.service.command.InsertIncomeCommand" scope="prototype" parent="abstractTxCommand"/>
-    <bean id="insertExpenseCommand" class="org.ua.oblik.service.command.InsertExpenseCommand" scope="prototype" parent="abstractTxCommand"/>
-    <bean id="insertTransferCommand" class="org.ua.oblik.service.command.InsertTransferCommand" scope="prototype" parent="abstractTxCommand"/>
-    <bean id="updateIncomeCommand" class="org.ua.oblik.service.command.UpdateIncomeCommand" scope="prototype" parent="abstractTxCommand"/>
-    <bean id="updateExpenseCommand" class="org.ua.oblik.service.command.UpdateExpenseCommand" scope="prototype" parent="abstractTxCommand"/>
-    <bean id="updateTransferCommand" class="org.ua.oblik.service.command.UpdateTransferCommand" scope="prototype" parent="abstractTxCommand"/>
-    <bean id="deleteTxCommand" class="org.ua.oblik.service.command.DeleteTxCommand" scope="prototype" parent="abstractTxCommand"/>
+    <bean id="insertIncomeCommand" class="org.ua.oblik.service.command.InsertTxCommand$InsertIncomeCommand"
+          scope="prototype" parent="abstractTxCommand"/>
+    <bean id="insertExpenseCommand" class="org.ua.oblik.service.command.InsertTxCommand$InsertExpenseCommand"
+          scope="prototype" parent="abstractTxCommand"/>
+    <bean id="insertTransferCommand" class="org.ua.oblik.service.command.InsertTxCommand$InsertTransferCommand"
+          scope="prototype" parent="abstractTxCommand"/>
+    <bean id="updateIncomeCommand" class="org.ua.oblik.service.command.UpdateTxCommand$UpdateIncomeCommand"
+          scope="prototype" parent="abstractTxCommand"/>
+    <bean id="updateExpenseCommand" class="org.ua.oblik.service.command.UpdateTxCommand$UpdateExpenseCommand"
+          scope="prototype" parent="abstractTxCommand"/>
+    <bean id="updateTransferCommand" class="org.ua.oblik.service.command.UpdateTxCommand$UpdateTransferCommand"
+          scope="prototype" parent="abstractTxCommand"/>
+    <bean id="deleteTxCommand" class="org.ua.oblik.service.command.DeleteTxCommand"
+          scope="prototype" parent="abstractTxCommand"/>
 
     <bean id="springCommandFactory" class="org.ua.oblik.service.command.TransactionCommandSpringFactory">
         <lookup-method name="createInsertIncomeCommand" bean="insertIncomeCommand"/>

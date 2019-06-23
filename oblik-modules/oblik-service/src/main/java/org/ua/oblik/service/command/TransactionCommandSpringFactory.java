@@ -1,18 +1,20 @@
 package org.ua.oblik.service.command;
 
+import org.ua.oblik.service.beans.TransactionVO;
+
 public interface TransactionCommandSpringFactory {
 
-    InsertIncomeCommand createInsertIncomeCommand();
+    InsertTxCommand.InsertIncomeCommand createInsertIncomeCommand(TransactionVO tvo);
 
-    InsertExpenseCommand createInsertExpenseCommand();
+    InsertTxCommand.InsertExpenseCommand createInsertExpenseCommand(TransactionVO tvo);
 
-    InsertTransferCommand createInsertTransferCommand();
+    InsertTxCommand.InsertTransferCommand createInsertTransferCommand(TransactionVO tvo);
 
-    UpdateIncomeCommand createUpdateIncomeCommand();
+    UpdateTxCommand.UpdateIncomeCommand createUpdateIncomeCommand(TransactionVO tvo);
 
-    UpdateExpenseCommand createUpdateExpenseCommand();
+    UpdateTxCommand.UpdateExpenseCommand createUpdateExpenseCommand(TransactionVO tvo);
 
-    UpdateTransferCommand createUpdateTransferCommand();
+    UpdateTxCommand.UpdateTransferCommand createUpdateTransferCommand(TransactionVO tvo);
 
-    DeleteTxCommand createDeleteCommand();
+    DeleteTxCommand createDeleteCommand(TransactionVO tvo);
 }

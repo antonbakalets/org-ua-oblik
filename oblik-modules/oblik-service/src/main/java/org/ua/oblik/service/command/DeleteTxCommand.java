@@ -7,10 +7,15 @@ import org.slf4j.LoggerFactory;
 import org.ua.oblik.domain.model.AccountKind;
 import org.ua.oblik.domain.model.Account;
 import org.ua.oblik.domain.model.Txaction;
+import org.ua.oblik.service.beans.TransactionVO;
 
-public class DeleteTxCommand extends AbstractTxCommand {
+class DeleteTxCommand extends AbstractTxCommand {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DeleteTxCommand.class);
+
+    DeleteTxCommand(TransactionVO tvo) {
+        super(tvo);
+    }
 
     @Override
     public void execute() {

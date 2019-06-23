@@ -8,16 +8,13 @@ import org.ua.oblik.service.beans.TransactionVO;
 
 abstract class AbstractTxCommand implements TransactionCommand {
 
+    protected final TransactionVO tvo;
+
     protected EntitiesFactory entitiesFactory;
-
     protected AccountDao accountDao;
-
     protected TxactionDao txactionDao;
 
-    protected TransactionVO tvo;
-
-    @Override
-    public void setTransactionVO(TransactionVO tvo) {
+    public AbstractTxCommand(TransactionVO tvo) {
         this.tvo = tvo;
     }
 
