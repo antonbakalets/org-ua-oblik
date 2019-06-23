@@ -9,7 +9,6 @@
     <bean id="userLoginDao" class="org.ua.oblik.domain.dao.UserLoginDaoImpl"/>
     
     <!-- Oblik data access objects -->
-    <bean id="buildingDao" class="org.ua.oblik.domain.dao.CurrencyDaoImpl"/>
     <bean id="entranceDao" class="org.ua.oblik.domain.dao.TxactionDaoImpl"/>
 
     <!-- Data layer entities factory -->

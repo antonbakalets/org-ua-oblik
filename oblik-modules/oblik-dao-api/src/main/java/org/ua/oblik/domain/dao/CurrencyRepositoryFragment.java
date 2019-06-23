@@ -5,7 +5,6 @@ import org.ua.oblik.domain.model.Currency;
 import java.math.BigDecimal;
 import java.util.Map;
 
-// TODO use it
 public interface CurrencyRepositoryFragment {
 
     Currency selectDefault();

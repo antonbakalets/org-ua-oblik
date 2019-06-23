@@ -47,7 +47,7 @@ public class CurrencyServiceImpl implements CurrencyService {
             currency.setByDefault(true);
             currency.setRate(BigDecimal.ONE);
         }
-        currencyDao.insert(currency);
+        currencyDao.save(currency);
         cvo.setCurrencyId(currency.getId());
         cvo.setDefaultRate(currency.getByDefault());
     }
@@ -92,7 +92,7 @@ public class CurrencyServiceImpl implements CurrencyService {
         Currency currency = currencyDao.getOne(currencyId);
         if (currency != null) {
             if (isRemovable(currency)) {
-                currencyDao.delete(currencyId);
+                currencyDao.delete(currency);
             } else {
                 throw new BusinessConstraintException("Cannot remove");
             }

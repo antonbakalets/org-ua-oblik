@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -21,44 +23,43 @@ import org.ua.oblik.domain.model.CurrencyEntity_;
  *
  * @author Anton Bakalets
  */
-public class CurrencyDaoImpl extends AbstractDao<Integer, Currency, CurrencyEntity> implements CurrencyDao {
+public class CurrencyDaoImpl implements CurrencyRepositoryFragment {
 
-    public CurrencyDaoImpl() {
-        super(CurrencyEntity.class);
-    }
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
     public Currency selectDefault() {
-        CriteriaBuilder cbuilder = getEntityManager().getCriteriaBuilder();
+        CriteriaBuilder cbuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<CurrencyEntity> cquery = cbuilder.createQuery(CurrencyEntity.class);
         Root<CurrencyEntity> root = cquery.from(CurrencyEntity.class);
         cquery.select(root).where(cbuilder.equal(root.get(CurrencyEntity_.byDefault), Boolean.TRUE));
-        return getEntityManager().createQuery(cquery).getSingleResult();
+        return entityManager.createQuery(cquery).getSingleResult();
     }
 
     @Override
     public boolean isSymbolExists(String symbol) {
-        CriteriaBuilder cbuilder = getEntityManager().getCriteriaBuilder();
+        CriteriaBuilder cbuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Long> cquery = cbuilder.createQuery(Long.class);
         Root<CurrencyEntity> root = cquery.from(CurrencyEntity.class);
         cquery.select(cbuilder.count(root)).where(
                 cbuilder.equal(root.get(CurrencyEntity_.symbol), symbol));
-        return getEntityManager().createQuery(cquery).getSingleResult() > 0;
+        return entityManager.createQuery(cquery).getSingleResult() > 0;
     }
 
     @Override
     public boolean isDefaultExists() {
-        CriteriaBuilder cbuilder = getEntityManager().getCriteriaBuilder();
+        CriteriaBuilder cbuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Long> cquery = cbuilder.createQuery(Long.class);
         Root<CurrencyEntity> root = cquery.from(CurrencyEntity.class);
         cquery.select(cbuilder.count(root)).where(
                 cbuilder.equal(root.get(CurrencyEntity_.byDefault), Boolean.TRUE));
-        return getEntityManager().createQuery(cquery).getSingleResult() > 0;
+        return entityManager.createQuery(cquery).getSingleResult() > 0;
     }
 
     @Override
     public Map<Integer, BigDecimal> assetsByCurrencyId() {
-        List<Object[]> list = getEntityManager().createNativeQuery("select currency.curr_id, accounts1_.sumtotal "
+        List<Object[]> list = entityManager.createNativeQuery("select currency.curr_id, accounts1_.sumtotal "
                 + "from currency currency left join "
                 + "(select currency, sum(total) as sumtotal from account where account.kind='ASSETS' group by currency) "
                 + "accounts1_ on currency.curr_id=accounts1_.currency "
@@ -72,21 +73,21 @@ public class CurrencyDaoImpl extends AbstractDao<Integer, Currency, CurrencyEnti
 
     @Override
     public boolean isUsed(Integer currencyId) {
-        CriteriaBuilder cbuilder = getEntityManager().getCriteriaBuilder();
+        CriteriaBuilder cbuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Long> cquery = cbuilder.createQuery(Long.class);
         Root<AccountEntity> root = cquery.from(AccountEntity.class);
         cquery.select(cbuilder.count(root)).where(
                 cbuilder.equal(root.get(AccountEntity_.currency), currencyId));
-        return getEntityManager().createQuery(cquery).getSingleResult() > 0;
+        return entityManager.createQuery(cquery).getSingleResult() > 0;
     }
 
     @Override
     public long count() {
-        final CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        final CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         final CriteriaQuery cq = cb.createQuery();
         final Root<Currency> rt = cq.from(CurrencyEntity.class);
         cq.select(cb.count(rt));
-        Query q = getEntityManager().createQuery(cq);
+        Query q = entityManager.createQuery(cq);
         return (Long) q.getSingleResult();
     }
 }

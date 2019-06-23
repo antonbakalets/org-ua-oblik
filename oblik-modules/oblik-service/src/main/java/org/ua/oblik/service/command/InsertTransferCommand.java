@@ -9,8 +9,8 @@ public class InsertTransferCommand extends AbstractInsertCommand {
 
     @Override
     protected void doInsert(Txaction txaction, Account credit, Account debit) {
-        // in case currency is the same - the amount is the same
-        if (credit.getCurrency().equals(debit.getCurrency())) {
+        // is currency is the same, the amount is considered the same
+        if (credit.getCurrency().getId().equals(debit.getCurrency().getId())) {
             tvo.setSecondAmount(tvo.getFirstAmount());
         }
         txaction.setDebetAmount(tvo.getSecondAmount());
