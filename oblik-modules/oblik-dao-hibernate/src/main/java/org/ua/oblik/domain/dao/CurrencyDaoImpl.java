@@ -2,16 +2,14 @@ package org.ua.oblik.domain.dao;
 
 import org.ua.oblik.domain.model.AccountEntity;
 import org.ua.oblik.domain.model.AccountEntity_;
+import org.ua.oblik.domain.model.CurrencyTotal;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Currency DAO.
@@ -20,21 +18,19 @@ import java.util.Map;
  */
 public class CurrencyDaoImpl implements CurrencyRepositoryFragment {
 
+    private static final String SQL_STRING =
+            "SELECT c.curr_id, c.symbol, c.by_default, c.rate, a.sumtotal " +
+            "  FROM currency c " +
+            "  LEFT JOIN (SELECT currency, sum(total) AS sumtotal FROM account WHERE account.kind='ASSETS' GROUP BY currency) a " +
+            "    ON c.curr_id = a.currency " +
+            "  GROUP BY c.curr_id";
+
     @PersistenceContext
     private EntityManager entityManager;
 
     @Override
-    public Map<Integer, BigDecimal> assetsByCurrencyId() {
-        List<Object[]> list = entityManager.createNativeQuery("select currency.curr_id, accounts1_.sumtotal "
-                + "from currency currency left join "
-                + "(select currency, sum(total) as sumtotal from account where account.kind='ASSETS' group by currency) "
-                + "accounts1_ on currency.curr_id=accounts1_.currency "
-                + "group by currency.curr_id").getResultList();
-        Map<Integer, BigDecimal> map = new HashMap<>();
-        for (Object[] obs : list) {
-            map.put((Integer) obs[0], (BigDecimal) obs[1]);
-        }
-        return map;
+    public List<CurrencyTotal> assetsByCurrencyId() {
+        return entityManager.createNativeQuery(SQL_STRING, "currencyTotal").getResultList();
     }
 
     @Override

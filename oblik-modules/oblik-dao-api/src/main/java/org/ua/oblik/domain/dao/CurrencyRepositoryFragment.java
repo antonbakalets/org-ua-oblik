@@ -1,11 +1,12 @@
 package org.ua.oblik.domain.dao;
 
-import java.math.BigDecimal;
-import java.util.Map;
+import org.ua.oblik.domain.model.CurrencyTotal;
+
+import java.util.List;
 
 public interface CurrencyRepositoryFragment {
 
-    Map<Integer, BigDecimal> assetsByCurrencyId();
+    List<CurrencyTotal> assetsByCurrencyId();
 
     boolean isUsed(Integer currencyId);
 

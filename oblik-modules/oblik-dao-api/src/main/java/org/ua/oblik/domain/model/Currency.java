@@ -13,7 +13,7 @@ public interface Currency extends Identifiable<Integer>, Serializable {
 
     void setSymbol(String symbol);
 
-    boolean getByDefault();
+    boolean isByDefault();
 
     void setByDefault(boolean byDefault);
 

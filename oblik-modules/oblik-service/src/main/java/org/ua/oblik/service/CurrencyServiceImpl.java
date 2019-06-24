@@ -1,9 +1,8 @@
 package org.ua.oblik.service;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.ua.oblik.domain.dao.CurrencyDao;
 import org.ua.oblik.domain.model.Currency;
+import org.ua.oblik.domain.model.CurrencyTotal;
 import org.ua.oblik.domain.model.EntitiesFactory;
 import org.ua.oblik.service.beans.CurrencyVO;
 
@@ -22,7 +22,6 @@ public class CurrencyServiceImpl implements CurrencyService {
     private static final Logger LOGGER = LoggerFactory.getLogger(CurrencyServiceImpl.class);
 
     private CurrencyDao currencyDao;
-    private TotalService totalService;
     private EntitiesFactory entitiesFactory;
 
     @Override
@@ -49,7 +48,7 @@ public class CurrencyServiceImpl implements CurrencyService {
         }
         currencyDao.save(currency);
         cvo.setCurrencyId(currency.getId());
-        cvo.setDefaultRate(currency.getByDefault());
+        cvo.setDefaultRate(currency.isByDefault());
     }
 
     private void update(CurrencyVO cvo) {
@@ -61,12 +60,19 @@ public class CurrencyServiceImpl implements CurrencyService {
 
     @Override
     public List<CurrencyVO> getCurrencies() {
-        final List<? extends Currency> currencies = currencyDao.findAll();
-        final Map<Integer, BigDecimal> assetsByCurrency = totalService.getCurrenciesTotal();
-        List<CurrencyVO> result = new ArrayList<>(currencies.size());
-        for (Currency model : currencies) {
-            result.add(convert(model, assetsByCurrency.get(model.getId())));
-        }
+        return currencyDao.assetsByCurrencyId().stream()
+                .map(this::convert)
+                .collect(Collectors.toList());
+    }
+
+    private CurrencyVO convert(CurrencyTotal currencyTotal) {
+        CurrencyVO result = new CurrencyVO();
+        result.setCurrencyId(currencyTotal.getCurrId());
+        result.setRate(currencyTotal.getRate());
+        result.setSymbol(currencyTotal.getSymbol());
+        result.setDefaultRate(currencyTotal.isByDefault());
+        result.setRemovable(isRemovable(currencyTotal.isByDefault(), currencyTotal.getCurrId()));
+        result.setTotal(currencyTotal.getTotal());
         return result;
     }
 
@@ -123,35 +129,25 @@ public class CurrencyServiceImpl implements CurrencyService {
         result.setCurrencyId(model.getId());
         result.setRate(model.getRate());
         result.setSymbol(model.getSymbol());
-        result.setDefaultRate(model.getByDefault());
+        result.setDefaultRate(model.isByDefault());
         result.setRemovable(isRemovable(model));
         return result;
     }
 
     private boolean isRemovable(Currency model) {
-        boolean defaultRate = model.getByDefault();
-        boolean noAccounts = noAccounts(model.getId());
+        boolean defaultRate = model.isByDefault();
+        Integer currencyId = model.getId();
+        return isRemovable(defaultRate, currencyId);
+    }
+
+    private boolean isRemovable(boolean defaultRate, Integer currencyId) {
+        boolean noAccounts = currencyId != null && !currencyDao.isUsed(currencyId);
         return noAccounts && (!defaultRate || currencyDao.count() == 1);
-    }
-
-    private boolean noAccounts(Integer currencyId) {
-        return currencyId != null && !currencyDao.isUsed(currencyId);
-    }
-
-    private CurrencyVO convert(Currency model, BigDecimal total) {
-        CurrencyVO result = convert(model);
-        result.setTotal(total);
-        return result;
     }
 
     @Autowired
     public void setCurrencyDao(CurrencyDao currencyDao) {
         this.currencyDao = currencyDao;
-    }
-
-    @Autowired
-    public void setTotalService(TotalService totalService) {
-        this.totalService = totalService;
     }
 
     @Autowired

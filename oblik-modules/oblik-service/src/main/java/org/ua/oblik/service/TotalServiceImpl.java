@@ -8,7 +8,6 @@ import org.ua.oblik.domain.dao.CurrencyDao;
 import org.ua.oblik.domain.model.Currency;
 
 import java.math.BigDecimal;
-import java.util.Map;
 
 /**
  *
@@ -29,11 +28,6 @@ public class TotalServiceImpl implements TotalService {
         final BigDecimal defaultTotal = accountDao.calculateDefaultTotal();
         LOGGER.debug("[TOTAL] Default currency total: {}", defaultTotal);
         return defaultTotal;
-    }
-
-    @Override
-    public Map<Integer, BigDecimal> getCurrenciesTotal() {
-        return currencyDao.assetsByCurrencyId();
     }
 
     @Override
