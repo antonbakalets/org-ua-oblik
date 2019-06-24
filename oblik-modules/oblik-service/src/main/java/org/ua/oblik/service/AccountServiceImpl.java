@@ -136,7 +136,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public boolean isNameExists(String name) {
-        return accountDao.isNameExists(name);
+        return accountDao.existsByShortName(name);
     }
 
     private boolean isNoTransactions(Integer accountId) {

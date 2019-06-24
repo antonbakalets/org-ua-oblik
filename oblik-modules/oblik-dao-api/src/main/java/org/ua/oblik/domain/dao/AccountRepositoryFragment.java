@@ -8,7 +8,5 @@ public interface AccountRepositoryFragment {
 
     BigDecimal calculateDefaultTotal();
 
-    boolean isNameExists(String name);
-
     boolean isUsed(Integer accountId);
 }

@@ -31,16 +31,6 @@ public class AccountDaoImpl implements AccountRepositoryFragment {
     }
 
     @Override
-    public boolean isNameExists(String shortName) {
-        CriteriaBuilder cbuilder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Long> cquery = cbuilder.createQuery(Long.class);
-        Root<AccountEntity> root = cquery.from(AccountEntity.class);
-        cquery.select(cbuilder.count(root)).where(
-                cbuilder.equal(root.get(AccountEntity_.shortName), shortName));
-        return entityManager.createQuery(cquery).getSingleResult() > 0;
-    }
-
-    @Override
     public boolean isUsed(Integer accountId) {
         CriteriaBuilder cbuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Long> cquery = cbuilder.createQuery(Long.class);

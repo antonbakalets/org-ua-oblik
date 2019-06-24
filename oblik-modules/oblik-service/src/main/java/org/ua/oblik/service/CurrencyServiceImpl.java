@@ -96,14 +96,10 @@ public class CurrencyServiceImpl implements CurrencyService {
     @Transactional(rollbackFor = {NotFoundException.class, BusinessConstraintException.class})
     public void remove(Integer currencyId) throws NotFoundException, BusinessConstraintException {
         Currency currency = currencyDao.getOne(currencyId);
-        if (currency != null) {
-            if (isRemovable(currency)) {
-                currencyDao.delete(currency);
-            } else {
-                throw new BusinessConstraintException("Cannot remove");
-            }
+        if (isRemovable(currency)) {
+            currencyDao.delete(currency);
         } else {
-            throw new NotFoundException("Currency not found.");
+            throw new BusinessConstraintException("Cannot remove");
         }
     }
 

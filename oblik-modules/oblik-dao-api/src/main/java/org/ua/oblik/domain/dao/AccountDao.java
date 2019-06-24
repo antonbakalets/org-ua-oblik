@@ -10,4 +10,6 @@ public interface AccountDao extends JpaRepository<Account, Integer>, AccountRepo
 
     List<Account> findByKind(AccountKind kind);
 
+    boolean existsByShortName(String shortName);
+
 }
