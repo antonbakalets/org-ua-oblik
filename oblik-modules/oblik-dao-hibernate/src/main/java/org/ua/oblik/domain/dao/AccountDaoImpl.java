@@ -18,13 +18,13 @@ public class AccountDaoImpl implements AccountRepositoryFragment {
     private EntityManager entityManager;
 
     @Override
-    public BigDecimal calculateTotal(Currency currency) {
+    public BigDecimal calculateTotal(Integer currencyId) {
         CriteriaBuilder cbuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<BigDecimal> cquery = cbuilder.createQuery(BigDecimal.class);
         Root<AccountEntity> root = cquery.from(AccountEntity.class);
         cquery.select(cbuilder.coalesce(cbuilder.sum(root.get(AccountEntity_.total)), BigDecimal.ZERO))
                 .where(
-                        cbuilder.equal(root.get(AccountEntity_.currency), currency),
+                        cbuilder.equal(root.get(AccountEntity_.currency), currencyId),
                         cbuilder.equal(root.get(AccountEntity_.kind), AccountKind.ASSETS)
                 );
         return entityManager.createQuery(cquery).getSingleResult();
@@ -45,14 +45,11 @@ public class AccountDaoImpl implements AccountRepositoryFragment {
         CriteriaBuilder cbuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Long> cquery = cbuilder.createQuery(Long.class);
         Root<TxactionEntity> root = cquery.from(TxactionEntity.class);
-        Long count = 0L;
         cquery.select(cbuilder.count(root)).where(
-                cbuilder.equal(root.get(TxactionEntity_.debet), accountId));
-        count += entityManager.createQuery(cquery).getSingleResult();
-        cquery.select(cbuilder.count(root)).where(
-                cbuilder.equal(root.get(TxactionEntity_.credit), accountId));
-        count += entityManager.createQuery(cquery).getSingleResult();
-        return count > 0;
+                cbuilder.or(
+                        cbuilder.equal(root.get(TxactionEntity_.debet), accountId),
+                        cbuilder.equal(root.get(TxactionEntity_.credit), accountId)));
+        return entityManager.createQuery(cquery).getSingleResult() > 0;
     }
 
     @Override

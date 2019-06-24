@@ -4,8 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.ua.oblik.domain.dao.AccountDao;
-import org.ua.oblik.domain.dao.CurrencyDao;
-import org.ua.oblik.domain.model.Currency;
 
 import java.math.BigDecimal;
 
@@ -19,10 +17,7 @@ public class TotalServiceImpl implements TotalService {
 
     @Autowired
     private AccountDao accountDao;
-    
-    @Autowired
-    private CurrencyDao currencyDao;
-        
+
     @Override
     public BigDecimal getDefaultCurrencyTotal() {
         final BigDecimal defaultTotal = accountDao.calculateDefaultTotal();
@@ -32,7 +27,6 @@ public class TotalServiceImpl implements TotalService {
 
     @Override
     public BigDecimal getCurrencyTotal(Integer currencyId) {
-        final Currency currency = currencyDao.getOne(currencyId);
-        return accountDao.calculateTotal(currency);
+        return accountDao.calculateTotal(currencyId);
     }
 }

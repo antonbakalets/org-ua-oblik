@@ -1,12 +1,10 @@
 package org.ua.oblik.domain.dao;
 
-import org.ua.oblik.domain.model.Currency;
-
 import java.math.BigDecimal;
 
 public interface AccountRepositoryFragment {
 
-    BigDecimal calculateTotal(Currency currency);
+    BigDecimal calculateTotal(Integer currencyId);
 
     BigDecimal calculateDefaultTotal();
 

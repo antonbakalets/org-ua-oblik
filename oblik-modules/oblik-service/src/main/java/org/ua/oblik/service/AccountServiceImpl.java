@@ -69,7 +69,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     private void insert(AccountVO avo) {
-        LOGGER.debug("Saving new acoount, name: {}.", avo.getName());
+        LOGGER.debug("Saving new acсount, name: {}.", avo.getName());
         final Currency currency = currencyDao.getOne(avo.getCurrencyId());
         final Account account = entitiesFactory.createAccountEntity();
         account.setCurrency(currency);
@@ -82,7 +82,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     private void update(AccountVO avo) {
-        LOGGER.debug("Updating acoount, name: {}", avo.getName());
+        LOGGER.debug("Updating acсount, name: {}", avo.getName());
         final Currency currency = currencyDao.getOne(avo.getCurrencyId());
         final Account account = accountDao.getOne(avo.getAccountId());
         account.setCurrency(currency);
