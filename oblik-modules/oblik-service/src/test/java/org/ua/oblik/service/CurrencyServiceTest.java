@@ -39,7 +39,7 @@ public class CurrencyServiceTest extends BaseServiceCheckConfig {
         final CurrencyVO actual = currencyServiceTestHelper.getDefinedCurrency(DefinedCurrency.values()[0]);
         Assert.assertEquals("", expected.getCurrencyId(), actual.getCurrencyId());
         Assert.assertEquals("", expected.getSymbol(), actual.getSymbol());
-        Assert.assertEquals("", expected.getRate().compareTo(BigDecimal.ONE), 0);
+        Assert.assertEquals("", 0, expected.getRate().compareTo(BigDecimal.ONE));
         Assert.assertTrue("", expected.getDefaultRate());
         
         final BigDecimal total = totalService.getDefaultCurrencyTotal();
@@ -73,7 +73,7 @@ public class CurrencyServiceTest extends BaseServiceCheckConfig {
         CurrencyVO newEuro = currencyService.getCurrency(euro.getCurrencyId());
         Assert.assertEquals("", euro.getCurrencyId(), newEuro.getCurrencyId());
         Assert.assertEquals("", euro.getSymbol(), newEuro.getSymbol());
-        Assert.assertEquals("", euro.getRate().compareTo(newEuro.getRate()), 0);
+        Assert.assertEquals("", 0, euro.getRate().compareTo(newEuro.getRate()));
 
         Assert.assertTrue("", currencyService.isDefaultExists());
         Assert.assertTrue("", currencyService.isSymbolExists(UGH_SYMBOL));
@@ -99,5 +99,27 @@ public class CurrencyServiceTest extends BaseServiceCheckConfig {
             LOGGER.debug("Ignored.", e);
         }
         Assert.assertEquals(newSymbol, currency.getSymbol());
+    }
+
+    @Test
+    public void createCurrency() {
+        LOGGER.debug("[TEST] Creating currency");
+        CurrencyVO currency = currencyService.createCurrency();
+        Assert.assertFalse(currency.getDefaultRate());
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void removeUnknownCurrency() throws NotFoundException, BusinessConstraintException {
+        currencyService.remove(-15);
+    }
+
+    @Test(expected = BusinessConstraintException.class)
+    public void removeUnremovableCurrency() throws NotFoundException, BusinessConstraintException {
+        currencyService.remove(currencyServiceTestHelper.currencyId(DefinedCurrency.UGH));
+    }
+
+    @Test
+    public void removeRemovableCurrency() throws NotFoundException, BusinessConstraintException {
+        currencyService.remove(currencyServiceTestHelper.currencyId(DefinedCurrency.TBD));
     }
 }

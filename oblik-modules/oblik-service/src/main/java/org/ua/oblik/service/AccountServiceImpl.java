@@ -1,16 +1,9 @@
 package org.ua.oblik.service;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import org.ua.oblik.domain.model.AccountKind;
 import org.ua.oblik.domain.dao.AccountDao;
 import org.ua.oblik.domain.dao.CurrencyDao;
 import org.ua.oblik.domain.model.Account;
@@ -18,10 +11,12 @@ import org.ua.oblik.domain.model.Currency;
 import org.ua.oblik.domain.model.EntitiesFactory;
 import org.ua.oblik.service.beans.AccountCriteria;
 import org.ua.oblik.service.beans.AccountVO;
-import org.ua.oblik.service.beans.CurrencyVO;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- *
  * @author Anton Bakalets
  */
 public class AccountServiceImpl implements AccountService {
@@ -30,19 +25,13 @@ public class AccountServiceImpl implements AccountService {
 
     private AccountDao accountDao;
     private CurrencyDao currencyDao;
-    private CurrencyService currencyService;
     private EntitiesFactory entitiesFactory;
 
     @Override
     public AccountVO getAccount(Integer accountId) {
-        final Account selected = accountDao.getOne(accountId);
-        if (selected == null) {
-            final String message = "No account found with id " + accountId;
-            LOGGER.error(message);
-            throw new UnsupportedOperationException("Exception handling not implemented yet: throw new NotFoundException(message).");
-        } else {
-            return convert(selected);
-        }
+        return accountDao.findById(accountId)
+                .map(this::convert)
+                .orElseThrow((() -> new UnsupportedOperationException("Exception handling not implemented yet: throw new NotFoundException(message).")));
     }
 
     @Override
@@ -57,15 +46,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public BigDecimal totalAssets() {
-        BigDecimal result = BigDecimal.ZERO;
-        List<AccountVO> list = getAssetsAccounts();
-        for (AccountVO avo : list) {
-            Integer currencyId = avo.getCurrencyId();
-            CurrencyVO cvo = currencyService.getCurrency(currencyId);
-            BigDecimal toAdd = avo.getAmount().multiply(cvo.getRate());
-            result = result.add(toAdd);
-        }
-        return result;
+        return accountDao.calculateDefaultTotal();
     }
 
     private void insert(AccountVO avo) {
@@ -91,10 +72,6 @@ public class AccountServiceImpl implements AccountService {
         account.setTotal(avo.getAmount());
     }
 
-    private List<AccountVO> getAssetsAccounts() {
-        return convert(accountDao.findByKind(AccountKind.ASSETS));
-    }
-    
     @Override
     public List<AccountVO> getAccounts(AccountCriteria criteria) {
         AccountFilter filter = new AccountFilter();
@@ -103,30 +80,12 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Map<CurrencyVO, BigDecimal> totalAssetsByCurrency() {
-        List<AccountVO> listAcc = getAssetsAccounts();
-        List<CurrencyVO> listCur = currencyService.getCurrencies();
-        HashMap<CurrencyVO, BigDecimal> result = new HashMap<>();
-
-        for (CurrencyVO cvo : listCur) {
-            BigDecimal toRes = BigDecimal.ZERO;
-            for (AccountVO avo : listAcc) {
-                if (avo.getCurrencyId().equals(cvo.getCurrencyId())) {
-                    toRes = toRes.add(avo.getAmount());
-                }
-            }
-            result.put(cvo, toRes);
-        }
-        return result;
-    }
-
-    @Override
     @Transactional
     public void delete(Integer accountId) throws NotFoundException, BusinessConstraintException {
         if (accountDao.existsById(accountId)) {
             if (accountDao.isUsed(accountId)) {
-                throw new BusinessConstraintException("Account is used by transactions.");
-            }   else {
+                throw new BusinessConstraintException("Account is used by a transaction.");
+            } else {
                 accountDao.deleteById(accountId);
             }
         } else {
@@ -171,11 +130,6 @@ public class AccountServiceImpl implements AccountService {
     @Autowired
     public void setCurrencyDao(CurrencyDao currencyDao) {
         this.currencyDao = currencyDao;
-    }
-
-    @Autowired
-    public void setCurrencyService(CurrencyService currencyService) {
-        this.currencyService = currencyService;
     }
 
     @Autowired

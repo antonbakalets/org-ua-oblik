@@ -2,6 +2,7 @@ package org.ua.oblik.service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -95,18 +96,22 @@ public class CurrencyServiceImpl implements CurrencyService {
     @Override
     @Transactional(rollbackFor = {NotFoundException.class, BusinessConstraintException.class})
     public void remove(Integer currencyId) throws NotFoundException, BusinessConstraintException {
-        Currency currency = currencyDao.getOne(currencyId);
-        if (isRemovable(currency)) {
-            currencyDao.delete(currency);
+        Optional<Currency> currency = currencyDao.findById(currencyId);
+        if (currency.isPresent()) {
+            if (isRemovable(currency.get())) {
+                currencyDao.delete(currency.get());
+            } else {
+                throw new BusinessConstraintException("Cannot remove");
+            }
         } else {
-            throw new BusinessConstraintException("Cannot remove");
+            throw new NotFoundException("Could not find.");
         }
     }
 
     @Override
     public CurrencyVO createCurrency() {
         CurrencyVO result = new CurrencyVO();
-        if (currencyDao.count() > 0 && isDefaultExists()) {
+        if (isDefaultExists()) {
             result.setDefaultRate(Boolean.FALSE);
         } else {
             result.setDefaultRate(Boolean.TRUE);
