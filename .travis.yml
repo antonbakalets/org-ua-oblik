@@ -9,6 +9,6 @@ script:
   - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
 
 jdk:
-  - oraclejdk8
+  - openjdk8
 
 before_install: cd oblik-modules
