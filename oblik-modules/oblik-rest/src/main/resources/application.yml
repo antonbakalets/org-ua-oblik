@@ -10,9 +10,21 @@ logging:
     org.springframework: INFO
 
 server:
-  context-path: "/oblik-api"
+  servlet.context-path: "/oblik-api"
   port: 8090
 
-flyway:
-  locations: "classpath:db/mysql"
-  baseline-on-migrate: true
+spring:
+  main:
+    allow-bean-definition-overriding: true
+
+  datasource:
+    url: jdbc:postgresql://localhost:5433/oblik_db
+    username: oblik_user
+    password: oblik_pass
+
+  flyway:
+    locations: "classpath:db/mysql"
+    baseline-on-migrate: true
+
+  jpa:
+    show-sql: true

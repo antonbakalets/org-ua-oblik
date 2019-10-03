@@ -5,24 +5,22 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.ua.oblik.domain.model.Currency;
 import org.ua.oblik.rest.v1.convert.CurrencyConverter;
 import org.ua.oblik.rest.v1.convert.CurrencyResourceAssembler;
 import org.ua.oblik.service.BusinessConstraintException;
 import org.ua.oblik.service.CurrencyService;
 import org.ua.oblik.service.NotFoundException;
-import org.ua.oblik.service.beans.AccountVO;
 import org.ua.oblik.service.beans.CurrencyVO;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.UUID;
 
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -75,8 +73,8 @@ public class CurrencyControllerTest {
 
     @Test
     public void testCurrencyPost() throws Exception {
-        doAnswer(invocation -> {
-            invocation.getArgumentAt(0, CurrencyVO.class).setCurrencyId(165);
+        doAnswer((InvocationOnMock invocation) -> {
+            invocation.<CurrencyVO>getArgument(0).setCurrencyId(165);
             return null;
         }).when(currencyService).save(any(CurrencyVO.class));
 

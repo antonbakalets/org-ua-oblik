@@ -1,30 +1,14 @@
 package org.ua.oblik.rest.v1;
 
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.UUID;
-
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -36,8 +20,16 @@ import org.ua.oblik.service.TransactionService;
 import org.ua.oblik.service.beans.TransactionType;
 import org.ua.oblik.service.beans.TransactionVO;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.UUID;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TransactionControllerTest {
@@ -104,7 +96,7 @@ public class TransactionControllerTest {
     @Test
     public void testTransactionPost() throws Exception {
         doAnswer(invocation -> {
-            invocation.getArgumentAt(0, TransactionVO.class).setTxId(345);
+            invocation.<TransactionVO>getArgument(0).setTxId(345);
             return null;
         }).when(transactionService).save(any(TransactionVO.class));
 
@@ -180,7 +172,7 @@ public class TransactionControllerTest {
 
     @Test
     public void testTransactionDeleteNotFound() throws Exception {
-        doThrow(new NotFoundException("Invocation from test.")).when(transactionService).delete(any());
+        Mockito.doThrow(new NotFoundException("Invocation from test.")).when(transactionService).delete(any());
 
         mockMvc.perform(delete(v1BaseUrl + "/transactions/{id}", 1)
                 .accept(MediaType.APPLICATION_JSON)
