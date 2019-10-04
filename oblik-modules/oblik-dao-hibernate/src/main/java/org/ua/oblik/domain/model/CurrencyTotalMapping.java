@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 
 @Entity
 @SqlResultSetMapping(
-        name = "currencyTotal",
+        name = CurrencyTotalMapping.NAME,
         entities = @EntityResult(
                 entityClass = CurrencyTotalMapping.class,
                 fields = {
@@ -17,6 +17,8 @@ import java.math.BigDecimal;
                 })
 )
 public class CurrencyTotalMapping implements CurrencyTotal {
+
+    public static final String NAME = "currencyTotal";
 
     @Id
     private Integer currId;

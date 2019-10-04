@@ -3,6 +3,7 @@ package org.ua.oblik.domain.dao;
 import org.ua.oblik.domain.model.AccountEntity;
 import org.ua.oblik.domain.model.AccountEntity_;
 import org.ua.oblik.domain.model.CurrencyTotal;
+import org.ua.oblik.domain.model.CurrencyTotalMapping;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -19,18 +20,17 @@ import java.util.List;
 public class CurrencyDaoImpl implements CurrencyRepositoryFragment {
 
     private static final String SQL_STRING =
-            "SELECT c.curr_id, c.symbol, c.by_default, c.rate, a.sumtotal " +
+            "SELECT c.curr_id, c.symbol, c.by_default, c.rate, coalesce(a.sumtotal, 0) as sumtotal " +
             "  FROM currency c " +
             "  LEFT JOIN (SELECT currency, sum(total) AS sumtotal FROM account WHERE account.kind='ASSETS' GROUP BY currency) a " +
-            "    ON c.curr_id = a.currency " +
-            "  GROUP BY c.curr_id";
+            "    ON c.curr_id = a.currency";
 
     @PersistenceContext
     private EntityManager entityManager;
 
     @Override
     public List<CurrencyTotal> assetsByCurrencyId() {
-        return entityManager.createNativeQuery(SQL_STRING, "currencyTotal").getResultList();
+        return entityManager.createNativeQuery(SQL_STRING, CurrencyTotalMapping.NAME).getResultList();
     }
 
     @Override
