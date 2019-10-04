@@ -23,7 +23,6 @@ spring:
     password: oblik_pass
 
   flyway:
-    locations: "classpath:db/mysql"
     baseline-on-migrate: true
 
   jpa:
