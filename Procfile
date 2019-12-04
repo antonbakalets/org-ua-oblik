@@ -1,0 +1,1 @@
+web: java -jar oblik-modules/oblik-rest/target/oblik-rest-1.0.jar
