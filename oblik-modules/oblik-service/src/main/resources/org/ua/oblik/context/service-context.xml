@@ -12,7 +12,7 @@
         <property name="transactionCommandFactory" ref="transactionCommandFactory"/>
     </bean>
 
-    <bean id="userDetailsService" class="org.ua.oblik.service.security.UserDetailsServiceImpl"/>
+<!--    <bean id="userDetailsService" class="org.ua.oblik.service.security.UserDetailsServiceImpl"/>-->
 
     <bean id="transactionCommandFactory" class="org.ua.oblik.service.command.TransactionCommandFactory" init-method="init">
         <property name="springFactory" ref="springCommandFactory"/>

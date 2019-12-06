@@ -18,7 +18,7 @@ spring:
     allow-bean-definition-overriding: true
 
   datasource:
-    url: jdbc:postgresql://localhost:5433/oblik_db
+    url: jdbc:postgresql://localhost:5432/oblik_db
     username: oblik_user
     password: oblik_pass
 
