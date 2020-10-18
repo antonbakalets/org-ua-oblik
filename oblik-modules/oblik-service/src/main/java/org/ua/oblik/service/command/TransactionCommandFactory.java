@@ -1,5 +1,8 @@
 package org.ua.oblik.service.command;
 
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.ua.oblik.service.beans.TransactionType;
 import org.ua.oblik.service.beans.TransactionVO;
 
@@ -7,15 +10,18 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.function.Function;
 
-public class TransactionCommandFactory {
+@Component
+public class TransactionCommandFactory implements InitializingBean {
 
+    @Autowired
     private TransactionCommandSpringFactory springFactory;
 
     private final Map<TransactionType, Function<TransactionVO, TransactionCommand>> insertCommands = new EnumMap<>(TransactionType.class);
 
     private final Map<TransactionType, Function<TransactionVO, TransactionCommand>> updateCommands = new EnumMap<>(TransactionType.class);
 
-    public void init() {
+    @Override
+    public void afterPropertiesSet() {
         insertCommands.put(TransactionType.INCOME, tvo -> springFactory.createInsertIncomeCommand(tvo));
         insertCommands.put(TransactionType.EXPENSE, tvo -> springFactory.createInsertExpenseCommand(tvo));
         insertCommands.put(TransactionType.TRANSFER, tvo -> springFactory.createInsertTransferCommand(tvo));
@@ -33,10 +39,6 @@ public class TransactionCommandFactory {
 
     public TransactionCommand createDeleteCommand(TransactionVO tvo) {
         return springFactory.createDeleteCommand(tvo);
-    }
-
-    public void setSpringFactory(TransactionCommandSpringFactory springFactory) {
-        this.springFactory = springFactory;
     }
 }
 

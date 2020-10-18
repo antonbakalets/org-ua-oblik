@@ -1,5 +1,7 @@
 package org.ua.oblik.service.command;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import org.ua.oblik.domain.model.Account;
 import org.ua.oblik.domain.model.Txaction;
 import org.ua.oblik.service.beans.TransactionVO;
@@ -16,9 +18,9 @@ abstract class UpdateTxCommand extends AbstractTxCommand {
 
     @Override
     public void execute() {
-        Txaction txaction = txactionDao.getOne(tvo.getTxId());
-        Account newCreditAccount = accountDao.getOne(tvo.getFirstAccount());
-        Account newDebitAccount = accountDao.getOne(tvo.getSecondAccount());
+        Txaction txaction = txactionDao.findById(tvo.getTxId()).get();
+        Account newCreditAccount = accountDao.findById(tvo.getFirstAccount()).get();
+        Account newDebitAccount = accountDao.findById(tvo.getSecondAccount()).get();
         doUpdate(tvo, txaction, newCreditAccount, newDebitAccount);
         txaction.setCredit(newCreditAccount);
         txaction.setDebet(newDebitAccount);
@@ -26,6 +28,8 @@ abstract class UpdateTxCommand extends AbstractTxCommand {
         txaction.setComment(tvo.getNote());
     }
 
+    @Component
+    @Scope("prototype")
     static class UpdateExpenseCommand extends UpdateTxCommand {
 
         UpdateExpenseCommand(TransactionVO tvo) {
@@ -46,6 +50,8 @@ abstract class UpdateTxCommand extends AbstractTxCommand {
         }
     }
 
+    @Component
+    @Scope("prototype")
     static class UpdateIncomeCommand extends UpdateTxCommand {
 
         UpdateIncomeCommand(TransactionVO tvo) {
@@ -66,6 +72,8 @@ abstract class UpdateTxCommand extends AbstractTxCommand {
         }
     }
 
+    @Component
+    @Scope("prototype")
     static class UpdateTransferCommand extends UpdateTxCommand {
 
         UpdateTransferCommand(TransactionVO tvo) {

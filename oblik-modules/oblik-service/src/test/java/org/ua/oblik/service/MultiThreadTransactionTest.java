@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +21,7 @@ public class MultiThreadTransactionTest extends BaseTransactionServiceTest {
     public static final int TEST_RUN_NUMBER = 100;
 
     @Test
+    @Ignore
     public void exec() {
         long timeMillis = System.currentTimeMillis();
         ExecutorService executorService = Executors.newFixedThreadPool(THREADS_POOL_SIZE);

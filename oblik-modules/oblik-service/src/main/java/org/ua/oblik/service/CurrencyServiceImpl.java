@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.ua.oblik.domain.dao.CurrencyDao;
 import org.ua.oblik.domain.model.Currency;
@@ -18,6 +19,7 @@ import org.ua.oblik.service.beans.CurrencyVO;
 /**
  * @author Anton Bakalets
  */
+@Service
 public class CurrencyServiceImpl implements CurrencyService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CurrencyServiceImpl.class);
@@ -54,7 +56,7 @@ public class CurrencyServiceImpl implements CurrencyService {
 
     private void update(CurrencyVO cvo) {
         LOGGER.debug("Updating currency, symbol: {}.", cvo.getSymbol());
-        Currency currency = currencyDao.getOne(cvo.getCurrencyId());
+        Currency currency = currencyDao.findById(cvo.getCurrencyId()).get();
         currency.setRate(cvo.getRate());
         currency.setSymbol(cvo.getSymbol());
     }
@@ -79,7 +81,7 @@ public class CurrencyServiceImpl implements CurrencyService {
 
     @Override
     public CurrencyVO getCurrency(Integer currencyId) {
-        return convert(currencyDao.getOne(currencyId));
+        return convert(currencyDao.findById(currencyId).get());
     }
 
     @Override

@@ -3,6 +3,7 @@ package org.ua.oblik.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.ua.oblik.domain.dao.AccountDao;
 import org.ua.oblik.domain.dao.CurrencyDao;
@@ -19,6 +20,7 @@ import java.util.List;
 /**
  * @author Anton Bakalets
  */
+@Service
 public class AccountServiceImpl implements AccountService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AccountServiceImpl.class);
@@ -51,7 +53,7 @@ public class AccountServiceImpl implements AccountService {
 
     private void insert(AccountVO avo) {
         LOGGER.debug("Saving new acсount, name: {}.", avo.getName());
-        final Currency currency = currencyDao.getOne(avo.getCurrencyId());
+        final Currency currency = currencyDao.findById(avo.getCurrencyId()).get();
         final Account account = entitiesFactory.createAccountEntity();
         account.setCurrency(currency);
         account.setKind(AccountTypeConverter.convert(avo.getType()));
@@ -64,8 +66,8 @@ public class AccountServiceImpl implements AccountService {
 
     private void update(AccountVO avo) {
         LOGGER.debug("Updating acсount, name: {}", avo.getName());
-        final Currency currency = currencyDao.getOne(avo.getCurrencyId());
-        final Account account = accountDao.getOne(avo.getAccountId());
+        final Currency currency = currencyDao.findById(avo.getCurrencyId()).get();
+        final Account account = accountDao.findById(avo.getAccountId()).get();
         account.setCurrency(currency);
         account.setKind(AccountTypeConverter.convert(avo.getType()));
         account.setShortName(avo.getName());

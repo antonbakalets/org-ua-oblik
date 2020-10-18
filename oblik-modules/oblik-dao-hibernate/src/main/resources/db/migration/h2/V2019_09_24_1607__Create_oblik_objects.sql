@@ -1,8 +1,3 @@
-DROP TABLE IF EXISTS User_Login;
-DROP TABLE IF EXISTS Txaction;
-DROP TABLE IF EXISTS Account;
-DROP TABLE IF EXISTS Currency;
-
 -- -----------------------------------------------------
 -- Table User_Login
 -- -----------------------------------------------------

@@ -1,5 +1,7 @@
 package org.ua.oblik.service.command;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import org.ua.oblik.domain.model.Account;
 import org.ua.oblik.domain.model.Txaction;
 import org.ua.oblik.service.beans.TransactionVO;
@@ -17,8 +19,8 @@ abstract class InsertTxCommand extends AbstractTxCommand {
     @Override
     public void execute() {
         Txaction txaction = entitiesFactory.createTxactionEntity();
-        Account credit = accountDao.getOne(tvo.getFirstAccount());
-        Account debet = accountDao.getOne(tvo.getSecondAccount());
+        Account credit = accountDao.findById(tvo.getFirstAccount()).get();
+        Account debet = accountDao.findById(tvo.getSecondAccount()).get();
         doInsert(txaction, credit, debet);
         txaction.setCredit(credit);
         txaction.setDebet(debet);
@@ -28,6 +30,8 @@ abstract class InsertTxCommand extends AbstractTxCommand {
         tvo.setTxId(txaction.getId());
     }
 
+    @Component
+    @Scope("prototype")
     static class InsertIncomeCommand extends InsertTxCommand {
 
         InsertIncomeCommand(TransactionVO tvo) {
@@ -41,6 +45,8 @@ abstract class InsertTxCommand extends AbstractTxCommand {
         }
     }
 
+    @Component
+    @Scope("prototype")
     static class InsertTransferCommand extends InsertTxCommand {
 
         InsertTransferCommand(TransactionVO tvo) {
@@ -62,6 +68,8 @@ abstract class InsertTxCommand extends AbstractTxCommand {
         }
     }
 
+    @Component
+    @Scope("prototype")
     static class InsertExpenseCommand extends InsertTxCommand {
 
         InsertExpenseCommand(TransactionVO tvo) {

@@ -3,11 +3,12 @@ package org.ua.oblik.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.ua.oblik.domain.model.AccountKind;
 import org.ua.oblik.domain.dao.AccountDao;
 import org.ua.oblik.domain.dao.TxactionDao;
 import org.ua.oblik.domain.model.Account;
+import org.ua.oblik.domain.model.AccountKind;
 import org.ua.oblik.domain.model.EntitiesFactory;
 import org.ua.oblik.domain.model.Txaction;
 import org.ua.oblik.service.beans.TransactionType;
@@ -22,6 +23,7 @@ import java.util.List;
  *
  * @author Anton Bakalets
  */
+@Service
 public class TransactionServiceImpl implements TransactionService {
 
     private static final Logger LOG = LoggerFactory.getLogger(TransactionServiceImpl.class);
@@ -35,6 +37,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Autowired
     private EntitiesFactory entitiesFactory;
 
+    @Autowired
     private TransactionCommandFactory transactionCommandFactory;
 
     @Transactional
@@ -59,7 +62,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public TransactionVO getTransaction(Integer transactionId) {
-        return convert(txactionDao.getOne(transactionId));
+        return convert(txactionDao.findById(transactionId).get());
     }
 
     @Override

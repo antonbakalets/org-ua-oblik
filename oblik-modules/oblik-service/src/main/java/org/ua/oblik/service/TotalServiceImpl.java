@@ -3,6 +3,7 @@ package org.ua.oblik.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.ua.oblik.domain.dao.AccountDao;
 
 import java.math.BigDecimal;
@@ -11,6 +12,7 @@ import java.math.BigDecimal;
  *
  * @author Anton Bakalets
  */
+@Service
 public class TotalServiceImpl implements TotalService {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(TotalServiceImpl.class);

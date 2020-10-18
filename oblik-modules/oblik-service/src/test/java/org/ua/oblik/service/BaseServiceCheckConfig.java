@@ -1,25 +1,19 @@
 package org.ua.oblik.service;
 
 import org.junit.runner.RunWith;
-import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
-import org.ua.oblik.context.ServiceTestConfig;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.ua.oblik.service.test.TestHelperConfig;
 
 /**
- *
  * @author Anton Bakalets
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {
-    ServiceTestConfig.SERVICE_TEST_CONTEXT,
-    ServiceTestConfig.JPA_TEST_CONTEXT,
-    ServiceTestConfig.DAO_CONTEXT,
-    ServiceTestConfig.SERVICE_CONTEXT
-})
-@Transactional(transactionManager = ServiceTestConfig.TRANSACTION_MANAGER)
-@Rollback
+@RunWith(SpringRunner.class)
+@SpringBootTest
+@DirtiesContext // TODO @Rollback
+@Import(TestHelperConfig.class)
 class BaseServiceCheckConfig {
-    
+
 }

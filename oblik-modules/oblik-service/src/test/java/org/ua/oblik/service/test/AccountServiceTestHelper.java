@@ -7,6 +7,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.ua.oblik.service.AccountService;
 import org.ua.oblik.service.AccountServiceTest;
 import org.ua.oblik.service.BusinessConstraintException;
@@ -19,6 +20,7 @@ import org.ua.oblik.service.beans.CurrencyVO;
  *
  * @author Anton Bakalets
  */
+@Component
 public class AccountServiceTestHelper {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AccountServiceTestHelper.class);
