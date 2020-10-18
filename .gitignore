@@ -1,6 +1,11 @@
 .idea/
-/target/
+**/target/*
 org-ua-oblik/oblik-modules/oblik-rest/src/main/webapp/node_modules/
 
-*.iml
 *.log
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr

@@ -1,4 +1,4 @@
-package org.ua.oblik.config;
+package org.ua.oblik;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
