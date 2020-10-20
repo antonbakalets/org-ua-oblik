@@ -5,13 +5,13 @@
         <artifactId>oblik-modules</artifactId>
         <version>1.0</version>
     </parent>
-    
+
     <modelVersion>4.0.0</modelVersion>
     <artifactId>oblik-service</artifactId>
     <packaging>jar</packaging>
     <version>1.0</version>
     <name>Oblik - Service Layer Implementation</name>
-    
+
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -40,6 +40,18 @@
             <artifactId>spring-security-core</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>${mapstruct.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct-jdk8</artifactId>
+            <version>${mapstruct.version}</version>
+        </dependency>
+
         <!-- Test dependencies -->
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -64,4 +76,22 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>${mapstruct.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

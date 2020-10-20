@@ -29,7 +29,7 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <maven.compiler.source>${java.version}</maven.compiler.source>
 
-        <modelmapper.version>2.3.5</modelmapper.version>
+        <mapstruct.version>1.4.1.Final</mapstruct.version>
         <mysql.connector.version>8.0.16</mysql.connector.version>
         <springframework.version>5.2.3.RELEASE</springframework.version>
         <springframework.data.version>2.1.9.RELEASE</springframework.data.version>
@@ -92,12 +92,6 @@
                     </exclusion>
                 </exclusions>
                 <scope>runtime</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.modelmapper</groupId>
-                <artifactId>modelmapper</artifactId>
-                <version>${modelmapper.version}</version>
-                <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>

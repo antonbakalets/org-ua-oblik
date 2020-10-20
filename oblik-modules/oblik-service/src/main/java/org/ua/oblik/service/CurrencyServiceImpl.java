@@ -15,17 +15,24 @@ import org.ua.oblik.domain.model.Currency;
 import org.ua.oblik.domain.model.CurrencyTotal;
 import org.ua.oblik.domain.model.EntitiesFactory;
 import org.ua.oblik.service.beans.CurrencyVO;
+import org.ua.oblik.service.mapping.CurrencyMapper;
 
 /**
- * @author Anton Bakalets
+ * Currency Service implementation.
  */
 @Service
 public class CurrencyServiceImpl implements CurrencyService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CurrencyServiceImpl.class);
 
+    @Autowired
     private CurrencyDao currencyDao;
+
+    @Autowired
     private EntitiesFactory entitiesFactory;
+
+    @Autowired
+    private CurrencyMapper currencyMapper;
 
     @Override
     @Transactional
@@ -81,13 +88,18 @@ public class CurrencyServiceImpl implements CurrencyService {
 
     @Override
     public CurrencyVO getCurrency(Integer currencyId) {
-        return convert(currencyDao.findById(currencyId).get());
+        Currency model = currencyDao.findById(currencyId).get();
+        CurrencyVO result = currencyMapper.toVO(model);
+        result.setRemovable(isRemovable(model));
+        return result;
     }
 
     @Override
     public CurrencyVO getDefaultCurrency() {
-        return convert(currencyDao.findByByDefaultTrue());
-
+        Currency model = currencyDao.findByByDefaultTrue();
+        CurrencyVO result = currencyMapper.toVO(model);
+        result.setRemovable(isRemovable(model));
+        return result;
     }
 
     @Override
@@ -127,16 +139,6 @@ public class CurrencyServiceImpl implements CurrencyService {
         return currencyDao.existsByByDefaultTrue();
     }
 
-    private CurrencyVO convert(Currency model) {
-        CurrencyVO result = new CurrencyVO();
-        result.setCurrencyId(model.getId());
-        result.setRate(model.getRate());
-        result.setSymbol(model.getSymbol());
-        result.setDefaultRate(model.isByDefault());
-        result.setRemovable(isRemovable(model));
-        return result;
-    }
-
     private boolean isRemovable(Currency model) {
         boolean defaultRate = model.isByDefault();
         Integer currencyId = model.getId();
@@ -146,15 +148,5 @@ public class CurrencyServiceImpl implements CurrencyService {
     private boolean isRemovable(boolean defaultRate, Integer currencyId) {
         boolean noAccounts = currencyId != null && !currencyDao.isUsed(currencyId);
         return noAccounts && (!defaultRate || currencyDao.count() == 1);
-    }
-
-    @Autowired
-    public void setCurrencyDao(CurrencyDao currencyDao) {
-        this.currencyDao = currencyDao;
-    }
-
-    @Autowired
-    public void setEntitiesFactory(EntitiesFactory entitiesFactory) {
-        this.entitiesFactory = entitiesFactory;
     }
 }
