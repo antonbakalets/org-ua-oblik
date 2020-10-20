@@ -12,28 +12,35 @@ import org.ua.oblik.domain.model.Currency;
 import org.ua.oblik.domain.model.EntitiesFactory;
 import org.ua.oblik.service.beans.AccountCriteria;
 import org.ua.oblik.service.beans.AccountVO;
+import org.ua.oblik.service.mapping.AccountMapper;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Anton Bakalets
+ * Account service implementation.
  */
 @Service
 public class AccountServiceImpl implements AccountService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AccountServiceImpl.class);
 
+    @Autowired
     private AccountDao accountDao;
+    @Autowired
     private CurrencyDao currencyDao;
+    @Autowired
     private EntitiesFactory entitiesFactory;
+    @Autowired
+    private AccountMapper accountMapper;
 
     @Override
     public AccountVO getAccount(Integer accountId) {
         return accountDao.findById(accountId)
                 .map(this::convert)
-                .orElseThrow((() -> new UnsupportedOperationException("Exception handling not implemented yet: throw new NotFoundException(message).")));
+                .orElseThrow((() -> new UnsupportedOperationException(
+                        "Exception handling not implemented yet: throw new NotFoundException(message).")));
     }
 
     @Override
@@ -56,7 +63,7 @@ public class AccountServiceImpl implements AccountService {
         final Currency currency = currencyDao.findById(avo.getCurrencyId()).get();
         final Account account = entitiesFactory.createAccountEntity();
         account.setCurrency(currency);
-        account.setKind(AccountTypeConverter.convert(avo.getType()));
+        account.setKind(accountMapper.convert(avo.getType()));
         account.setShortName(avo.getName());
         // On creation account amount in zero
         account.setTotal(BigDecimal.ZERO);
@@ -69,7 +76,7 @@ public class AccountServiceImpl implements AccountService {
         final Currency currency = currencyDao.findById(avo.getCurrencyId()).get();
         final Account account = accountDao.findById(avo.getAccountId()).get();
         account.setCurrency(currency);
-        account.setKind(AccountTypeConverter.convert(avo.getType()));
+        account.setKind(accountMapper.convert(avo.getType()));
         account.setShortName(avo.getName());
         account.setTotal(avo.getAmount());
     }
@@ -105,13 +112,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     private AccountVO convert(Account model) {
-        AccountVO result = new AccountVO();
-        result.setAccountId(model.getId());
-        result.setCurrencyId(model.getCurrency().getId());
-        result.setCurrencySymbol(model.getCurrency().getSymbol());
-        result.setName(model.getShortName());
-        result.setAmount(model.getTotal());
-        result.setType(AccountTypeConverter.convert(model.getKind()));
+        AccountVO result = accountMapper.convert(model);
         result.setRemovable(isNoTransactions(model.getId()));
         return result;
     }
@@ -122,20 +123,5 @@ public class AccountServiceImpl implements AccountService {
             result.add(convert(model));
         }
         return result;
-    }
-
-    @Autowired
-    public void setAccountDao(AccountDao accountDao) {
-        this.accountDao = accountDao;
-    }
-
-    @Autowired
-    public void setCurrencyDao(CurrencyDao currencyDao) {
-        this.currencyDao = currencyDao;
-    }
-
-    @Autowired
-    public void setEntitiesFactory(EntitiesFactory entitiesFactory) {
-        this.entitiesFactory = entitiesFactory;
     }
 }
