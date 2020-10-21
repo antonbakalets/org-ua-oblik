@@ -1,21 +1,20 @@
 package org.ua.oblik.service;
 
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.ua.oblik.domain.dao.CurrencyDao;
+import org.ua.oblik.domain.dao.CurrencyRepository;
 import org.ua.oblik.domain.model.Currency;
 import org.ua.oblik.domain.model.CurrencyTotal;
-import org.ua.oblik.domain.model.EntitiesFactory;
 import org.ua.oblik.service.beans.CurrencyVO;
 import org.ua.oblik.service.mapping.CurrencyMapper;
+
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Currency Service implementation.
@@ -26,10 +25,7 @@ public class CurrencyServiceImpl implements CurrencyService {
     private static final Logger LOGGER = LoggerFactory.getLogger(CurrencyServiceImpl.class);
 
     @Autowired
-    private CurrencyDao currencyDao;
-
-    @Autowired
-    private EntitiesFactory entitiesFactory;
+    private CurrencyRepository currencyRepository;
 
     @Autowired
     private CurrencyMapper currencyMapper;
@@ -45,7 +41,7 @@ public class CurrencyServiceImpl implements CurrencyService {
     }
 
     private void insert(CurrencyVO cvo) {
-        Currency currency = entitiesFactory.createCurrencyEntity();
+        Currency currency = new Currency();
         currency.setSymbol(cvo.getSymbol());
         if (isDefaultExists()) {
             LOGGER.debug("Saving new currency, symbol: {}.", cvo.getSymbol());
@@ -56,21 +52,21 @@ public class CurrencyServiceImpl implements CurrencyService {
             currency.setByDefault(true);
             currency.setRate(BigDecimal.ONE);
         }
-        currencyDao.save(currency);
-        cvo.setCurrencyId(currency.getId());
+        currencyRepository.save(currency);
+        cvo.setCurrencyId(currency.getCurrId());
         cvo.setDefaultRate(currency.isByDefault());
     }
 
     private void update(CurrencyVO cvo) {
         LOGGER.debug("Updating currency, symbol: {}.", cvo.getSymbol());
-        Currency currency = currencyDao.findById(cvo.getCurrencyId()).get();
+        Currency currency = currencyRepository.findById(cvo.getCurrencyId()).get();
         currency.setRate(cvo.getRate());
         currency.setSymbol(cvo.getSymbol());
     }
 
     @Override
     public List<CurrencyVO> getCurrencies() {
-        return currencyDao.assetsByCurrencyId().stream()
+        return currencyRepository.assetsByCurrency().stream()
                 .map(this::convert)
                 .collect(Collectors.toList());
     }
@@ -88,7 +84,7 @@ public class CurrencyServiceImpl implements CurrencyService {
 
     @Override
     public CurrencyVO getCurrency(Integer currencyId) {
-        Currency model = currencyDao.findById(currencyId).get();
+        Currency model = currencyRepository.findById(currencyId).get();
         CurrencyVO result = currencyMapper.toVO(model);
         result.setRemovable(isRemovable(model));
         return result;
@@ -96,7 +92,7 @@ public class CurrencyServiceImpl implements CurrencyService {
 
     @Override
     public CurrencyVO getDefaultCurrency() {
-        Currency model = currencyDao.findByByDefaultTrue();
+        Currency model = currencyRepository.findByByDefaultTrue();
         CurrencyVO result = currencyMapper.toVO(model);
         result.setRemovable(isRemovable(model));
         return result;
@@ -104,16 +100,16 @@ public class CurrencyServiceImpl implements CurrencyService {
 
     @Override
     public boolean isSymbolExists(String symbol) {
-        return currencyDao.existsBySymbol(symbol);
+        return currencyRepository.existsBySymbol(symbol);
     }
 
     @Override
     @Transactional(rollbackFor = {NotFoundException.class, BusinessConstraintException.class})
     public void remove(Integer currencyId) throws NotFoundException, BusinessConstraintException {
-        Optional<Currency> currency = currencyDao.findById(currencyId);
+        Optional<Currency> currency = currencyRepository.findById(currencyId);
         if (currency.isPresent()) {
             if (isRemovable(currency.get())) {
-                currencyDao.delete(currency.get());
+                currencyRepository.delete(currency.get());
             } else {
                 throw new BusinessConstraintException("Cannot remove");
             }
@@ -136,17 +132,17 @@ public class CurrencyServiceImpl implements CurrencyService {
 
     @Override
     public boolean isDefaultExists() {
-        return currencyDao.existsByByDefaultTrue();
+        return currencyRepository.existsByByDefaultTrue();
     }
 
     private boolean isRemovable(Currency model) {
         boolean defaultRate = model.isByDefault();
-        Integer currencyId = model.getId();
+        Integer currencyId = model.getCurrId();
         return isRemovable(defaultRate, currencyId);
     }
 
     private boolean isRemovable(boolean defaultRate, Integer currencyId) {
-        boolean noAccounts = currencyId != null && !currencyDao.isUsed(currencyId);
-        return noAccounts && (!defaultRate || currencyDao.count() == 1);
+        boolean noAccounts = currencyId != null && !currencyRepository.isInUse(currencyId);
+        return noAccounts && (!defaultRate || currencyRepository.count() == 1);
     }
 }

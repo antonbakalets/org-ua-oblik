@@ -18,16 +18,16 @@ abstract class InsertTxCommand extends AbstractTxCommand {
 
     @Override
     public void execute() {
-        Txaction txaction = entitiesFactory.createTxactionEntity();
-        Account credit = accountDao.findById(tvo.getFirstAccount()).get();
-        Account debet = accountDao.findById(tvo.getSecondAccount()).get();
+        Txaction txaction = new Txaction();
+        Account credit = accountRepository.findById(tvo.getFirstAccount()).get();
+        Account debet = accountRepository.findById(tvo.getSecondAccount()).get();
         doInsert(txaction, credit, debet);
         txaction.setCredit(credit);
         txaction.setDebet(debet);
         txaction.setTxDate(tvo.getDate());
         txaction.setComment(tvo.getNote());
-        txactionDao.save(txaction);
-        tvo.setTxId(txaction.getId());
+        txactionRepository.save(txaction);
+        tvo.setTxId(txaction.getTxacId());
     }
 
     @Component
@@ -56,7 +56,7 @@ abstract class InsertTxCommand extends AbstractTxCommand {
         @Override
         protected void doInsert(Txaction txaction, Account credit, Account debit) {
             // is currency is the same, the amount is considered the same
-            if (credit.getCurrency().getId().equals(debit.getCurrency().getId())) {
+            if (credit.getCurrency().getCurrId().equals(debit.getCurrency().getCurrId())) {
                 tvo.setSecondAmount(tvo.getFirstAmount());
             }
             txaction.setDebetAmount(tvo.getSecondAmount());

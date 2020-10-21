@@ -6,7 +6,6 @@ import javax.persistence.Entity;
 import javax.persistence.EntityResult;
 import javax.persistence.FieldResult;
 import javax.persistence.Id;
-import javax.persistence.NamedQuery;
 import javax.persistence.SqlResultSetMapping;
 
 import lombok.EqualsAndHashCode;
@@ -16,7 +15,7 @@ import lombok.ToString;
 
 @Entity
 @SqlResultSetMapping(
-        name = CurrencyTotal.NAME,
+        name = CurrencyTotal.MAPPING_NAME,
         entities = @EntityResult(
                 entityClass = CurrencyTotal.class,
                 fields = {
@@ -27,18 +26,13 @@ import lombok.ToString;
                         @FieldResult(name = "total", column = "sumtotal")
                 })
 )
-@NamedQuery(name = "assetsByCurrency",
-        query = "SELECT c.curr_id, c.symbol, c.by_default, c.rate, coalesce(a.sumtotal, 0) as sumtotal "
-                + "  FROM currency c "
-                + "  LEFT JOIN (SELECT currency, sum(total) AS sumtotal FROM account WHERE account.kind='ASSETS' GROUP BY currency) AS a "
-                + "    ON c.curr_id = a.currency")
 @Getter
 @Setter
 @EqualsAndHashCode
 @ToString
 public class CurrencyTotal {
 
-    public static final String NAME = "currencyTotal";
+    public static final String MAPPING_NAME = "CurrencyTotal.assetsByCurrency";
 
     @Id
     private Integer currId;

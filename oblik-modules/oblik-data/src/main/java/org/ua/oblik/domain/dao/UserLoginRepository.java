@@ -11,5 +11,8 @@ import java.util.Optional;
 @org.springframework.stereotype.Repository
 public interface UserLoginRepository extends Repository<UserLogin, Integer> {
 
+    /**
+     * Find user by name ignoring case.
+     */
     Optional<UserLogin> findByUsernameIgnoreCase(String username);
 }

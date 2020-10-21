@@ -24,7 +24,7 @@ class DeleteTxCommand extends AbstractTxCommand {
     @Override
     public void execute() {
         Integer transactionId = tvo.getTxId();
-        Txaction txaction = txactionDao.findById(transactionId).get();
+        Txaction txaction = txactionRepository.findById(transactionId).get();
         final Account credit = txaction.getCredit();
         final Account debet = txaction.getDebet();
 
@@ -42,6 +42,6 @@ class DeleteTxCommand extends AbstractTxCommand {
             LOGGER.error("Cannot determine transaction type.", re);
             throw re;
         }
-        txactionDao.delete(txaction);
+        txactionRepository.delete(txaction);
     }
 }
