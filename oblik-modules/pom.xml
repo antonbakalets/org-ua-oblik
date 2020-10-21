@@ -21,6 +21,7 @@
         <module>oblik-service</module>
         <module>oblik-service-api</module>
         <module>oblik-rest</module>
+        <module>oblik-data</module>
     </modules>
 
     <properties>
