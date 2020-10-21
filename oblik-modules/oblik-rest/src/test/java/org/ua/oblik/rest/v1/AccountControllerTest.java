@@ -52,7 +52,7 @@ public class AccountControllerTest {
 
     @Test
     public void testAssetsGet() throws Exception {
-        when(accountService.getAccounts(eq(AccountCriteria.ASSETS_CRITERIA))).thenReturn(Arrays.asList(
+        when(accountService.getAccounts(eq(AccountVOType.ASSETS))).thenReturn(Arrays.asList(
                 createVO(0, AccountVOType.ASSETS), createVO(1, AccountVOType.ASSETS)
         ));
         mockMvc.perform(get(v1BaseUrl + "/assets")
@@ -63,7 +63,7 @@ public class AccountControllerTest {
 
     @Test
     public void testExpenseGet() throws Exception {
-        when(accountService.getAccounts(eq(AccountCriteria.EXPENSE_CRITERIA))).thenReturn(Arrays.asList(
+        when(accountService.getAccounts(eq(AccountVOType.EXPENSE))).thenReturn(Arrays.asList(
                 createVO(2, AccountVOType.EXPENSE), createVO(3, AccountVOType.EXPENSE)
         ));
         mockMvc.perform(get(v1BaseUrl + "/expenses")
@@ -74,7 +74,7 @@ public class AccountControllerTest {
 
     @Test
     public void testIncomesGet() throws Exception {
-        when(accountService.getAccounts(eq(AccountCriteria.INCOME_CRITERIA))).thenReturn(Arrays.asList(
+        when(accountService.getAccounts(eq(AccountVOType.INCOME))).thenReturn(Arrays.asList(
                 createVO(4, AccountVOType.INCOME), createVO(5, AccountVOType.INCOME)
         ));
         mockMvc.perform(get(v1BaseUrl + "/incomes")
