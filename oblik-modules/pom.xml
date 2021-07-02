@@ -33,7 +33,7 @@
         <mysql.connector.version>8.0.16</mysql.connector.version>
         <springframework.version>5.2.3.RELEASE</springframework.version>
         <springframework.data.version>2.1.9.RELEASE</springframework.data.version>
-        <springframework.security.version>5.3.9.RELEASE</springframework.security.version>
+        <springframework.security.version>5.3.10.RELEASE</springframework.security.version>
         <tomcat.embedded.version>8.0.53</tomcat.embedded.version>
 
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
