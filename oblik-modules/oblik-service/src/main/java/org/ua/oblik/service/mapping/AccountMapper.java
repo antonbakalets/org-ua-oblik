@@ -13,8 +13,8 @@ public interface AccountMapper {
     /**
      * Convert.
      */
-    @Mapping(target = "accountId", source = "id")
-    @Mapping(target = "currencyId", source = "currency.id")
+    @Mapping(target = "accountId", source = "accoId")
+    @Mapping(target = "currencyId", source = "currency.currId")
     @Mapping(target = "currencySymbol", source = "currency.symbol")
     @Mapping(target = "name", source = "shortName")
     @Mapping(target = "amount", source = "total")

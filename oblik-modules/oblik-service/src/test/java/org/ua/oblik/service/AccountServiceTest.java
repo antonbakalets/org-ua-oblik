@@ -33,8 +33,7 @@ public class AccountServiceTest extends BaseServiceCheckConfig {
     @Test
     public void listAssetsAccounts() {
         LOGGER.debug("[TEST] Listing all assets accounts:");
-        List<AccountVO> assetsAccounts = accountService.getAccounts(
-                new AccountCriteria.Builder().setType(AccountVOType.ASSETS).build());
+        List<AccountVO> assetsAccounts = accountService.getAccounts(AccountVOType.ASSETS);
         for (AccountVO avo : assetsAccounts) {
             LOGGER.debug("[TEST] " + avo.toString());
             Assert.assertEquals(AccountVOType.ASSETS, avo.getType());
@@ -44,8 +43,7 @@ public class AccountServiceTest extends BaseServiceCheckConfig {
     @Test
     public void listIncomeAccounts() {
         LOGGER.debug("[TEST] Listing all income accounts:");
-        List<AccountVO> incomeAccounts = accountService.getAccounts(
-                new AccountCriteria.Builder().setType(AccountVOType.INCOME).build());
+        List<AccountVO> incomeAccounts = accountService.getAccounts(AccountVOType.INCOME);
         for (AccountVO avo : incomeAccounts) {
             LOGGER.debug("[TEST] " + avo.toString());
             Assert.assertEquals(AccountVOType.INCOME, avo.getType());
@@ -55,8 +53,7 @@ public class AccountServiceTest extends BaseServiceCheckConfig {
     @Test
     public void listExpenceAccounts() {
         LOGGER.debug("[TEST] Listing all expence accounts:");
-        List<AccountVO> expenceAccounts = accountService.getAccounts(
-                new AccountCriteria.Builder().setType(AccountVOType.EXPENSE).build());
+        List<AccountVO> expenceAccounts = accountService.getAccounts(AccountVOType.EXPENSE);
         for (AccountVO avo : expenceAccounts) {
             LOGGER.debug("[TEST] " + avo.toString());
             Assert.assertEquals(AccountVOType.EXPENSE, avo.getType());

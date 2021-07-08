@@ -8,7 +8,7 @@ import org.ua.oblik.service.beans.CurrencyVO;
 @Mapper(componentModel = "spring")
 public interface CurrencyMapper {
 
-    @Mapping(target = "currencyId", source = "id")
+    @Mapping(target = "currencyId", source = "currId")
     @Mapping(target = "defaultRate", source = "byDefault")
     CurrencyVO toVO(Currency currency);
 }

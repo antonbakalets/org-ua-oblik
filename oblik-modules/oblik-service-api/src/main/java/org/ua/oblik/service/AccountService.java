@@ -1,7 +1,7 @@
 package org.ua.oblik.service;
 
-import org.ua.oblik.service.beans.AccountCriteria;
 import org.ua.oblik.service.beans.AccountVO;
+import org.ua.oblik.service.beans.AccountVOType;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -18,7 +18,7 @@ public interface AccountService {
 
     void delete(Integer accountId) throws NotFoundException, BusinessConstraintException;
 
-    List<AccountVO> getAccounts(AccountCriteria criteria);
+    List<AccountVO> getAccounts(AccountVOType accountType);
 
     BigDecimal totalAssets();
 

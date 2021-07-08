@@ -13,7 +13,7 @@ import org.ua.oblik.service.test.TestHelperConfig;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @DirtiesContext // TODO @Rollback
-@Import(TestHelperConfig.class)
+//@Import(TestHelperConfig.class)
 class BaseServiceCheckConfig {
 
 }

@@ -15,17 +15,13 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>oblik-dao-api</artifactId>
+            <artifactId>oblik-data</artifactId>
             <version>${project.version}</version>
-            <scope>compile</scope>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>oblik-service-api</artifactId>
             <version>${project.version}</version>
-            <scope>compile</scope>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -52,14 +48,13 @@
             <version>${mapstruct.version}</version>
         </dependency>
 
-        <!-- Test dependencies -->
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>oblik-dao-hibernate</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
+
+        <!-- Test dependencies -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-dbcp2</artifactId>
@@ -84,6 +79,13 @@
                 <version>3.8.1</version>
                 <configuration>
                     <annotationProcessorPaths>
+                        <!-- For Lombok boilerplate code generation -->
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                        <!-- Map Struct boilerplate code generation -->
                         <path>
                             <groupId>org.mapstruct</groupId>
                             <artifactId>mapstruct-processor</artifactId>
